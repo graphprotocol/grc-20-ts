@@ -18,7 +18,15 @@ type MakeImageReturnType = {
 /**
  * Creates an entity representing an Image.
  *
- * @returns ops: The SET_TRIPLE ops for an Image entity
+ * @example
+ * ```ts
+ * const { imageId, ops } = Image.make('https://example.com/image.png');
+ * console.log(imageId); // 'gw9uTVTnJdhtczyuzBkL3X'
+ * console.log(ops); // [...]
+ * ```
+ *
+ * @returns imageId – base58 encoded v4 uuid representing the image entity: {@link MakeImageReturnType}
+ * @returns ops – The ops for the Image entity: {@link MakeImageReturnType}
  */
 export function make(src: string): MakeImageReturnType {
   const entityId = makeId();

@@ -25,6 +25,23 @@ function getSourceTypeId(sourceType: DataBlockSourceType) {
 
 type DataBlockArgs = { fromId: string; sourceType: DataBlockSourceType; position?: string; name?: string };
 
+/**
+ * Returns the ops to create an entity representing a Data Block.
+ *
+ * @example
+ * ```ts
+ * const ops = DataBlock.make({
+ *   fromId: 'from-id',
+ *   sourceType: 'COLLECTION',
+ *   // optional
+ *   position: 'position-string',
+ *   name: 'name',
+ * });
+ * ```
+ *
+ * @param param args {@link TextBlockArgs}
+ * @returns ops – The ops for the Data Block entity: {@link Op}[]
+ */
 export function make({ fromId, sourceType, position, name }: DataBlockArgs): (SetTripleOp | CreateRelationOp)[] {
   const newBlockId = makeId();
 
