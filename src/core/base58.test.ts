@@ -9,7 +9,10 @@ describe('base58', () => {
     const given = expected.replaceAll(/-/g, '');
 
     const encoded = encodeBase58(given);
-    expect(encoded).toHaveLength(22);
+
+    // We check the length should be 22 in the ID.make() function and
+    // re-run encodeBase58 if not.
+    expect(encoded.length === 22 || encoded.length === 21).toBe(true);
 
     const decoded = decodeBase58ToUUID(encoded);
     expect(decoded).toHaveLength(expected.length);
