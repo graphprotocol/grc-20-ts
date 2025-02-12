@@ -21,8 +21,7 @@
     "test": "vitest",
     "generate:protobuf": "npx buf generate",
     "lint": "biome check --write --unsafe",
-    "format": "biome check --write --unsafe",
-    "check": "tsc --noEmit"
+    "format": "biome check --write --unsafe"
   },
   "dependencies": {
     "@biomejs/biome": "^1.9.4",
