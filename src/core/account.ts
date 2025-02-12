@@ -1,3 +1,10 @@
+/**
+ * This module provides utility functions for working with knowledge graph
+ * images in TypeScript.
+ *
+ * @since 0.0.6
+ */
+
 import { make as makeId } from '../id.js';
 import { Relation } from '../relation.js';
 import type { CreateRelationOp, SetTripleOp } from '../types.js';

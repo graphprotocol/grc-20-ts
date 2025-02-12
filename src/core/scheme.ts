@@ -1,3 +1,9 @@
+/**
+ * This module provides utility functions for working with Graph URIs in TypeScript.
+ *
+ * @since 0.0.6
+ */
+
 type GraphUri = `graph://${string}`;
 
 type SchemeQueryParams = {

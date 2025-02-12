@@ -1,3 +1,10 @@
+/**
+ * This module provides utility functions for working with data blocks
+ * in TypeScript.
+ *
+ * @since 0.0.6
+ */
+
 import { make as makeId } from '../../id.js';
 import { Relation } from '../../relation.js';
 import { SYSTEM_IDS } from '../../system-ids.js';

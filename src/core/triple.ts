@@ -1,3 +1,9 @@
+/**
+ * This module provides utility functions for working with Triples in TypeScript.
+ *
+ * @since 0.0.6
+ */
+
 import type { DeleteTripleOp, SetTripleOp, Value } from '../types.js';
 
 interface CreateTripleArgs {

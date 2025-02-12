@@ -1,3 +1,10 @@
+/**
+ * This module provides utility functions for working knowledge graph
+ * identifiers in TypeScript.
+ *
+ * @since 0.0.6
+ */
+
 import { v4 as uuidv4 } from 'uuid';
 
 import { encodeBase58 } from './core/base58.js';
