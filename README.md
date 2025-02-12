@@ -1,6 +1,6 @@
 # Knowledge Graph SDK
 
-A collection of tools for interacting with the The Graph.
+A collection of tools for interacting with The Graph.
 
 ## Installing
 
