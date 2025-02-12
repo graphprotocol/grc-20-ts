@@ -1,0 +1,33 @@
+name: Checks
+
+on: [push]
+
+jobs:
+  build-test-check:
+    name: Install deps, build required package, typecheck, lint and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Type check
+        run: pnpm check
+
+      - name: Linting & Formatting
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test
