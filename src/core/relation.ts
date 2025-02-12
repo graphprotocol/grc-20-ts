@@ -30,6 +30,7 @@ interface CreateRelationArgs {
 /**
  * Generates ops for a new Relation.
  *
+ * @example
  * ```ts
  * const ops = Relation.make({
  *   fromId: 'from-id',
@@ -42,7 +43,7 @@ interface CreateRelationArgs {
  * ```
  *
  * @param args {@link CreateRelationArgs}
- * @returns {@link CreateRelationOp}
+ * @returns – {@link CreateRelationOp}
  */
 export function make(args: CreateRelationArgs): CreateRelationOp {
   const newEntityId = args.relationId ?? makeId();
@@ -62,12 +63,13 @@ export function make(args: CreateRelationArgs): CreateRelationOp {
 /**
  * Generates ops for deleting a Relation.
  *
+ * @example
  * ```ts
  * const op = Relation.remove('relation-id');
  * ```
  *
  * @param relationId – base58 encoded v4 uuid representing the relation's entity id
- * @returns {@link DeleteRelationOp}
+ * @returns – {@link DeleteRelationOp}
  */
 export function remove(relationId: string): DeleteRelationOp {
   return {
@@ -99,6 +101,7 @@ type ReorderRelationOp = {
 /**
  * Generates op for reordering a Relation using position-strings
  *
+ * @example
  * ```ts
  * const op = Relation.reorder({
  *   relationId: 'relation-id',
@@ -108,7 +111,7 @@ type ReorderRelationOp = {
  * ```
  *
  * @param args {@link ReorderRelationArgs}
- * @returns {@link ReorderRelationOp}
+ * @returns – {@link ReorderRelationOp}
  */
 export function reorder(args: ReorderRelationArgs): ReorderRelationOp {
   const newIndex = Position.createBetween(args.beforeIndex, args.afterIndex);
