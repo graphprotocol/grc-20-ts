@@ -98,9 +98,9 @@ const deleteRelationOp: DeleteRelationOp = Relation.remove('id of relation');
 
 Once you have a set of ops ready to publish, you'll need to binary encode them into an Edit and upload the Edit to IPFS.
 
-Currently the indexer only supports reading from the [Lighthouse gateway](https://lighthouse.storage/). You should use the Lighthouse gateway to guarantee data availability for your published data while in early access. To write to Lighthouse you'll need an [API key](https://docs.lighthouse.storage/lighthouse-1/quick-start#create-an-api-key).
+Currently the indexer only supports reading a specific gateway. You should use our IPFS API to guarantee data availability for your published data while in early access.
 
-Additionally, the indexer expects that IPFS CIDs be prefixed with `ipfs://` so it knows how to process it correctly.
+Additionally, the indexer expects that IPFS CIDs be prefixed with `ipfs://` so it knows how to process it correctly. The API already returns the CID prefixed with `ipfs://`. 
 
 ```ts
 import { EditProposal } from '@graphprotocol/grc-20/proto';
@@ -116,7 +116,7 @@ const blob = new Blob([binaryEncodedEdit], { type: 'application/octet-stream' })
 const formData = new FormData();
 formData.append('file', blob);
 
-const result = await fetch('https://geobrowser.io/api/ipfs/upload-binary, {
+const result = await fetch('https://geobrowser.io/api/ipfs/upload-binary', {
   method: 'POST',
   body: formData,
 });
