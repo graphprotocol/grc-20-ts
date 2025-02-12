@@ -1,3 +1,10 @@
+/**
+ * This module provides utility functions for working with knowledge graph
+ * images in TypeScript.
+ *
+ * @since 0.0.6
+ */
+
 import { make as makeId } from '../id.js';
 import { Relation } from '../relation.js';
 import { SYSTEM_IDS } from '../system-ids.js';
@@ -11,7 +18,15 @@ type MakeImageReturnType = {
 /**
  * Creates an entity representing an Image.
  *
- * @returns ops: The SET_TRIPLE ops for an Image entity
+ * @example
+ * ```ts
+ * const { imageId, ops } = Image.make('https://example.com/image.png');
+ * console.log(imageId); // 'gw9uTVTnJdhtczyuzBkL3X'
+ * console.log(ops); // [...]
+ * ```
+ *
+ * @returns imageId – base58 encoded v4 uuid representing the image entity: {@link MakeImageReturnType}
+ * @returns ops – The ops for the Image entity: {@link MakeImageReturnType}
  */
 export function make(src: string): MakeImageReturnType {
   const entityId = makeId();

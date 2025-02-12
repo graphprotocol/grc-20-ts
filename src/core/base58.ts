@@ -1,3 +1,10 @@
+/**
+ * This module provides utility functions for working with base58 ids
+ * in TypeScript.
+ *
+ * @since 0.0.6
+ */
+
 export const BASE58_ALLOWED_CHARS = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 
 export type Base58 = string;

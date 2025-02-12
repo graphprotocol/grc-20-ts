@@ -1,3 +1,10 @@
+/**
+ * This module provides utility functions for working with knowledge graph
+ * images in TypeScript.
+ *
+ * @since 0.0.6
+ */
+
 import { make as makeId } from '../id.js';
 import { Relation } from '../relation.js';
 import type { CreateRelationOp, SetTripleOp } from '../types.js';
@@ -10,6 +17,20 @@ type MakeAccountReturnType = {
   ops: [CreateRelationOp, CreateRelationOp, SetTripleOp, SetTripleOp];
 };
 
+/**
+ * Returns the ops to create an entity representing an Account.
+ *
+ * @example
+ * ```ts
+ * const { accountId, ops } = Account.make('0x1234');
+ * console.log(accountId); // 'gw9uTVTnJdhtczyuzBkL3X'
+ * console.log(ops); // [...]
+ * ```
+ *
+ * @param address – Ethereum address
+ * @returns accountId – base58 encoded v4 uuid representing the account entity: {@link MakeAccountReturnType}
+ * @returns ops – The ops for the Account entity: {@link MakeAccountReturnType}
+ */
 export function make(address: string): MakeAccountReturnType {
   const accountId = makeId();
   const checkedAddress = getChecksumAddress(address);
