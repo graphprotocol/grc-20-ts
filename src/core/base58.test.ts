@@ -12,7 +12,7 @@ describe('base58', () => {
 
     // We check the length should be 22 in the ID.make() function and
     // re-run encodeBase58 if not.
-    expect(encoded.length === 22 || encoded.length === 21).toBe(22);
+    expect(encoded.length === 22 || encoded.length === 21).toBe(true);
 
     const decoded = decodeBase58ToUUID(encoded);
     expect(decoded).toHaveLength(expected.length);
