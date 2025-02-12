@@ -5,7 +5,7 @@ A collection of tools for interacting with the The Graph.
 ## Installing
 
 ```sh
-npm install @geogenesis/sdk
+npm install @graphprotocol/grc-20
 ```
 
 ## Overview
@@ -52,7 +52,7 @@ When writing data, these ops are grouped into a logical set called an "Edit." An
 Entities throughout The Graph are referenced via globally unique identifiers. The SDK exposes APIs for creating these IDs.
 
 ```ts
-import { ID } from 'geogenesis/sdk';
+import { ID } from 'graphprotocol/grc-20';
 
 const newId = ID.make();
 ```
@@ -69,7 +69,7 @@ import {
   Relation,
   type SetTripleOp,
   Triple,
-} from '@geogenesis/sdk';
+} from '@graphprotocol/grc-20';
 
 const setTripleOp: SetTripleOp = Triple.make({
   entityId: 'id of entity',
@@ -103,7 +103,7 @@ Currently the indexer only supports reading from the [Lighthouse gateway](https:
 Additionally, the indexer expects that IPFS CIDs be prefixed with `ipfs://` so it knows how to process it correctly.
 
 ```ts
-import { EditProposal } from '@geogenesis/sdk/proto';
+import { EditProposal } from '@graphprotocol/grc-20/proto';
 
 const binaryEncodedEdit = EditProposal.make({
   name: 'Edit name',
