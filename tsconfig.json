@@ -28,7 +28,7 @@
     // "noEmit": true,
 
     /* Lib when not targeting the browser */
-    "lib": ["ES2022"],
+    "lib": ["ES2022", "DOM"],
 
     /* Lib when targeting the browser */
     // "lib": ["ES2022", "DOM", "DOM.Iterable"]
