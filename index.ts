@@ -72,3 +72,11 @@ export { GraphUrl } from './src/scheme.js';
 export { SYSTEM_IDS, NETWORK_IDS, CONTENT_IDS } from './src/system-ids.js';
 
 export { getChecksumAddress } from './src/core/get-checksum-address.js';
+
+/**
+ * This module provides utility functions for interacting with the default
+ * IPFS gateway in TypeScript.
+ *
+ * @since 0.1.1
+ */
+export * as IPFS from './src/ipfs.js';

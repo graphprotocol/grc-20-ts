@@ -19,13 +19,13 @@ import { Position } from './position.js';
  * @param relationTypeId - base58 encoded v4 uuid
  * @param position - optional fractional index using position-strings
  */
-interface CreateRelationArgs {
+type CreateRelationArgs = {
   relationId?: string;
   fromId: string;
   toId: string;
   relationTypeId: string;
   position?: string;
-}
+};
 
 /**
  * Generates ops for a new Relation.
@@ -80,11 +80,11 @@ export function remove(relationId: string): DeleteRelationOp {
   };
 }
 
-interface ReorderRelationArgs {
+type ReorderRelationArgs = {
   relationId: string;
   beforeIndex?: string;
   afterIndex?: string;
-}
+};
 
 type ReorderRelationOp = {
   type: 'SET_TRIPLE';

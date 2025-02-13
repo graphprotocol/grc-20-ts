@@ -6,11 +6,11 @@
 
 import type { DeleteTripleOp, SetTripleOp, Value } from '../types.js';
 
-interface CreateTripleArgs {
+type CreateTripleArgs = {
   attributeId: string;
   entityId: string;
   value: Value;
-}
+};
 
 /**
  * Generates op for creating a new Triple.
@@ -40,10 +40,10 @@ export function make(args: CreateTripleArgs): SetTripleOp {
   };
 }
 
-interface DeleteTripleArgs {
+type DeleteTripleArgs = {
   attributeId: string;
   entityId: string;
-}
+};
 
 /**
  * Generates op for deleting a Triple.
