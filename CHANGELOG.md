@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.2.2
+
+### Patch Changes
+
+- Fix published artifacts
+
 ## 0.2.1
 
 ### Patch Changes

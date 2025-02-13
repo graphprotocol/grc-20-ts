@@ -1,6 +1,6 @@
 {
   "name": "@graphprotocol/grc-20",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "MIT",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -19,11 +19,14 @@
     "./abis": "./dist/abis.js"
   },
   "scripts": {
+    "clean": "rm -rf dist",
     "build": "tsc",
     "test": "vitest",
     "generate:protobuf": "npx buf generate",
     "lint": "biome check --write --unsafe",
-    "format": "biome check --write --unsafe"
+    "format": "biome check --write --unsafe",
+    "publish": "pnpm clean && pnpm build && pnpm changeset publish",
+    "bump": "pnpm changeset version"
   },
   "dependencies": {
     "@biomejs/biome": "^1.9.4",
