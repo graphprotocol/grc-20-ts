@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.2.3
+
+### Patch Changes
+
+- Add docs for specifying network in some API calls
+
 ## 0.2.2
 
 ### Patch Changes
