@@ -130,7 +130,11 @@ const cid = 'ipfs://hash';
 // This returns the correct contract address and calldata depending on the space id
 const result = await fetch(`https://api.geobrowser.io/space/${spaceId}/edit/calldata`, {
   method: "POST",
-  body: JSON.stringify({ cid }),
+  body: JSON.stringify({ 
+    cid: cid,
+    // Optionally specify TESTNET or MAINNET. Defaults to MAINNET
+    network: "TESTNET",
+   }),
 });
 
 const { to, data } = await result.json();
@@ -145,6 +149,8 @@ const txResult = await walletClient.sendTransaction({
 ### Deploying a space
 
 You can deploy spaces programmatically using the API. Currently there are two types of governance modes for spaces: one with voting and one without. They're called PUBLIC or PERSONAL spaces respectively. The API only supports deploying the PERSONAL governance mode currently.
+
+The API only supports deploying to TESTNET for now.
 
 ```ts
 const editorAddress = '0x000000000000000000000000000000000000';
