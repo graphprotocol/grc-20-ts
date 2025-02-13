@@ -1,4 +1,4 @@
-import { make as makeId } from '../id.js';
+import { generate } from '../id.js';
 import type { Op } from '../types.js';
 import { ActionType, Edit, Entity, Op as OpBinary, OpType, Relation, Triple } from './gen/src/proto/ipfs_pb.js';
 
@@ -12,7 +12,7 @@ export function make({ name, ops, author }: MakeeEditProposalArgs): Uint8Array {
   return new Edit({
     type: ActionType.ADD_EDIT,
     version: '1.0.0',
-    id: makeId(),
+    id: generate(),
     name,
     ops: opsToBinary(ops),
     authors: [author],

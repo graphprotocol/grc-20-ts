@@ -5,7 +5,7 @@
  * @since 0.0.6
  */
 
-import { make as makeId } from '../id.js';
+import { generate } from '../id.js';
 import { Relation } from '../relation.js';
 import type { CreateRelationOp, SetTripleOp } from '../types.js';
 import { getChecksumAddress } from './get-checksum-address.js';
@@ -32,7 +32,7 @@ type MakeAccountReturnType = {
  * @returns ops – The ops for the Account entity: {@link MakeAccountReturnType}
  */
 export function make(address: string): MakeAccountReturnType {
-  const accountId = makeId();
+  const accountId = generate();
   const checkedAddress = getChecksumAddress(address);
 
   return {
