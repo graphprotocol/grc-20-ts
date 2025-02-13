@@ -54,7 +54,7 @@ Entities throughout The Graph are referenced via globally unique identifiers. Th
 ```ts
 import { ID } from 'graphprotocol/grc-20';
 
-const newId = ID.make();
+const newId = ID.generate();
 ```
 
 ### Making ops

@@ -5,7 +5,7 @@
  * @since 0.0.6
  */
 
-import { make as makeId } from '../../id.js';
+import { generate } from '../../id.js';
 import { Relation } from '../../relation.js';
 import { SYSTEM_IDS } from '../../system-ids.js';
 import type { CreateRelationOp, SetTripleOp } from '../../types.js';
@@ -43,7 +43,7 @@ type DataBlockArgs = { fromId: string; sourceType: DataBlockSourceType; position
  * @returns ops – The ops for the Data Block entity: {@link Op}[]
  */
 export function make({ fromId, sourceType, position, name }: DataBlockArgs): (SetTripleOp | CreateRelationOp)[] {
-  const newBlockId = makeId();
+  const newBlockId = generate();
 
   const dataBlockType = Relation.make({
     fromId: newBlockId,

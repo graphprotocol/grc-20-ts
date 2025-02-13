@@ -5,7 +5,7 @@
  */
 
 import { INITIAL_RELATION_INDEX_VALUE } from '../../constants.js';
-import { make as makeId } from '../id.js';
+import { generate } from '../id.js';
 import { SYSTEM_IDS } from '../system-ids.js';
 import type { CreateRelationOp, DeleteRelationOp } from '../types.js';
 import { Position } from './position.js';
@@ -46,7 +46,7 @@ interface CreateRelationArgs {
  * @returns – {@link CreateRelationOp}
  */
 export function make(args: CreateRelationArgs): CreateRelationOp {
-  const newEntityId = args.relationId ?? makeId();
+  const newEntityId = args.relationId ?? generate();
 
   return {
     type: 'CREATE_RELATION',

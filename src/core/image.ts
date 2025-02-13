@@ -5,7 +5,7 @@
  * @since 0.0.6
  */
 
-import { make as makeId } from '../id.js';
+import { generate } from '../id.js';
 import { Relation } from '../relation.js';
 import { SYSTEM_IDS } from '../system-ids.js';
 import type { CreateRelationOp, Op, SetTripleOp } from '../types.js';
@@ -29,7 +29,7 @@ type MakeImageReturnType = {
  * @returns ops – The ops for the Image entity: {@link MakeImageReturnType}
  */
 export function make(src: string): MakeImageReturnType {
-  const entityId = makeId();
+  const entityId = generate();
 
   return {
     imageId: entityId,

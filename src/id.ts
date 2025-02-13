@@ -16,13 +16,13 @@ import { encodeBase58 } from './core/base58.js';
  * ```
  * import { ID } from '@graphprotocol/grc-20'
  *
- * const id = ID.make();
+ * const id = ID.generate();
  * console.log(id) // Gw9uTVTnJdhtczyuzBkL3X
  * ```
  *
  * @returns base58 encoded v4 UUID
  */
-export function make() {
+export function generate(): string {
   const uuid = uuidv4();
   const stripped = uuid.replaceAll(/-/g, '');
   const id = encodeBase58(stripped);
@@ -36,5 +36,5 @@ export function make() {
     return id;
   }
 
-  return make();
+  return generate();
 }

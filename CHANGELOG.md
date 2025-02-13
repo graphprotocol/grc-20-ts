@@ -1,5 +1,15 @@
 # @graphprotocol/grc-20
 
+## 0.1.0
+
+### Minor Changes
+
+- Update ID generation fn name from make -> generate
+
+### Patch Changes
+
+- f8035bf: Add docs for deploying space and generating calldata to publish edits.
+
 ## 0.0.9
 
 ### Patch Changes
