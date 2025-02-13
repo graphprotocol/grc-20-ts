@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.2.0
+
+### Minor Changes
+
+- Adds abstraction for publishing edits to IPFS using default API endpoint
+
 ## 0.1.0
 
 ### Minor Changes
