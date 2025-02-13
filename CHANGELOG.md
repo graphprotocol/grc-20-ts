@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.2.1
+
+### Patch Changes
+
+- Move retrying and validating to server instead of client
+
 ## 0.2.0
 
 ### Minor Changes
