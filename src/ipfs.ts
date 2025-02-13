@@ -10,25 +10,6 @@ import { Micro } from 'effect';
 import { EditProposal } from '~/proto.js';
 import type { Op } from './types.js';
 
-class CidValidateError extends Error {
-  readonly _tag = 'CidValidateError';
-}
-
-function validateCid(cid: string) {
-  return Micro.gen(function* () {
-    const [, cidContains] = cid.split('ipfs://');
-    if (!cid.startsWith('ipfs://')) {
-      yield* Micro.fail(new CidValidateError(`CID ${cid} does not start with ipfs://`));
-    }
-
-    if (cidContains === undefined || cidContains === '') {
-      yield* Micro.fail(new CidValidateError(`CID ${cid} is not valid`));
-    }
-
-    return true;
-  });
-}
-
 class IpfsUploadError extends Error {
   readonly _tag = 'IpfsUploadError';
 }
@@ -88,14 +69,8 @@ export async function publishEdit(args: PublishEditProposalArgs): Promise<string
       catch: error => new IpfsUploadError(`Could not parse response from IPFS: ${error}`),
     });
 
-    yield* validateCid(maybeCid);
-
     return maybeCid as `ipfs://${string}`;
   });
 
-  return await Micro.runPromise(
-    Micro.retry(upload, {
-      times: 3,
-    }),
-  );
+  return await Micro.runPromise(upload);
 }
