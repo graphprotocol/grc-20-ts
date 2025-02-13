@@ -102,26 +102,16 @@ Currently the indexer only supports reading a specific gateway. You should use o
 
 Additionally, the indexer expects that IPFS CIDs be prefixed with `ipfs://` so it knows how to process it correctly. The API already returns the CID prefixed with `ipfs://`. 
 
-```ts
-import { EditProposal } from '@graphprotocol/grc-20/proto';
+We've abstracted the IPFS publishing and binary encoding into a single API.
 
-const binaryEncodedEdit = EditProposal.make({
+```ts
+import { IPFS } from '@graphprotocol/grc-20';
+
+const cid = await IPFS.publishEdit({
   name: 'Edit name',
   ops: ops,
-  author: '0x000000000000000000000000000000000000',
-});
-
-// Upload binary via Geo API
-const blob = new Blob([binaryEncodedEdit], { type: 'application/octet-stream' });
-const formData = new FormData();
-formData.append('file', blob);
-
-const result = await fetch('https://geobrowser.io/api/ipfs/upload', {
-  method: 'POST',
-  body: formData,
-});
-
-const { cid } = await result.json();
+  author: '0x000000000000000000000000000000000000', 
+})
 ```
 
 ### Publishing an edit onchain
@@ -138,7 +128,7 @@ const spaceId = 'space-id';
 const cid = 'ipfs://hash';
 
 // This returns the correct contract address and calldata depending on the space id
-const result = await fetch(`https://geobrowser.io/space/${spaceId}/edit/calldata`, {
+const result = await fetch(`https://api.geobrowser.io/space/${spaceId}/edit/calldata`, {
   method: "POST",
   body: JSON.stringify({ cid }),
 });
@@ -159,7 +149,7 @@ You can deploy spaces programmatically using the API. Currently there are two ty
 ```ts
 const editorAddress = '0x000000000000000000000000000000000000';
 const spaceName = 'Example-Name';
-const spaceId = await fetch("https://geobrowser.io/api/space/deploy", {
+const spaceId = await fetch("https://api.geobrowser.io/deploy", {
   method: "POST",
   body: JSON.stringify({ editorAddress, spaceName }),
 });
