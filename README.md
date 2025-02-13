@@ -116,7 +116,7 @@ const blob = new Blob([binaryEncodedEdit], { type: 'application/octet-stream' })
 const formData = new FormData();
 formData.append('file', blob);
 
-const result = await fetch('https://geobrowser.io/api/ipfs/upload-binary', {
+const result = await fetch('https://geobrowser.io/api/ipfs/upload', {
   method: 'POST',
   body: formData,
 });
@@ -130,14 +130,18 @@ Once you've uploaded the binary encoded Edit to IPFS and have correctly formed `
 
 The calldata used to write the edit onchain depends on the governance structure of the space. Currently The Graph supports two governance modes, one with voting and one without. The API exposes metadata about each space, its governance structure, and what smart contracts exist for it.
 
-We expose an API for fetching the appropriate calldata for the correct contract address based for each space.
+We expose an API for fetching the appropriate calldata for the correct contract addresses for each space.
 
 ```ts
-// You'll need to know your space id ahead of time
+// You'll need to know your space id and have an IPFS hash ahead of time
 const spaceId = 'space-id';
+const cid = 'ipfs://hash';
 
 // This returns the correct contract address and calldata depending on the space id
-const result = await fetch(`https://geobrowser.io/api/edit-calldata?spaceId=${spaceId}&cid=${cid}`);
+const result = await fetch(`https://geobrowser.io/space/${spaceId}/edit/calldata`, {
+  method: "POST",
+  body: JSON.stringify({ cid }),
+});
 
 const { to, data } = await result.json();
 
@@ -150,4 +154,13 @@ const txResult = await walletClient.sendTransaction({
 
 ### Deploying a space
 
-### Smart accounts
+You can deploy spaces programmatically using the API. Currently there are two types of governance modes for spaces: one with voting and one without. They're called PUBLIC or PERSONAL spaces respectively. The API only supports deploying the PERSONAL governance mode currently.
+
+```ts
+const editorAddress = '0x000000000000000000000000000000000000';
+const spaceName = 'Example-Name';
+const spaceId = await fetch("https://geobrowser.io/api/space/deploy", {
+  method: "POST",
+  body: JSON.stringify({ editorAddress, spaceName }),
+});
+```
