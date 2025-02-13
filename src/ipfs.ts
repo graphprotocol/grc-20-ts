@@ -40,12 +40,29 @@ type PublishEditProposalArgs = {
   baseUrl: string;
 };
 
+/**
+ * Generates correct protobuf encoding for an Edit and uploads it to IPFS.
+ *
+ * @example
+ * ```ts
+ * import { IPFS } from '@graphprotocol/grc-20';
+ *
+ * const cid = await IPFS.publishEdit({
+ *   name: 'Edit name',
+ *   ops: ops,
+ *   author: '0x000000000000000000000000000000000000',
+ *   baseUrl: 'https://api.geobrowser.io',
+ * });
+ * ```
+ *
+ * @param args arguments for publishing an edit to IPFS {@link PublishEditProposalArgs}
+ * @returns IPFS CID representing the edit prefixed with `ipfs://`
+ */
 export async function publishEdit(args: PublishEditProposalArgs): Promise<string> {
   const { name, ops, author } = args;
 
   const edit = EditProposal.make({ name, ops, author });
 
-  // Upload binary via Geo API
   const blob = new Blob([edit], { type: 'application/octet-stream' });
   const formData = new FormData();
   formData.append('file', blob);
