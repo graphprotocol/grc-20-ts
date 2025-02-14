@@ -1,5 +1,12 @@
 # @graphprotocol/grc-20
 
+## 0.4.0
+
+### Minor Changes
+
+- Fixes example in readme for deploying space
+- Updates default API URL to one operated by The Graph.
+
 ## 0.3.0
 
 ### Minor Changes
