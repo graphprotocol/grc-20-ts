@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.3.0
+
+### Minor Changes
+
+- don't use aliased imports
+
 ## 0.2.3
 
 ### Patch Changes
