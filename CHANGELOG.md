@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.4.1
+
+### Patch Changes
+
+- Export contracts as const
+
 ## 0.4.0
 
 ### Minor Changes
