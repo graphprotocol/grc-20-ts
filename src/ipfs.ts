@@ -18,7 +18,6 @@ type PublishEditProposalArgs = {
   name: string;
   ops: Op[];
   author: string;
-  baseUrl: string;
 };
 
 /**
@@ -32,7 +31,6 @@ type PublishEditProposalArgs = {
  *   name: 'Edit name',
  *   ops: ops,
  *   author: '0x000000000000000000000000000000000000',
- *   baseUrl: 'https://api.geobrowser.io',
  * });
  * ```
  *
@@ -54,7 +52,7 @@ export async function publishEdit(args: PublishEditProposalArgs): Promise<string
         // @TODO: This isn't the correct endpoint. For now we'll let callers
         // specify the baseUrl of our API. Eventually this will get hardcoded
         // to the default API.
-        fetch(`${args.baseUrl}/ipfs/upload-edit`, {
+        fetch('https://api-testnet.grc-20.thegraph.com/ipfs/upload-edit', {
           method: 'POST',
           body: formData,
         }),
