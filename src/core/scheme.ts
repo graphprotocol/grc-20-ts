@@ -103,7 +103,6 @@ export function toEntityId(uri: GraphUri): string {
  *
  * @param uri – Graph URI: {@link GraphUri}
  * @returns – base58 encoded v4 uuid representing a space
- * @throws Error if the URI is not valid
  */
 export function toSpaceId(uri: GraphUri): string | null {
   const url = new URL(uri);
