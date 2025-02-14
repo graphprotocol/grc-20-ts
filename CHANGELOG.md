@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.5.0
+
+### Minor Changes
+
+- Don't throw error if space id doesn't exist on scheme as it's optional.
+
 ## 0.4.1
 
 ### Patch Changes
