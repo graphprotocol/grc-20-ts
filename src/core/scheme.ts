@@ -105,12 +105,12 @@ export function toEntityId(uri: GraphUri): string {
  * @returns – base58 encoded v4 uuid representing a space
  * @throws Error if the URI is not valid
  */
-export function toSpaceId(uri: GraphUri): string {
+export function toSpaceId(uri: GraphUri): string | null {
   const url = new URL(uri);
   const searchParams = url.searchParams;
 
   if (!searchParams.has(SPACE_SEARCH_PARAM)) {
-    throw new Error(`Could not parse space id from provided URI: ${uri}`);
+    return null;
   }
 
   return searchParams.get(SPACE_SEARCH_PARAM) as string;

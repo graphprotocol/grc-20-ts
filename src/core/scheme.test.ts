@@ -35,7 +35,7 @@ describe('toSpaceId', () => {
     expect(spaceId).toBe('test-space-id');
   });
 
-  it('should throw error if space id is not valid', () => {
-    expect(() => toSpaceId('graph://test-entity-id')).toThrowError();
+  it('should return null if space id is not present', () => {
+    expect(toSpaceId('graph://test-entity-id')).toBe(null);
   });
 });
