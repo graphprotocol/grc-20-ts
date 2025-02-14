@@ -7,7 +7,7 @@
 
 import { Micro } from 'effect';
 
-import { EditProposal } from '~/proto.js';
+import { EditProposal } from '../proto.js';
 import type { Op } from './types.js';
 
 class IpfsUploadError extends Error {
