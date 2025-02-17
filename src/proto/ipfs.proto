@@ -48,6 +48,7 @@ message Triple {
 message Value {
   ValueType type = 1;
   string value = 2;
+  optional Options options = 3;
 }
 
 message Relation {
@@ -102,5 +103,6 @@ message Import {
 
 message Options {
   string format = 1;
-  string crop = 2;
+  string unit = 2;
+  string language = 3;
 }
