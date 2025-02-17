@@ -690,19 +690,19 @@ export class Import extends Message<Import> {
  */
 export class Options extends Message<Options> {
   /**
-   * @generated from field: string format = 1;
+   * @generated from field: optional string format = 1;
    */
-  format = "";
+  format?: string;
 
   /**
-   * @generated from field: string unit = 2;
+   * @generated from field: optional string unit = 2;
    */
-  unit = "";
+  unit?: string;
 
   /**
-   * @generated from field: string language = 3;
+   * @generated from field: optional string language = 3;
    */
-  language = "";
+  language?: string;
 
   constructor(data?: PartialMessage<Options>) {
     super();
@@ -712,9 +712,9 @@ export class Options extends Message<Options> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "Options";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "format", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "unit", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "language", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "format", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 2, name: "unit", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 3, name: "language", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Options {
