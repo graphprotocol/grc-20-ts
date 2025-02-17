@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.5.1
+
+### Patch Changes
+
+- Remove prettier deps and config files
+
 ## 0.5.0
 
 ### Minor Changes
