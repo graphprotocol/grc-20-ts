@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.5.2
+
+### Patch Changes
+
+- 5f7c358: Fix import in readme
+
 ## 0.5.1
 
 ### Patch Changes
