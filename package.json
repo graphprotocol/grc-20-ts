@@ -1,6 +1,6 @@
 {
   "name": "@graphprotocol/grc-20",
-  "version": "0.5.2",
+  "version": "0.5.4",
   "license": "MIT",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -25,7 +25,7 @@
     "generate:protobuf": "npx buf generate",
     "lint": "biome check --write --unsafe",
     "format": "biome check --write --unsafe",
-    "publish": "pnpm clean && pnpm build && pnpm changeset publish",
+    "deploy": "pnpm clean && pnpm build && pnpm changeset publish",
     "bump": "pnpm changeset version"
   },
   "dependencies": {
