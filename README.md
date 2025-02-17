@@ -52,7 +52,7 @@ When writing data, these ops are grouped into a logical set called an "Edit." An
 Entities throughout The Graph are referenced via globally unique identifiers. The SDK exposes APIs for creating these IDs.
 
 ```ts
-import { ID } from 'graphprotocol/grc-20';
+import { ID } from '@graphprotocol/grc-20';
 
 const newId = ID.generate();
 ```
