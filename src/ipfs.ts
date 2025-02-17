@@ -49,9 +49,6 @@ export async function publishEdit(args: PublishEditProposalArgs): Promise<string
   const upload = Micro.gen(function* () {
     const result = yield* Micro.tryPromise({
       try: () =>
-        // @TODO: This isn't the correct endpoint. For now we'll let callers
-        // specify the baseUrl of our API. Eventually this will get hardcoded
-        // to the default API.
         fetch('https://api-testnet.grc-20.thegraph.com/ipfs/upload-edit', {
           method: 'POST',
           body: formData,
