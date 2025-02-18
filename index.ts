@@ -6,7 +6,7 @@ export * from './src/types.js';
  *
  * @since 0.0.6
  */
-export * as ID from './src/id.js';
+export * as Id from './src/id.js';
 
 /**
  * This module provides utility functions for working with base58 ids
@@ -14,7 +14,7 @@ export * as ID from './src/id.js';
  *
  * @since 0.0.6
  */
-export { BASE58_ALLOWED_CHARS, decodeBase58ToUUID, encodeBase58 } from './src/core/base58.js';
+export { decodeBase58ToUUID, encodeBase58 } from './src/core/base58.js';
 
 export {
   getAcceptEditorArguments,
@@ -33,7 +33,7 @@ export {
  */
 export { Account } from './src/account.js';
 
-export { TextBlock, DataBlock, ImageBlock } from './src/blocks.js';
+export { DataBlock, ImageBlock, TextBlock } from './src/blocks.js';
 
 /**
  * This module provides utility functions for working with knowledge graph
@@ -69,7 +69,7 @@ export { GraphUrl } from './src/scheme.js';
 /**
  * Provides ids for commonly used entities across the Knowledge Graph.
  */
-export { SYSTEM_IDS, NETWORK_IDS, CONTENT_IDS } from './src/system-ids.js';
+export { ContentIds, NetworkIds, SystemIds } from './src/system-ids.js';
 
 export { getChecksumAddress } from './src/core/get-checksum-address.js';
 
@@ -79,4 +79,4 @@ export { getChecksumAddress } from './src/core/get-checksum-address.js';
  *
  * @since 0.1.1
  */
-export * as IPFS from './src/ipfs.js';
+export * as Ipfs from './src/ipfs.js';

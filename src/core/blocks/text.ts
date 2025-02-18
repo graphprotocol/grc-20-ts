@@ -7,7 +7,7 @@
 
 import { generate } from '../../id.js';
 import { Relation } from '../../relation.js';
-import { SYSTEM_IDS } from '../../system-ids.js';
+import { SystemIds } from '../../system-ids.js';
 import type { Op } from '../../types.js';
 
 type TextBlockArgs = { fromId: string; text: string; position?: string };
@@ -33,14 +33,14 @@ export function make({ fromId, text, position }: TextBlockArgs): Op[] {
 
   const textBlockType = Relation.make({
     fromId: newBlockId,
-    relationTypeId: SYSTEM_IDS.TYPES_ATTRIBUTE,
-    toId: SYSTEM_IDS.TEXT_BLOCK,
+    relationTypeId: SystemIds.TYPES_ATTRIBUTE,
+    toId: SystemIds.TEXT_BLOCK,
   });
 
   const textBlockMarkdownText = {
     type: 'SET_TRIPLE',
     triple: {
-      attribute: SYSTEM_IDS.MARKDOWN_CONTENT,
+      attribute: SystemIds.MARKDOWN_CONTENT,
       entity: newBlockId,
       value: {
         type: 'TEXT',
@@ -51,7 +51,7 @@ export function make({ fromId, text, position }: TextBlockArgs): Op[] {
 
   const textBlockRelation = Relation.make({
     fromId,
-    relationTypeId: SYSTEM_IDS.BLOCKS,
+    relationTypeId: SystemIds.BLOCKS,
     toId: newBlockId,
     position,
   });

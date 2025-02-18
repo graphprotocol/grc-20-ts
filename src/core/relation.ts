@@ -6,7 +6,7 @@
 
 import { INITIAL_RELATION_INDEX_VALUE } from '../../constants.js';
 import { generate } from '../id.js';
-import { SYSTEM_IDS } from '../system-ids.js';
+import { SystemIds } from '../system-ids.js';
 import type { CreateRelationOp, DeleteRelationOp } from '../types.js';
 import { Position } from './position.js';
 
@@ -89,7 +89,7 @@ type ReorderRelationArgs = {
 type ReorderRelationOp = {
   type: 'SET_TRIPLE';
   triple: {
-    attribute: typeof SYSTEM_IDS.RELATION_INDEX;
+    attribute: typeof SystemIds.RELATION_INDEX;
     entity: string;
     value: {
       type: 'TEXT';
@@ -119,7 +119,7 @@ export function reorder(args: ReorderRelationArgs): ReorderRelationOp {
   return {
     type: 'SET_TRIPLE',
     triple: {
-      attribute: SYSTEM_IDS.RELATION_INDEX,
+      attribute: SystemIds.RELATION_INDEX,
       entity: args.relationId,
       value: {
         type: 'TEXT',

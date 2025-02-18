@@ -52,9 +52,9 @@ When writing data, these ops are grouped into a logical set called an "Edit." An
 Entities throughout The Graph are referenced via globally unique identifiers. The SDK exposes APIs for creating these IDs.
 
 ```ts
-import { ID } from '@graphprotocol/grc-20';
+import { Id } from '@graphprotocol/grc-20';
 
-const newId = ID.generate();
+const newId = Id.generate();
 ```
 
 ### Making ops
@@ -105,9 +105,9 @@ Additionally, the indexer expects that IPFS CIDs be prefixed with `ipfs://` so i
 We've abstracted the IPFS publishing and binary encoding into a single API.
 
 ```ts
-import { IPFS } from '@graphprotocol/grc-20';
+import { Ipfs } from '@graphprotocol/grc-20';
 
-const cid = await IPFS.publishEdit({
+const cid = await Ipfs.publishEdit({
   name: 'Edit name',
   ops: ops,
   author: '0x000000000000000000000000000000000000', 
