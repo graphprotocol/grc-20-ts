@@ -9,4 +9,4 @@ SYSTEM_IDS -> SystemIds
 NETWORK_IDS -> NetworkIds
 CONTENT_IDS -> ContentIds
 
-Removed export BASE58_ALLOWED_CHARS
+Export decodeBase58ToUUID, encodeBase58 and BASE58_ALLOWED_CHARS under named export Base58

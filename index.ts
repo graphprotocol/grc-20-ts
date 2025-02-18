@@ -11,10 +11,8 @@ export * as Id from './src/id.js';
 /**
  * This module provides utility functions for working with base58 ids
  * in TypeScript.
- *
- * @since 0.0.6
  */
-export { decodeBase58ToUUID, encodeBase58 } from './src/core/base58.js';
+export * as Base58 from './src/core/base58.js';
 
 export {
   getAcceptEditorArguments,
