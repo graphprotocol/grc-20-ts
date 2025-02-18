@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
 import { Relation } from '../relation.js';
-import { make } from './edit.js';
+import { encode } from './edit.js';
 import { ActionType, Edit, OpType, ValueType } from './gen/src/proto/ipfs_pb.js';
 
-describe('create-edit-proposal', () => {
+describe('Edit', () => {
   it('encodes and decodes Edit with SET_TRIPLE ops correctly', () => {
-    const editBinary = make({
+    const editBinary = encode({
       name: 'test',
       ops: [
         {
@@ -43,10 +43,54 @@ describe('create-edit-proposal', () => {
         },
       },
     ]);
+
+    const editBinaryWithOptions = encode({
+      name: 'test',
+      ops: [
+        {
+          type: 'SET_TRIPLE',
+          triple: {
+            attribute: 'test-attribute-id',
+            entity: 'test-entity-id',
+            value: {
+              type: 'TEXT',
+              value: 'test value',
+              options: {
+                format: 'format'
+              }
+            },
+          },
+        },
+      ],
+      author: '0x1234',
+    });
+
+    const resultWithOptions = Edit.fromBinary(editBinaryWithOptions);
+    expect(resultWithOptions.name).toBe('test');
+    expect(resultWithOptions.type).toBe(ActionType.ADD_EDIT);
+    expect(resultWithOptions.version).toBe('1.0.0');
+    expect(resultWithOptions.ops.length).toBe(1);
+    expect(resultWithOptions.ops).toEqual([
+      {
+        type: OpType.SET_TRIPLE,
+        triples: [],
+        triple: {
+          attribute: 'test-attribute-id',
+          entity: 'test-entity-id',
+          value: {
+            type: ValueType.TEXT,
+            value: 'test value',
+            options: {
+              format: 'format',
+            }
+          },
+        },
+      },
+    ]);
   });
 
   it('encodes and decodes Edit with DELETE_TRIPLE ops correctly', () => {
-    const editBinary = make({
+    const editBinary = encode({
       name: 'test',
       ops: [
         {
@@ -78,7 +122,7 @@ describe('create-edit-proposal', () => {
   });
 
   it('encodes and decoded Edit with CREATE_RELATION ops correctly', () => {
-    const editBinary = make({
+    const editBinary = encode({
       name: 'test',
       ops: [
         Relation.make({
@@ -113,7 +157,7 @@ describe('create-edit-proposal', () => {
   });
 
   it('encodes and decoded Edit with CREATE_RELATION ops correctly', () => {
-    const editBinary = make({
+    const editBinary = encode({
       name: 'test',
       ops: [
         {
@@ -145,4 +189,5 @@ describe('create-edit-proposal', () => {
       },
     ]);
   });
+
 });

@@ -40,7 +40,7 @@ type PublishEditProposalArgs = {
 export async function publishEdit(args: PublishEditProposalArgs): Promise<string> {
   const { name, ops, author } = args;
 
-  const edit = EditProposal.make({ name, ops, author });
+  const edit = EditProposal.encode({ name, ops, author });
 
   const blob = new Blob([edit], { type: 'application/octet-stream' });
   const formData = new FormData();

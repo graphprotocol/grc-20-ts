@@ -8,7 +8,7 @@ type MakeEditProposalArgs = {
   author: string;
 };
 
-export function make({ name, ops, author }: MakeEditProposalArgs): Uint8Array {
+export function encode({ name, ops, author }: MakeEditProposalArgs): Uint8Array {
   return new Edit({
     type: ActionType.ADD_EDIT,
     version: '1.0.0',

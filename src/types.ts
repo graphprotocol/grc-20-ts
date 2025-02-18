@@ -5,6 +5,13 @@ export type ValueType = 'TEXT' | 'NUMBER' | 'CHECKBOX' | 'URL' | 'TIME' | 'POINT
 export type Value = {
   type: ValueType;
   value: string;
+  options?: TripleValueOptions;
+};
+
+export type TripleValueOptions = {
+  format?: string;
+  unit?: string;
+  language?: string;
 };
 
 type Triple = {
