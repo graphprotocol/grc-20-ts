@@ -4,6 +4,6 @@
  * @since 0.0.6
  */
 
-export * as SYSTEM_IDS from './core/ids/system.js';
-export * as NETWORK_IDS from './core/ids/network.js';
-export * as CONTENT_IDS from './core/ids/content.js';
+export * as ContentIds from './core/ids/content.js';
+export * as NetworkIds from './core/ids/network.js';
+export * as SystemIds from './core/ids/system.js';

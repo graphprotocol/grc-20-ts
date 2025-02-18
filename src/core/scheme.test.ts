@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { fromEntityId, toEntityId, toSpaceId } from './scheme.js';
 import type { GraphUri } from '../types.js';
+import { fromEntityId, toEntityId, toSpaceId } from './scheme.js';
 
 describe('fromEntityId', () => {
   it('should return a valid graph uri', () => {

@@ -7,8 +7,8 @@
 
 import { generate } from '../id.js';
 import { Relation } from '../relation.js';
-import { SYSTEM_IDS } from '../system-ids.js';
-import type { CreateRelationOp, Op, SetTripleOp } from '../types.js';
+import { SystemIds } from '../system-ids.js';
+import type { CreateRelationOp, SetTripleOp } from '../types.js';
 
 type MakeImageReturnType = {
   imageId: string;
@@ -36,14 +36,14 @@ export function make(src: string): MakeImageReturnType {
     ops: [
       Relation.make({
         fromId: entityId,
-        toId: SYSTEM_IDS.IMAGE_TYPE,
-        relationTypeId: SYSTEM_IDS.TYPES_ATTRIBUTE,
+        toId: SystemIds.IMAGE_TYPE,
+        relationTypeId: SystemIds.TYPES_ATTRIBUTE,
       }),
       {
         type: 'SET_TRIPLE',
         triple: {
           entity: entityId,
-          attribute: SYSTEM_IDS.IMAGE_URL_ATTRIBUTE,
+          attribute: SystemIds.IMAGE_URL_ATTRIBUTE,
           value: {
             type: 'URL',
             value: src,

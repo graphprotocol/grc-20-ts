@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest';
-import { make, remove, reorder } from './relation.js';
-import { Position, PositionRange } from './position.js';
 import { RELATION_INDEX } from './ids/system.js';
+import { Position, PositionRange } from './position.js';
+import { make, remove, reorder } from './relation.js';
 
 it('should generate CreateRelationOp for CREATE_RELATION', () => {
   const op = make({

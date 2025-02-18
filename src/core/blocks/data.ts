@@ -7,7 +7,7 @@
 
 import { generate } from '../../id.js';
 import { Relation } from '../../relation.js';
-import { SYSTEM_IDS } from '../../system-ids.js';
+import { SystemIds } from '../../system-ids.js';
 import type { CreateRelationOp, SetTripleOp } from '../../types.js';
 
 type DataBlockSourceType = 'QUERY' | 'COLLECTION' | 'GEO';
@@ -15,15 +15,20 @@ type DataBlockSourceType = 'QUERY' | 'COLLECTION' | 'GEO';
 function getSourceTypeId(sourceType: DataBlockSourceType) {
   switch (sourceType) {
     case 'COLLECTION':
-      return SYSTEM_IDS.COLLECTION_DATA_SOURCE;
+      return SystemIds.COLLECTION_DATA_SOURCE;
     case 'GEO':
-      return SYSTEM_IDS.ALL_OF_GEO_DATA_SOURCE;
+      return SystemIds.ALL_OF_GEO_DATA_SOURCE;
     case 'QUERY':
-      return SYSTEM_IDS.QUERY_DATA_SOURCE;
+      return SystemIds.QUERY_DATA_SOURCE;
   }
 }
 
-type DataBlockArgs = { fromId: string; sourceType: DataBlockSourceType; position?: string; name?: string };
+type DataBlockArgs = {
+  fromId: string;
+  sourceType: DataBlockSourceType;
+  position?: string;
+  name?: string;
+};
 
 /**
  * Returns the ops to create an entity representing a Data Block.
@@ -47,19 +52,19 @@ export function make({ fromId, sourceType, position, name }: DataBlockArgs): (Se
 
   const dataBlockType = Relation.make({
     fromId: newBlockId,
-    relationTypeId: SYSTEM_IDS.TYPES_ATTRIBUTE,
-    toId: SYSTEM_IDS.DATA_BLOCK,
+    relationTypeId: SystemIds.TYPES_ATTRIBUTE,
+    toId: SystemIds.DATA_BLOCK,
   });
 
   const dataBlockSourceType = Relation.make({
     fromId: newBlockId,
-    relationTypeId: SYSTEM_IDS.DATA_SOURCE_TYPE_RELATION_TYPE,
+    relationTypeId: SystemIds.DATA_SOURCE_TYPE_RELATION_TYPE,
     toId: getSourceTypeId(sourceType),
   });
 
   const dataBlockRelation = Relation.make({
     fromId,
-    relationTypeId: SYSTEM_IDS.BLOCKS,
+    relationTypeId: SystemIds.BLOCKS,
     toId: newBlockId,
     position,
   });
@@ -70,7 +75,7 @@ export function make({ fromId, sourceType, position, name }: DataBlockArgs): (Se
     ops.push({
       type: 'SET_TRIPLE',
       triple: {
-        attribute: SYSTEM_IDS.NAME_ATTRIBUTE,
+        attribute: SystemIds.NAME_ATTRIBUTE,
         entity: newBlockId,
         value: {
           type: 'TEXT',
