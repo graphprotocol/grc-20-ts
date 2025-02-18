@@ -1,5 +1,19 @@
 # @graphprotocol/grc-20
 
+## 0.6.0
+
+### Minor Changes
+
+- 424b98e: Add triple value options to encoding
+- add1f17: Rename exports:
+  IPFS -> Ipfs
+  ID -> Id
+  SYSTEM_IDS -> SystemIds
+  NETWORK_IDS -> NetworkIds
+  CONTENT_IDS -> ContentIds
+
+  Export decodeBase58ToUUID, encodeBase58 and BASE58_ALLOWED_CHARS under named export Base58
+
 ## 0.5.2
 
 ### Patch Changes
