@@ -1,4 +1,7 @@
+import { EditProposal } from '~/proto.js';
 import { Parquet } from '../../parquet.js';
+import type { SetTripleOp } from '~/src/types.js';
+import { Triple } from '~/src/triple.js';
 
 Parquet.write({
   fileName: 'benchmark.parquet',
@@ -79,3 +82,48 @@ Parquet.write({
 // @ts-expect-error no Bun namespace
 file = Bun.file('benchmark.parquet');
 console.log('zstd', file.size);
+
+const ops: SetTripleOp[] = [];
+
+for (let i = 0; i < 10000; i++) {
+  ops.push(
+    Triple.make({
+      attributeId: 'foo',
+      entityId: i.toString(),
+      value: {
+        type: 'TEXT',
+        value: i.toString(),
+      },
+    }),
+  );
+  ops.push(
+    Triple.make({
+      attributeId: 'foo',
+      entityId: i.toString(),
+      value: {
+        type: 'TEXT',
+        value: (i * 2).toString(),
+      },
+    }),
+  );
+  ops.push(
+    Triple.make({
+      attributeId: 'foo',
+      entityId: i.toString(),
+      value: {
+        type: 'TEXT',
+        value: (i * 3).toString(),
+      },
+    }),
+  );
+}
+
+Bun.write('ops.json', JSON.stringify(ops));
+
+file = Bun.file('ops.json');
+console.log('ops uncompressed', file.size);
+
+const edit = EditProposal.encode({ name: 'edit', ops: ops, author: '0x000000000000000000000000000000000000' });
+Bun.write('ops.bin', edit);
+file = Bun.file('ops.bin');
+console.log('edit compressed', file.size);
