@@ -130,7 +130,7 @@ type ValueParams = {
 
 type RelationParams = {
   to: string;
-  id?: string;
+  relationId?: string;
   position?: string;
   properties?: Record<string, ValueParams | RelationParams | Array<RelationParams>>;
 };

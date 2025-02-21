@@ -169,8 +169,8 @@ describe('createEntity', () => {
     const firstRoleRelationId = generate();
     const entity = createEntity({
       properties: {
-        [AUTHORS_PROPERTY]: { to: 'some-author-id', id: authorRelationId },
-        [ROLES_PROPERTY]: [{ to: 'some-role-id', id: firstRoleRelationId }, { to: 'some-role-id-2' }],
+        [AUTHORS_PROPERTY]: { to: 'some-author-id', relationId: authorRelationId },
+        [ROLES_PROPERTY]: [{ to: 'some-role-id', relationId: firstRoleRelationId }, { to: 'some-role-id-2' }],
       },
     });
 
@@ -211,15 +211,15 @@ describe('createEntity', () => {
       properties: {
         [AUTHORS_PROPERTY]: {
           to: 'some-author-id',
-          id: authorRelationId,
+          relationId: authorRelationId,
           properties: {
             [ROLES_PROPERTY]: {
               to: 'some-role-id',
-              id: roleRelationId,
+              relationId: roleRelationId,
               properties: {
                 [NEWS_STORY_TYPE]: {
                   to: 'some-role-id-2',
-                  id: newsStoryRelationId,
+                  relationId: newsStoryRelationId,
                 },
                 [WEB_URL_PROPERTY]: {
                   value: 'https://example.com',

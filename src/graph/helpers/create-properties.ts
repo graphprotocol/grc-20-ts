@@ -22,7 +22,7 @@ export const createProperties = (params: CreatePropertiesParams) => {
       });
       ops.push(propertyTripleOp);
     } else if ('to' in property) {
-      const relationId = property.id ?? generate();
+      const relationId = property.relationId ?? generate();
       const propertyRelationOp = Relation.make({
         relationId,
         fromId: entityId,
@@ -36,7 +36,7 @@ export const createProperties = (params: CreatePropertiesParams) => {
       }
     } else if (Array.isArray(property)) {
       for (const relation of property) {
-        const relationId = relation.id ?? generate();
+        const relationId = relation.relationId ?? generate();
         const propertyRelationOp = Relation.make({
           relationId,
           fromId: entityId,
