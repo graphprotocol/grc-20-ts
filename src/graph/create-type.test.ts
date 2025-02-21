@@ -5,7 +5,7 @@ import { createType } from './create-type.js';
 
 describe('createType', () => {
   it('creates a basic type', async () => {
-    const type = await createType({
+    const type = createType({
       name: 'Article',
     });
 
@@ -43,7 +43,7 @@ describe('createType', () => {
   });
 
   it('creates a type with multiple properties', async () => {
-    const type = await createType({
+    const type = createType({
       name: 'Article',
       properties: [WEBSITE_PROPERTY, AUTHORS_PROPERTY],
     });

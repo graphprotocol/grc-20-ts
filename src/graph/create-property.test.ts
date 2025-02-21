@@ -4,7 +4,7 @@ import { createProperty } from './create-property.js';
 
 describe('createProperty', () => {
   it('creates a TEXT property', async () => {
-    const property = await createProperty({
+    const property = createProperty({
       name: 'Disclaimer',
       description: 'This is a disclaimer',
       type: 'TEXT',
@@ -20,7 +20,7 @@ describe('createProperty', () => {
   });
 
   it('creates a NUMBER property', async () => {
-    const property = await createProperty({
+    const property = createProperty({
       name: 'Price',
       description: 'The price of the product',
       type: 'NUMBER',
@@ -37,7 +37,7 @@ describe('createProperty', () => {
   });
 
   it('creates a RELATION property', async () => {
-    const property = await createProperty({
+    const property = createProperty({
       name: 'City',
       type: 'RELATION',
     });
@@ -51,7 +51,7 @@ describe('createProperty', () => {
   });
 
   it('creates a RELATION property with properties and relation value types', async () => {
-    const property = await createProperty({
+    const property = createProperty({
       name: 'City',
       type: 'RELATION',
       properties: [ROLES_PROPERTY],

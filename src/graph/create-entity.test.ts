@@ -13,7 +13,7 @@ import { createEntity } from './create-entity.js';
 
 describe('createEntity', () => {
   it('creates a basic entity without properties', async () => {
-    const entity = await createEntity({});
+    const entity = createEntity({});
     expect(entity).toBeDefined();
     expect(typeof entity.id).toBe('string');
     expect(entity.ops).toBeDefined();
@@ -21,7 +21,7 @@ describe('createEntity', () => {
   });
 
   it('creates an entity with types', async () => {
-    const entity = await createEntity({
+    const entity = createEntity({
       types: [CLAIM_TYPE, NEWS_STORY_TYPE],
     });
 
@@ -61,7 +61,7 @@ describe('createEntity', () => {
   });
 
   it('creates an entity with only triple attributes', async () => {
-    const entity = await createEntity({
+    const entity = createEntity({
       name: 'Test Entity',
       properties: {
         [DISCLAIMER_PROPERTY]: { value: 'Test Entity', type: 'TEXT' },
@@ -109,7 +109,7 @@ describe('createEntity', () => {
   });
 
   it('creates an entity with relations', async () => {
-    const entity = await createEntity({
+    const entity = createEntity({
       properties: {
         [AUTHORS_PROPERTY]: { to: 'some-author-id' },
         [ROLES_PROPERTY]: [{ to: 'some-role-id' }, { to: 'some-role-id-2' }],
@@ -167,7 +167,7 @@ describe('createEntity', () => {
   it('creates an entity with custom relation ids', async () => {
     const authorRelationId = generate();
     const firstRoleRelationId = generate();
-    const entity = await createEntity({
+    const entity = createEntity({
       properties: {
         [AUTHORS_PROPERTY]: { to: 'some-author-id', id: authorRelationId },
         [ROLES_PROPERTY]: [{ to: 'some-role-id', id: firstRoleRelationId }, { to: 'some-role-id-2' }],
@@ -207,7 +207,7 @@ describe('createEntity', () => {
     const authorRelationId = generate();
     const roleRelationId = generate();
     const newsStoryRelationId = generate();
-    const entity = await createEntity({
+    const entity = createEntity({
       properties: {
         [AUTHORS_PROPERTY]: {
           to: 'some-author-id',
@@ -288,7 +288,7 @@ describe('createEntity', () => {
   });
 
   it('creates an entity with types, triples, and relations', async () => {
-    const entity = await createEntity({
+    const entity = createEntity({
       name: 'Yummy Coffee',
       description: 'A delicious coffee shop with great food and great coffee',
       cover: 'image-id',

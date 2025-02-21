@@ -23,21 +23,21 @@ describe('Graph', () => {
     ops.push(...createLikesPropertyOps);
 
     // create person type
-    const { id: personTypeId, ops: createPersonTypeOps } = await createType({
+    const { id: personTypeId, ops: createPersonTypeOps } = createType({
       name: 'Person',
       properties: [agePropertyId],
     });
     ops.push(...createPersonTypeOps);
 
     // create restaurant entity
-    const { id: restaurantId, ops: createRestaurantOps } = await createEntity({
+    const { id: restaurantId, ops: createRestaurantOps } = createEntity({
       name: 'Restaurant',
       types: [personTypeId],
     });
     ops.push(...createRestaurantOps);
 
     // create person entity
-    const { id: personId, ops: createPersonOps } = await createEntity({
+    const { id: personId, ops: createPersonOps } = createEntity({
       name: 'Jane Doe',
       types: [personTypeId],
       properties: {
