@@ -33,10 +33,30 @@ message ImportEdit {
 
 message Op {
   OpType type = 1;
+
+  /**
+   * Used when setting a single triple
+   */
   optional Triple triple = 2;
-  optional Entity entity = 3;
+
+  /**
+   * Used when creating or deleting a relation
+   */
   optional Relation relation = 4;
+
+  /**
+   * Used when setting batch ops
+   */
   repeated Triple triples = 5;
+
+  /**
+   * Used when setting batch ops or deleting an entity
+   */
+  optional Entity entity = 3;
+
+  /**
+   * Used when importing a parquet file
+   */
   optional string url = 6;
 }
 
