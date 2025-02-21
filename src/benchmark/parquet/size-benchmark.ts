@@ -9,6 +9,7 @@ Parquet.write({
     baz: Array.from({ length: 10000 }, (x: number) => x * 3),
   },
 });
+// @ts-expect-error no Bun namespace
 let file = Bun.file('benchmark.parquet');
 console.log('brotli', file.size);
 
@@ -21,6 +22,7 @@ Parquet.write({
     baz: Array.from({ length: 10000 }, (x: number) => x * 3),
   },
 });
+// @ts-expect-error no Bun namespace
 file = Bun.file('benchmark.parquet');
 console.log('gzip', file.size);
 
@@ -33,6 +35,7 @@ Parquet.write({
     baz: Array.from({ length: 10000 }, (x: number) => x * 3),
   },
 });
+// @ts-expect-error no Bun namespace
 file = Bun.file('benchmark.parquet');
 console.log('lz4', file.size);
 
@@ -45,6 +48,7 @@ Parquet.write({
     baz: Array.from({ length: 10000 }, (x: number) => x * 3),
   },
 });
+// @ts-expect-error no Bun namespace
 file = Bun.file('benchmark.parquet');
 console.log('snappy', file.size);
 
@@ -57,6 +61,7 @@ Parquet.write({
     baz: Array.from({ length: 10000 }, (x: number) => x * 3),
   },
 });
+// @ts-expect-error no Bun namespace
 file = Bun.file('benchmark.parquet');
 console.log('zstd', file.size);
 
@@ -69,5 +74,6 @@ Parquet.write({
     baz: Array.from({ length: 10000 }, (x: number) => x * 3),
   },
 });
+// @ts-expect-error no Bun namespace
 file = Bun.file('benchmark.parquet');
 console.log('uncompressed', file.size);
