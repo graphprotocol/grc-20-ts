@@ -37,6 +37,7 @@
     "@types/uuid": "^9.0.8",
     "effect": "^3.12.11",
     "ethers": "^5.7.2",
+    "nodejs-polars": "^0.18.0",
     "position-strings": "^2.0.1",
     "uuid": "^9.0.0",
     "viem": "^1.16.0",
