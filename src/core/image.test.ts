@@ -9,7 +9,7 @@ it('should generate ops for an image entity', () => {
 
   // We check each field individually since we don't know the id of the relation
   expect(createRelationOp.type).toEqual('CREATE_RELATION');
-  expect(createRelationOp.relation.type).toBe(SystemIds.TYPES_ATTRIBUTE);
+  expect(createRelationOp.relation.type).toBe(SystemIds.TYPES_PROPERTY);
   expect(createRelationOp.relation.fromEntity).toBe(imageId);
   expect(createRelationOp.relation.toEntity).toBe(SystemIds.IMAGE_TYPE);
   expect(createRelationOp.relation.index).toBe(INITIAL_RELATION_INDEX_VALUE);
@@ -17,7 +17,7 @@ it('should generate ops for an image entity', () => {
   expect(setTripleOp).toEqual({
     type: 'SET_TRIPLE',
     triple: {
-      attribute: SystemIds.IMAGE_URL_ATTRIBUTE,
+      attribute: SystemIds.IMAGE_URL_PROPERTY,
       entity: imageId,
       value: {
         type: 'URL',

@@ -116,3 +116,23 @@ export enum VotingMode {
 export type ProposalStatus = 'PROPOSED' | 'ACCEPTED' | 'REJECTED' | 'CANCELED' | 'EXECUTED';
 
 export type GraphUri = `graph://${string}`;
+
+export type DefaultProperties = {
+  name?: string;
+  description?: string;
+  cover?: string;
+};
+
+type ValueParams = {
+  value: string;
+  type: ValueType;
+};
+
+type RelationParams = {
+  to: string;
+  relationId?: string;
+  position?: string;
+  properties?: Record<string, ValueParams | RelationParams | Array<RelationParams>>;
+};
+
+export type PropertiesParam = Record<string, ValueParams | RelationParams | Array<RelationParams>>;

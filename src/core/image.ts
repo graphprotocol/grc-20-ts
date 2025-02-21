@@ -37,13 +37,13 @@ export function make(src: string): MakeImageReturnType {
       Relation.make({
         fromId: entityId,
         toId: SystemIds.IMAGE_TYPE,
-        relationTypeId: SystemIds.TYPES_ATTRIBUTE,
+        relationTypeId: SystemIds.TYPES_PROPERTY,
       }),
       {
         type: 'SET_TRIPLE',
         triple: {
           entity: entityId,
-          attribute: SystemIds.IMAGE_URL_ATTRIBUTE,
+          attribute: SystemIds.IMAGE_URL_PROPERTY,
           value: {
             type: 'URL',
             value: src,

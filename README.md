@@ -94,6 +94,103 @@ const setRelationOp: CreateRelationOp = Relation.make({
 const deleteRelationOp: DeleteRelationOp = Relation.remove('id of relation');
 ```
 
+### Creating properties, types and entities
+
+Working with triple and relations ops is a low level API and give you maximum flexibility. In order to ease the process of creating and updating data, the library also exports APIs for creating properties, types and entities.
+
+```ts
+import { Graph } from '@graphprotocol/grc-20';
+
+// create a property
+const propertyResult = Graph.createProperty({
+  name: 'name of the property',
+  type: 'TEXT', // TEXT | NUMBER | URL | TIME | POINT | CHECKBOX | RELATION,
+});
+
+// create a type
+const { id: personTypeId, ops: createPersonTypeOps } = Graph.createType({
+  name: 'name of the type',
+  properties: […listOfPropertyIds],
+});
+
+// create an entity
+const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
+  name: 'name of the entity',
+  types: […listOfTypeIds],
+  properties: {
+    // value property like text, number, url, time, point, checkbox
+    [propertyId]: {
+      type: 'TEXT', // TEXT | NUMBER | URL | TIME | POINT | CHECKBOX,
+      value: 'value of the property',
+    },
+    // relation property
+    [propertyId]: {
+      to: 'id of the entity',
+    },
+  },
+});
+```
+
+#### Example Flow
+
+```ts
+import { Graph } from '@graphprotocol/grc-20';
+
+const ops: Array<Op> = [];
+
+// create an age property
+const { id: agePropertyId, ops: createAgePropertyOps } = Graph.createProperty({
+  type: 'NUMBER',
+  name: 'Age',
+});
+ops.push(...createAgePropertyOps);
+
+// create a likes property
+const { id: likesPropertyId, ops: createLikesPropertyOps } = Graph.createProperty({
+  type: 'RELATION',
+  name: 'Likes',
+});
+ops.push(...createLikesPropertyOps);
+
+// create a person type
+const { id: personTypeId, ops: createPersonTypeOps } = Graph.createType({
+  name: 'Person',
+  properties: [agePropertyId, likesPropertyId],
+});
+ops.push(...createPersonTypeOps);
+
+// create a restaurant entity with a website property
+const restaurantTypeId = 'A9QizqoXSqjfPUBjLoPJa2';
+const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
+  name: 'Yum Yum',
+  description: 'A restaurant serving fusion cuisine',
+  types: [restaurantTypeId],
+  properties: {
+    [WEBSITE_PROPERTY]: {
+      type: 'URL',
+      value: 'https://example.com',
+    },
+  },
+});
+ops.push(...createRestaurantOps);
+
+// create a person entity with a likes relation to the restaurant entity
+const { id: personId, ops: createPersonOps } = Graph.createEntity({
+  name: 'Jane Doe',
+  types: [personTypeId],
+  properties: {
+    [agePropertyId]: {
+      type: 'NUMBER',
+      value: 42,
+    },
+    [likesPropertyId]: {
+      to: restaurantId,
+    },
+  },
+});
+ops.push(...createPersonOps);
+```
+
 ### Writing an edit to IPFS
 
 Once you have a set of ops ready to publish, you'll need to binary encode them into an Edit and upload the Edit to IPFS.

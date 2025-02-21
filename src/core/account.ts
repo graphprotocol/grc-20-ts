@@ -10,7 +10,7 @@ import { Relation } from '../relation.js';
 import type { CreateRelationOp, SetTripleOp } from '../types.js';
 import { getChecksumAddress } from './get-checksum-address.js';
 import { ETHEREUM } from './ids/network.js';
-import { ACCOUNT_TYPE, ADDRESS_ATTRIBUTE, NAME_ATTRIBUTE, NETWORK_ATTRIBUTE, TYPES_ATTRIBUTE } from './ids/system.js';
+import { ACCOUNT_TYPE, ADDRESS_PROPERTY, NAME_PROPERTY, NETWORK_PROPERTY, TYPES_PROPERTY } from './ids/system.js';
 
 type MakeAccountReturnType = {
   accountId: string;
@@ -41,21 +41,21 @@ export function make(address: string): MakeAccountReturnType {
       // Types -> Account
       Relation.make({
         fromId: accountId,
-        relationTypeId: TYPES_ATTRIBUTE,
+        relationTypeId: TYPES_PROPERTY,
         toId: ACCOUNT_TYPE,
       }),
       // Network -> Ethereum
       // Signals that the account is for the Ethereum family of chains
       Relation.make({
         fromId: accountId,
-        relationTypeId: NETWORK_ATTRIBUTE,
+        relationTypeId: NETWORK_PROPERTY,
         toId: ETHEREUM,
       }),
       {
         type: 'SET_TRIPLE',
         triple: {
           entity: accountId,
-          attribute: ADDRESS_ATTRIBUTE,
+          attribute: ADDRESS_PROPERTY,
           value: {
             type: 'TEXT',
             value: checkedAddress,
@@ -66,7 +66,7 @@ export function make(address: string): MakeAccountReturnType {
         type: 'SET_TRIPLE',
         triple: {
           entity: accountId,
-          attribute: NAME_ATTRIBUTE,
+          attribute: NAME_PROPERTY,
           value: {
             type: 'TEXT',
             value: checkedAddress,
