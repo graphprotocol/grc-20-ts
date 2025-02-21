@@ -1,5 +1,12 @@
 # @graphprotocol/grc-20
 
+## 0.6.1
+
+### Patch Changes
+
+- 9c756b8: all IDs with ATTRIBUTE in the name now changed PROPERTY. The constants with ATTRIBUTE still exist and marked as deprecated
+- 9c756b8: Add utility functions createProperty, createType, createEntity
+
 ## 0.6.0
 
 ### Minor Changes
