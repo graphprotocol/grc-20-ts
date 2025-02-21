@@ -4,7 +4,7 @@
  * @since 0.6.2
  */
 
-import { readParquet, type WriteParquetOptions, DataFrame } from 'nodejs-polars';
+import { readParquet, type WriteParquetOptions, DataFrame, UInt16 } from 'nodejs-polars';
 
 export type ParquetCompression = 'zstd' | 'snappy' | 'lz4' | 'brotli' | 'gzip' | 'uncompressed';
 
@@ -12,9 +12,9 @@ export type ParquetCompression = 'zstd' | 'snappy' | 'lz4' | 'brotli' | 'gzip' |
 // @TODO is this format useful just exported functions?
 export function use() {
   const df = generate({
-    foo: Array.from({ length: 10000 }, (x: number) => x),
-    bar: Array.from({ length: 10000 }, (x: number) => x * 2),
-    baz: Array.from({ length: 10000 }, (x: number) => x * 3),
+    foo: Array.from({ length: 10000 }, (x: number) => x.toString()),
+    bar: Array.from({ length: 10000 }, (x: number) => (x * 2).toString()),
+    baz: Array.from({ length: 10000 }, (x: number) => (x * 3).toString()),
   });
 
   const apiLive = {
@@ -46,7 +46,5 @@ export function write(options: WriteOptions) {
 }
 
 export function read(fileName: string) {
-  const res = readParquet(fileName);
-  const cols = res.getColumns();
-  console.log(cols);
+  return readParquet(fileName);
 }

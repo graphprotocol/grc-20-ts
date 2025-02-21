@@ -4,9 +4,9 @@ Parquet.write({
   fileName: 'benchmark.parquet',
   compression: 'brotli',
   data: {
-    foo: Array.from({ length: 10000 }, (x: number) => x),
-    bar: Array.from({ length: 10000 }, (x: number) => x * 2),
-    baz: Array.from({ length: 10000 }, (x: number) => x * 3),
+    foo: Array.from({ length: 10000 }, (_, i: number) => i.toString()),
+    bar: Array.from({ length: 10000 }, (_, i: number) => (i * 2).toString()),
+    baz: Array.from({ length: 10000 }, (_, i: number) => (i * 3).toString()),
   },
 });
 // @ts-expect-error no Bun namespace
@@ -17,9 +17,9 @@ Parquet.write({
   fileName: 'benchmark.parquet',
   compression: 'gzip',
   data: {
-    foo: Array.from({ length: 10000 }, (x: number) => x),
-    bar: Array.from({ length: 10000 }, (x: number) => x * 2),
-    baz: Array.from({ length: 10000 }, (x: number) => x * 3),
+    foo: Array.from({ length: 10000 }, (_, i: number) => i.toString()),
+    bar: Array.from({ length: 10000 }, (_, i: number) => (i * 2).toString()),
+    baz: Array.from({ length: 10000 }, (_, i: number) => (i * 3).toString()),
   },
 });
 // @ts-expect-error no Bun namespace
@@ -30,9 +30,9 @@ Parquet.write({
   fileName: 'benchmark.parquet',
   compression: 'lz4',
   data: {
-    foo: Array.from({ length: 10000 }, (x: number) => x),
-    bar: Array.from({ length: 10000 }, (x: number) => x * 2),
-    baz: Array.from({ length: 10000 }, (x: number) => x * 3),
+    foo: Array.from({ length: 10000 }, (_, i: number) => i.toString()),
+    bar: Array.from({ length: 10000 }, (_, i: number) => (i * 2).toString()),
+    baz: Array.from({ length: 10000 }, (_, i: number) => (i * 3).toString()),
   },
 });
 // @ts-expect-error no Bun namespace
@@ -43,37 +43,39 @@ Parquet.write({
   fileName: 'benchmark.parquet',
   compression: 'snappy',
   data: {
-    foo: Array.from({ length: 10000 }, (x: number) => x),
-    bar: Array.from({ length: 10000 }, (x: number) => x * 2),
-    baz: Array.from({ length: 10000 }, (x: number) => x * 3),
+    foo: Array.from({ length: 10000 }, (_, i: number) => i.toString()),
+    bar: Array.from({ length: 10000 }, (_, i: number) => (i * 2).toString()),
+    baz: Array.from({ length: 10000 }, (_, i: number) => (i * 3).toString()),
   },
 });
+
 // @ts-expect-error no Bun namespace
 file = Bun.file('benchmark.parquet');
 console.log('snappy', file.size);
 
 Parquet.write({
   fileName: 'benchmark.parquet',
-  compression: 'zstd',
-  data: {
-    foo: Array.from({ length: 10000 }, (x: number) => x),
-    bar: Array.from({ length: 10000 }, (x: number) => x * 2),
-    baz: Array.from({ length: 10000 }, (x: number) => x * 3),
-  },
-});
-// @ts-expect-error no Bun namespace
-file = Bun.file('benchmark.parquet');
-console.log('zstd', file.size);
-
-Parquet.write({
-  fileName: 'benchmark.parquet',
   compression: 'uncompressed',
   data: {
-    foo: Array.from({ length: 10000 }, (x: number) => x),
-    bar: Array.from({ length: 10000 }, (x: number) => x * 2),
-    baz: Array.from({ length: 10000 }, (x: number) => x * 3),
+    foo: Array.from({ length: 10000 }, (_, i: number) => i.toString()),
+    bar: Array.from({ length: 10000 }, (_, i: number) => (i * 2).toString()),
+    baz: Array.from({ length: 10000 }, (_, i: number) => (i * 3).toString()),
   },
 });
 // @ts-expect-error no Bun namespace
 file = Bun.file('benchmark.parquet');
 console.log('uncompressed', file.size);
+
+Parquet.write({
+  fileName: 'benchmark.parquet',
+  compression: 'zstd',
+  data: {
+    foo: Array.from({ length: 10000 }, (_, i: number) => i.toString()),
+    bar: Array.from({ length: 10000 }, (_, i: number) => (i * 2).toString()),
+    baz: Array.from({ length: 10000 }, (_, i: number) => (i * 3).toString()),
+  },
+});
+
+// @ts-expect-error no Bun namespace
+file = Bun.file('benchmark.parquet');
+console.log('zstd', file.size);
