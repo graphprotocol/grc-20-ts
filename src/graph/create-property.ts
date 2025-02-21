@@ -1,4 +1,17 @@
-import { PROPERTY, RELATION_VALUE_RELATIONSHIP_TYPE, SCHEMA_TYPE, VALUE_TYPE_PROPERTY } from '../core/ids/system.js';
+import {
+  CHECKBOX,
+  NUMBER,
+  POINT,
+  PROPERTY,
+  RELATION,
+  RELATION_VALUE_RELATIONSHIP_TYPE,
+  SCHEMA_TYPE,
+  TEXT,
+  TIME,
+  TYPES_PROPERTY,
+  URL,
+  VALUE_TYPE_PROPERTY,
+} from '../core/ids/system.js';
 import { generate } from '../id.js';
 import { Relation } from '../relation.js';
 import type { DefaultProperties, Op, ValueType } from '../types.js';
@@ -17,15 +30,30 @@ export const createProperty = (params: Params) => {
 
   ops.push(...createDefaultProperties({ entityId, name, description, cover }));
 
-  // add "Property" to property "Types"
+  // add "Property" as "Types property"
   const typesRelationOp = Relation.make({
     fromId: entityId,
-    relationTypeId: PROPERTY,
-    toId: SCHEMA_TYPE,
+    relationTypeId: TYPES_PROPERTY,
+    toId: PROPERTY,
   });
   ops.push(typesRelationOp);
 
+  // add "Type" as "Types property"
+  const typeRelationOps = Relation.make({
+    fromId: entityId,
+    relationTypeId: TYPES_PROPERTY,
+    toId: SCHEMA_TYPE,
+  });
+  ops.push(typeRelationOps);
+
   if (params.type === 'RELATION') {
+    const valueTypeRelationOp = Relation.make({
+      fromId: entityId,
+      relationTypeId: VALUE_TYPE_PROPERTY,
+      toId: RELATION,
+    });
+    ops.push(valueTypeRelationOp);
+
     // add the provided properties to property "Properties"
     if (params.properties) {
       for (const propertyId of params.properties) {
@@ -49,11 +77,35 @@ export const createProperty = (params: Params) => {
       }
     }
   } else {
+    let toId: string;
+    switch (params.type) {
+      case 'TEXT':
+        toId = TEXT;
+        break;
+      case 'NUMBER':
+        toId = NUMBER;
+        break;
+      case 'URL':
+        toId = URL;
+        break;
+      case 'TIME':
+        toId = TIME;
+        break;
+      case 'POINT':
+        toId = POINT;
+        break;
+      case 'CHECKBOX':
+        toId = CHECKBOX;
+        break;
+      default:
+        // @ts-expect-error params.type is never after eliminating all other cases
+        throw new Error(`Unsupported type: ${params.type}`);
+    }
     // add the provided type to property "Value Types"
     const valueTypeRelationOp = Relation.make({
       fromId: entityId,
       relationTypeId: VALUE_TYPE_PROPERTY,
-      toId: params.type,
+      toId,
     });
     ops.push(valueTypeRelationOp);
   }

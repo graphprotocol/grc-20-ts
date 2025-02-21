@@ -48,14 +48,6 @@ describe('Graph', () => {
     });
     ops.push(...createPersonOps);
 
-    expect(ops.length).toBe(13);
-
-    // publish all changes
-    // const { proposalId } = await publish({
-    //   ops,
-    //   editName: 'Create person, restaurant, and loves relation',
-    //   spaceId: '0x1',
-    //   accountId: '0x2',
-    // });
+    expect(ops.length).toBe(16);
   });
 });

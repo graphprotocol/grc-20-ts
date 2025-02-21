@@ -12,11 +12,12 @@ describe('createProperty', () => {
     expect(property).toBeDefined();
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
-    expect(property.ops.length).toBe(4);
+    expect(property.ops.length).toBe(5);
     expect(property.ops[0]?.type).toBe('SET_TRIPLE');
     expect(property.ops[1]?.type).toBe('SET_TRIPLE');
     expect(property.ops[2]?.type).toBe('CREATE_RELATION');
     expect(property.ops[3]?.type).toBe('CREATE_RELATION');
+    expect(property.ops[4]?.type).toBe('CREATE_RELATION');
   });
 
   it('creates a NUMBER property', async () => {
@@ -29,11 +30,12 @@ describe('createProperty', () => {
     expect(property).toBeDefined();
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
-    expect(property.ops.length).toBe(4);
+    expect(property.ops.length).toBe(5);
     expect(property.ops[0]?.type).toBe('SET_TRIPLE');
     expect(property.ops[1]?.type).toBe('SET_TRIPLE');
     expect(property.ops[2]?.type).toBe('CREATE_RELATION');
     expect(property.ops[3]?.type).toBe('CREATE_RELATION');
+    expect(property.ops[4]?.type).toBe('CREATE_RELATION');
   });
 
   it('creates a RELATION property', async () => {
@@ -45,9 +47,11 @@ describe('createProperty', () => {
     expect(property).toBeDefined();
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
-    expect(property.ops.length).toBe(2);
+    expect(property.ops.length).toBe(4);
     expect(property.ops[0]?.type).toBe('SET_TRIPLE');
     expect(property.ops[1]?.type).toBe('CREATE_RELATION');
+    expect(property.ops[2]?.type).toBe('CREATE_RELATION');
+    expect(property.ops[3]?.type).toBe('CREATE_RELATION');
   });
 
   it('creates a RELATION property with properties and relation value types', async () => {
@@ -61,10 +65,12 @@ describe('createProperty', () => {
     expect(property).toBeDefined();
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
-    expect(property.ops.length).toBe(4);
+    expect(property.ops.length).toBe(6);
     expect(property.ops[0]?.type).toBe('SET_TRIPLE');
     expect(property.ops[1]?.type).toBe('CREATE_RELATION');
     expect(property.ops[2]?.type).toBe('CREATE_RELATION');
     expect(property.ops[3]?.type).toBe('CREATE_RELATION');
+    expect(property.ops[4]?.type).toBe('CREATE_RELATION');
+    expect(property.ops[5]?.type).toBe('CREATE_RELATION');
   });
 });
