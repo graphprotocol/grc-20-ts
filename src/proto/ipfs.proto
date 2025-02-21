@@ -33,10 +33,11 @@ message ImportEdit {
 
 message Op {
   OpType type = 1;
-  Triple triple = 2;
-  Entity entity = 3;
-  Relation relation = 4;
+  optional Triple triple = 2;
+  optional Entity entity = 3;
+  optional Relation relation = 4;
   repeated Triple triples = 5;
+  optional string url = 6;
 }
 
 message Triple {
@@ -72,6 +73,7 @@ enum OpType {
   DELETE_ENTITY = 4;
   CREATE_RELATION = 5;
   DELETE_RELATION = 6;
+  IMPORT_PARQUET = 7;
 }
 
 enum ValueType {

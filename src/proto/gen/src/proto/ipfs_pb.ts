@@ -44,6 +44,11 @@ export enum OpType {
    * @generated from enum value: DELETE_RELATION = 6;
    */
   DELETE_RELATION = 6,
+
+  /**
+   * @generated from enum value: IMPORT_PARQUET = 7;
+   */
+  IMPORT_PARQUET = 7,
 }
 // Retrieve enum metadata with: proto3.getEnumType(OpType)
 proto3.util.setEnumType(OpType, "OpType", [
@@ -54,6 +59,7 @@ proto3.util.setEnumType(OpType, "OpType", [
   { no: 4, name: "DELETE_ENTITY" },
   { no: 5, name: "CREATE_RELATION" },
   { no: 6, name: "DELETE_RELATION" },
+  { no: 7, name: "IMPORT_PARQUET" },
 ]);
 
 /**
@@ -371,17 +377,17 @@ export class Op extends Message<Op> {
   type = OpType.OP_TYPE_UNKNOWN;
 
   /**
-   * @generated from field: Triple triple = 2;
+   * @generated from field: optional Triple triple = 2;
    */
   triple?: Triple;
 
   /**
-   * @generated from field: Entity entity = 3;
+   * @generated from field: optional Entity entity = 3;
    */
   entity?: Entity;
 
   /**
-   * @generated from field: Relation relation = 4;
+   * @generated from field: optional Relation relation = 4;
    */
   relation?: Relation;
 
@@ -389,6 +395,11 @@ export class Op extends Message<Op> {
    * @generated from field: repeated Triple triples = 5;
    */
   triples: Triple[] = [];
+
+  /**
+   * @generated from field: optional string url = 6;
+   */
+  url?: string;
 
   constructor(data?: PartialMessage<Op>) {
     super();
@@ -399,10 +410,11 @@ export class Op extends Message<Op> {
   static readonly typeName = "Op";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "type", kind: "enum", T: proto3.getEnumType(OpType) },
-    { no: 2, name: "triple", kind: "message", T: Triple },
-    { no: 3, name: "entity", kind: "message", T: Entity },
-    { no: 4, name: "relation", kind: "message", T: Relation },
+    { no: 2, name: "triple", kind: "message", T: Triple, opt: true },
+    { no: 3, name: "entity", kind: "message", T: Entity, opt: true },
+    { no: 4, name: "relation", kind: "message", T: Relation, opt: true },
     { no: 5, name: "triples", kind: "message", T: Triple, repeated: true },
+    { no: 6, name: "url", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Op {
