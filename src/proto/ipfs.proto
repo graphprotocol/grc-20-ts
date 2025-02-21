@@ -40,6 +40,11 @@ message Op {
   optional Triple triple = 2;
 
   /**
+   * Used when setting batch ops or deleting an entity
+   */
+  optional Entity entity = 3;
+
+  /**
    * Used when creating or deleting a relation
    */
   optional Relation relation = 4;
@@ -48,11 +53,6 @@ message Op {
    * Used when setting batch ops
    */
   repeated Triple triples = 5;
-
-  /**
-   * Used when setting batch ops or deleting an entity
-   */
-  optional Entity entity = 3;
 
   /**
    * Used when importing a parquet file
