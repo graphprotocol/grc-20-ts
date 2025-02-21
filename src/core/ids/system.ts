@@ -1,15 +1,44 @@
+export const PROPERTY = 'GscJ2GELQjmLoaVrYyR3xm';
+/**
+ * @deprecated use PROPERTY
+ */
 export const ATTRIBUTE = 'GscJ2GELQjmLoaVrYyR3xm';
 export const SCHEMA_TYPE = 'VdTsW1mGiy1XSooJaBBLc4';
 export const PROPERTIES = '9zBADaYzyfzyFJn4GU1cC';
 
+export const NAME_PROPERTY = 'LuBWqZAu6pz54eiJS5mLv8';
+/*
+ * @deprecated use NAME_PROPERTY
+ */
 export const NAME_ATTRIBUTE = 'LuBWqZAu6pz54eiJS5mLv8';
+export const DESCRIPTION_PROPERTY = 'LA1DqP5v6QAdsgLPXGF3YA';
+/*
+ * @deprecated use DESCRIPTION_PROPERTY
+ */
 export const DESCRIPTION_ATTRIBUTE = 'LA1DqP5v6QAdsgLPXGF3YA';
+export const COVER_PROPERTY = '7YHk6qYkNDaAtNb8GwmysF';
+/*
+ * @deprecated use COVER_PROPERTY
+ */
 export const COVER_ATTRIBUTE = '7YHk6qYkNDaAtNb8GwmysF';
+export const TYPES_PROPERTY = 'Jfmby78N4BCseZinBmdVov';
+/*
+ * @deprecated use TYPES_PROPERTY
+ */
 export const TYPES_ATTRIBUTE = 'Jfmby78N4BCseZinBmdVov';
+export const TABS_PROPERTY = 'AasCPmGHxVcsswE9PzmNT4';
+/*
+ * @deprecated use TABS_PROPERTY
+ */
 export const TABS_ATTRIBUTE = 'AasCPmGHxVcsswE9PzmNT4';
 export const BLOCKS = 'QYbjCM6NT9xmh2hFGsqpQX';
 
 /** Value types */
+
+export const VALUE_TYPE_PROPERTY = 'WQfdWjboZWFuTseDhG5Cw1';
+/*
+ * @deprecated use VALUE_TYPE_PROPERTY
+ */
 export const VALUE_TYPE_ATTRIBUTE = 'WQfdWjboZWFuTseDhG5Cw1';
 export const CHECKBOX = 'G9NpD4c7GB7nH5YU9Tesgf';
 export const TIME = '3mswMrL91GuYTfBq29EuNE';
@@ -31,19 +60,43 @@ export const SPACE_TYPE = '7gzF671tq5JTZ13naG4tnr';
 export const RELATION_VALUE_RELATIONSHIP_TYPE = 'LdAS7yWqF32E2J4doUDe5u';
 
 export const IMAGE_TYPE = 'Q1LaZhnzj8AtCzx8T1HRMf';
+export const IMAGE_FILE_TYPE_PROPERTY = 'B3nyKkmERhFEcaVgoe6kAL';
+/*
+ * @deprecated use IMAGE_FILE_TYPE_PROPERTY
+ */
 export const IMAGE_FILE_TYPE_ATTRIBUTE = 'B3nyKkmERhFEcaVgoe6kAL';
+export const IMAGE_HEIGHT_PROPERTY = 'GjaFuBBB8z63y9qr8dhaSP';
+/*
+ * @deprecated use IMAGE_HEIGHT_PROPERTY
+ */
 export const IMAGE_HEIGHT_ATTRIBUTE = 'GjaFuBBB8z63y9qr8dhaSP';
+export const IMAGE_URL_PROPERTY = 'J6cw1v8xUHCFsEdPeuB1Uo';
+/*
+ * @deprecated use IMAGE_URL_PROPERTY
+ */
 export const IMAGE_URL_ATTRIBUTE = 'J6cw1v8xUHCFsEdPeuB1Uo';
+export const IMAGE_WIDTH_PROPERTY = 'Xb3useEUkWV1Y9zYYkq4xp';
+/*
+ * @deprecated use IMAGE_WIDTH_PROPERTY
+ */
 export const IMAGE_WIDTH_ATTRIBUTE = 'Xb3useEUkWV1Y9zYYkq4xp';
 
 /** Data blocks */
 // @TODO: data block instead of TABLE_BLOCK
 export const DATA_BLOCK = 'PnQsGwnnztrLNRCm9mcKKY';
+export const DATA_SOURCE_PROPERTY = 'J8nmVHZDeCLNhPxX7qyEZG';
+/*
+ * @deprecated use DATA_SOURCE_PROPERTY
+ */
 export const DATA_SOURCE_ATTRIBUTE = 'J8nmVHZDeCLNhPxX7qyEZG';
 export const ALL_OF_GEO_DATA_SOURCE = 'XqDkiYjqEufsbjqegxkqZU';
 export const COLLECTION_DATA_SOURCE = '3J6223VX6MkwTftWdzDfo4';
 export const QUERY_DATA_SOURCE = '8HkP7HCufp2HcCFajuJFcq';
 
+export const SELECTOR_PROPERTY = '7zvaXnZVY9z5oCoYqciroz';
+/*
+ * @deprecated use SELECTOR_PROPERTY
+ */
 export const SELECTOR_ATTRIBUTE = '7zvaXnZVY9z5oCoYqciroz';
 
 /**
@@ -74,6 +127,10 @@ export const COLLECTION_ITEM_RELATION_TYPE = 'Mwrn46KavwfWgNrFaWcB9j';
  *
  * This view data lives on the relation pointing to the block. This enables
  * different consumers of the data block to define their own views.
+ */
+export const VIEW_PROPERTY = '46GzPiTRPG36jX9dmNE9ic';
+/*
+ * @deprecated use VIEW_PROPERTY
  */
 export const VIEW_ATTRIBUTE = '46GzPiTRPG36jX9dmNE9ic';
 
@@ -112,8 +169,20 @@ export const MARKDOWN_CONTENT = 'V9A2298ZHL135zFRH4qcRg';
  * marriage also only exists in the context of John and Jane.
  */
 export const RELATION_TYPE = 'QtC4Ay8HNLwSd1kSARgcDE';
+export const RELATION_FROM_PROPERTY = 'RERshk4JoYoMC17r1qAo9J';
+/*
+ * @deprecated use RELATION_FROM_PROPERTY
+ */
 export const RELATION_FROM_ATTRIBUTE = 'RERshk4JoYoMC17r1qAo9J';
+export const RELATION_TO_PROPERTY = 'Qx8dASiTNsxxP3rJbd4Lzd';
+/*
+ * @deprecated use RELATION_TO_PROPERTY
+ */
 export const RELATION_TO_ATTRIBUTE = 'Qx8dASiTNsxxP3rJbd4Lzd';
+export const RELATION_TYPE_PROPERTY = '3WxYoAVreE4qFhkDUs5J3q';
+/*
+ * @deprecated use RELATION_TYPE_PROPERTY
+ */
 export const RELATION_TYPE_ATTRIBUTE = '3WxYoAVreE4qFhkDUs5J3q';
 /*
  * Relations can be ordered using fractional indexing. By default we
@@ -136,7 +205,15 @@ export const RELATION_INDEX = 'WNopXUYxsSsE51gkJGWghe';
  * is the correct one to represent this Person from the perspective
  * of the current space.
  */
+export const VERIFIED_SOURCE_PROPERTY = '5jodArZNFzucsYzQaDVFBL';
+/*
+ * @deprecated use VERIFIED_SOURCE_PROPERTY
+ */
 export const VERIFIED_SOURCE_ATTRIBUTE = '5jodArZNFzucsYzQaDVFBL';
+export const SOURCE_SPACE_PROPERTY = 'GzkEQP3yedWjXE8QPFKEwV';
+/*
+ * @deprecated use SOURCE_SPACE_PROPERTY
+ */
 export const SOURCE_SPACE_ATTRIBUTE = 'GzkEQP3yedWjXE8QPFKEwV';
 
 /** Core types */
@@ -154,11 +231,19 @@ export const REGION_TYPE = 'Qu6vfQq68ecZ4PkihJ4nZN';
 export const ROOT_SPACE_TYPE = 'k7vbnMPxzdtGL2J3uaB6d';
 
 /** Templates */
+export const TEMPLATE_PROPERTY = 'Sb7ZvdGsCDm2r1mNZBA5ft';
+/*
+ * @deprecated use TEMPLATE_PROPERTY
+ */
 export const TEMPLATE_ATTRIBUTE = 'Sb7ZvdGsCDm2r1mNZBA5ft';
 export const PAGE_TYPE = '9u4zseS3EDXG9ZvwR9RmqU';
 /**
  * Defines the page type for a template. e.g., an events page, a
  * finances page, a products page, etc.
+ */
+export const PAGE_TYPE_PROPERTY = 'DD9FKRZ3XezaKEGUszMB3r';
+/*
+ * @deprecated use PAGE_TYPE_PROPERTY
  */
 export const PAGE_TYPE_ATTRIBUTE = 'DD9FKRZ3XezaKEGUszMB3r';
 
@@ -210,38 +295,122 @@ export const FINANCE_SUMMMARY_TYPE = '8zrMWkTeDkfxbGn1U1MjLx';
 
 /** Identity */
 export const ACCOUNT_TYPE = 'S7rX6suDMmU75yjbAD5WsP';
+export const ACCOUNTS_PROPERTY = 'VA5i7mm1v3QMjUChMT5dPs';
+/*
+ * @deprecated use ACCOUNTS_PROPERTY
+ */
 export const ACCOUNTS_ATTRIBUTE = 'VA5i7mm1v3QMjUChMT5dPs';
+export const ADDRESS_PROPERTY = 'HXLpAZyQkcy6Di4YJu4xzU';
+/*
+ * @deprecated use ADDRESS_PROPERTY
+ */
 export const ADDRESS_ATTRIBUTE = 'HXLpAZyQkcy6Di4YJu4xzU';
+export const NETWORK_PROPERTY = 'MuMLDVbHAmRjZQjhyk3HGx';
+/*
+ * @deprecated use NETWORK_PROPERTY
+ */
 export const NETWORK_ATTRIBUTE = 'MuMLDVbHAmRjZQjhyk3HGx';
 export const PERSON_TYPE = 'GfN9BK2oicLiBHrUavteS8';
 export const NETWORK_TYPE = 'YCLXoVZho6C4S51g4AbF3C';
 
+export const GOALS_PROPERTY = 'WNcdorfdj7ZprmwvmRiRtG';
+/*
+ * @deprecated use GOALS_PROPERTY
+ */
 export const GOALS_ATTRIBUTE = 'WNcdorfdj7ZprmwvmRiRtG';
 export const GOAL_TYPE = '2y44qmFiLjZWmgkZ64EM7c';
 export const MEMBERSHIP_CONTRACT_ADDRESS = 'DDkwCoB8p1mHzXTedShcFv';
+export const MISSION_PROPERTY = 'VGbyCo12NC8yTUhnhMHu1z';
+/*
+ * @deprecated use MISSION_PROPERTY
+ */
 export const MISSION_ATTRIBUTE = 'VGbyCo12NC8yTUhnhMHu1z';
 export const PLACEHOLDER_IMAGE = 'ENYn2afpf2koqBfyff7CGE';
 export const PLACEHOLDER_TEXT = 'AuihGk1yXCkfCcpMSwhfho';
 export const TAB_TYPE = '6ym81VzJiHx32nV8e5h52q';
+export const ROLE_PROPERTY = 'VGKSRGzxCRvQxpJP7CB4wj';
+/*
+ * @deprecated use ROLE_PROPERTY
+ */
 export const ROLE_ATTRIBUTE = 'VGKSRGzxCRvQxpJP7CB4wj';
 
 // Do we still need these?
 export const DEFAULT_TYPE = '7nJuuYkrKT62HCFxDygF1S';
+export const BROADER_CLAIMS_PROPERTY = 'RWkXuBRdVqDAiHKQisTZZ4';
+/*
+ * @deprecated use BROADER_CLAIMS_PROPERTY
+ */
 export const BROADER_CLAIMS_ATTRIBUTE = 'RWkXuBRdVqDAiHKQisTZZ4';
+export const CLAIMS_FROM_PROPERTY = 'JdNBawSt1fp9EdozJdmThR';
+/*
+ * @deprecated use CLAIMS_FROM_PROPERTY
+ */
 export const CLAIMS_FROM_ATTRIBUTE = 'JdNBawSt1fp9EdozJdmThR';
+export const DEFINITIONS_PROPERTY = '256myJaotY6FB6wGiC5mtk';
+/*
+ * @deprecated use DEFINITIONS_PROPERTY
+ */
 export const DEFINITIONS_ATTRIBUTE = '256myJaotY6FB6wGiC5mtk';
+export const EMAIL_PROPERTY = '2QafYRmRHP2Hd18W3Tj9zu';
+/*
+ * @deprecated use EMAIL_PROPERTY
+ */
 export const EMAIL_ATTRIBUTE = '2QafYRmRHP2Hd18W3Tj9zu';
 export const FOREIGN_TYPES = 'R32hqus9ojU3Twsz3HDuxf';
+export const NONPROFIT_CATEGORIES_PROPERTY = '64uVL5vKHmfqBC94hwNzHZ';
+/*
+ * @deprecated use NONPROFIT_CATEGORIES_PROPERTY
+ */
 export const NONPROFIT_CATEGORIES_ATTRIBUTE = '64uVL5vKHmfqBC94hwNzHZ';
+export const PHONE_NUMBER_PROPERTY = '3zhuyrcqFjeaVgC5oHHqTJ';
+/*
+ * @deprecated use PHONE_NUMBER_PROPERTY
+ */
 export const PHONE_NUMBER_ATTRIBUTE = '3zhuyrcqFjeaVgC5oHHqTJ';
+export const QUOTES_PROPERTY = 'XXAf2w4C5f4URDhhpH8nUG';
+/*
+ * @deprecated use QUOTES_PROPERTY
+ */
 export const QUOTES_ATTRIBUTE = 'XXAf2w4C5f4URDhhpH8nUG';
+export const REGION_PROPERTY = 'CGC6KXy8wcqf7vpZv8HH4i';
+/*
+ * @deprecated use REGION_PROPERTY
+ */
 export const REGION_ATTRIBUTE = 'CGC6KXy8wcqf7vpZv8HH4i';
+export const RELATED_TOPICS_PROPERTY = 'SDw38koZeFukda9FWU9bfW';
+/*
+ * @deprecated use RELATED_TOPICS_PROPERTY
+ */
 export const RELATED_TOPICS_ATTRIBUTE = 'SDw38koZeFukda9FWU9bfW';
+export const RELEVANT_QUESTIONS_PROPERTY = 'Po4uUtzinhjDwXJP5QNCMp';
+/*
+ * @deprecated use RELEVANT_QUESTIONS_PROPERTY
+ */
 export const RELEVANT_QUESTIONS_ATTRIBUTE = 'Po4uUtzinhjDwXJP5QNCMp';
+export const SPEAKERS_PROPERTY = '9nZuGhssmkEBn9DtRca8Gm';
+/*
+ * @deprecated use SPEAKERS_PROPERTY
+ */
 export const SPEAKERS_ATTRIBUTE = '9nZuGhssmkEBn9DtRca8Gm';
+export const STREET_ADDRESS_PROPERTY = '8kx7oQvdCZRXLfUksucwCv';
+/*
+ * @deprecated use STREET_ADDRESS_PROPERTY
+ */
 export const STREET_ADDRESS_ATTRIBUTE = '8kx7oQvdCZRXLfUksucwCv';
+export const SUBCLAIMS_PROPERTY = '2DFyYPbh5Yy2PnWTbi3uL5';
+/*
+ * @deprecated use SUBCLAIMS_PROPERTY
+ */
 export const SUBCLAIMS_ATTRIBUTE = '2DFyYPbh5Yy2PnWTbi3uL5';
+export const VALUES_PROPERTY = '3c5k2MpF9PRYAZ925qTKNi';
+/*
+ * @deprecated use VALUES_PROPERTY
+ */
 export const VALUES_ATTRIBUTE = '3c5k2MpF9PRYAZ925qTKNi';
+export const VISION_PROPERTY = 'AAMDNTaJtS2i4aWp59zEAk';
+/*
+ * @deprecated use VISION_PROPERTY
+ */
 export const VISION_ATTRIBUTE = 'AAMDNTaJtS2i4aWp59zEAk';
 
 export const ROOT_SPACE_ID = '25omwWh6HYgeRQKCaSpVpa';

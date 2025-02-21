@@ -13,7 +13,7 @@ it('should generate ops for a text block entity', () => {
 
   expect(blockTypeOp?.type).toBe('CREATE_RELATION');
   if (blockTypeOp?.type === 'CREATE_RELATION') {
-    expect(blockTypeOp?.relation.type).toBe(SystemIds.TYPES_ATTRIBUTE);
+    expect(blockTypeOp?.relation.type).toBe(SystemIds.TYPES_PROPERTY);
     expect(blockTypeOp?.relation.toEntity).toBe(SystemIds.TEXT_BLOCK);
   }
 

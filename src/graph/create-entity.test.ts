@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
-  AUTHORS_ATTRIBUTE,
+  AUTHORS_PROPERTY,
   CLAIM_TYPE,
-  DISCLAIMER_ATTRIBUTE,
+  DISCLAIMER_PROPERTY,
   NEWS_STORY_TYPE,
-  ROLES_ATTRIBUTE,
-  WEB_URL_ATTRIBUTE,
+  ROLES_PROPERTY,
+  WEB_URL_PROPERTY,
 } from '../core/ids/content.js';
-import { NAME_ATTRIBUTE, TYPES_ATTRIBUTE } from '../core/ids/system.js';
+import { NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
 import { generate } from '../id.js';
 import { createEntity } from './create-entity.js';
 
@@ -38,7 +38,7 @@ describe('createEntity', () => {
           id: entity.ops[0].relation?.id,
           index: entity.ops[0].relation?.index,
           toEntity: CLAIM_TYPE,
-          type: TYPES_ATTRIBUTE,
+          type: TYPES_PROPERTY,
         },
         type: 'CREATE_RELATION',
       });
@@ -53,7 +53,7 @@ describe('createEntity', () => {
           id: entity.ops[1]?.relation?.id,
           index: entity.ops[1]?.relation?.index,
           toEntity: NEWS_STORY_TYPE,
-          type: TYPES_ATTRIBUTE,
+          type: TYPES_PROPERTY,
         },
         type: 'CREATE_RELATION',
       });
@@ -64,8 +64,8 @@ describe('createEntity', () => {
     const entity = await createEntity({
       name: 'Test Entity',
       properties: {
-        [DISCLAIMER_ATTRIBUTE]: { value: 'Test Entity', type: 'TEXT' },
-        [WEB_URL_ATTRIBUTE]: { value: 'https://example.com', type: 'URL' },
+        [DISCLAIMER_PROPERTY]: { value: 'Test Entity', type: 'TEXT' },
+        [WEB_URL_PROPERTY]: { value: 'https://example.com', type: 'URL' },
       },
     });
 
@@ -77,7 +77,7 @@ describe('createEntity', () => {
     expect(entity.ops[0]?.type).toBe('SET_TRIPLE');
     expect(entity.ops[0]).toMatchObject({
       triple: {
-        attribute: NAME_ATTRIBUTE,
+        attribute: NAME_PROPERTY,
         entity: entity.id,
         value: {
           type: 'TEXT',
@@ -90,7 +90,7 @@ describe('createEntity', () => {
     expect(entity.ops[1]?.type).toBe('SET_TRIPLE');
     expect(entity.ops[1]).toMatchObject({
       triple: {
-        attribute: DISCLAIMER_ATTRIBUTE,
+        attribute: DISCLAIMER_PROPERTY,
         entity: entity.id,
         value: { type: 'TEXT', value: 'Test Entity' },
       },
@@ -100,7 +100,7 @@ describe('createEntity', () => {
     expect(entity.ops[2]?.type).toBe('SET_TRIPLE');
     expect(entity.ops[2]).toMatchObject({
       triple: {
-        attribute: WEB_URL_ATTRIBUTE,
+        attribute: WEB_URL_PROPERTY,
         entity: entity.id,
         value: { type: 'URL', value: 'https://example.com' },
       },
@@ -111,8 +111,8 @@ describe('createEntity', () => {
   it('creates an entity with relations', async () => {
     const entity = await createEntity({
       properties: {
-        [AUTHORS_ATTRIBUTE]: { to: 'some-author-id' },
-        [ROLES_ATTRIBUTE]: [{ to: 'some-role-id' }, { to: 'some-role-id-2' }],
+        [AUTHORS_PROPERTY]: { to: 'some-author-id' },
+        [ROLES_PROPERTY]: [{ to: 'some-role-id' }, { to: 'some-role-id-2' }],
       },
     });
 
@@ -129,7 +129,7 @@ describe('createEntity', () => {
           id: entity.ops[0]?.relation?.id,
           index: entity.ops[0]?.relation?.index,
           toEntity: 'some-author-id',
-          type: AUTHORS_ATTRIBUTE,
+          type: AUTHORS_PROPERTY,
         },
         type: 'CREATE_RELATION',
       });
@@ -143,7 +143,7 @@ describe('createEntity', () => {
           id: entity.ops[1]?.relation?.id,
           index: entity.ops[1]?.relation?.index,
           toEntity: 'some-role-id',
-          type: ROLES_ATTRIBUTE,
+          type: ROLES_PROPERTY,
         },
         type: 'CREATE_RELATION',
       });
@@ -157,7 +157,7 @@ describe('createEntity', () => {
           id: entity.ops[2]?.relation?.id,
           index: entity.ops[2]?.relation?.index,
           toEntity: 'some-role-id-2',
-          type: ROLES_ATTRIBUTE,
+          type: ROLES_PROPERTY,
         },
         type: 'CREATE_RELATION',
       });
@@ -169,8 +169,8 @@ describe('createEntity', () => {
     const firstRoleRelationId = generate();
     const entity = await createEntity({
       properties: {
-        [AUTHORS_ATTRIBUTE]: { to: 'some-author-id', id: authorRelationId },
-        [ROLES_ATTRIBUTE]: [{ to: 'some-role-id', id: firstRoleRelationId }, { to: 'some-role-id-2' }],
+        [AUTHORS_PROPERTY]: { to: 'some-author-id', id: authorRelationId },
+        [ROLES_PROPERTY]: [{ to: 'some-role-id', id: firstRoleRelationId }, { to: 'some-role-id-2' }],
       },
     });
 
@@ -182,7 +182,7 @@ describe('createEntity', () => {
           id: authorRelationId,
           index: entity.ops[0]?.relation?.index,
           toEntity: 'some-author-id',
-          type: AUTHORS_ATTRIBUTE,
+          type: AUTHORS_PROPERTY,
         },
         type: 'CREATE_RELATION',
       });
@@ -196,7 +196,7 @@ describe('createEntity', () => {
           id: firstRoleRelationId,
           index: entity.ops[1]?.relation?.index,
           toEntity: 'some-role-id',
-          type: ROLES_ATTRIBUTE,
+          type: ROLES_PROPERTY,
         },
         type: 'CREATE_RELATION',
       });
@@ -209,11 +209,11 @@ describe('createEntity', () => {
     const newsStoryRelationId = generate();
     const entity = await createEntity({
       properties: {
-        [AUTHORS_ATTRIBUTE]: {
+        [AUTHORS_PROPERTY]: {
           to: 'some-author-id',
           id: authorRelationId,
           properties: {
-            [ROLES_ATTRIBUTE]: {
+            [ROLES_PROPERTY]: {
               to: 'some-role-id',
               id: roleRelationId,
               properties: {
@@ -221,7 +221,7 @@ describe('createEntity', () => {
                   to: 'some-role-id-2',
                   id: newsStoryRelationId,
                 },
-                [WEB_URL_ATTRIBUTE]: {
+                [WEB_URL_PROPERTY]: {
                   value: 'https://example.com',
                   type: 'URL',
                 },
@@ -240,7 +240,7 @@ describe('createEntity', () => {
           id: authorRelationId,
           index: entity.ops[0]?.relation?.index,
           toEntity: 'some-author-id',
-          type: AUTHORS_ATTRIBUTE,
+          type: AUTHORS_PROPERTY,
         },
         type: 'CREATE_RELATION',
       });
@@ -254,7 +254,7 @@ describe('createEntity', () => {
           id: roleRelationId,
           index: entity.ops[1]?.relation?.index,
           toEntity: 'some-role-id',
-          type: ROLES_ATTRIBUTE,
+          type: ROLES_PROPERTY,
         },
         type: 'CREATE_RELATION',
       });
@@ -278,7 +278,7 @@ describe('createEntity', () => {
     if (entity.ops[3]?.type === 'SET_TRIPLE') {
       expect(entity.ops[3]).toMatchObject({
         triple: {
-          attribute: WEB_URL_ATTRIBUTE,
+          attribute: WEB_URL_PROPERTY,
           entity: entity.id,
           value: { type: 'URL', value: 'https://example.com' },
         },
@@ -294,10 +294,10 @@ describe('createEntity', () => {
       cover: 'image-id',
       types: [CLAIM_TYPE, NEWS_STORY_TYPE],
       properties: {
-        [DISCLAIMER_ATTRIBUTE]: { value: 'Test Entity', type: 'TEXT' },
-        [WEB_URL_ATTRIBUTE]: { value: 'https://example.com', type: 'URL' },
-        [AUTHORS_ATTRIBUTE]: { to: 'some-author-id' },
-        [ROLES_ATTRIBUTE]: { to: 'some-role-id' },
+        [DISCLAIMER_PROPERTY]: { value: 'Test Entity', type: 'TEXT' },
+        [WEB_URL_PROPERTY]: { value: 'https://example.com', type: 'URL' },
+        [AUTHORS_PROPERTY]: { to: 'some-author-id' },
+        [ROLES_PROPERTY]: { to: 'some-role-id' },
       },
     });
 

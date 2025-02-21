@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { JOB_TYPE, ROLES_ATTRIBUTE } from '../core/ids/content.js';
+import { JOB_TYPE, ROLES_PROPERTY } from '../core/ids/content.js';
 import { createProperty } from './create-property.js';
 
 describe('createProperty', () => {
@@ -54,7 +54,7 @@ describe('createProperty', () => {
     const property = await createProperty({
       name: 'City',
       type: 'RELATION',
-      properties: [ROLES_ATTRIBUTE],
+      properties: [ROLES_PROPERTY],
       relationValueTypes: [JOB_TYPE],
     });
 

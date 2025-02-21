@@ -1,4 +1,4 @@
-import { ATTRIBUTE, SCHEMA_TYPE, TYPES_ATTRIBUTE } from '../core/ids/system.js';
+import { PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
 import { generate } from '../id.js';
 import { Relation } from '../relation.js';
 import type { CreateRelationOp, DefaultProperties, Op } from '../types.js';
@@ -19,7 +19,7 @@ export const createType = ({ name, description, cover, properties }: Params) => 
   // set property "Types" to "Type"
   const relationOp = Relation.make({
     fromId: id,
-    relationTypeId: TYPES_ATTRIBUTE,
+    relationTypeId: TYPES_PROPERTY,
     toId: SCHEMA_TYPE,
   });
   ops.push(relationOp);
@@ -28,7 +28,7 @@ export const createType = ({ name, description, cover, properties }: Params) => 
     for (const propertyId of properties) {
       const relationOp: CreateRelationOp = Relation.make({
         fromId: id,
-        relationTypeId: ATTRIBUTE,
+        relationTypeId: PROPERTY,
         toId: propertyId,
       });
       ops.push(relationOp);

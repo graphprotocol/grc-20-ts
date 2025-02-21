@@ -1,4 +1,4 @@
-import { TYPES_ATTRIBUTE } from '../core/ids/system.js';
+import { TYPES_PROPERTY } from '../core/ids/system.js';
 import { generate } from '../id.js';
 import { Relation } from '../relation.js';
 import type { DefaultProperties, Op, PropertiesParam } from '../types.js';
@@ -23,7 +23,7 @@ export const createEntity = ({ name, description, cover, properties, types }: Pa
     for (const typeId of types) {
       const typeRelationOp = Relation.make({
         fromId: id,
-        relationTypeId: TYPES_ATTRIBUTE,
+        relationTypeId: TYPES_PROPERTY,
         toId: typeId,
       });
       ops.push(typeRelationOp);

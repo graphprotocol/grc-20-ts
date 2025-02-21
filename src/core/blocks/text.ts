@@ -33,7 +33,7 @@ export function make({ fromId, text, position }: TextBlockArgs): Op[] {
 
   const textBlockType = Relation.make({
     fromId: newBlockId,
-    relationTypeId: SystemIds.TYPES_ATTRIBUTE,
+    relationTypeId: SystemIds.TYPES_PROPERTY,
     toId: SystemIds.TEXT_BLOCK,
   });
 

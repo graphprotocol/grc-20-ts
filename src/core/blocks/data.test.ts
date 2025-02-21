@@ -13,7 +13,7 @@ it('should generate ops for a data block entity', () => {
 
   expect(blockTypeOp?.type).toBe('CREATE_RELATION');
   if (blockTypeOp?.type === 'CREATE_RELATION') {
-    expect(blockTypeOp?.relation.type).toBe(SystemIds.TYPES_ATTRIBUTE);
+    expect(blockTypeOp?.relation.type).toBe(SystemIds.TYPES_PROPERTY);
     expect(blockTypeOp?.relation.toEntity).toBe(SystemIds.DATA_BLOCK);
   }
 
@@ -44,7 +44,7 @@ it('should generate ops for a data block entity with a name', () => {
 
   expect(blockTypeOp?.type).toBe('CREATE_RELATION');
   if (blockTypeOp?.type === 'CREATE_RELATION') {
-    expect(blockTypeOp?.relation.type).toBe(SystemIds.TYPES_ATTRIBUTE);
+    expect(blockTypeOp?.relation.type).toBe(SystemIds.TYPES_PROPERTY);
     expect(blockTypeOp?.relation.toEntity).toBe(SystemIds.DATA_BLOCK);
   }
 
@@ -62,7 +62,7 @@ it('should generate ops for a data block entity with a name', () => {
 
   expect(blockNameOp?.type).toBe('SET_TRIPLE');
   if (blockNameOp?.type === 'SET_TRIPLE') {
-    expect(blockNameOp?.triple.attribute).toBe(SystemIds.NAME_ATTRIBUTE);
+    expect(blockNameOp?.triple.attribute).toBe(SystemIds.NAME_PROPERTY);
     expect(blockNameOp?.triple.value.type).toBe('TEXT');
     expect(blockNameOp?.triple.value.value).toBe('test-name');
   }

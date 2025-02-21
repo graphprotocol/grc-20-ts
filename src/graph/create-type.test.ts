@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { AUTHORS_ATTRIBUTE, WEBSITE_ATTRIBUTE } from '../core/ids/content.js';
-import { ATTRIBUTE, NAME_ATTRIBUTE, SCHEMA_TYPE, TYPES_ATTRIBUTE } from '../core/ids/system.js';
+import { AUTHORS_PROPERTY, WEBSITE_PROPERTY } from '../core/ids/content.js';
+import { NAME_PROPERTY, PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
 import { createType } from './create-type.js';
 
 describe('createType', () => {
@@ -18,7 +18,7 @@ describe('createType', () => {
     expect(type.ops[0]?.type).toBe('SET_TRIPLE');
     expect(type.ops[0]).toMatchObject({
       triple: {
-        attribute: NAME_ATTRIBUTE,
+        attribute: NAME_PROPERTY,
         entity: type.id,
         value: {
           type: 'TEXT',
@@ -35,7 +35,7 @@ describe('createType', () => {
         relation: {
           fromEntity: type.id,
           toEntity: SCHEMA_TYPE,
-          type: TYPES_ATTRIBUTE,
+          type: TYPES_PROPERTY,
         },
         type: 'CREATE_RELATION',
       });
@@ -45,7 +45,7 @@ describe('createType', () => {
   it('creates a type with multiple properties', async () => {
     const type = await createType({
       name: 'Article',
-      properties: [WEBSITE_ATTRIBUTE, AUTHORS_ATTRIBUTE],
+      properties: [WEBSITE_PROPERTY, AUTHORS_PROPERTY],
     });
 
     expect(type).toBeDefined();
@@ -57,7 +57,7 @@ describe('createType', () => {
     expect(type.ops[0]?.type).toBe('SET_TRIPLE');
     expect(type.ops[0]).toMatchObject({
       triple: {
-        attribute: NAME_ATTRIBUTE,
+        attribute: NAME_PROPERTY,
         entity: type.id,
         value: {
           type: 'TEXT',
@@ -73,7 +73,7 @@ describe('createType', () => {
       relation: {
         fromEntity: type.id,
         toEntity: SCHEMA_TYPE,
-        type: TYPES_ATTRIBUTE,
+        type: TYPES_PROPERTY,
       },
       type: 'CREATE_RELATION',
     });
@@ -83,8 +83,8 @@ describe('createType', () => {
     expect(type.ops[2]).toMatchObject({
       relation: {
         fromEntity: type.id,
-        toEntity: WEBSITE_ATTRIBUTE,
-        type: ATTRIBUTE,
+        toEntity: WEBSITE_PROPERTY,
+        type: PROPERTY,
       },
       type: 'CREATE_RELATION',
     });
@@ -94,8 +94,8 @@ describe('createType', () => {
     expect(type.ops[3]).toMatchObject({
       relation: {
         fromEntity: type.id,
-        toEntity: AUTHORS_ATTRIBUTE,
-        type: ATTRIBUTE,
+        toEntity: AUTHORS_PROPERTY,
+        type: PROPERTY,
       },
       type: 'CREATE_RELATION',
     });

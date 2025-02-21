@@ -1,4 +1,4 @@
-import { ATTRIBUTE, RELATION_VALUE_RELATIONSHIP_TYPE, SCHEMA_TYPE, VALUE_TYPE_ATTRIBUTE } from '../core/ids/system.js';
+import { PROPERTY, RELATION_VALUE_RELATIONSHIP_TYPE, SCHEMA_TYPE, VALUE_TYPE_PROPERTY } from '../core/ids/system.js';
 import { generate } from '../id.js';
 import { Relation } from '../relation.js';
 import type { DefaultProperties, Op, ValueType } from '../types.js';
@@ -20,7 +20,7 @@ export const createProperty = (params: Params) => {
   // add "Property" to property "Types"
   const typesRelationOp = Relation.make({
     fromId: entityId,
-    relationTypeId: ATTRIBUTE,
+    relationTypeId: PROPERTY,
     toId: SCHEMA_TYPE,
   });
   ops.push(typesRelationOp);
@@ -31,7 +31,7 @@ export const createProperty = (params: Params) => {
       for (const propertyId of params.properties) {
         const relationOp = Relation.make({
           fromId: entityId,
-          relationTypeId: ATTRIBUTE,
+          relationTypeId: PROPERTY,
           toId: propertyId,
         });
         ops.push(relationOp);
@@ -52,7 +52,7 @@ export const createProperty = (params: Params) => {
     // add the provided type to property "Value Types"
     const valueTypeRelationOp = Relation.make({
       fromId: entityId,
-      relationTypeId: VALUE_TYPE_ATTRIBUTE,
+      relationTypeId: VALUE_TYPE_PROPERTY,
       toId: params.type,
     });
     ops.push(valueTypeRelationOp);

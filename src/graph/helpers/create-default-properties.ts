@@ -1,4 +1,4 @@
-import { COVER_ATTRIBUTE, DESCRIPTION_ATTRIBUTE, NAME_ATTRIBUTE } from '~/src/core/ids/system.js';
+import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY } from '~/src/core/ids/system.js';
 import { Relation } from '../../relation.js';
 import { Triple } from '../../triple.js';
 import type { DefaultProperties, Op } from '../../types.js';
@@ -11,7 +11,7 @@ export const createDefaultProperties = (params: DefaultProperties & { entityId: 
     // set property "Name" to the provided name
     const nameTripleOp = Triple.make({
       entityId,
-      attributeId: NAME_ATTRIBUTE,
+      attributeId: NAME_PROPERTY,
       value: {
         type: 'TEXT',
         value: name,
@@ -24,7 +24,7 @@ export const createDefaultProperties = (params: DefaultProperties & { entityId: 
     // set property "Description" to the provided description
     const descriptionTripleOp = Triple.make({
       entityId,
-      attributeId: DESCRIPTION_ATTRIBUTE,
+      attributeId: DESCRIPTION_PROPERTY,
       value: {
         type: 'TEXT',
         value: description,
@@ -37,7 +37,7 @@ export const createDefaultProperties = (params: DefaultProperties & { entityId: 
     // add ID of cover "Image" to property "Cover"
     const relationOp = Relation.make({
       fromId: entityId,
-      relationTypeId: COVER_ATTRIBUTE,
+      relationTypeId: COVER_PROPERTY,
       toId: cover,
     });
     ops.push(relationOp);
