@@ -155,7 +155,7 @@ ops.push(...createLikesPropertyOps);
 // create a person type
 const { id: personTypeId, ops: createPersonTypeOps } = Graph.createType({
   name: 'Person',
-  properties: [agePropertyId],
+  properties: [agePropertyId, likesPropertyId],
 });
 ops.push(...createPersonTypeOps);
 
