@@ -8,13 +8,12 @@ type Params = {
   spaceId: string;
   accountId: string;
   options?: {
-    apiHost?: string;
     network?: 'TESTNET' | 'MAINNET';
   };
 };
 
 export const publish = async ({ operations, editName, spaceId, accountId, options }: Params) => {
-  const apiHost = options?.apiHost || DEFAULT_API_HOST;
+  const apiHost = DEFAULT_API_HOST;
   const network = options?.network || 'TESTNET';
 
   const cid = await publishEdit({
