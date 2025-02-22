@@ -4,45 +4,49 @@
  * @since 0.6.2
  */
 
-import { readParquet, type WriteParquetOptions, DataFrame, UInt16 } from 'nodejs-polars';
+import { readParquet } from 'nodejs-polars';
 
-export type ParquetCompression = 'zstd' | 'snappy' | 'lz4' | 'brotli' | 'gzip' | 'uncompressed';
+import { Table as ArrowTable, Schema, Field, Utf8, vectorFromArray, tableToIPC, type Vector } from 'apache-arrow';
 
-// @TODO metadata?
-// @TODO is this format useful just exported functions?
-export function use() {
-  const df = generate({
-    foo: Array.from({ length: 10000 }, (x: number) => x.toString()),
-    bar: Array.from({ length: 10000 }, (x: number) => (x * 2).toString()),
-    baz: Array.from({ length: 10000 }, (x: number) => (x * 3).toString()),
-  });
-
-  const apiLive = {
-    write: df.writeParquet,
-    read: readParquet,
-  };
-
-  const use = <A>(fn: (api: typeof apiLive) => A) => {
-    return fn(apiLive);
-  };
-
-  return use;
-}
+import { Compression, Table, writeParquet, WriterPropertiesBuilder } from 'parquet-wasm';
 
 // Test data
-function generate(data: WriteOptions['data']) {
-  return DataFrame(data);
+function generate(data: WriteOptions['data'], metadata: WriteOptions['metadata']) {
+  const schemaFields: Field[] = [];
+
+  for (const [key, value] of Object.entries(metadata)) {
+    const metadataMap = new Map(Object.entries(value));
+
+    schemaFields.push(new Field(key, new Utf8(), false, metadataMap));
+  }
+
+  const arrowData: Record<string, Vector[]> = {};
+
+  for (const [key, value] of Object.entries(data)) {
+    // @ts-expect-error type mismatch
+    arrowData[key] = vectorFromArray(value);
+  }
+
+  // @ts-expect-error type mismatch
+  return new ArrowTable(new Schema(schemaFields), arrowData);
 }
 
 type WriteOptions = {
-  compression: ParquetCompression;
-  fileName: string;
   data: Record<string, unknown[]>;
+  metadata: {
+    [key: string]: {
+      type: string;
+      propertyId: string;
+    };
+  };
 };
 
 export function write(options: WriteOptions) {
-  const df = generate(options.data);
-  df.writeParquet(options.fileName, { compression: options.compression });
+  const table = generate(options.data, options.metadata);
+
+  const wasmTable = Table.fromIPCStream(tableToIPC(table, 'stream'));
+  const writerProperties = new WriterPropertiesBuilder().setCompression(Compression.ZSTD).build();
+  return writeParquet(wasmTable, writerProperties);
 }
 
 export function read(fileName: string) {
