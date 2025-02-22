@@ -1,7 +1,7 @@
-import { generate } from '~/src/id.js';
-import { Relation } from '~/src/relation.js';
-import { Triple } from '~/src/triple.js';
-import type { PropertiesParam } from '~/src/types.js';
+import { generate } from '../../id.js';
+import { Relation } from '../../relation.js';
+import { Triple } from '../../triple.js';
+import type { PropertiesParam } from '../../types.js';
 import type { Op } from '../../types.js';
 
 type CreatePropertiesParams = {

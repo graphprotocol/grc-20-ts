@@ -1,4 +1,4 @@
-import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY } from '~/src/core/ids/system.js';
+import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../../core/ids/system.js';
 import { Relation } from '../../relation.js';
 import { Triple } from '../../triple.js';
 import type { DefaultProperties, Op } from '../../types.js';
