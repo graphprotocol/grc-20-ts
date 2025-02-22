@@ -40,7 +40,6 @@
     "declarationMap": true,
     "paths": {
       "~/*": ["./*"],
-      "@geogenesis/*": ["../*"]
     }
   }
 }
