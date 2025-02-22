@@ -78,3 +78,5 @@ export { getChecksumAddress } from './src/core/get-checksum-address.js';
  * @since 0.1.1
  */
 export * as Ipfs from './src/ipfs.js';
+
+export * as Graph from './src/graph/index.js';
