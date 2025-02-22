@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.6.3
+
+### Patch Changes
+
+- Remove Graph.publish
+
 ## 0.6.2
 
 ### Patch Changes
