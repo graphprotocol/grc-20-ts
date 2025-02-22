@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.6.4
+
+### Patch Changes
+
+- fix aliased paths
+
 ## 0.6.3
 
 ### Patch Changes
