@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.6.2
+
+### Patch Changes
+
+- Fix missing Graph export
+
 ## 0.6.1
 
 ### Patch Changes
