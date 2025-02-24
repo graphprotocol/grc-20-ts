@@ -9,6 +9,7 @@ import { Micro } from 'effect';
 
 import { EditProposal } from '../proto.js';
 import type { Op } from './types.js';
+import { Parquet } from './parquet.js';
 
 class IpfsUploadError extends Error {
   readonly _tag = 'IpfsUploadError';
@@ -43,6 +44,36 @@ export async function publishEdit(args: PublishEditProposalArgs): Promise<string
   const edit = EditProposal.encode({ name, ops, author });
 
   const blob = new Blob([edit], { type: 'application/octet-stream' });
+  const formData = new FormData();
+  formData.append('file', blob);
+
+  const upload = Micro.gen(function* () {
+    const result = yield* Micro.tryPromise({
+      try: () =>
+        fetch('https://api-testnet.grc-20.thegraph.com/ipfs/upload-edit', {
+          method: 'POST',
+          body: formData,
+        }),
+      catch: error => new IpfsUploadError(`Could not upload edit to IPFS: ${error}`),
+    });
+
+    const maybeCid = yield* Micro.tryPromise({
+      try: async () => {
+        const { cid } = await result.json();
+        return cid;
+      },
+      catch: error => new IpfsUploadError(`Could not parse response from IPFS: ${error}`),
+    });
+
+    return maybeCid as `ipfs://${string}`;
+  });
+
+  return await Micro.runPromise(upload);
+}
+
+export async function publishParquet(buffer: Uint8Array): Promise<string> {
+  const blob = new Blob([buffer], { type: 'application/octet-stream' });
+
   const formData = new FormData();
   formData.append('file', blob);
 
