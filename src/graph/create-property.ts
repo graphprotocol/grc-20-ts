@@ -12,7 +12,7 @@ import {
   URL,
   VALUE_TYPE_PROPERTY,
 } from '../core/ids/system.js';
-import { generate } from '../id.js';
+import { assertValid, generate } from '../id.js';
 import { Relation } from '../relation.js';
 import type { DefaultProperties, Op, ValueType } from '../types.js';
 import { createDefaultProperties } from './helpers/create-default-properties.js';
@@ -57,6 +57,7 @@ export const createProperty = (params: Params) => {
     // add the provided properties to property "Properties"
     if (params.properties) {
       for (const propertyId of params.properties) {
+        assertValid(propertyId);
         const relationOp = Relation.make({
           fromId: entityId,
           relationTypeId: PROPERTY,
@@ -68,6 +69,7 @@ export const createProperty = (params: Params) => {
     if (params.relationValueTypes) {
       // add the provided relation value types to property "Relation Value Types"
       for (const relationValueTypeId of params.relationValueTypes) {
+        assertValid(relationValueTypeId);
         const relationOp = Relation.make({
           fromId: entityId,
           relationTypeId: RELATION_VALUE_RELATIONSHIP_TYPE,
