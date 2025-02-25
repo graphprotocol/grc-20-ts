@@ -1,10 +1,10 @@
 import { PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
-import { generate } from '../id.js';
+import { type Id, assertValid, generate } from '../id.js';
 import { Relation } from '../relation.js';
 import type { CreateRelationOp, DefaultProperties, Op } from '../types.js';
 import { createDefaultProperties } from './helpers/create-default-properties.js';
 type Params = DefaultProperties & {
-  properties?: Array<string>;
+  properties?: Array<Id>;
 };
 
 /**
@@ -17,6 +17,7 @@ export const createType = ({ name, description, cover, properties }: Params) => 
   ops.push(...createDefaultProperties({ entityId: id, name, description, cover }));
 
   // set property "Types" to "Type"
+  assertValid(id);
   const relationOp = Relation.make({
     fromId: id,
     relationTypeId: TYPES_PROPERTY,
@@ -26,6 +27,7 @@ export const createType = ({ name, description, cover, properties }: Params) => 
 
   if (properties) {
     for (const propertyId of properties) {
+      assertValid(propertyId);
       const relationOp: CreateRelationOp = Relation.make({
         fromId: id,
         relationTypeId: PROPERTY,

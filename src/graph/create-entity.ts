@@ -1,5 +1,5 @@
 import { TYPES_PROPERTY } from '../core/ids/system.js';
-import { generate } from '../id.js';
+import { assertValid, generate } from '../id.js';
 import { Relation } from '../relation.js';
 import type { DefaultProperties, Op, PropertiesParam } from '../types.js';
 import { createDefaultProperties } from './helpers/create-default-properties.js';
@@ -21,6 +21,7 @@ export const createEntity = ({ name, description, cover, properties, types }: Pa
   // add property "Types" to the provided types
   if (types) {
     for (const typeId of types) {
+      assertValid(typeId);
       const typeRelationOp = Relation.make({
         fromId: id,
         relationTypeId: TYPES_PROPERTY,
