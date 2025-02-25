@@ -34,22 +34,22 @@ export const Id = Brand.refined<Id>(
 export function generate(): Id {
   const uuid = uuidv4();
   const stripped = uuid.replaceAll(/-/g, '');
-  const id = Id(encodeBase58(stripped));
+  const rawId = encodeBase58(stripped);
 
   // In extremely rare occasions the id generator may result in ids that are
   // 21 characters instead of 22. Theoretically the smallest length the id can
   // generate is 16 characters, but only in specifically engineered cases.
   //
   // If this occurs we can generate again until we get a valid id.
-  if (id.length === 22) {
-    return id;
+  if (rawId.length === 22) {
+    return Id(rawId);
   }
 
   return generate();
 }
 
 export function isValid(id: string): boolean {
-  if (id.length !== 22 && id.length !== 21) {
+  if (id.length !== 22) {
     return false;
   }
 
