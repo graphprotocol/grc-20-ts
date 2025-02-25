@@ -1,7 +1,7 @@
 import { Id } from '../../id.js';
 
 export const ARTICLE_TYPE = Id('M5uDP7nCw3nvfQPUryn9gx');
-export const CITY_TYPE = Id('D6Wy4bdtdoUrG3PDZceHr');
+export const CITY_TYPE = Id('XWm3KgyEaAh7zjdQqE4U6A');
 export const CLAIM_TYPE = Id('KeG9eTM8NUYFMAjnsvF4Dg');
 export const CONTINENT_TYPE = Id('7Jw6Y3vd3SnMCXs2a9MYGu');
 export const COUNTRY_TYPE = Id('9ECA63EvqWhaoPvbD13ebf');
@@ -11,7 +11,7 @@ export const NEWS_EVENT_TYPE = Id('QAdjgcq9nD7Gv98vn2vrDd');
 export const NEWS_STORY_TYPE = Id('VKPGYGnFuaoAASiAukCVCX');
 export const POLICY_TYPE = Id('GhaWkvDmMT6KiZTDxRLMXK');
 export const PUBLISHER_TYPE = Id('BGCj2JLjDjqUmGW6iZaANK');
-export const QUOTE_TYPE = Id('XGsAzMuCVXPtV8e6UfMLd');
+export const QUOTE_TYPE = Id('FHFzqCdoiLXMT5fE2DdRXU');
 export const REGION_TYPE = Id('Qu6vfQq68ecZ4PkihJ4nZN');
 export const SKILL_TYPE = Id('LLx1gxshUy1TFKnSKVG9W6');
 export const TAG_TYPE = Id('UnP1LtXV3EhrhvRADFcMZK');

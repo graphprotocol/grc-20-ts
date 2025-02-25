@@ -6,7 +6,7 @@ export const PROPERTY = Id('GscJ2GELQjmLoaVrYyR3xm');
  */
 export const ATTRIBUTE = Id('GscJ2GELQjmLoaVrYyR3xm');
 export const SCHEMA_TYPE = Id('VdTsW1mGiy1XSooJaBBLc4');
-export const PROPERTIES = Id('9zBADaYzyfzyFJn4GU1cC');
+export const PROPERTIES = Id('N7V33Mo4Z98aj4QRKCHN2a');
 
 export const NAME_PROPERTY = Id('LuBWqZAu6pz54eiJS5mLv8');
 /*
@@ -230,7 +230,7 @@ export const POST_TYPE = Id('X7KuZJQewaCiCy9QV2vjyv');
 export const PROJECT_TYPE = Id('9vk7Q3pz7US3s2KePFQrJT');
 export const PROTOCOL_TYPE = Id('R9Xo87Q6oaxfSBrHvVQFdS');
 export const REGION_TYPE = Id('Qu6vfQq68ecZ4PkihJ4nZN');
-export const ROOT_SPACE_TYPE = Id('k7vbnMPxzdtGL2J3uaB6d');
+export const ROOT_SPACE_TYPE = Id('8P2huRFJX2g1qgwDi2nRdK');
 
 /** Templates */
 export const TEMPLATE_PROPERTY = Id('Sb7ZvdGsCDm2r1mNZBA5ft');
@@ -253,7 +253,7 @@ export const PAGE_TYPE_ATTRIBUTE = Id('DD9FKRZ3XezaKEGUszMB3r');
   These define the entity id to copy when creating an entity from
   a template.
   */
-export const ACADEMIC_FIELD_TEMPLATE = Id('qKChmTLcV1itqfQeGeYVv');
+export const ACADEMIC_FIELD_TEMPLATE = Id('K6W6AuJNYToa55ikm7wuoz');
 export const COMPANY_TEMPLATE = Id('QZwChwTixtbLDv3HSX5E6n');
 export const DAO_TEMPLATE = Id('Gfj89RHeFexx36V5kN6LhB');
 export const INDUSTRY_TEMPLATE = Id('Tgm2ubmm9VjAZFZACJLTZC');
@@ -272,8 +272,8 @@ export const ABOUT_PAGE_TEMPLATE = Id('78qghJm6whF5proE9G93pX');
  * from a template.
  */
 export const ABOUT_PAGE = Id('Xn4sgn16Peoe64NSoARRv4');
-export const ACTIVITIES_PAGE = Id('zfgeDtfzvmt9xbWVJj9DE');
-export const CULTURE_PAGE = Id('EJuJfWHqXnorH4zbLgawC');
+export const ACTIVITIES_PAGE = Id('WEU3yd89wuxc9CBk8E7fY5');
+export const CULTURE_PAGE = Id('ATeAMfgDkzjciMoF5Hj527');
 export const EDUCATION_PAGE = Id('Qh8AQ8hQhXiaAbe8HkgAJV');
 export const EVENTS_PAGE = Id('K97FaTqrx54jdiM93vZ1Fc');
 export const FINANCES_PAGE = Id('R6FDYEK9CCdEQuxjuRjA2U');
@@ -282,7 +282,7 @@ export const JOBS_PAGE = Id('PJzxY3isAL3hGx1bRkYdPf');
 export const NEWS_PAGE = Id('Ss6NVRoX8HKaEyFTEYNdUv');
 export const ONTOLOGY_PAGE = Id('Ee2Es1b9PkfnR7nsbY2ubE');
 export const PEOPLE_PAGE = Id('5PatoErephYf1ZJ8U6rNz8');
-export const PERSONAL_PAGE = Id('NPiVay5xbawmNJu7E1FLD');
+export const PERSONAL_PAGE = Id('TBaL8S5MZvCvpzGdnghVwj');
 export const PLACES_PAGE = Id('VAuhjqTMdZ2UR4Hj1TekTh');
 export const POSTS_PAGE = Id('E3jboNrTeuopjKgJ45ykBd');
 export const PRODUCTS_PAGE = Id('Cnf53HgY8T7Fwcq8choaRn');
