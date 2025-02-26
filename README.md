@@ -113,10 +113,18 @@ const { id: personTypeId, ops: createPersonTypeOps } = Graph.createType({
   properties: […listOfPropertyIds],
 });
 
+// create an image
+const { id: imageId, ops: createImageOps } = await Graph.createImage({
+  url: 'https://example.com/image.png',
+  // blob: new Blob([fs.readFileSync(path.join(__dirname, 'cover.png'))], { type: 'image/png' });
+});
+
 // create an entity
 const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
   name: 'name of the entity',
+  description: 'description of the entity',
   types: […listOfTypeIds],
+  cover: imageId,
   properties: {
     // value property like text, number, url, time, point, checkbox
     [propertyId]: {
@@ -163,15 +171,23 @@ ops.push(...createLikesPropertyOps);
 // create a person type
 const { id: personTypeId, ops: createPersonTypeOps } = Graph.createType({
   name: 'Person',
+  cover: personCoverId,
   properties: [agePropertyId, likesPropertyId],
 });
 ops.push(...createPersonTypeOps);
+
+// create an restaurant cover image
+const { id: restaurantCoverId, ops: createRestaurantCoverOps } = await Graph.createImage({
+  url: 'https://example.com/image.png',
+});
+ops.push(...createRestaurantCoverOps);
 
 // create a restaurant entity with a website property
 const restaurantTypeId = 'A9QizqoXSqjfPUBjLoPJa2';
 const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
   name: 'Yum Yum',
   description: 'A restaurant serving fusion cuisine',
+  cover: restaurantCoverId,
   types: [restaurantTypeId],
   properties: {
     [WEBSITE_PROPERTY]: {
@@ -182,10 +198,17 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
 });
 ops.push(...createRestaurantOps);
 
+// create a person cover image
+const { id: personCoverId, ops: createPersonCoverOps } = await Graph.createImage({
+  url: 'https://example.com/avatar.png',
+});
+ops.push(...createPersonCoverOps);
+
 // create a person entity with a likes relation to the restaurant entity
 const { id: personId, ops: createPersonOps } = Graph.createEntity({
   name: 'Jane Doe',
   types: [personTypeId],
+  cover: personCoverId,
   properties: {
     [agePropertyId]: {
       type: 'NUMBER',
