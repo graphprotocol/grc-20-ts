@@ -126,6 +126,14 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
     // relation property
     [propertyId]: {
       to: 'id of the entity',
+      relationId: 'id of the relation', // optional
+      position: positionString, // optional
+      properties: {
+        [propertyId]: {
+          type: 'TEXT', // TEXT | NUMBER | URL | TIME | POINT | CHECKBOX,
+          value: 'value of the property',
+        },
+      },
     },
   },
 });

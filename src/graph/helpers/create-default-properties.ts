@@ -1,4 +1,5 @@
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../../core/ids/system.js';
+import { assertValid } from '../../id.js';
 import { Relation } from '../../relation.js';
 import { Triple } from '../../triple.js';
 import type { DefaultProperties, Op } from '../../types.js';
@@ -35,6 +36,7 @@ export const createDefaultProperties = (params: DefaultProperties & { entityId: 
 
   if (cover) {
     // add ID of cover "Image" to property "Cover"
+    assertValid(cover);
     const relationOp = Relation.make({
       fromId: entityId,
       relationTypeId: COVER_PROPERTY,

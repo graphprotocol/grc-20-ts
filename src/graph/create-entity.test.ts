@@ -8,10 +8,15 @@ import {
   WEB_URL_PROPERTY,
 } from '../core/ids/content.js';
 import { NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
-import { generate } from '../id.js';
+import { Id, generate } from '../id.js';
 import { createEntity } from './create-entity.js';
 
 describe('createEntity', () => {
+  const someAuthorId = Id('M5uDP7nCw3nvfQPUryn9gx');
+  const someRoleId = Id('GscJ2GELQjmLoaVrYyR3xm');
+  const someRoleId2 = Id('VdTsW1mGiy1XSooJaBBLc4');
+  const coverId = Id('6wMJ7P1AHpu8EWFX3roMye');
+
   it('creates a basic entity without properties', async () => {
     const entity = createEntity({});
     expect(entity).toBeDefined();
@@ -111,8 +116,8 @@ describe('createEntity', () => {
   it('creates an entity with relations', async () => {
     const entity = createEntity({
       properties: {
-        [AUTHORS_PROPERTY]: { to: 'some-author-id' },
-        [ROLES_PROPERTY]: [{ to: 'some-role-id' }, { to: 'some-role-id-2' }],
+        [AUTHORS_PROPERTY]: { to: someAuthorId },
+        [ROLES_PROPERTY]: [{ to: someRoleId }, { to: someRoleId2 }],
       },
     });
 
@@ -128,7 +133,7 @@ describe('createEntity', () => {
           fromEntity: entity.id,
           id: entity.ops[0]?.relation?.id,
           index: entity.ops[0]?.relation?.index,
-          toEntity: 'some-author-id',
+          toEntity: someAuthorId,
           type: AUTHORS_PROPERTY,
         },
         type: 'CREATE_RELATION',
@@ -142,7 +147,7 @@ describe('createEntity', () => {
           fromEntity: entity.id,
           id: entity.ops[1]?.relation?.id,
           index: entity.ops[1]?.relation?.index,
-          toEntity: 'some-role-id',
+          toEntity: someRoleId,
           type: ROLES_PROPERTY,
         },
         type: 'CREATE_RELATION',
@@ -156,7 +161,7 @@ describe('createEntity', () => {
           fromEntity: entity.id,
           id: entity.ops[2]?.relation?.id,
           index: entity.ops[2]?.relation?.index,
-          toEntity: 'some-role-id-2',
+          toEntity: someRoleId2,
           type: ROLES_PROPERTY,
         },
         type: 'CREATE_RELATION',
@@ -169,8 +174,8 @@ describe('createEntity', () => {
     const firstRoleRelationId = generate();
     const entity = createEntity({
       properties: {
-        [AUTHORS_PROPERTY]: { to: 'some-author-id', relationId: authorRelationId },
-        [ROLES_PROPERTY]: [{ to: 'some-role-id', relationId: firstRoleRelationId }, { to: 'some-role-id-2' }],
+        [AUTHORS_PROPERTY]: { to: someAuthorId, relationId: authorRelationId },
+        [ROLES_PROPERTY]: [{ to: someRoleId, relationId: firstRoleRelationId }, { to: someRoleId2 }],
       },
     });
 
@@ -181,7 +186,7 @@ describe('createEntity', () => {
           fromEntity: entity.id,
           id: authorRelationId,
           index: entity.ops[0]?.relation?.index,
-          toEntity: 'some-author-id',
+          toEntity: someAuthorId,
           type: AUTHORS_PROPERTY,
         },
         type: 'CREATE_RELATION',
@@ -195,7 +200,7 @@ describe('createEntity', () => {
           fromEntity: entity.id,
           id: firstRoleRelationId,
           index: entity.ops[1]?.relation?.index,
-          toEntity: 'some-role-id',
+          toEntity: someRoleId,
           type: ROLES_PROPERTY,
         },
         type: 'CREATE_RELATION',
@@ -210,15 +215,15 @@ describe('createEntity', () => {
     const entity = createEntity({
       properties: {
         [AUTHORS_PROPERTY]: {
-          to: 'some-author-id',
+          to: someAuthorId,
           relationId: authorRelationId,
           properties: {
             [ROLES_PROPERTY]: {
-              to: 'some-role-id',
+              to: someRoleId,
               relationId: roleRelationId,
               properties: {
                 [NEWS_STORY_TYPE]: {
-                  to: 'some-role-id-2',
+                  to: someRoleId2,
                   relationId: newsStoryRelationId,
                 },
                 [WEB_URL_PROPERTY]: {
@@ -239,7 +244,7 @@ describe('createEntity', () => {
           fromEntity: entity.id,
           id: authorRelationId,
           index: entity.ops[0]?.relation?.index,
-          toEntity: 'some-author-id',
+          toEntity: someAuthorId,
           type: AUTHORS_PROPERTY,
         },
         type: 'CREATE_RELATION',
@@ -253,7 +258,7 @@ describe('createEntity', () => {
           fromEntity: entity.id,
           id: roleRelationId,
           index: entity.ops[1]?.relation?.index,
-          toEntity: 'some-role-id',
+          toEntity: someRoleId,
           type: ROLES_PROPERTY,
         },
         type: 'CREATE_RELATION',
@@ -267,7 +272,7 @@ describe('createEntity', () => {
           fromEntity: entity.id,
           id: newsStoryRelationId,
           index: entity.ops[2]?.relation?.index,
-          toEntity: 'some-role-id-2',
+          toEntity: someRoleId2,
           type: NEWS_STORY_TYPE,
         },
         type: 'CREATE_RELATION',
@@ -291,13 +296,13 @@ describe('createEntity', () => {
     const entity = createEntity({
       name: 'Yummy Coffee',
       description: 'A delicious coffee shop with great food and great coffee',
-      cover: 'image-id',
+      cover: coverId,
       types: [CLAIM_TYPE, NEWS_STORY_TYPE],
       properties: {
         [DISCLAIMER_PROPERTY]: { value: 'Test Entity', type: 'TEXT' },
         [WEB_URL_PROPERTY]: { value: 'https://example.com', type: 'URL' },
-        [AUTHORS_PROPERTY]: { to: 'some-author-id' },
-        [ROLES_PROPERTY]: { to: 'some-role-id' },
+        [AUTHORS_PROPERTY]: { to: someAuthorId },
+        [ROLES_PROPERTY]: { to: someRoleId },
       },
     });
 
