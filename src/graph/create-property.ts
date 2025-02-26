@@ -14,16 +14,31 @@ import {
 } from '../core/ids/system.js';
 import { assertValid, generate } from '../id.js';
 import { Relation } from '../relation.js';
-import type { DefaultProperties, Op, ValueType } from '../types.js';
+import type { CreateResult, DefaultProperties, Op, ValueType } from '../types.js';
 import { createDefaultProperties } from './helpers/create-default-properties.js';
 
-type Params = DefaultProperties &
+type CreatePropertyParams = DefaultProperties &
   ({ type: ValueType } | { type: 'RELATION'; properties?: Array<string>; relationValueTypes?: Array<string> });
 
 /**
  * Creates a property with the given name, description, cover, and type.
+ * All IDs passed to this function (cover, relation value types) are validated.
+ * If any invalid ID is provided, the function will throw an error.
+ *
+ * @example
+ * ```ts
+ * const { id, ops } = createProperty({
+ *   name: 'name of the property',
+ *   type: 'TEXT'
+ *   description: 'description of the property',
+ *   cover: imageEntityId,
+ * });
+ * ```
+ * @param params – {@link CreatePropertyParams}
+ * @returns – {@link CreateResult}
+ * @throws Will throw an error if any provided ID is invalid
  */
-export const createProperty = (params: Params) => {
+export const createProperty = (params: CreatePropertyParams): CreateResult => {
   const { name, description, cover } = params;
   const entityId = generate();
   const ops: Op[] = [];

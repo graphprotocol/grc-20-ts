@@ -138,3 +138,8 @@ type RelationParams = {
 };
 
 export type PropertiesParam = Record<string, ValueParams | RelationParams | Array<RelationParams>>;
+
+export type CreateResult = {
+  id: Id;
+  ops: Op[];
+};
