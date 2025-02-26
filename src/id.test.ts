@@ -15,6 +15,9 @@ it('should validate base58 encoded id', () => {
   expect(isValid(generate())).toBe(true);
   expect(isValid(generate())).toBe(true);
   expect(isValid(generate())).toBe(true);
+  expect(isValid('M5uDP7nCw3nvfQPUryn9gx')).toBe(true);
+  // length is 21
+  expect(isValid('D6Wy4bdtdoUrG3PDZceHr')).toBe(true);
 });
 
 it('should not validate invalid id', () => {

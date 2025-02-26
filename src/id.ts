@@ -49,7 +49,7 @@ export function generate(): Id {
 }
 
 export function isValid(id: string): boolean {
-  if (id.length !== 22) {
+  if (id.length !== 22 && id.length !== 21) {
     return false;
   }
 
