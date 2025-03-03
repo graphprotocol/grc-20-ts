@@ -31,6 +31,15 @@ message ImportEdit {
   string transaction_hash = 11;
 }
 
+message ImportFileMetadata {
+  string property_id = 1;
+  ValueType value_type = 2;
+  optional string relation_value_type = 3;
+  optional string language_option = 4;
+  optional string unit_option = 5;
+  optional string format_option = 6;
+}
+
 message Op {
   OpType type = 1;
 
@@ -58,6 +67,7 @@ message Op {
    * Used when importing a parquet file
    */
   optional string url = 6;
+  optional ImportFileMetadata metadata = 7;
 }
 
 message Triple {
@@ -93,7 +103,7 @@ enum OpType {
   DELETE_ENTITY = 4;
   CREATE_RELATION = 5;
   DELETE_RELATION = 6;
-  IMPORT_PARQUET = 7;
+  IMPORT_FILE = 7;
 }
 
 enum ValueType {

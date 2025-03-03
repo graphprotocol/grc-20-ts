@@ -27,12 +27,25 @@ type Entity = {
   types: string[];
 };
 
-export type ImportParquetOp = {
-  type: 'IMPORT_PARQUET';
+type Metadata = {
+  propertyId: string;
+  valueType: ValueType;
+  relationValueType?: string;
+  languageOption?: string;
+  unitOption?: string;
+  formatOption?: string;
+};
+
+export type ImportFileOp = {
+  type: 'IMPORT_FILE';
   /**
-   * ipfs:// prefixed cid representing the uploaded parquet file
+   * ipfs:// prefixed cid representing the uploaded file
    */
   url: string;
+  /**
+   * ipfs:// prefixed cid representing metadata about the uploaded file
+   */
+  metadata: Metadata;
 };
 
 export type SetBatchTripleOp = {
@@ -81,7 +94,7 @@ export type Op =
   | DeleteEntityOp
   | CreateRelationOp
   | DeleteRelationOp
-  | ImportParquetOp;
+  | ImportFileOp;
 
 export type EditProposalMetadata = {
   type: 'ADD_EDIT';

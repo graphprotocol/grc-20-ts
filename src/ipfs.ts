@@ -10,7 +10,6 @@ import { imageSize } from 'image-size';
 
 import { EditProposal } from '../proto.js';
 import type { Op } from './types.js';
-import { Parquet } from './parquet.js';
 
 class IpfsUploadError extends Error {
   readonly _tag = 'IpfsUploadError';

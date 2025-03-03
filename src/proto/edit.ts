@@ -57,8 +57,8 @@ function opsToBinary(ops: Op[]): OpBinary[] {
           type: OpType.DELETE_TRIPLE,
           triple: Triple.fromJson(o.triple), // janky but works
         });
-      case 'IMPORT_PARQUET':
-        throw new Error('Parquet import not implemented yet');
+      case 'IMPORT_FILE':
+        throw new Error('File import not implemented yet');
     }
   });
 }

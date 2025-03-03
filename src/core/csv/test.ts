@@ -1,4 +1,4 @@
-import { write } from './parquet.js';
+import { write } from './csv.js';
 
 write({
   data: {

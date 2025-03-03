@@ -46,9 +46,9 @@ export enum OpType {
   DELETE_RELATION = 6,
 
   /**
-   * @generated from enum value: IMPORT_PARQUET = 7;
+   * @generated from enum value: IMPORT_FILE = 7;
    */
-  IMPORT_PARQUET = 7,
+  IMPORT_FILE = 7,
 }
 // Retrieve enum metadata with: proto3.getEnumType(OpType)
 proto3.util.setEnumType(OpType, "OpType", [
@@ -59,7 +59,7 @@ proto3.util.setEnumType(OpType, "OpType", [
   { no: 4, name: "DELETE_ENTITY" },
   { no: 5, name: "CREATE_RELATION" },
   { no: 6, name: "DELETE_RELATION" },
-  { no: 7, name: "IMPORT_PARQUET" },
+  { no: 7, name: "IMPORT_FILE" },
 ]);
 
 /**
@@ -368,6 +368,73 @@ export class ImportEdit extends Message<ImportEdit> {
 }
 
 /**
+ * @generated from message ImportFileMetadata
+ */
+export class ImportFileMetadata extends Message<ImportFileMetadata> {
+  /**
+   * @generated from field: string property_id = 1;
+   */
+  propertyId = "";
+
+  /**
+   * @generated from field: ValueType value_type = 2;
+   */
+  valueType = ValueType.VALUE_TYPE_UNKNOWN;
+
+  /**
+   * @generated from field: optional string relation_value_type = 3;
+   */
+  relationValueType?: string;
+
+  /**
+   * @generated from field: optional string language_option = 4;
+   */
+  languageOption?: string;
+
+  /**
+   * @generated from field: optional string unit_option = 5;
+   */
+  unitOption?: string;
+
+  /**
+   * @generated from field: optional string format_option = 6;
+   */
+  formatOption?: string;
+
+  constructor(data?: PartialMessage<ImportFileMetadata>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ImportFileMetadata";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "property_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "value_type", kind: "enum", T: proto3.getEnumType(ValueType) },
+    { no: 3, name: "relation_value_type", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 4, name: "language_option", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 5, name: "unit_option", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 6, name: "format_option", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ImportFileMetadata {
+    return new ImportFileMetadata().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ImportFileMetadata {
+    return new ImportFileMetadata().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ImportFileMetadata {
+    return new ImportFileMetadata().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ImportFileMetadata | PlainMessage<ImportFileMetadata> | undefined, b: ImportFileMetadata | PlainMessage<ImportFileMetadata> | undefined): boolean {
+    return proto3.util.equals(ImportFileMetadata, a, b);
+  }
+}
+
+/**
  * @generated from message Op
  */
 export class Op extends Message<Op> {
@@ -377,29 +444,49 @@ export class Op extends Message<Op> {
   type = OpType.OP_TYPE_UNKNOWN;
 
   /**
+   * *
+   * Used when setting a single triple
+   *
    * @generated from field: optional Triple triple = 2;
    */
   triple?: Triple;
 
   /**
+   * *
+   * Used when setting batch ops or deleting an entity
+   *
    * @generated from field: optional Entity entity = 3;
    */
   entity?: Entity;
 
   /**
+   * *
+   * Used when creating or deleting a relation
+   *
    * @generated from field: optional Relation relation = 4;
    */
   relation?: Relation;
 
   /**
+   * *
+   * Used when setting batch ops
+   *
    * @generated from field: repeated Triple triples = 5;
    */
   triples: Triple[] = [];
 
   /**
+   * *
+   * Used when importing a parquet file
+   *
    * @generated from field: optional string url = 6;
    */
   url?: string;
+
+  /**
+   * @generated from field: optional ImportFileMetadata metadata = 7;
+   */
+  metadata?: ImportFileMetadata;
 
   constructor(data?: PartialMessage<Op>) {
     super();
@@ -415,6 +502,7 @@ export class Op extends Message<Op> {
     { no: 4, name: "relation", kind: "message", T: Relation, opt: true },
     { no: 5, name: "triples", kind: "message", T: Triple, repeated: true },
     { no: 6, name: "url", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 7, name: "metadata", kind: "message", T: ImportFileMetadata, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Op {
