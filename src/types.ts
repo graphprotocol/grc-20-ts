@@ -27,14 +27,18 @@ type Entity = {
   types: string[];
 };
 
-type Metadata = {
-  propertyId: string;
-  valueType: ValueType;
-  relationValueType?: string;
-  languageOption?: string;
-  unitOption?: string;
-  formatOption?: string;
+export type CsvMetadata = {
+  filetype: 'CSV';
+  columns: {
+    id: string;
+    type: ValueType;
+    relationType?: string;
+    isId?: boolean;
+    options?: TripleValueOptions;
+  }[];
 };
+
+export type FileMetadata = CsvMetadata;
 
 export type ImportFileOp = {
   type: 'IMPORT_FILE';
@@ -45,7 +49,7 @@ export type ImportFileOp = {
   /**
    * ipfs:// prefixed cid representing metadata about the uploaded file
    */
-  metadata: Metadata;
+  metadata: FileMetadata;
 };
 
 export type SetBatchTripleOp = {

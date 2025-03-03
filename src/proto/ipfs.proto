@@ -31,13 +31,17 @@ message ImportEdit {
   string transaction_hash = 11;
 }
 
-message ImportFileMetadata {
+message ImportCsvMetadata {
+  string filetype = 1;
+  repeated ImportCsvColumnMetadata columns = 2;
+}
+
+message ImportCsvColumnMetadata {
   string property_id = 1;
-  ValueType value_type = 2;
-  optional string relation_value_type = 3;
-  optional string language_option = 4;
-  optional string unit_option = 5;
-  optional string format_option = 6;
+  ValueType type = 2;
+  optional string relation_type = 3;
+  optional bool is_id = 4;
+  optional Options options = 5;
 }
 
 message Op {
@@ -64,10 +68,10 @@ message Op {
   repeated Triple triples = 5;
 
   /**
-   * Used when importing a parquet file
+   * Used when importing a csv file
    */
   optional string url = 6;
-  optional ImportFileMetadata metadata = 7;
+  optional ImportCsvMetadata metadata = 7;
 }
 
 message Triple {

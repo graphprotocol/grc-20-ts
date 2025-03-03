@@ -368,69 +368,106 @@ export class ImportEdit extends Message<ImportEdit> {
 }
 
 /**
- * @generated from message ImportFileMetadata
+ * @generated from message ImportCsvMetadata
  */
-export class ImportFileMetadata extends Message<ImportFileMetadata> {
+export class ImportCsvMetadata extends Message<ImportCsvMetadata> {
+  /**
+   * @generated from field: string filetype = 1;
+   */
+  filetype = "";
+
+  /**
+   * @generated from field: repeated ImportCsvColumnMetadata columns = 2;
+   */
+  columns: ImportCsvColumnMetadata[] = [];
+
+  constructor(data?: PartialMessage<ImportCsvMetadata>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ImportCsvMetadata";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "filetype", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "columns", kind: "message", T: ImportCsvColumnMetadata, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ImportCsvMetadata {
+    return new ImportCsvMetadata().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ImportCsvMetadata {
+    return new ImportCsvMetadata().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ImportCsvMetadata {
+    return new ImportCsvMetadata().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ImportCsvMetadata | PlainMessage<ImportCsvMetadata> | undefined, b: ImportCsvMetadata | PlainMessage<ImportCsvMetadata> | undefined): boolean {
+    return proto3.util.equals(ImportCsvMetadata, a, b);
+  }
+}
+
+/**
+ * @generated from message ImportCsvColumnMetadata
+ */
+export class ImportCsvColumnMetadata extends Message<ImportCsvColumnMetadata> {
   /**
    * @generated from field: string property_id = 1;
    */
   propertyId = "";
 
   /**
-   * @generated from field: ValueType value_type = 2;
+   * @generated from field: ValueType type = 2;
    */
-  valueType = ValueType.VALUE_TYPE_UNKNOWN;
+  type = ValueType.VALUE_TYPE_UNKNOWN;
 
   /**
-   * @generated from field: optional string relation_value_type = 3;
+   * @generated from field: optional string relation_type = 3;
    */
-  relationValueType?: string;
+  relationType?: string;
 
   /**
-   * @generated from field: optional string language_option = 4;
+   * @generated from field: optional bool is_id = 4;
    */
-  languageOption?: string;
+  isId?: boolean;
 
   /**
-   * @generated from field: optional string unit_option = 5;
+   * @generated from field: optional Options options = 5;
    */
-  unitOption?: string;
+  options?: Options;
 
-  /**
-   * @generated from field: optional string format_option = 6;
-   */
-  formatOption?: string;
-
-  constructor(data?: PartialMessage<ImportFileMetadata>) {
+  constructor(data?: PartialMessage<ImportCsvColumnMetadata>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ImportFileMetadata";
+  static readonly typeName = "ImportCsvColumnMetadata";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "property_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "value_type", kind: "enum", T: proto3.getEnumType(ValueType) },
-    { no: 3, name: "relation_value_type", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
-    { no: 4, name: "language_option", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
-    { no: 5, name: "unit_option", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
-    { no: 6, name: "format_option", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 2, name: "type", kind: "enum", T: proto3.getEnumType(ValueType) },
+    { no: 3, name: "relation_type", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 4, name: "is_id", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 5, name: "options", kind: "message", T: Options, opt: true },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ImportFileMetadata {
-    return new ImportFileMetadata().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ImportCsvColumnMetadata {
+    return new ImportCsvColumnMetadata().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ImportFileMetadata {
-    return new ImportFileMetadata().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ImportCsvColumnMetadata {
+    return new ImportCsvColumnMetadata().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ImportFileMetadata {
-    return new ImportFileMetadata().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ImportCsvColumnMetadata {
+    return new ImportCsvColumnMetadata().fromJsonString(jsonString, options);
   }
 
-  static equals(a: ImportFileMetadata | PlainMessage<ImportFileMetadata> | undefined, b: ImportFileMetadata | PlainMessage<ImportFileMetadata> | undefined): boolean {
-    return proto3.util.equals(ImportFileMetadata, a, b);
+  static equals(a: ImportCsvColumnMetadata | PlainMessage<ImportCsvColumnMetadata> | undefined, b: ImportCsvColumnMetadata | PlainMessage<ImportCsvColumnMetadata> | undefined): boolean {
+    return proto3.util.equals(ImportCsvColumnMetadata, a, b);
   }
 }
 
@@ -477,16 +514,16 @@ export class Op extends Message<Op> {
 
   /**
    * *
-   * Used when importing a parquet file
+   * Used when importing a csv file
    *
    * @generated from field: optional string url = 6;
    */
   url?: string;
 
   /**
-   * @generated from field: optional ImportFileMetadata metadata = 7;
+   * @generated from field: optional ImportCsvMetadata metadata = 7;
    */
-  metadata?: ImportFileMetadata;
+  metadata?: ImportCsvMetadata;
 
   constructor(data?: PartialMessage<Op>) {
     super();
@@ -502,7 +539,7 @@ export class Op extends Message<Op> {
     { no: 4, name: "relation", kind: "message", T: Relation, opt: true },
     { no: 5, name: "triples", kind: "message", T: Triple, repeated: true },
     { no: 6, name: "url", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
-    { no: 7, name: "metadata", kind: "message", T: ImportFileMetadata, opt: true },
+    { no: 7, name: "metadata", kind: "message", T: ImportCsvMetadata, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Op {

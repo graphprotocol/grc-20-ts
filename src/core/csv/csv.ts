@@ -4,14 +4,11 @@
  * @since 0.6.2
  */
 
+import type { CsvMetadata } from '~/src/types.js';
+
 type WriteOptions = {
-  data: Record<string, unknown[]>;
-  metadata: {
-    [key: string]: {
-      type: string;
-      propertyId: string;
-    };
-  };
+  data: Array<Array<string>>;
+  metadata: CsvMetadata;
 };
 
 export function write(options: WriteOptions) {
