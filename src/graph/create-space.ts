@@ -3,6 +3,7 @@ import { DEFAULT_API_HOST } from './constants.js';
 type Params = {
   editorAddress: string;
   name: string;
+  network?: 'TESTNET' | 'MAINNET';
 };
 
 /**
@@ -15,6 +16,7 @@ export const createSpace = async (params: Params) => {
     body: JSON.stringify({
       spaceName: params.name,
       initialEditorAddress: params.editorAddress,
+      network: params.network ?? 'MAINNET',
     }),
     headers: {
       'Content-Type': 'application/json',
