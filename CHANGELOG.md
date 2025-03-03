@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.8.0
+
+### Minor Changes
+
+- Add mainnet APIs for deploying space
+
 ## 0.7.0
 
 ### Minor Changes
