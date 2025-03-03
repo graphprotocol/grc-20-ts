@@ -278,16 +278,17 @@ const txResult = await walletClient.sendTransaction({
 
 You can deploy spaces programmatically using the API. Currently there are two types of governance modes for spaces: one with voting and one without. They're called PUBLIC or PERSONAL spaces respectively. The API only supports deploying the PERSONAL governance mode currently.
 
-The API only supports deploying to TESTNET for now.
+The API supports deploying to both testnet and mainnet. By default it will deploy to mainnet.
 
 ```ts
+import { Graph } from '@graphprotocol/grc-20';
 const editorAddress = '0x000000000000000000000000000000000000';
 const spaceName = 'Example-Name';
 
-const result = await fetch("https://api-testnet.grc-20.thegraph.com/deploy", {
-  method: "POST",
-  body: JSON.stringify({ initialEditorAddress, spaceName }),
+const spaceId = await Graph.createSpace({
+  initialEditorAddress, 
+  spaceName, 
+  // Optionally specify TESTNET or MAINNET. Defaults to MAINNET
+  network: 'TESTNET',
 });
-
-const { spaceId } = await result.json();
 ```
