@@ -6,6 +6,7 @@
  */
 
 import { Micro } from 'effect';
+import { imageSize } from 'image-size';
 
 import { EditProposal } from '../proto.js';
 import type { Op } from './types.js';
@@ -65,6 +66,69 @@ export async function publishEdit(args: PublishEditProposalParams): Promise<stri
     });
 
     return maybeCid as `ipfs://${string}`;
+  });
+
+  return await Micro.runPromise(upload);
+}
+
+type PublishImageParams =
+  | {
+      blob: Blob;
+    }
+  | {
+      url: string;
+    };
+
+export async function uploadImage(params: PublishImageParams) {
+  const formData = new FormData();
+  let blob: Blob;
+  if ('blob' in params) {
+    blob = params.blob;
+  } else {
+    // fetch the image and upload it to IPFS
+    const response = await fetch(params.url);
+    blob = await response.blob();
+  }
+
+  formData.append('file', blob);
+
+  const buffer = Buffer.from(await blob.arrayBuffer());
+  let dimensions: { width: number; height: number } | undefined;
+  try {
+    dimensions = imageSize(buffer);
+  } catch (error) {}
+
+  const upload = Micro.gen(function* () {
+    const result = yield* Micro.tryPromise({
+      try: () =>
+        fetch('https://api-testnet.grc-20.thegraph.com/ipfs/upload-file', {
+          method: 'POST',
+          body: formData,
+        }),
+      catch: error => new IpfsUploadError(`Could not upload edit to IPFS: ${error}`),
+    });
+
+    const maybeCid = yield* Micro.tryPromise({
+      try: async () => {
+        const { cid } = await result.json();
+        return cid;
+      },
+      catch: error => new IpfsUploadError(`Could not parse response from IPFS: ${error}`),
+    });
+
+    if (dimensions) {
+      return {
+        cid: maybeCid as `ipfs://${string}`,
+        dimensions: {
+          width: dimensions.width,
+          height: dimensions.height,
+        },
+      };
+    }
+
+    return {
+      cid: maybeCid as `ipfs://${string}`,
+    };
   });
 
   return await Micro.runPromise(upload);
