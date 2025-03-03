@@ -1,5 +1,17 @@
 # @graphprotocol/grc-20
 
+## 0.7.0
+
+### Minor Changes
+
+- c684d49: rename types from "args" to "params" e.g. CreateTripleArgs to CreateTripleParams
+- c44f027: Update `QUOTES_THAT_SUPPORT_CLAIMS_PROPERTY` and `ACADEMIC_FIELD_TYPE` values to be valid IDs
+- c44f027: IDs now use a branded type `Id` instead of `string` and validate every ID param
+
+### Patch Changes
+
+- 454fbe2: add createImage to Graph namespace
+
 ## 0.6.4
 
 ### Patch Changes
