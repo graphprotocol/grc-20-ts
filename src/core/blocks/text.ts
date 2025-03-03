@@ -10,7 +10,7 @@ import { Relation } from '../../relation.js';
 import { SystemIds } from '../../system-ids.js';
 import type { Op } from '../../types.js';
 
-type TextBlockArgs = { fromId: string; text: string; position?: string };
+type TextBlockParams = { fromId: string; text: string; position?: string };
 
 /**
  * Returns the ops to create an entity representing a Text Block.
@@ -25,10 +25,10 @@ type TextBlockArgs = { fromId: string; text: string; position?: string };
  * });
  * ```
  *
- * @param param args {@link TextBlockArgs}
+ * @param param args {@link TextBlockParams}
  * @returns ops – The ops for the Text Block entity: {@link Op}[]
  */
-export function make({ fromId, text, position }: TextBlockArgs): Op[] {
+export function make({ fromId, text, position }: TextBlockParams): Op[] {
   const newBlockId = generate();
 
   const textBlockType = Relation.make({

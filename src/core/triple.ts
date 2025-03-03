@@ -6,7 +6,7 @@
 
 import type { DeleteTripleOp, SetTripleOp, Value } from '../types.js';
 
-type CreateTripleArgs = {
+type CreateTripleParams = {
   attributeId: string;
   entityId: string;
   value: Value;
@@ -26,10 +26,10 @@ type CreateTripleArgs = {
  *   },
  * });
  * ```
- * @param args – {@link CreateTripleArgs}
+ * @param args – {@link CreateTripleParams}
  * @returns – {@link SetTripleOp}
  */
-export function make(args: CreateTripleArgs): SetTripleOp {
+export function make(args: CreateTripleParams): SetTripleOp {
   return {
     type: 'SET_TRIPLE',
     triple: {
@@ -40,7 +40,7 @@ export function make(args: CreateTripleArgs): SetTripleOp {
   };
 }
 
-type DeleteTripleArgs = {
+type DeleteTripleParams = {
   attributeId: string;
   entityId: string;
 };
@@ -56,10 +56,10 @@ type DeleteTripleArgs = {
  * });
  * ```
  *
- * @param args – {@link DeleteTripleArgs}
+ * @param args – {@link DeleteTripleParams}
  * @returns – {@link DeleteTripleOp}
  */
-export function remove(args: DeleteTripleArgs): DeleteTripleOp {
+export function remove(args: DeleteTripleParams): DeleteTripleOp {
   return {
     type: 'DELETE_TRIPLE',
     triple: {

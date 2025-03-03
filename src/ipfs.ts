@@ -6,6 +6,7 @@
  */
 
 import { Micro } from 'effect';
+import { imageSize } from 'image-size';
 
 import { EditProposal } from '../proto.js';
 import type { Op } from './types.js';
@@ -15,7 +16,7 @@ class IpfsUploadError extends Error {
   readonly _tag = 'IpfsUploadError';
 }
 
-type PublishEditProposalArgs = {
+type PublishEditProposalParams = {
   name: string;
   ops: Op[];
   author: string;
@@ -35,10 +36,10 @@ type PublishEditProposalArgs = {
  * });
  * ```
  *
- * @param args arguments for publishing an edit to IPFS {@link PublishEditProposalArgs}
+ * @param args arguments for publishing an edit to IPFS {@link PublishEditProposalParams}
  * @returns IPFS CID representing the edit prefixed with `ipfs://`
  */
-export async function publishEdit(args: PublishEditProposalArgs): Promise<string> {
+export async function publishEdit(args: PublishEditProposalParams): Promise<string> {
   const { name, ops, author } = args;
 
   const edit = EditProposal.encode({ name, ops, author });
@@ -71,16 +72,37 @@ export async function publishEdit(args: PublishEditProposalArgs): Promise<string
   return await Micro.runPromise(upload);
 }
 
-export async function publishParquet(buffer: Uint8Array): Promise<string> {
-  const blob = new Blob([buffer], { type: 'application/octet-stream' });
+type PublishImageParams =
+  | {
+      blob: Blob;
+    }
+  | {
+      url: string;
+    };
 
+export async function uploadImage(params: PublishImageParams) {
   const formData = new FormData();
+  let blob: Blob;
+  if ('blob' in params) {
+    blob = params.blob;
+  } else {
+    // fetch the image and upload it to IPFS
+    const response = await fetch(params.url);
+    blob = await response.blob();
+  }
+
   formData.append('file', blob);
+
+  const buffer = Buffer.from(await blob.arrayBuffer());
+  let dimensions: { width: number; height: number } | undefined;
+  try {
+    dimensions = imageSize(buffer);
+  } catch (error) {}
 
   const upload = Micro.gen(function* () {
     const result = yield* Micro.tryPromise({
       try: () =>
-        fetch('https://api-testnet.grc-20.thegraph.com/ipfs/upload-edit', {
+        fetch('https://api-testnet.grc-20.thegraph.com/ipfs/upload-file', {
           method: 'POST',
           body: formData,
         }),
@@ -95,7 +117,19 @@ export async function publishParquet(buffer: Uint8Array): Promise<string> {
       catch: error => new IpfsUploadError(`Could not parse response from IPFS: ${error}`),
     });
 
-    return maybeCid as `ipfs://${string}`;
+    if (dimensions) {
+      return {
+        cid: maybeCid as `ipfs://${string}`,
+        dimensions: {
+          width: dimensions.width,
+          height: dimensions.height,
+        },
+      };
+    }
+
+    return {
+      cid: maybeCid as `ipfs://${string}`,
+    };
   });
 
   return await Micro.runPromise(upload);

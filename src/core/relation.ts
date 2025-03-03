@@ -19,7 +19,7 @@ import { Position } from './position.js';
  * @param relationTypeId - base58 encoded v4 uuid
  * @param position - optional fractional index using position-strings
  */
-type CreateRelationArgs = {
+type CreateRelationParams = {
   relationId?: string;
   fromId: string;
   toId: string;
@@ -42,10 +42,10 @@ type CreateRelationArgs = {
  * });
  * ```
  *
- * @param args {@link CreateRelationArgs}
+ * @param args {@link CreateRelationParams}
  * @returns – {@link CreateRelationOp}
  */
-export function make(args: CreateRelationArgs): CreateRelationOp {
+export function make(args: CreateRelationParams): CreateRelationOp {
   const newEntityId = args.relationId ?? generate();
 
   return {
@@ -80,7 +80,7 @@ export function remove(relationId: string): DeleteRelationOp {
   };
 }
 
-type ReorderRelationArgs = {
+type ReorderRelationParams = {
   relationId: string;
   beforeIndex?: string;
   afterIndex?: string;
@@ -110,10 +110,10 @@ type ReorderRelationOp = {
  * });
  * ```
  *
- * @param args {@link ReorderRelationArgs}
+ * @param args {@link ReorderRelationParams}
  * @returns – {@link ReorderRelationOp}
  */
-export function reorder(args: ReorderRelationArgs): ReorderRelationOp {
+export function reorder(args: ReorderRelationParams): ReorderRelationOp {
   const newIndex = Position.createBetween(args.beforeIndex, args.afterIndex);
 
   return {

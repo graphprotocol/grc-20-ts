@@ -1,8 +1,7 @@
-import { generate } from '~/src/id.js';
-import { Relation } from '~/src/relation.js';
-import { Triple } from '~/src/triple.js';
-import type { PropertiesParam } from '~/src/types.js';
-import type { Op } from '../../types.js';
+import { assertValid, generate } from '../../id.js';
+import { Relation } from '../../relation.js';
+import { Triple } from '../../triple.js';
+import type { Op, PropertiesParam } from '../../types.js';
 
 type CreatePropertiesParams = {
   entityId: string;
@@ -14,6 +13,7 @@ export const createProperties = (params: CreatePropertiesParams) => {
   const ops: Op[] = [];
 
   for (const [attributeId, property] of Object.entries(properties)) {
+    assertValid(attributeId);
     if ('type' in property) {
       const propertyTripleOp = Triple.make({
         entityId,
@@ -23,6 +23,8 @@ export const createProperties = (params: CreatePropertiesParams) => {
       ops.push(propertyTripleOp);
     } else if ('to' in property) {
       const relationId = property.relationId ?? generate();
+      assertValid(relationId);
+      assertValid(property.to);
       const propertyRelationOp = Relation.make({
         relationId,
         fromId: entityId,
@@ -37,6 +39,8 @@ export const createProperties = (params: CreatePropertiesParams) => {
     } else if (Array.isArray(property)) {
       for (const relation of property) {
         const relationId = relation.relationId ?? generate();
+        assertValid(relationId);
+        assertValid(relation.to);
         const propertyRelationOp = Relation.make({
           relationId,
           fromId: entityId,

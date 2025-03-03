@@ -1,3 +1,5 @@
+import type { Id } from './id.js';
+
 type OmitStrict<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type ValueType = 'TEXT' | 'NUMBER' | 'CHECKBOX' | 'URL' | 'TIME' | 'POINT';
@@ -135,7 +137,7 @@ export type GraphUri = `graph://${string}`;
 export type DefaultProperties = {
   name?: string;
   description?: string;
-  cover?: string;
+  cover?: Id;
 };
 
 type ValueParams = {
@@ -144,10 +146,15 @@ type ValueParams = {
 };
 
 type RelationParams = {
-  to: string;
-  relationId?: string;
+  to: Id;
+  relationId?: Id;
   position?: string;
   properties?: Record<string, ValueParams | RelationParams | Array<RelationParams>>;
 };
 
 export type PropertiesParam = Record<string, ValueParams | RelationParams | Array<RelationParams>>;
+
+export type CreateResult = {
+  id: Id;
+  ops: Op[];
+};

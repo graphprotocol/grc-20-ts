@@ -2,13 +2,13 @@ import { generate } from '../id.js';
 import type { Op } from '../types.js';
 import { ActionType, Edit, Entity, Op as OpBinary, OpType, Relation, Triple } from './gen/src/proto/ipfs_pb.js';
 
-type MakeEditProposalArgs = {
+type MakeEditProposalParams = {
   name: string;
   ops: Op[];
   author: string;
 };
 
-export function encode({ name, ops, author }: MakeEditProposalArgs): Uint8Array {
+export function encode({ name, ops, author }: MakeEditProposalParams): Uint8Array {
   return new Edit({
     type: ActionType.ADD_EDIT,
     version: '1.0.0',
