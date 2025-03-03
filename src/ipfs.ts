@@ -6,6 +6,7 @@
  */
 
 import { Micro } from 'effect';
+import { gzipSync, zipSync } from 'fflate';
 import { imageSize } from 'image-size';
 
 import { EditProposal } from '../proto.js';
@@ -47,28 +48,7 @@ export async function publishEdit(args: PublishEditProposalParams): Promise<stri
   const formData = new FormData();
   formData.append('file', blob);
 
-  const upload = Micro.gen(function* () {
-    const result = yield* Micro.tryPromise({
-      try: () =>
-        fetch('https://api-testnet.grc-20.thegraph.com/ipfs/upload-edit', {
-          method: 'POST',
-          body: formData,
-        }),
-      catch: error => new IpfsUploadError(`Could not upload edit to IPFS: ${error}`),
-    });
-
-    const maybeCid = yield* Micro.tryPromise({
-      try: async () => {
-        const { cid } = await result.json();
-        return cid;
-      },
-      catch: error => new IpfsUploadError(`Could not parse response from IPFS: ${error}`),
-    });
-
-    return maybeCid as `ipfs://${string}`;
-  });
-
-  return await Micro.runPromise(upload);
+  return await Micro.runPromise(upload(formData));
 }
 
 type PublishImageParams =
@@ -98,10 +78,25 @@ export async function uploadImage(params: PublishImageParams) {
     dimensions = imageSize(buffer);
   } catch (error) {}
 
-  const upload = Micro.gen(function* () {
+  return await Micro.runPromise(upload(formData));
+}
+
+export async function uploadCSV(csvString: string) {
+  const encoder = new TextEncoder();
+  const csvStringBytes = encoder.encode(csvString);
+  const blob = await gzipSync(csvStringBytes);
+
+  const formData = new FormData();
+  formData.append('file', new Blob([blob], { type: 'text/csv' }));
+
+  return await Micro.runPromise(upload(formData));
+}
+
+function upload(formData: FormData) {
+  return Micro.gen(function* () {
     const result = yield* Micro.tryPromise({
       try: () =>
-        fetch('https://api-testnet.grc-20.thegraph.com/ipfs/upload-file', {
+        fetch('https://api-testnet.grc-20.thegraph.com/ipfs/upload-edit', {
           method: 'POST',
           body: formData,
         }),
@@ -116,20 +111,6 @@ export async function uploadImage(params: PublishImageParams) {
       catch: error => new IpfsUploadError(`Could not parse response from IPFS: ${error}`),
     });
 
-    if (dimensions) {
-      return {
-        cid: maybeCid as `ipfs://${string}`,
-        dimensions: {
-          width: dimensions.width,
-          height: dimensions.height,
-        },
-      };
-    }
-
-    return {
-      cid: maybeCid as `ipfs://${string}`,
-    };
+    return maybeCid as `ipfs://${string}`;
   });
-
-  return await Micro.runPromise(upload);
 }

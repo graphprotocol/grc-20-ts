@@ -1,23 +1,26 @@
+import { Ipfs } from '~/index.js';
 import { write } from './csv.js';
 
-write({
-  data: {
-    foo: Array.from({ length: 10000 }, (_, i: number) => i.toString()),
-    bar: Array.from({ length: 10000 }, (_, i: number) => (i * 2).toString()),
-    baz: Array.from({ length: 10000 }, (_, i: number) => (i * 3).toString()),
-  },
+const stringified = write({
+  data: Array.from({ length: 151_000 }, (_, i: number) => [i.toString(), (i * 2).toString(), (i * 3).toString()]),
   metadata: {
-    foo: {
-      type: 'TEXT',
-      propertyId: 'foo',
-    },
-    bar: {
-      type: 'TEXT',
-      propertyId: 'bar',
-    },
-    baz: {
-      type: 'TEXT',
-      propertyId: 'baz',
-    },
+    filetype: 'CSV',
+    columns: [
+      {
+        id: 'foo',
+        type: 'TEXT',
+      },
+      {
+        id: 'bar',
+        type: 'NUMBER',
+      },
+      {
+        id: 'baz',
+        type: 'TEXT',
+      },
+    ],
   },
 });
+
+const cid = await Ipfs.uploadCSV(stringified.csv);
+console.log('cid', cid);
