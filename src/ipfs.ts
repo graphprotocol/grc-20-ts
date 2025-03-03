@@ -100,7 +100,7 @@ export async function uploadImage(params: PublishImageParams) {
  *
  * @example
  * ```ts
- * const { csv, metadata } = write({
+ * const csvString = write({
  *   data: Array.from({ length: 151_000 }, (_, i: number) => [i.toString(), (i * 2).toString(), (i * 3).toString()]),
  *   metadata: {
  *     filetype: 'CSV',
@@ -121,7 +121,7 @@ export async function uploadImage(params: PublishImageParams) {
  *   },
  * })
  *
- * const cid = await Ipfs.uploadCSV(csv);
+ * const cid = await Ipfs.uploadCSV(csvString);
  * ```
  *
  *
