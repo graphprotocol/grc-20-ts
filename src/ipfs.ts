@@ -124,7 +124,6 @@ export async function uploadImage(params: PublishImageParams) {
  * const cid = await Ipfs.uploadCSV(csvString);
  * ```
  *
- *
  * @param csvString The CSV to upload as a string
  * @returns IPFS CID representing the uploaded file prefixed with `ipfs://`
  */
