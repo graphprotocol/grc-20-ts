@@ -6,7 +6,7 @@
  */
 
 import { Micro } from 'effect';
-import { gzipSync, zipSync } from 'fflate';
+import { gzipSync } from 'fflate';
 import { imageSize } from 'image-size';
 
 import { EditProposal } from '../proto.js';
@@ -100,7 +100,9 @@ export async function uploadImage(params: PublishImageParams) {
  *
  * @example
  * ```ts
- * const csvString = write({
+ * import { Csv } from '@graphprotocol/grc-20';
+ *
+ * const csvString = Csv.stringify({
  *   data: Array.from({ length: 151_000 }, (_, i: number) => [i.toString(), (i * 2).toString(), (i * 3).toString()]),
  *   metadata: {
  *     filetype: 'CSV',

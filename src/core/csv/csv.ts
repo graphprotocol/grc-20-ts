@@ -12,7 +12,7 @@ type WriteOptions = {
   metadata: CsvMetadata;
 };
 
-export function write(options: WriteOptions): string {
+export function stringify(options: WriteOptions): string {
   const columns = options.metadata.columns.map((c, i): Csv.ColumnDetails => {
     return {
       header: c.id,
