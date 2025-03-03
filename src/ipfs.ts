@@ -86,7 +86,49 @@ export async function uploadImage(params: PublishImageParams) {
   };
 }
 
-export async function uploadCSV(csvString: string) {
+/**
+ * Uploads a CSV file to IPFS and returns the CID. This CSV
+ * file will be compressed using gzip before being uploaded.
+ *
+ * @example
+ * ```ts
+ * const file = Bun.file('cities.csv');
+ * const fileText = await file.text();
+ *
+ * const cid = await Ipfs.uploadCSV(fileText);
+ * ```
+ *
+ * @example
+ * ```ts
+ * const { csv, metadata } = write({
+ *   data: Array.from({ length: 151_000 }, (_, i: number) => [i.toString(), (i * 2).toString(), (i * 3).toString()]),
+ *   metadata: {
+ *     filetype: 'CSV',
+ *     columns: [
+ *       {
+ *         id: 'foo',
+ *         type: 'TEXT',
+ *       },
+ *       {
+ *         id: 'bar',
+ *         type: 'NUMBER',
+ *       },
+ *       {
+ *         id: 'baz',
+ *         type: 'TEXT',
+ *       },
+ *     ],
+ *   },
+ * })
+ *
+ * const cid = await Ipfs.uploadCSV(csv);
+ * ```
+ *
+ *
+ * @param csvString The CSV to upload as a string
+ * @returns IPFS CID representing the uploaded file prefixed with `ipfs://`
+ */
+export async function uploadCSV(csvString: string): Promise<`ipfs://${string}`> {
   const encoder = new TextEncoder();
   const csvStringBytes = encoder.encode(csvString);
   const blob = await gzipSync(csvStringBytes);
