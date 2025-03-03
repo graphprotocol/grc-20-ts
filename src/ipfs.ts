@@ -78,7 +78,12 @@ export async function uploadImage(params: PublishImageParams) {
     dimensions = imageSize(buffer);
   } catch (error) {}
 
-  return await Micro.runPromise(upload(formData));
+  const cid = await Micro.runPromise(upload(formData));
+
+  return {
+    cid,
+    dimensions,
+  };
 }
 
 export async function uploadCSV(csvString: string) {
