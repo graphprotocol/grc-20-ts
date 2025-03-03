@@ -23,7 +23,7 @@ function getSourceTypeId(sourceType: DataBlockSourceType) {
   }
 }
 
-type DataBlockArgs = {
+type DataBlockParams = {
   fromId: string;
   sourceType: DataBlockSourceType;
   position?: string;
@@ -44,10 +44,10 @@ type DataBlockArgs = {
  * });
  * ```
  *
- * @param param args {@link TextBlockArgs}
+ * @param param args {@link TextBlockParams}
  * @returns ops – The ops for the Data Block entity: {@link Op}[]
  */
-export function make({ fromId, sourceType, position, name }: DataBlockArgs): (SetTripleOp | CreateRelationOp)[] {
+export function make({ fromId, sourceType, position, name }: DataBlockParams): (SetTripleOp | CreateRelationOp)[] {
   const newBlockId = generate();
 
   const dataBlockType = Relation.make({

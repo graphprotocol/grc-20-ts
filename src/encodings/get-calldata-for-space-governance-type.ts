@@ -2,13 +2,13 @@ import { encodeFunctionData, stringToHex } from 'viem';
 
 import { MainVotingAbi, PersonalSpaceAdminAbi } from '../abis/index.js';
 
-type GovernanceTypeCalldataArgs = {
+type GovernanceTypeCalldataParams = {
   type: 'PUBLIC' | 'PERSONAL';
   cid: string;
   spacePluginAddress: string;
 };
 
-export function getCalldataForSpaceGovernanceType(args: GovernanceTypeCalldataArgs) {
+export function getCalldataForSpaceGovernanceType(args: GovernanceTypeCalldataParams) {
   switch (args.type) {
     case 'PUBLIC':
       return encodeFunctionData({

@@ -14,7 +14,7 @@ class IpfsUploadError extends Error {
   readonly _tag = 'IpfsUploadError';
 }
 
-type PublishEditProposalArgs = {
+type PublishEditProposalParams = {
   name: string;
   ops: Op[];
   author: string;
@@ -34,10 +34,10 @@ type PublishEditProposalArgs = {
  * });
  * ```
  *
- * @param args arguments for publishing an edit to IPFS {@link PublishEditProposalArgs}
+ * @param args arguments for publishing an edit to IPFS {@link PublishEditProposalParams}
  * @returns IPFS CID representing the edit prefixed with `ipfs://`
  */
-export async function publishEdit(args: PublishEditProposalArgs): Promise<string> {
+export async function publishEdit(args: PublishEditProposalParams): Promise<string> {
   const { name, ops, author } = args;
 
   const edit = EditProposal.encode({ name, ops, author });
