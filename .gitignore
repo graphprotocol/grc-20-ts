@@ -1,6 +1,3 @@
 dist
 node_modules
 .DS_Store
-benchmark.parquet
-ops.json
-ops.bin
