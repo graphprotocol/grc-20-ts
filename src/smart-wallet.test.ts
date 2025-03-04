@@ -1,5 +1,5 @@
 import { toSafeSmartAccount } from 'permissionless/accounts';
-import { createPublicClient, http } from 'viem';
+import { http, createPublicClient } from 'viem';
 import { entryPoint07Address } from 'viem/account-abstraction';
 import { privateKeyToAccount } from 'viem/accounts';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -34,14 +34,13 @@ vi.mock('viem/accounts', () => ({
 
 describe('getSmartAccountWalletClient', () => {
   const mockPrivateKey = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef';
-  const mockApiKey = 'test-api-key';
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('should create a client with the default RPC URL when no RPC URL is provided', async () => {
-    await getSmartAccountWalletClient({ privateKey: mockPrivateKey, pimlicoApiKey: mockApiKey });
+    await getSmartAccountWalletClient({ privateKey: mockPrivateKey,  });
 
     expect(http).toHaveBeenCalledWith('https://rpc-geo-genesis-h0q2s21xx8.t.conduit.xyz');
     expect(createPublicClient).toHaveBeenCalledWith(
@@ -56,7 +55,6 @@ describe('getSmartAccountWalletClient', () => {
     await getSmartAccountWalletClient({
       privateKey: mockPrivateKey,
       rpcUrl: customRpcUrl,
-      pimlicoApiKey: mockApiKey,
     });
 
     expect(http).toHaveBeenCalledWith(customRpcUrl);
@@ -68,7 +66,7 @@ describe('getSmartAccountWalletClient', () => {
   });
 
   it('should initialize safe account with correct parameters', async () => {
-    await getSmartAccountWalletClient({ privateKey: mockPrivateKey, pimlicoApiKey: mockApiKey });
+    await getSmartAccountWalletClient({ privateKey: mockPrivateKey, });
 
     expect(privateKeyToAccount).toHaveBeenCalledWith(mockPrivateKey);
     expect(toSafeSmartAccount).toHaveBeenCalledWith(
