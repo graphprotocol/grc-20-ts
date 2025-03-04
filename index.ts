@@ -80,3 +80,5 @@ export { getChecksumAddress } from './src/core/get-checksum-address.js';
 export * as Ipfs from './src/ipfs.js';
 
 export * as Graph from './src/graph/index.js';
+
+export { getSmartAccountWalletClient } from './src/smart-wallet.js';

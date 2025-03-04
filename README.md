@@ -242,7 +242,7 @@ const cid = await Ipfs.publishEdit({
 })
 ```
 
-### Publishing an edit onchain
+### Publishing an edit onchain using your wallet
 
 Once you've uploaded the binary encoded Edit to IPFS and have correctly formed `ipfs://hash`, you can write this to a space.
 
@@ -268,6 +268,35 @@ const result = await fetch(`https://api-testnet.grc-20.thegraph.com/space/${spac
 const { to, data } = await result.json();
 
 const txResult = await walletClient.sendTransaction({
+  to: to,
+  value: 0n,
+  data: data,
+});
+```
+
+### Publishing an edit onchain using your Geo Account
+
+The Geo Genesis browser uses a smart account associated with your account to publish edits. There may be situations where you want to use the same account in your code as you do on Geo Genesis. In order to get the smart account wallet client you can use the `getSmartAccountWalletClient` function.
+
+To use `getSmartAccountWalletClient` you'll need the private key associated with your Geo account. You can get your private key using https://www.geobrowser.io/export-wallet.
+
+Transaction costs from your smart account will be sponsored by the Geo team for the duration of the early access period. Eventually you will need to provide your own API key or provide funds to your smart account.
+
+```ts
+import { getSmartAccountWalletClient } from '@graphprotocol/grc-20';
+
+// IMPORTANT: Be careful with your private key. Don't commit it to version control.
+// You can get your private key using https://www.geobrowser.io/export-wallet
+const privateKey = `0x${privateKeyFromGeoWallet}`;
+const smartAccountWalletClient = await getSmartAccountWalletClient({
+  privateKey,
+  // rpcUrl, // optional
+});
+
+// publish an edit to IPFS
+// get the calldata for the edit
+
+const txResult = await smartAccountWalletClient.sendTransaction({
   to: to,
   value: 0n,
   data: data,
