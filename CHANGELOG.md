@@ -1,5 +1,16 @@
 # @graphprotocol/grc-20
 
+## 0.9.0
+
+### Minor Changes
+
+- 33070df: Add FILE_IMPORT op
+
+### Patch Changes
+
+- 813c7a5: Remove several dependencies and upgrade others
+- 4f8e860: add getSmartAccountWalletClient
+
 ## 0.9.0-next.0
 
 ### Minor Changes
