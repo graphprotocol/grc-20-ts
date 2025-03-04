@@ -17,6 +17,9 @@ importers:
       image-size:
         specifier: ^2.0.0
         version: 2.0.0
+      permissionless:
+        specifier: ^0.2.35
+        version: 0.2.35(ox@0.6.7(typescript@5.8.2))(viem@2.23.6(typescript@5.8.2))
       position-strings:
         specifier: ^2.0.1
         version: 2.0.1
@@ -864,6 +867,15 @@ packages:
   pathval@2.0.0:
     resolution: {integrity: sha512-vE7JKRyES09KiunauX7nd2Q9/L7lhok4smP9RZTDeD4MVs72Dp2qNFVz39Nz5a0FVEW0BJR6C0DYrq6unoziZA==}
     engines: {node: '>= 14.16'}
+
+  permissionless@0.2.35:
+    resolution: {integrity: sha512-vhSdd39xZ+oktY+BY8zf/ImI6eX8g0VKPopMeVcHDwwyp1fL8BKq/IZ3NUMKS9r9dHpHboUqTLNM1+TP40PMng==}
+    peerDependencies:
+      ox: 0.6.7
+      viem: ^2.23.2
+    peerDependenciesMeta:
+      ox:
+        optional: true
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -1876,6 +1888,12 @@ snapshots:
   pathe@2.0.3: {}
 
   pathval@2.0.0: {}
+
+  permissionless@0.2.35(ox@0.6.7(typescript@5.8.2))(viem@2.23.6(typescript@5.8.2)):
+    dependencies:
+      viem: 2.23.6(typescript@5.8.2)
+    optionalDependencies:
+      ox: 0.6.7(typescript@5.8.2)
 
   picocolors@1.1.1: {}
 

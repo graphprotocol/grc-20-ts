@@ -274,6 +274,31 @@ const txResult = await walletClient.sendTransaction({
 });
 ```
 
+### Publishing an edit onchain using your Geo Account
+
+Geo uses a smart account to publish edits. In order to get the smart account wallet client you can use the `getSmartAccountWalletClient` function.
+
+```ts
+import { getSmartAccountWalletClient } from './smart-wallet.js';
+
+// IMPORTANT: Be careful with your private key. Don't commit it to version control.
+// You can get your private key using https://www.geobrowser.io/export-wallet
+const privateKey = `0x${privateKeyFromGeoWallet}`;
+// Get a Pimlico API key
+const pimlicoApiKey = 'FILL_IN_YOUR_API_KEY';
+const smartAccountWalletClient = await getSmartAccountWalletClient({
+  privateKey,
+  pimlicoApiKey,
+  // rpcUrl, // optional
+});
+
+const txResult = await smartAccountWalletClient.sendTransaction({
+  to: to,
+  value: 0n,
+  data: data,
+});
+```
+
 ### Deploying a space
 
 You can deploy spaces programmatically using the API. Currently there are two types of governance modes for spaces: one with voting and one without. They're called PUBLIC or PERSONAL spaces respectively. The API only supports deploying the PERSONAL governance mode currently.
