@@ -14,6 +14,23 @@ type GetSmartAccountWalletClientParams = {
   rpcUrl?: string;
 };
 
+/**
+ * Get a smart account wallet client for your Geo account.
+ *
+ * IMPORTANT: Be careful with your private key. Don't commit it to version control.
+ * You can get your private key using https://www.geobrowser.io/export-wallet
+ *
+ * @example
+ * ```ts
+ * const smartAccountWalletClient = await getSmartAccountWalletClient({
+ *   privateKey: '0x...',
+ *   pimlicoApiKey: '...',
+ *   rpcUrl: '...', // optional
+ * });
+ * ```
+ * @param params – {@link GetSmartAccountWalletClientParams}
+ * @returns – {@link SmartAccountClient}
+ */
 export const getSmartAccountWalletClient = async ({
   privateKey,
   pimlicoApiKey,
