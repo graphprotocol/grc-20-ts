@@ -31,7 +31,6 @@
   "dependencies": {
     "@bufbuild/protobuf": "^1.9.0",
     "@changesets/cli": "^2.27.12",
-    "@std/csv": "npm:@jsr/std__csv@^1.0.5",
     "ethers": "^5.7.2",
     "fflate": "^0.8.2",
     "effect": "^3.13.6",

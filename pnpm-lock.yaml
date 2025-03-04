@@ -14,9 +14,6 @@ importers:
       '@changesets/cli':
         specifier: ^2.27.12
         version: 2.28.1
-      '@std/csv':
-        specifier: npm:@jsr/std__csv@^1.0.5
-        version: '@jsr/std__csv@1.0.5'
       effect:
         specifier: ^3.13.6
         version: 3.13.6
@@ -483,15 +480,6 @@ packages:
 
   '@jridgewell/sourcemap-codec@1.5.0':
     resolution: {integrity: sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ==}
-
-  '@jsr/std__bytes@1.0.5':
-    resolution: {integrity: sha512-jcyXQSy5zAh2/6NLMWUkhJuQ0HihY5RwWF5RvpZyEmpmBaokkTwPkev0sqHzNJJvNusDUMznVBIclTT9augCkg==, tarball: https://npm.jsr.io/~/11/@jsr/std__bytes/1.0.5.tgz}
-
-  '@jsr/std__csv@1.0.5':
-    resolution: {integrity: sha512-2UrJnjAsAvPGBzkLR/KUBpFyAANg2mUSQIjI27IicuC+fNQae6sHgu9bDAN4qktQ6/FjJJld4oEUR27P5ojx+g==, tarball: https://npm.jsr.io/~/11/@jsr/std__csv/1.0.5.tgz}
-
-  '@jsr/std__streams@1.0.9':
-    resolution: {integrity: sha512-nPkEijnOPwLQt6ZtvOajE6F2hCmRILaq0kR6I0JFVvxSsvhdeyFMGc8F4DqypCpfq/U+8umLcE0RNMcYdx4NlQ==, tarball: https://npm.jsr.io/~/11/@jsr/std__streams/1.0.9.tgz}
 
   '@manypkg/find-root@1.1.0':
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
@@ -1852,16 +1840,6 @@ snapshots:
       '@ethersproject/strings': 5.8.0
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
-
-  '@jsr/std__bytes@1.0.5': {}
-
-  '@jsr/std__csv@1.0.5':
-    dependencies:
-      '@jsr/std__streams': 1.0.9
-
-  '@jsr/std__streams@1.0.9':
-    dependencies:
-      '@jsr/std__bytes': 1.0.5
 
   '@manypkg/find-root@1.1.0':
     dependencies:
