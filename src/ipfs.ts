@@ -48,7 +48,7 @@ export async function publishEdit(args: PublishEditProposalParams): Promise<stri
   const formData = new FormData();
   formData.append('file', blob);
 
-  return await Micro.runPromise(upload(formData));
+  return await Micro.runPromise(uploadBinary(formData));
 }
 
 type PublishImageParams =
@@ -146,10 +146,10 @@ export async function uploadCSV(csvString: string): Promise<`ipfs://${string}`> 
   const formData = new FormData();
   formData.append('file', new Blob([blob], { type: 'text/csv' }));
 
-  return await Micro.runPromise(uploadFile(formData));
+  return await Micro.runPromise(uploadBinary(formData));
 }
 
-function upload(formData: FormData) {
+function uploadBinary(formData: FormData) {
   return Micro.gen(function* () {
     const result = yield* Micro.tryPromise({
       try: () =>
