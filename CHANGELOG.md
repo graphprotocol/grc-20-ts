@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.9.2
+
+### Patch Changes
+
+- Remove CSV writing APIs
+
 ## 0.9.1
 
 ### Patch Changes
