@@ -3,24 +3,25 @@
  *
  * @since 0.9.0
  */
-import * as Csv from '@std/csv';
 
 import type { CsvMetadata } from '~/src/types.js';
 
 type WriteOptions = {
-  data: Array<Csv.DataItem>;
+  // data: Array<Csv.DataItem>;
+  data: Array<unknown>;
   metadata: CsvMetadata;
 };
 
 export function stringify(options: WriteOptions): string {
-  const columns = options.metadata.columns.map((c, i): Csv.ColumnDetails => {
+  const columns = options.metadata.columns.map((c, i): unknown => {
     return {
       header: c.id,
       prop: i,
     };
   });
 
-  return Csv.stringify(options.data, { columns, headers: true });
+  throw new Error("Not implemented")
+  // return Csv.stringify(options.data, { columns, headers: true });
 }
 
 export function read(fileName: string) {

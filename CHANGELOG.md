@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.9.1
+
+### Patch Changes
+
+- Remove jsr dep
+
 ## 0.9.0
 
 ### Minor Changes

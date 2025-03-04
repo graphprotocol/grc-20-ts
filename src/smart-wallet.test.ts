@@ -40,7 +40,7 @@ describe('getSmartAccountWalletClient', () => {
   });
 
   it('should create a client with the default RPC URL when no RPC URL is provided', async () => {
-    await getSmartAccountWalletClient({ privateKey: mockPrivateKey,  });
+    await getSmartAccountWalletClient({ privateKey: mockPrivateKey });
 
     expect(http).toHaveBeenCalledWith('https://rpc-geo-genesis-h0q2s21xx8.t.conduit.xyz');
     expect(createPublicClient).toHaveBeenCalledWith(
@@ -66,7 +66,7 @@ describe('getSmartAccountWalletClient', () => {
   });
 
   it('should initialize safe account with correct parameters', async () => {
-    await getSmartAccountWalletClient({ privateKey: mockPrivateKey, });
+    await getSmartAccountWalletClient({ privateKey: mockPrivateKey });
 
     expect(privateKeyToAccount).toHaveBeenCalledWith(mockPrivateKey);
     expect(toSafeSmartAccount).toHaveBeenCalledWith(
