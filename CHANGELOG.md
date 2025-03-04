@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.9.0-next.0
+
+### Minor Changes
+
+- Add FILE_IMPORT op
+
 ## 0.8.0
 
 ### Minor Changes

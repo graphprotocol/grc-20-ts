@@ -147,6 +147,6 @@ describe('createImage', () => {
       createImage({
         url: 'http://localhost:3000/image',
       }),
-    ).rejects.toThrow('Failed to upload image to IPFS');
+    ).rejects.toThrow('Could not upload file to IPFS');
   });
 });

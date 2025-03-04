@@ -44,6 +44,11 @@ export enum OpType {
    * @generated from enum value: DELETE_RELATION = 6;
    */
   DELETE_RELATION = 6,
+
+  /**
+   * @generated from enum value: IMPORT_FILE = 7;
+   */
+  IMPORT_FILE = 7,
 }
 // Retrieve enum metadata with: proto3.getEnumType(OpType)
 proto3.util.setEnumType(OpType, "OpType", [
@@ -54,6 +59,7 @@ proto3.util.setEnumType(OpType, "OpType", [
   { no: 4, name: "DELETE_ENTITY" },
   { no: 5, name: "CREATE_RELATION" },
   { no: 6, name: "DELETE_RELATION" },
+  { no: 7, name: "IMPORT_FILE" },
 ]);
 
 /**
@@ -362,6 +368,166 @@ export class ImportEdit extends Message<ImportEdit> {
 }
 
 /**
+ * @generated from message ImportCsvMetadata
+ */
+export class ImportCsvMetadata extends Message<ImportCsvMetadata> {
+  /**
+   * @generated from field: string type = 1;
+   */
+  type = "";
+
+  /**
+   * @generated from field: repeated ImportCsvColumnMetadata columns = 2;
+   */
+  columns: ImportCsvColumnMetadata[] = [];
+
+  constructor(data?: PartialMessage<ImportCsvMetadata>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ImportCsvMetadata";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "columns", kind: "message", T: ImportCsvColumnMetadata, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ImportCsvMetadata {
+    return new ImportCsvMetadata().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ImportCsvMetadata {
+    return new ImportCsvMetadata().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ImportCsvMetadata {
+    return new ImportCsvMetadata().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ImportCsvMetadata | PlainMessage<ImportCsvMetadata> | undefined, b: ImportCsvMetadata | PlainMessage<ImportCsvMetadata> | undefined): boolean {
+    return proto3.util.equals(ImportCsvMetadata, a, b);
+  }
+}
+
+/**
+ * @generated from message ImportCsvColumnMetadata
+ */
+export class ImportCsvColumnMetadata extends Message<ImportCsvColumnMetadata> {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id = "";
+
+  /**
+   * @generated from field: ImportCsvColumnMetadata.CsvMetadataColumnType type = 2;
+   */
+  type = ImportCsvColumnMetadata_CsvMetadataColumnType.UNKNOWN;
+
+  /**
+   * @generated from field: optional string relation_type = 3;
+   */
+  relationType?: string;
+
+  /**
+   * @generated from field: optional bool is_id = 4;
+   */
+  isId?: boolean;
+
+  /**
+   * @generated from field: optional Options options = 5;
+   */
+  options?: Options;
+
+  constructor(data?: PartialMessage<ImportCsvColumnMetadata>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ImportCsvColumnMetadata";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "type", kind: "enum", T: proto3.getEnumType(ImportCsvColumnMetadata_CsvMetadataColumnType) },
+    { no: 3, name: "relation_type", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 4, name: "is_id", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 5, name: "options", kind: "message", T: Options, opt: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ImportCsvColumnMetadata {
+    return new ImportCsvColumnMetadata().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ImportCsvColumnMetadata {
+    return new ImportCsvColumnMetadata().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ImportCsvColumnMetadata {
+    return new ImportCsvColumnMetadata().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ImportCsvColumnMetadata | PlainMessage<ImportCsvColumnMetadata> | undefined, b: ImportCsvColumnMetadata | PlainMessage<ImportCsvColumnMetadata> | undefined): boolean {
+    return proto3.util.equals(ImportCsvColumnMetadata, a, b);
+  }
+}
+
+/**
+ * @generated from enum ImportCsvColumnMetadata.CsvMetadataColumnType
+ */
+export enum ImportCsvColumnMetadata_CsvMetadataColumnType {
+  /**
+   * @generated from enum value: UNKNOWN = 0;
+   */
+  UNKNOWN = 0,
+
+  /**
+   * @generated from enum value: TEXT = 1;
+   */
+  TEXT = 1,
+
+  /**
+   * @generated from enum value: NUMBER = 2;
+   */
+  NUMBER = 2,
+
+  /**
+   * @generated from enum value: CHECKBOX = 3;
+   */
+  CHECKBOX = 3,
+
+  /**
+   * @generated from enum value: URL = 4;
+   */
+  URL = 4,
+
+  /**
+   * @generated from enum value: TIME = 5;
+   */
+  TIME = 5,
+
+  /**
+   * @generated from enum value: POINT = 6;
+   */
+  POINT = 6,
+
+  /**
+   * @generated from enum value: RELATION = 7;
+   */
+  RELATION = 7,
+}
+// Retrieve enum metadata with: proto3.getEnumType(ImportCsvColumnMetadata_CsvMetadataColumnType)
+proto3.util.setEnumType(ImportCsvColumnMetadata_CsvMetadataColumnType, "ImportCsvColumnMetadata.CsvMetadataColumnType", [
+  { no: 0, name: "UNKNOWN" },
+  { no: 1, name: "TEXT" },
+  { no: 2, name: "NUMBER" },
+  { no: 3, name: "CHECKBOX" },
+  { no: 4, name: "URL" },
+  { no: 5, name: "TIME" },
+  { no: 6, name: "POINT" },
+  { no: 7, name: "RELATION" },
+]);
+
+/**
  * @generated from message Op
  */
 export class Op extends Message<Op> {
@@ -371,24 +537,49 @@ export class Op extends Message<Op> {
   type = OpType.OP_TYPE_UNKNOWN;
 
   /**
-   * @generated from field: Triple triple = 2;
+   * *
+   * Used when setting a single triple
+   *
+   * @generated from field: optional Triple triple = 2;
    */
   triple?: Triple;
 
   /**
-   * @generated from field: Entity entity = 3;
+   * *
+   * Used when setting batch ops or deleting an entity
+   *
+   * @generated from field: optional Entity entity = 3;
    */
   entity?: Entity;
 
   /**
-   * @generated from field: Relation relation = 4;
+   * *
+   * Used when creating or deleting a relation
+   *
+   * @generated from field: optional Relation relation = 4;
    */
   relation?: Relation;
 
   /**
+   * *
+   * Used when setting batch ops
+   *
    * @generated from field: repeated Triple triples = 5;
    */
   triples: Triple[] = [];
+
+  /**
+   * *
+   * Used when importing a csv file
+   *
+   * @generated from field: optional string url = 6;
+   */
+  url?: string;
+
+  /**
+   * @generated from field: optional ImportCsvMetadata metadata = 7;
+   */
+  metadata?: ImportCsvMetadata;
 
   constructor(data?: PartialMessage<Op>) {
     super();
@@ -399,10 +590,12 @@ export class Op extends Message<Op> {
   static readonly typeName = "Op";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "type", kind: "enum", T: proto3.getEnumType(OpType) },
-    { no: 2, name: "triple", kind: "message", T: Triple },
-    { no: 3, name: "entity", kind: "message", T: Entity },
-    { no: 4, name: "relation", kind: "message", T: Relation },
+    { no: 2, name: "triple", kind: "message", T: Triple, opt: true },
+    { no: 3, name: "entity", kind: "message", T: Entity, opt: true },
+    { no: 4, name: "relation", kind: "message", T: Relation, opt: true },
     { no: 5, name: "triples", kind: "message", T: Triple, repeated: true },
+    { no: 6, name: "url", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 7, name: "metadata", kind: "message", T: ImportCsvMetadata, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Op {

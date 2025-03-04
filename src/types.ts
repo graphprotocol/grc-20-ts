@@ -27,6 +27,31 @@ type Entity = {
   types: string[];
 };
 
+export type CsvMetadata = {
+  type: 'CSV';
+  columns: {
+    id: string;
+    type: ValueType | 'RELATION';
+    relationType?: string;
+    isId?: boolean;
+    options?: TripleValueOptions;
+  }[];
+};
+
+export type FileMetadata = CsvMetadata;
+
+export type ImportFileOp = {
+  type: 'IMPORT_FILE';
+  /**
+   * ipfs:// prefixed cid representing the uploaded file
+   */
+  url: string;
+  /**
+   * ipfs:// prefixed cid representing metadata about the uploaded file
+   */
+  metadata: FileMetadata;
+};
+
 export type SetBatchTripleOp = {
   type: 'SET_BATCH_TRIPLE';
   entity: Entity;
@@ -66,12 +91,19 @@ export type DeleteRelationOp = {
   relation: Pick<Relation, 'id'>;
 };
 
-export type Op = SetTripleOp | DeleteTripleOp | SetBatchTripleOp | DeleteEntityOp | CreateRelationOp | DeleteRelationOp;
+export type Op =
+  | SetTripleOp
+  | DeleteTripleOp
+  | SetBatchTripleOp
+  | DeleteEntityOp
+  | CreateRelationOp
+  | DeleteRelationOp
+  | ImportFileOp;
 
 export type EditProposalMetadata = {
   type: 'ADD_EDIT';
   version: '0.0.1';
-  name?: string;
+  name: string;
   ops: Op[];
   // We generate the proposal id on the client so we can pass it to the proposal
   // execution callback passed to a proposal.

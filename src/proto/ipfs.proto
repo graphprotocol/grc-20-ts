@@ -31,12 +31,58 @@ message ImportEdit {
   string transaction_hash = 11;
 }
 
+message ImportCsvMetadata {
+  string type = 1;
+  repeated ImportCsvColumnMetadata columns = 2;
+}
+
+message ImportCsvColumnMetadata {
+  enum CsvMetadataColumnType {
+    UNKNOWN = 0;
+    TEXT = 1;
+    NUMBER = 2;
+    CHECKBOX = 3;
+    URL = 4;
+    TIME = 5;
+    POINT = 6;
+    RELATION = 7;
+  }
+
+  string id = 1;
+  CsvMetadataColumnType type = 2;
+  optional string relation_type = 3;
+  optional bool is_id = 4;
+  optional Options options = 5;
+}
+
 message Op {
   OpType type = 1;
-  Triple triple = 2;
-  Entity entity = 3;
-  Relation relation = 4;
+
+  /**
+   * Used when setting a single triple
+   */
+  optional Triple triple = 2;
+
+  /**
+   * Used when setting batch ops or deleting an entity
+   */
+  optional Entity entity = 3;
+
+  /**
+   * Used when creating or deleting a relation
+   */
+  optional Relation relation = 4;
+
+  /**
+   * Used when setting batch ops
+   */
   repeated Triple triples = 5;
+
+  /**
+   * Used when importing a csv file
+   */
+  optional string url = 6;
+  optional ImportCsvMetadata metadata = 7;
 }
 
 message Triple {
@@ -72,6 +118,7 @@ enum OpType {
   DELETE_ENTITY = 4;
   CREATE_RELATION = 5;
   DELETE_RELATION = 6;
+  IMPORT_FILE = 7;
 }
 
 enum ValueType {

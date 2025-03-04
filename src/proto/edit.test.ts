@@ -2,7 +2,13 @@ import { describe, expect, it } from 'vitest';
 
 import { Relation } from '../relation.js';
 import { encode } from './edit.js';
-import { ActionType, Edit, OpType, ValueType } from './gen/src/proto/ipfs_pb.js';
+import {
+  ActionType,
+  Edit,
+  ImportCsvColumnMetadata_CsvMetadataColumnType,
+  OpType,
+  ValueType,
+} from './gen/src/proto/ipfs_pb.js';
 
 describe('Edit', () => {
   it('encodes and decodes Edit with SET_TRIPLE ops correctly', () => {
@@ -56,8 +62,8 @@ describe('Edit', () => {
               type: 'TEXT',
               value: 'test value',
               options: {
-                format: 'format'
-              }
+                format: 'format',
+              },
             },
           },
         },
@@ -82,7 +88,7 @@ describe('Edit', () => {
             value: 'test value',
             options: {
               format: 'format',
-            }
+            },
           },
         },
       },
@@ -156,7 +162,7 @@ describe('Edit', () => {
     ]);
   });
 
-  it('encodes and decoded Edit with CREATE_RELATION ops correctly', () => {
+  it('encodes and decodes Edit with CREATE_RELATION ops correctly', () => {
     const editBinary = encode({
       name: 'test',
       ops: [
@@ -190,4 +196,47 @@ describe('Edit', () => {
     ]);
   });
 
+  it('encodes and decodes Edit with IMPORT_FILE ops correctly', () => {
+    const editBinary = encode({
+      name: 'test',
+      ops: [
+        {
+          type: 'IMPORT_FILE',
+          url: 'ipfs://test-cid',
+          metadata: {
+            type: 'CSV',
+            columns: [
+              {
+                id: 'foo',
+                type: 'TEXT',
+              },
+            ],
+          },
+        },
+      ],
+      author: '0x1234',
+    });
+
+    const result = Edit.fromBinary(editBinary);
+    expect(result.name).toBe('test');
+    expect(result.type).toBe(ActionType.ADD_EDIT);
+    expect(result.version).toBe('1.0.0');
+    expect(result.ops.length).toBe(1);
+    expect(result.ops).toEqual([
+      {
+        type: OpType.IMPORT_FILE,
+        url: 'ipfs://test-cid',
+        triples: [],
+        metadata: {
+          type: 'CSV',
+          columns: [
+            {
+              id: 'foo',
+              type: ImportCsvColumnMetadata_CsvMetadataColumnType.TEXT,
+            },
+          ],
+        },
+      },
+    ]);
+  });
 });
