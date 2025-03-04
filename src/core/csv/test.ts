@@ -4,7 +4,7 @@ import { stringify } from './csv.js';
 const stringified = stringify({
   data: Array.from({ length: 151_000 }, (_, i: number) => [i.toString(), (i * 2).toString(), (i * 3).toString()]),
   metadata: {
-    filetype: 'CSV',
+    type: 'CSV',
     columns: [
       {
         id: 'foo',
