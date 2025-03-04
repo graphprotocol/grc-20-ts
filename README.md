@@ -242,7 +242,7 @@ const cid = await Ipfs.publishEdit({
 })
 ```
 
-### Publishing an edit onchain
+### Publishing an edit onchain using your wallet
 
 Once you've uploaded the binary encoded Edit to IPFS and have correctly formed `ipfs://hash`, you can write this to a space.
 
@@ -276,21 +276,25 @@ const txResult = await walletClient.sendTransaction({
 
 ### Publishing an edit onchain using your Geo Account
 
-Geo uses a smart account to publish edits. In order to get the smart account wallet client you can use the `getSmartAccountWalletClient` function.
+The Geo Genesis browser uses a smart account associated with your account to publish edits. There may be situations where you want to use the same account in your code as you do on Geo Genesis. In order to get the smart account wallet client you can use the `getSmartAccountWalletClient` function.
+
+To use `getSmartAccountWalletClient` you'll need the private key associated with your Geo account. You can get your private key using https://www.geobrowser.io/export-wallet.
+
+Transaction costs from the generated smart account will be sponsored by the Geo team for the duration of the early access period. Eventually you will need to provide your own API key or provide funds to your smart account.
 
 ```ts
-import { getSmartAccountWalletClient } from './smart-wallet.js';
+import { getSmartAccountWalletClient } from '@graphprotocol/grc-20';
 
 // IMPORTANT: Be careful with your private key. Don't commit it to version control.
 // You can get your private key using https://www.geobrowser.io/export-wallet
 const privateKey = `0x${privateKeyFromGeoWallet}`;
-// Get a Pimlico API key
-const pimlicoApiKey = 'FILL_IN_YOUR_API_KEY';
 const smartAccountWalletClient = await getSmartAccountWalletClient({
   privateKey,
-  pimlicoApiKey,
   // rpcUrl, // optional
 });
+
+// publish an edit to IPFS
+// get the calldata for the edit
 
 const txResult = await smartAccountWalletClient.sendTransaction({
   to: to,

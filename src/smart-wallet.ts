@@ -1,18 +1,46 @@
-import { createSmartAccountClient } from 'permissionless';
-import { toSafeSmartAccount } from 'permissionless/accounts';
+import { type SmartAccountClient, createSmartAccountClient } from 'permissionless';
+import { type SafeSmartAccountImplementation, toSafeSmartAccount } from 'permissionless/accounts';
 import { createPimlicoClient } from 'permissionless/clients/pimlico';
-import type { Chain, Hex } from 'viem';
-import { createPublicClient, http } from 'viem';
-import { entryPoint07Address } from 'viem/account-abstraction';
+import type { Address, Chain, Hex, HttpTransport } from 'viem';
+import { http, createPublicClient } from 'viem';
+import { type SmartAccountImplementation, entryPoint07Address } from 'viem/account-abstraction';
 import { privateKeyToAccount } from 'viem/accounts';
 
 const DEFAULT_RPC_URL = 'https://rpc-geo-genesis-h0q2s21xx8.t.conduit.xyz';
 
+/**
+ * We provide a fallback API key for gas sponsorship for the duration of the
+ * Geo Genesis early access period. This API key is gas-limited.
+ */
+const DEFAULT_API_KEY = 'pim_KqHm63txxhbCYjdDaWaHqH';
+
 type GetSmartAccountWalletClientParams = {
   privateKey: Hex;
-  pimlicoApiKey: string;
   rpcUrl?: string;
 };
+
+type SafeSmartAccount = SafeSmartAccountImplementation<'0.7'> & {
+  address: Address;
+  getNonce: NonNullable<SmartAccountImplementation['getNonce']>;
+  isDeployed: () => Promise<boolean>;
+  type: 'smart';
+};
+
+type GeoSmartAccount = SmartAccountClient<
+  HttpTransport<undefined, false>,
+  Chain,
+  object &
+    SafeSmartAccount & {
+      address: Address;
+      getNonce: NonNullable<SmartAccountImplementation['getNonce']>;
+      isDeployed: () => Promise<boolean>;
+      type: 'smart';
+    },
+  undefined,
+  undefined
+>;
+
+// type GeoSmartAccountWalletClient = Promise<ReturnType<typeof createSmartAccountClient>>;
 
 /**
  * Get a smart account wallet client for your Geo account.
@@ -24,7 +52,6 @@ type GetSmartAccountWalletClientParams = {
  * ```ts
  * const smartAccountWalletClient = await getSmartAccountWalletClient({
  *   privateKey: '0x...',
- *   pimlicoApiKey: '...',
  *   rpcUrl: '...', // optional
  * });
  * ```
@@ -33,12 +60,8 @@ type GetSmartAccountWalletClientParams = {
  */
 export const getSmartAccountWalletClient = async ({
   privateKey,
-  pimlicoApiKey,
-  rpcUrl: rpcUrlInput,
-  // biome-ignore lint/suspicious/noExplicitAny: we want to return the SmartAccountClient type, which is currently broken
-}: GetSmartAccountWalletClientParams): Promise<any> => {
-  const rpcUrl = rpcUrlInput ?? DEFAULT_RPC_URL;
-
+  rpcUrl = DEFAULT_RPC_URL,
+}: GetSmartAccountWalletClientParams): Promise<GeoSmartAccount> => {
   const GEOGENESIS: Chain = {
     id: Number('80451'),
     name: 'Geo Genesis',
@@ -75,7 +98,7 @@ export const getSmartAccountWalletClient = async ({
     version: '1.4.1',
   });
 
-  const bundlerTransport = http(`https://api.pimlico.io/v2/80451/rpc?apikey=${pimlicoApiKey}`);
+  const bundlerTransport = http(`https://api.pimlico.io/v2/80451/rpc?apikey=${DEFAULT_API_KEY}`);
   const paymasterClient = createPimlicoClient({
     transport: bundlerTransport,
     chain: GEOGENESIS,
