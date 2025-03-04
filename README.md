@@ -280,7 +280,7 @@ The Geo Genesis browser uses a smart account associated with your account to pub
 
 To use `getSmartAccountWalletClient` you'll need the private key associated with your Geo account. You can get your private key using https://www.geobrowser.io/export-wallet.
 
-Transaction costs from the generated smart account will be sponsored by the Geo team for the duration of the early access period. Eventually you will need to provide your own API key or provide funds to your smart account.
+Transaction costs from your smart account will be sponsored by the Geo team for the duration of the early access period. Eventually you will need to provide your own API key or provide funds to your smart account.
 
 ```ts
 import { getSmartAccountWalletClient } from '@graphprotocol/grc-20';
