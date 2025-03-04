@@ -33,6 +33,12 @@ export { Account } from './src/account.js';
 
 export { DataBlock, ImageBlock, TextBlock } from './src/blocks.js';
 
+export * as Encoding from './src/encoding.js';
+
+export { getChecksumAddress } from './src/core/get-checksum-address.js';
+
+export * as Graph from './src/graph/index.js';
+
 /**
  * This module provides utility functions for working with knowledge graph
  * images in TypeScript.
@@ -41,14 +47,15 @@ export { DataBlock, ImageBlock, TextBlock } from './src/blocks.js';
  */
 export { Image } from './src/image.js';
 
-export { Position, PositionRange } from './src/position.js';
-
 /**
- * This module provides utility functions for working with Triples in TypeScript.
+ * This module provides utility functions for interacting with the default
+ * IPFS gateway in TypeScript.
  *
- * @since 0.0.6
+ * @since 0.1.1
  */
-export { Triple } from './src/triple.js';
+export * as Ipfs from './src/ipfs.js';
+
+export { Position, PositionRange } from './src/position.js';
 
 /**
  * This module provides utility functions for working with Relations in TypeScript.
@@ -64,21 +71,16 @@ export { Relation } from './src/relation.js';
  */
 export { GraphUrl } from './src/scheme.js';
 
+export { getSmartAccountWalletClient } from './src/smart-wallet.js';
+
 /**
  * Provides ids for commonly used entities across the Knowledge Graph.
  */
 export { ContentIds, NetworkIds, SystemIds } from './src/system-ids.js';
 
-export { getChecksumAddress } from './src/core/get-checksum-address.js';
-
 /**
- * This module provides utility functions for interacting with the default
- * IPFS gateway in TypeScript.
+ * This module provides utility functions for working with Triples in TypeScript.
  *
- * @since 0.1.1
+ * @since 0.0.6
  */
-export * as Ipfs from './src/ipfs.js';
-
-export * as Graph from './src/graph/index.js';
-
-export { getSmartAccountWalletClient } from './src/smart-wallet.js';
+export { Triple } from './src/triple.js';

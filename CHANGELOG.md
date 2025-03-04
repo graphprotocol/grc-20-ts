@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.9.3
+
+### Patch Changes
+
+- Add Encoding namespace
+
 ## 0.9.2
 
 ### Patch Changes
