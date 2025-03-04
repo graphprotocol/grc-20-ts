@@ -1,0 +1,10 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@graphprotocol/grc-20": "0.8.0"
+  },
+  "changesets": [
+    "ten-deers-repeat"
+  ]
+}
