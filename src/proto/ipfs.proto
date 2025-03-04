@@ -32,13 +32,24 @@ message ImportEdit {
 }
 
 message ImportCsvMetadata {
-  string filetype = 1;
+  string type = 1;
   repeated ImportCsvColumnMetadata columns = 2;
 }
 
 message ImportCsvColumnMetadata {
-  string property_id = 1;
-  ValueType type = 2;
+  enum CsvMetadataColumnType {
+    UNKNOWN = 0;
+    TEXT = 1;
+    NUMBER = 2;
+    CHECKBOX = 3;
+    URL = 4;
+    TIME = 5;
+    POINT = 6;
+    RELATION = 7;
+  }
+
+  string id = 1;
+  CsvMetadataColumnType type = 2;
   optional string relation_type = 3;
   optional bool is_id = 4;
   optional Options options = 5;

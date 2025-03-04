@@ -372,9 +372,9 @@ export class ImportEdit extends Message<ImportEdit> {
  */
 export class ImportCsvMetadata extends Message<ImportCsvMetadata> {
   /**
-   * @generated from field: string filetype = 1;
+   * @generated from field: string type = 1;
    */
-  filetype = "";
+  type = "";
 
   /**
    * @generated from field: repeated ImportCsvColumnMetadata columns = 2;
@@ -389,7 +389,7 @@ export class ImportCsvMetadata extends Message<ImportCsvMetadata> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "ImportCsvMetadata";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "filetype", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "columns", kind: "message", T: ImportCsvColumnMetadata, repeated: true },
   ]);
 
@@ -415,14 +415,14 @@ export class ImportCsvMetadata extends Message<ImportCsvMetadata> {
  */
 export class ImportCsvColumnMetadata extends Message<ImportCsvColumnMetadata> {
   /**
-   * @generated from field: string property_id = 1;
+   * @generated from field: string id = 1;
    */
-  propertyId = "";
+  id = "";
 
   /**
-   * @generated from field: ValueType type = 2;
+   * @generated from field: ImportCsvColumnMetadata.CsvMetadataColumnType type = 2;
    */
-  type = ValueType.VALUE_TYPE_UNKNOWN;
+  type = ImportCsvColumnMetadata_CsvMetadataColumnType.UNKNOWN;
 
   /**
    * @generated from field: optional string relation_type = 3;
@@ -447,8 +447,8 @@ export class ImportCsvColumnMetadata extends Message<ImportCsvColumnMetadata> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "ImportCsvColumnMetadata";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "property_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "type", kind: "enum", T: proto3.getEnumType(ValueType) },
+    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "type", kind: "enum", T: proto3.getEnumType(ImportCsvColumnMetadata_CsvMetadataColumnType) },
     { no: 3, name: "relation_type", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
     { no: 4, name: "is_id", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
     { no: 5, name: "options", kind: "message", T: Options, opt: true },
@@ -470,6 +470,62 @@ export class ImportCsvColumnMetadata extends Message<ImportCsvColumnMetadata> {
     return proto3.util.equals(ImportCsvColumnMetadata, a, b);
   }
 }
+
+/**
+ * @generated from enum ImportCsvColumnMetadata.CsvMetadataColumnType
+ */
+export enum ImportCsvColumnMetadata_CsvMetadataColumnType {
+  /**
+   * @generated from enum value: UNKNOWN = 0;
+   */
+  UNKNOWN = 0,
+
+  /**
+   * @generated from enum value: TEXT = 1;
+   */
+  TEXT = 1,
+
+  /**
+   * @generated from enum value: NUMBER = 2;
+   */
+  NUMBER = 2,
+
+  /**
+   * @generated from enum value: CHECKBOX = 3;
+   */
+  CHECKBOX = 3,
+
+  /**
+   * @generated from enum value: URL = 4;
+   */
+  URL = 4,
+
+  /**
+   * @generated from enum value: TIME = 5;
+   */
+  TIME = 5,
+
+  /**
+   * @generated from enum value: POINT = 6;
+   */
+  POINT = 6,
+
+  /**
+   * @generated from enum value: RELATION = 7;
+   */
+  RELATION = 7,
+}
+// Retrieve enum metadata with: proto3.getEnumType(ImportCsvColumnMetadata_CsvMetadataColumnType)
+proto3.util.setEnumType(ImportCsvColumnMetadata_CsvMetadataColumnType, "ImportCsvColumnMetadata.CsvMetadataColumnType", [
+  { no: 0, name: "UNKNOWN" },
+  { no: 1, name: "TEXT" },
+  { no: 2, name: "NUMBER" },
+  { no: 3, name: "CHECKBOX" },
+  { no: 4, name: "URL" },
+  { no: 5, name: "TIME" },
+  { no: 6, name: "POINT" },
+  { no: 7, name: "RELATION" },
+]);
 
 /**
  * @generated from message Op

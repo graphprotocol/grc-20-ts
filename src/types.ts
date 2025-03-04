@@ -28,10 +28,10 @@ type Entity = {
 };
 
 export type CsvMetadata = {
-  filetype: 'CSV';
+  type: 'CSV';
   columns: {
     id: string;
-    type: ValueType;
+    type: ValueType | 'RELATION';
     relationType?: string;
     isId?: boolean;
     options?: TripleValueOptions;

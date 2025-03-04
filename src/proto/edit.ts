@@ -1,6 +1,6 @@
 import { generate } from '../id.js';
 import type { Op } from '../types.js';
-import { ActionType, Edit, Entity, Op as OpBinary, OpType, Relation, Triple } from './gen/src/proto/ipfs_pb.js';
+import { ActionType, Edit, Entity, ImportCsvMetadata, Op as OpBinary, OpType, Relation, Triple } from './gen/src/proto/ipfs_pb.js';
 
 type MakeEditProposalParams = {
   name: string;
@@ -58,7 +58,11 @@ function opsToBinary(ops: Op[]): OpBinary[] {
           triple: Triple.fromJson(o.triple), // janky but works
         });
       case 'IMPORT_FILE':
-        throw new Error('File import not implemented yet');
+        return new OpBinary({
+          type: OpType.IMPORT_FILE,
+          url: o.url,
+          metadata: ImportCsvMetadata.fromJson(o.metadata),
+        })
     }
   });
 }
