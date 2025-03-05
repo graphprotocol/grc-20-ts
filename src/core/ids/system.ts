@@ -1,5 +1,7 @@
 import { Id } from '../../id.js';
 
+export const ENTITY_ID_PROPERTY = Id('4E7MAYWAn14fuY853CHVLs')
+
 export const PROPERTY = Id('GscJ2GELQjmLoaVrYyR3xm');
 /**
  * @deprecated use PROPERTY
