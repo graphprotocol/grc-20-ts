@@ -32,8 +32,6 @@ export type CsvMetadata = {
   columns: {
     id: string;
     type: ValueType | 'RELATION';
-    relationType?: string;
-    isId?: boolean;
     options?: TripleValueOptions;
   }[];
 };
