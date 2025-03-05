@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.9.4
+
+### Patch Changes
+
+- Simplify CSV column metadata fields
+
 ## 0.9.3
 
 ### Patch Changes
