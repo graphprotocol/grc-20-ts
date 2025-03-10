@@ -1,3 +1,7 @@
+import type { SafeSmartAccountImplementation } from 'permissionless/accounts';
+import type { SmartAccountClient } from 'permissionless/clients';
+import type { Address, Chain, HttpTransport } from 'viem';
+import type { SmartAccountImplementation } from 'viem/account-abstraction';
 import type { Id } from './id.js';
 
 type OmitStrict<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
@@ -173,3 +177,24 @@ export type CreateResult = {
   id: Id;
   ops: Op[];
 };
+
+type SafeSmartAccount = SafeSmartAccountImplementation<'0.7'> & {
+  address: Address;
+  getNonce: NonNullable<SmartAccountImplementation['getNonce']>;
+  isDeployed: () => Promise<boolean>;
+  type: 'smart';
+};
+
+export type GeoSmartAccount = SmartAccountClient<
+  HttpTransport<undefined, false>,
+  Chain,
+  object &
+    SafeSmartAccount & {
+      address: Address;
+      getNonce: NonNullable<SmartAccountImplementation['getNonce']>;
+      isDeployed: () => Promise<boolean>;
+      type: 'smart';
+    },
+  undefined,
+  undefined
+>;
