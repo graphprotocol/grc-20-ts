@@ -1,10 +1,11 @@
 import { type SmartAccountClient, createSmartAccountClient } from 'permissionless';
-import { type SafeSmartAccountImplementation, toSafeSmartAccount } from 'permissionless/accounts';
+import { toSafeSmartAccount } from 'permissionless/accounts';
 import { createPimlicoClient } from 'permissionless/clients/pimlico';
-import type { Address, Chain, Hex, HttpTransport } from 'viem';
-import { http, createPublicClient } from 'viem';
-import { type SmartAccountImplementation, entryPoint07Address } from 'viem/account-abstraction';
+import type { Chain, Hex } from 'viem';
+import { createPublicClient, http } from 'viem';
+import { entryPoint07Address } from 'viem/account-abstraction';
 import { privateKeyToAccount } from 'viem/accounts';
+import type { GeoSmartAccount } from './types.js';
 
 const DEFAULT_RPC_URL = 'https://rpc-geo-genesis-h0q2s21xx8.t.conduit.xyz';
 
@@ -18,27 +19,6 @@ type GetSmartAccountWalletClientParams = {
   privateKey: Hex;
   rpcUrl?: string;
 };
-
-type SafeSmartAccount = SafeSmartAccountImplementation<'0.7'> & {
-  address: Address;
-  getNonce: NonNullable<SmartAccountImplementation['getNonce']>;
-  isDeployed: () => Promise<boolean>;
-  type: 'smart';
-};
-
-type GeoSmartAccount = SmartAccountClient<
-  HttpTransport<undefined, false>,
-  Chain,
-  object &
-    SafeSmartAccount & {
-      address: Address;
-      getNonce: NonNullable<SmartAccountImplementation['getNonce']>;
-      isDeployed: () => Promise<boolean>;
-      type: 'smart';
-    },
-  undefined,
-  undefined
->;
 
 // type GeoSmartAccountWalletClient = Promise<ReturnType<typeof createSmartAccountClient>>;
 
