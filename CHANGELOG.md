@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.9.5
+
+### Patch Changes
+
+- 5c35de1: expose GeoSmartAccount type
+
 ## 0.9.4
 
 ### Patch Changes
