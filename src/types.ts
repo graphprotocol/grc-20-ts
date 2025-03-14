@@ -154,6 +154,7 @@ export type ProposalStatus = 'PROPOSED' | 'ACCEPTED' | 'REJECTED' | 'CANCELED' |
 export type GraphUri = `graph://${string}`;
 
 export type DefaultProperties = {
+  id?: Id;
   name?: string;
   description?: string;
   cover?: Id;

@@ -310,4 +310,23 @@ describe('createEntity', () => {
     expect(typeof entity.id).toBe('string');
     expect(entity.ops).toHaveLength(9);
   });
+
+  it('creates an entity with a provided id', async () => {
+    const entity = createEntity({
+      id: Id('WeUPYRkhnQLmHPH4S1ioc4'),
+      name: 'Yummy Coffee',
+    });
+
+    expect(entity).toBeDefined();
+    expect(entity.id).toBe('WeUPYRkhnQLmHPH4S1ioc4');
+    expect(entity.ops).toHaveLength(1);
+    expect(entity.ops[0]).toMatchObject({
+      type: 'SET_TRIPLE',
+      triple: {
+        attribute: NAME_PROPERTY,
+        entity: entity.id,
+        value: { type: 'TEXT', value: 'Yummy Coffee' },
+      },
+    });
+  });
 });

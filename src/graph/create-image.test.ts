@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { Id } from '../id.js';
 import { SystemIds } from '../system-ids.js';
 import { createImage } from './create-image.js';
 
@@ -127,6 +128,16 @@ describe('createImage', () => {
     if (image.ops[1]) {
       expect(image.ops[1].type).toBe('SET_TRIPLE');
     }
+  });
+
+  it('creates an image with a provided id', async () => {
+    const image = await createImage({
+      url: 'http://localhost:3000/image',
+      id: Id('WeUPYRkhnQLmHPH4S1ioc4'),
+    });
+
+    expect(image).toBeDefined();
+    expect(image.id).toBe('WeUPYRkhnQLmHPH4S1ioc4');  
   });
 
   it('throws an error if the image cannot be uploaded to IPFS', async () => {

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { AUTHORS_PROPERTY, WEBSITE_PROPERTY } from '../core/ids/content.js';
 import { NAME_PROPERTY, PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
+import { Id } from '../id.js';
 import { createType } from './create-type.js';
 
 describe('createType', () => {
@@ -99,5 +100,15 @@ describe('createType', () => {
       },
       type: 'CREATE_RELATION',
     });
+  });
+
+  it('creates a type with a provided id', async () => {
+    const type = createType({
+      id: Id('WeUPYRkhnQLmHPH4S1ioc4'),
+      name: 'Article',
+    });
+
+    expect(type).toBeDefined();
+    expect(type.id).toBe('WeUPYRkhnQLmHPH4S1ioc4');
   });
 });
