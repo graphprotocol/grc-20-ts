@@ -31,9 +31,10 @@
   "dependencies": {
     "@bufbuild/protobuf": "^1.9.0",
     "@changesets/cli": "^2.27.12",
+    "effect": "^3.13.6",
     "ethers": "^5.7.2",
     "fflate": "^0.8.2",
-    "effect": "^3.13.6",
+    "graphql-request": "^7.1.2",
     "image-size": "^2.0.0",
     "permissionless": "^0.2.35",
     "position-strings": "^2.0.1",
