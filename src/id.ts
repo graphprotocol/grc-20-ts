@@ -61,8 +61,8 @@ export function isValid(id: string): boolean {
   }
 }
 
-export function assertValid(id: string) {
+export function assertValid(id: string, sourceHint?: string) {
   if (!isValid(id)) {
-    throw new Error(`Invalid id: ${id}`);
+    throw new Error(`Invalid id: "${id}"${sourceHint ? ` for ${sourceHint}` : ''}`);
   }
 }

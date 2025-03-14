@@ -21,6 +21,7 @@ type CreateEntityParams = DefaultProperties & {
  *   description: 'description of the entity',
  *   cover: imageEntityId,
  *   types: [typeEntityId1, typeEntityId2],
+ *   id: entityId, // optional and will be generated if not provided
  *   properties: {
  *     // value property like text, number, url, time, point, checkbox
  *     [propertyId]: {
@@ -49,8 +50,11 @@ type CreateEntityParams = DefaultProperties & {
  * @returns – {@link CreateResult}
  * @throws Will throw an error if any provided ID is invalid
  */
-export const createEntity = ({ name, description, cover, properties, types }: CreateEntityParams): CreateResult => {
-  const id = generate();
+export const createEntity = ({ id: providedId, name, description, cover, properties, types }: CreateEntityParams): CreateResult => {
+  if (providedId) {
+    assertValid(providedId, '`id` in `createEntity`');
+  }
+  const id = providedId ?? generate();
   const ops: Array<Op> = [];
 
   ops.push(...createDefaultProperties({ entityId: id, name, description, cover }));

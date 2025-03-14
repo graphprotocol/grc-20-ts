@@ -18,6 +18,7 @@ type CreateTypeParams = DefaultProperties & {
  *   name: 'name of the type',
  *   description: 'description of the type',
  *   cover: imageEntityId,
+ *   id: typeId, // optional and will be generated if not provided
  *   properties: [propertyEntityId1, propertyEntityId2],
  * });
  * ```
@@ -25,8 +26,11 @@ type CreateTypeParams = DefaultProperties & {
  * @returns – {@link CreateResult}
  * @throws Will throw an error if any provided ID is invalid
  */
-export const createType = ({ name, description, cover, properties }: CreateTypeParams): CreateResult => {
-  const id = generate();
+export const createType = ({ id: providedId, name, description, cover, properties }: CreateTypeParams): CreateResult => {
+  if (providedId) {
+    assertValid(providedId, '`id` in `createType`');
+  }
+  const id = providedId ?? generate();
   const ops: Op[] = [];
 
   ops.push(...createDefaultProperties({ entityId: id, name, description, cover }));

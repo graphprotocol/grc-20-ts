@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { JOB_TYPE, ROLES_PROPERTY } from '../core/ids/content.js';
+import { Id } from '../id.js';
 import { createProperty } from './create-property.js';
 
 describe('createProperty', () => {
@@ -72,5 +73,21 @@ describe('createProperty', () => {
     expect(property.ops[3]?.type).toBe('CREATE_RELATION');
     expect(property.ops[4]?.type).toBe('CREATE_RELATION');
     expect(property.ops[5]?.type).toBe('CREATE_RELATION');
+  });
+
+  it('creates a property with a provided id', async () => {
+    const property = createProperty({
+      id: Id('WeUPYRkhnQLmHPH4S1ioc4'),
+      name: 'Price',
+      type: 'NUMBER',
+    });
+
+    expect(property).toBeDefined();
+    expect(property.id).toBe('WeUPYRkhnQLmHPH4S1ioc4');
+  });
+
+  it('throws an error if the provided id is invalid', async () => {
+    // @ts-expect-error - invalid id type
+    expect(() => createProperty({ id: 'invalid' })).toThrow('Invalid id: "invalid" for `id` in `createProperty`');
   });
 });

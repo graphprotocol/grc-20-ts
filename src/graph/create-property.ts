@@ -32,6 +32,7 @@ type CreatePropertyParams = DefaultProperties &
  *   type: 'TEXT'
  *   description: 'description of the property',
  *   cover: imageEntityId,
+ *   id: propertyId, // optional and will be generated if not provided
  * });
  * ```
  * @param params – {@link CreatePropertyParams}
@@ -39,8 +40,11 @@ type CreatePropertyParams = DefaultProperties &
  * @throws Will throw an error if any provided ID is invalid
  */
 export const createProperty = (params: CreatePropertyParams): CreateResult => {
-  const { name, description, cover } = params;
-  const entityId = generate();
+  const { id, name, description, cover } = params;
+  if (id) {
+    assertValid(id, '`id` in `createProperty`');
+  }
+  const entityId = id ?? generate();
   const ops: Op[] = [];
 
   ops.push(...createDefaultProperties({ entityId, name, description, cover }));

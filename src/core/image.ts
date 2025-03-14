@@ -21,6 +21,7 @@ type MakeImageParams = {
     width: number;
     height: number;
   };
+  id?: Id;
 };
 
 /**
@@ -28,7 +29,11 @@ type MakeImageParams = {
  *
  * @example
  * ```ts
- * const { id, ops } = Image.make({ cid: 'https://example.com/image.png', dimensions: { width: 100, height: 100 } });
+ * const { id, ops } = Image.make({
+ *   cid: 'https://example.com/image.png',
+ *   dimensions: { width: 100, height: 100 },
+ *   id: imageId, // optional and will be generated if not provided
+ * });
  * console.log(id); // 'gw9uTVTnJdhtczyuzBkL3X'
  * console.log(ops); // [...]
  * ```
@@ -36,8 +41,8 @@ type MakeImageParams = {
  * @returns id – base58 encoded v4 uuid representing the image entity: {@link MakeImageReturnType}
  * @returns ops – The ops for the Image entity: {@link MakeImageReturnType}
  */
-export function make({ cid, dimensions }: MakeImageParams): MakeImageReturnType {
-  const entityId = generate();
+export function make({ cid, dimensions, id }: MakeImageParams): MakeImageReturnType {
+  const entityId = id ?? generate();
   const ops: Array<Op> = [
     Relation.make({
       fromId: entityId,
