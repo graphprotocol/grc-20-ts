@@ -1,5 +1,12 @@
 # @graphprotocol/grc-20
 
+## 0.10.0
+
+### Minor Changes
+
+- 21997e9: allow to provide an existing id when creating an entity, image, type or property
+- 9d95766: add Graph.deleteEntity
+
 ## 0.9.5
 
 ### Patch Changes
