@@ -30,7 +30,7 @@ type DeleteEntityResult = {
 };
 
 /**
- * Deletes an entity from the graph.
+ * Deletes an entity from a space.
  * 
  * @example
  * ```ts
