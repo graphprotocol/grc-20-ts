@@ -140,6 +140,11 @@ describe('createImage', () => {
     expect(image.id).toBe('WeUPYRkhnQLmHPH4S1ioc4');  
   });
 
+  it('throws an error if the provided id is invalid', () => {
+    // @ts-expect-error - invalid id type
+    expect(async () => await createImage({ id: 'invalid', url: 'http://localhost:3000/image' })).rejects.toThrow('Invalid id: "invalid" for `id` in `createImage`');
+  });
+
   it('throws an error if the image cannot be uploaded to IPFS', async () => {
     vi.spyOn(global, 'fetch').mockImplementation(url => {
       if (url.toString() === 'http://localhost:3000/image') {

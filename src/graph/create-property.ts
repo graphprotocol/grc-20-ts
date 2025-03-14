@@ -41,6 +41,9 @@ type CreatePropertyParams = DefaultProperties &
  */
 export const createProperty = (params: CreatePropertyParams): CreateResult => {
   const { id, name, description, cover } = params;
+  if (id) {
+    assertValid(id, '`id` in `createProperty`');
+  }
   const entityId = id ?? generate();
   const ops: Op[] = [];
 

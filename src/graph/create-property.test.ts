@@ -85,4 +85,9 @@ describe('createProperty', () => {
     expect(property).toBeDefined();
     expect(property.id).toBe('WeUPYRkhnQLmHPH4S1ioc4');
   });
+
+  it('throws an error if the provided id is invalid', async () => {
+    // @ts-expect-error - invalid id type
+    expect(() => createProperty({ id: 'invalid' })).toThrow('Invalid id: "invalid" for `id` in `createProperty`');
+  });
 });

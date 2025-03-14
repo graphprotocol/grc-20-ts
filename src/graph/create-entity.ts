@@ -51,6 +51,9 @@ type CreateEntityParams = DefaultProperties & {
  * @throws Will throw an error if any provided ID is invalid
  */
 export const createEntity = ({ id: providedId, name, description, cover, properties, types }: CreateEntityParams): CreateResult => {
+  if (providedId) {
+    assertValid(providedId, '`id` in `createEntity`');
+  }
   const id = providedId ?? generate();
   const ops: Array<Op> = [];
 

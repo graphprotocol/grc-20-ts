@@ -1,4 +1,4 @@
-import type { Id } from '../id.js';
+import { type Id, assertValid } from '../id.js';
 import { Image } from '../image.js';
 import { uploadImage } from '../ipfs.js';
 import type { CreateResult, Op } from '../types.js';
@@ -43,6 +43,9 @@ type CreateImageParams =
  * @throws Will throw an IpfsUploadError if the image cannot be uploaded to IPFS
  */
 export const createImage = async ({ name, description, id: providedId, ...params }: CreateImageParams): Promise<CreateResult> => {
+  if (providedId) {
+    assertValid(providedId, '`id` in `createImage`');
+  }
   const ops: Array<Op> = [];
   const { cid, dimensions } = await uploadImage(params);
   const { id, ops: imageOps } = Image.make({ cid, dimensions, id: providedId });

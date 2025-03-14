@@ -111,4 +111,9 @@ describe('createType', () => {
     expect(type).toBeDefined();
     expect(type.id).toBe('WeUPYRkhnQLmHPH4S1ioc4');
   });
+
+  it('throws an error if the provided id is invalid', () => {
+    // @ts-expect-error - invalid id type
+    expect(() => createType({ id: 'invalid' })).toThrow('Invalid id: "invalid" for `id` in `createType`');
+  });
 });

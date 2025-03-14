@@ -27,6 +27,9 @@ type CreateTypeParams = DefaultProperties & {
  * @throws Will throw an error if any provided ID is invalid
  */
 export const createType = ({ id: providedId, name, description, cover, properties }: CreateTypeParams): CreateResult => {
+  if (providedId) {
+    assertValid(providedId, '`id` in `createType`');
+  }
   const id = providedId ?? generate();
   const ops: Op[] = [];
 
