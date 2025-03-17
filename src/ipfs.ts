@@ -9,7 +9,8 @@ import { Micro } from 'effect';
 import { gzipSync } from 'fflate';
 import { imageSize } from 'image-size';
 
-import { EditProposal } from '../proto.js';
+import { Edit, EditProposal } from '../proto.js';
+import { Id } from './id.js';
 import type { Op } from './types.js';
 
 class IpfsUploadError extends Error {
@@ -22,6 +23,13 @@ type PublishEditProposalParams = {
   author: string;
 };
 
+type PublishEditResult = {
+  // IPFS CID representing the edit prefixed with `ipfs://`
+  cid: string;
+  // The ID of the edit
+  editId: Id;
+};
+
 /**
  * Generates correct protobuf encoding for an Edit and uploads it to IPFS.
  *
@@ -29,7 +37,7 @@ type PublishEditProposalParams = {
  * ```ts
  * import { IPFS } from '@graphprotocol/grc-20';
  *
- * const cid = await IPFS.publishEdit({
+ * const { cid, editId } = await IPFS.publishEdit({
  *   name: 'Edit name',
  *   ops: ops,
  *   author: '0x000000000000000000000000000000000000',
@@ -37,9 +45,9 @@ type PublishEditProposalParams = {
  * ```
  *
  * @param args arguments for publishing an edit to IPFS {@link PublishEditProposalParams}
- * @returns IPFS CID representing the edit prefixed with `ipfs://`
+ * @returns - {@link PublishEditResult}
  */
-export async function publishEdit(args: PublishEditProposalParams): Promise<string> {
+export async function publishEdit(args: PublishEditProposalParams): Promise<PublishEditResult> {
   const { name, ops, author } = args;
 
   const edit = EditProposal.encode({ name, ops, author });
@@ -48,7 +56,10 @@ export async function publishEdit(args: PublishEditProposalParams): Promise<stri
   const formData = new FormData();
   formData.append('file', blob);
 
-  return await Micro.runPromise(uploadBinary(formData));
+  const cid = await Micro.runPromise(uploadBinary(formData));
+  const result = Edit.fromBinary(edit);
+
+  return { cid, editId: Id(result.id) };
 }
 
 type PublishImageParams =
