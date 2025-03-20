@@ -235,7 +235,7 @@ We've abstracted the IPFS publishing and binary encoding into a single API.
 ```ts
 import { Ipfs } from '@graphprotocol/grc-20';
 
-const cid = await Ipfs.publishEdit({
+const { cid } = await Ipfs.publishEdit({
   name: 'Edit name',
   ops: ops,
   author: '0x000000000000000000000000000000000000', 
