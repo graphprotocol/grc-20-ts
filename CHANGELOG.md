@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.11.0
+
+### Minor Changes
+
+- 866fcbd: return object with cid and editId from Ipfs.publishEdit
+
 ## 0.10.0
 
 ### Minor Changes
