@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.11.1
+
+### Patch Changes
+
+- d318633: Add bullet list view
+
 ## 0.11.0
 
 ### Minor Changes
