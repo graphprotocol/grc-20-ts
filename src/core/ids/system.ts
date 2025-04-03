@@ -141,6 +141,7 @@ export const VIEW_ATTRIBUTE = Id('46GzPiTRPG36jX9dmNE9ic');
 export const VIEW_TYPE = Id('52itq1wC2HciX6gd9HEZPN');
 export const TABLE_VIEW = Id('S9T1TPras3iPkVvrS5CoKE');
 export const LIST_VIEW = Id('GUKPGARFBFBMoET6NGQctJ');
+export const BULLETED_LIST_VIEW = Id('2KQ8CHTruSetFbi48nsHV3');
 export const GALLERY_VIEW = Id('SHBs5faKV8gDeZgsUoVUQF');
 
 /**
