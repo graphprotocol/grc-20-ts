@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.11.2
+
+### Patch Changes
+
+- c63c021: Add geo location property ID
+
 ## 0.11.1
 
 ### Patch Changes
