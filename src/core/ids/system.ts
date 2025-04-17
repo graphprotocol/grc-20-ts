@@ -318,6 +318,7 @@ export const NETWORK_ATTRIBUTE = Id('MuMLDVbHAmRjZQjhyk3HGx');
 export const PERSON_TYPE = Id('GfN9BK2oicLiBHrUavteS8');
 export const NETWORK_TYPE = Id('YCLXoVZho6C4S51g4AbF3C');
 
+export const GEO_LOCATION_PROPERTY = Id('GSA7HUQwsUbMJQ2RDGNi2W');
 export const GOALS_PROPERTY = Id('WNcdorfdj7ZprmwvmRiRtG');
 /*
  * @deprecated use GOALS_PROPERTY
