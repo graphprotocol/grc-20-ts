@@ -419,4 +419,8 @@ export const VISION_PROPERTY = Id('AAMDNTaJtS2i4aWp59zEAk');
  */
 export const VISION_ATTRIBUTE = Id('AAMDNTaJtS2i4aWp59zEAk');
 
+export const CURRENCY_ATTRIBUTE = Id('K6kJ6TTwwCcc3Dfdtbradv');
+export const CURRENCY_SIGN_ATTRIBUTE = Id('Tt2mYqE1kJTRLt2iLQjATb');
+export const CURRENCY_SYMBOL_ATTRIBUTE = Id('NMCZXJNatQS59U31sZKmMn');
+
 export const ROOT_SPACE_ID = Id('25omwWh6HYgeRQKCaSpVpa');
