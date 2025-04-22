@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.11.3
+
+### Patch Changes
+
+- 54932ff: Add currency attribute ids
+
 ## 0.11.2
 
 ### Patch Changes
