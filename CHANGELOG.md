@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.11.4
+
+### Patch Changes
+
+- 9cabc1c: Add attributes for currency entities
+
 ## 0.11.3
 
 ### Patch Changes
