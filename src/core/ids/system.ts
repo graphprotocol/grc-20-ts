@@ -422,8 +422,8 @@ export const VISION_ATTRIBUTE = Id('AAMDNTaJtS2i4aWp59zEAk');
 export const CURRENCY_ATTRIBUTE = Id('K6kJ6TTwwCcc3Dfdtbradv');
 export const CURRENCY_SIGN_ATTRIBUTE = Id('Tt2mYqE1kJTRLt2iLQjATb');
 export const CURRENCY_SYMBOL_ATTRIBUTE = Id('NMCZXJNatQS59U31sZKmMn');
-export const CURRENCY_USD_ATTRIBUTE = Id('K6kJ6TTwwCcc3Dfdtbradv');
-export const CURRENCY_GBP_ATTRIBUTE = Id('K6kJ6TTwwCcc3Dfdtbradv');
-export const CURRENCY_EUR_ATTRIBUTE = Id('25omwWh6HYgeRQKCaSpVpa');
+export const CURRENCY_USD_ATTRIBUTE = Id('2eGL8drmSYAqLoetcx3yR1');
+export const CURRENCY_GBP_ATTRIBUTE = Id('KSeVvJLfx8LZb36CfYMti5');
+export const CURRENCY_EUR_ATTRIBUTE = Id('EWCAJP9TQoZ3EhcwyRg7mk');
 
 export const ROOT_SPACE_ID = Id('25omwWh6HYgeRQKCaSpVpa');
