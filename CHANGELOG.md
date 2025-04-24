@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.11.5
+
+### Patch Changes
+
+- b2ef3b2: change incorrect attribute ids for currencies
+
 ## 0.11.4
 
 ### Patch Changes
