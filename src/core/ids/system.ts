@@ -25,6 +25,7 @@ export const COVER_PROPERTY = Id('7YHk6qYkNDaAtNb8GwmysF');
  * @deprecated use COVER_PROPERTY
  */
 export const COVER_ATTRIBUTE = Id('7YHk6qYkNDaAtNb8GwmysF');
+export const AVATAR_PROPERTY = Id('399xP4sGWSoepxeEnp3UdR');
 export const TYPES_PROPERTY = Id('Jfmby78N4BCseZinBmdVov');
 /*
  * @deprecated use TYPES_PROPERTY
