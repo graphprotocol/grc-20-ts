@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package ipfsv2;
+
+enum ActionType {
+  ACTION_TYPE_UNKNOWN = 0;
+  ADD_EDIT = 1;
+  IMPORT_SPACE = 2;
+  ARCHIVE_SPACE = 3;
+}
+
+message Metadata {
+    string version = 1;
+    ActionType type = 2;
+}
+
+message Edit {
+  // ------------------
+  // version and type are defined on every IPFS action
+  // ------------------
+  string version = 1;
+  ActionType type = 2; // Should always be 1 for ADD_EDIT
+
+  string id = 3;
+  string name = 4;
+  repeated Op ops = 5;
+  repeated string authors = 6;
+}
+
+enum OpType {
+  OP_TYPE_UNKNOWN = 0;
+  CREATE_ENTITY = 1;
+  UPDATE_ENTITY = 2;
+  DELETE_ENTITY = 3;
+  CREATE_RELATION = 4;
+  DELETE_RELATION = 5;
+  REORDER_RELATION = 6;
+  UNSET_PROPERTIES = 7;
+  MOVE_ENTITY = 8;
+  MERGE_ENTITIES = 9;
+  BRANCH_ENTITY = 10;
+}
+
+// @TODO: Use oneof instead of these weird optional state machines
+message Op {
+  OpType type = 1;
+
+  /**
+   * Used when setting batch ops or deleting an entity
+   */
+  optional Entity entity = 2;
+
+  /**
+   * Used when creating or deleting a relation
+   */
+  optional Relation relation = 3;
+
+  optional Property property = 4;
+
+  /**
+   * Used when importing a csv file
+   */
+  // optional string url = 4;
+  // optional ImportCsvMetadata metadata = 5;
+}
+
+message Property {
+  bytes id = 1;
+  bytes type = 2;
+  string name = 3;
+}
+
+message Relation {
+  bytes id = 1;
+  bytes type = 2;
+  bytes from_entity = 3;
+  optional bytes from_property = 4;
+  bytes to_entity = 5;
+  optional bytes to_space = 6;
+  bytes entity = 7;
+  optional string index = 8;
+}
+
+message Entity {
+    bytes id = 1;
+    repeated Value values = 2;
+}
+
+message Value {
+    bytes property_id = 1;
+    // If we are in an UNSET_PROPERTIES op we don't
+    // need to pass the value
+    optional string value = 2;
+    optional Options options = 3;
+}
+
+message Options {
+    string unit = 1;
+    string format = 2;
+}
