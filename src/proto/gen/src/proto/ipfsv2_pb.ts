@@ -73,9 +73,9 @@ export enum OpType {
   DELETE_RELATION = 5,
 
   /**
-   * @generated from enum value: REORDER_RELATION = 6;
+   * @generated from enum value: UPDATE_RELATION = 6;
    */
-  REORDER_RELATION = 6,
+  UPDATE_RELATION = 6,
 
   /**
    * @generated from enum value: UNSET_PROPERTIES = 7;
@@ -105,7 +105,7 @@ proto3.util.setEnumType(OpType, "ipfsv2.OpType", [
   { no: 3, name: "DELETE_ENTITY" },
   { no: 4, name: "CREATE_RELATION" },
   { no: 5, name: "DELETE_RELATION" },
-  { no: 6, name: "REORDER_RELATION" },
+  { no: 6, name: "UPDATE_RELATION" },
   { no: 7, name: "UNSET_PROPERTIES" },
   { no: 8, name: "MOVE_ENTITY" },
   { no: 9, name: "MERGE_ENTITIES" },

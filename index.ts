@@ -84,3 +84,6 @@ export { ContentIds, NetworkIds, SystemIds } from './src/system-ids.js';
  * @since 0.0.6
  */
 export { Triple } from './src/triple.js';
+
+export * as GraphV2 from './src/graphv2/index.js';
+export * as IpfsV2 from './src/ipfsv2.js';
