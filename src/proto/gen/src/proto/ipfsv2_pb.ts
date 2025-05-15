@@ -519,14 +519,14 @@ export class Value extends Message<Value> {
  */
 export class Options extends Message<Options> {
   /**
-   * @generated from field: string unit = 1;
+   * @generated from field: optional string unit = 1;
    */
-  unit = "";
+  unit?: string;
 
   /**
-   * @generated from field: string format = 2;
+   * @generated from field: optional string format = 2;
    */
-  format = "";
+  format?: string;
 
   constructor(data?: PartialMessage<Options>) {
     super();
@@ -536,8 +536,8 @@ export class Options extends Message<Options> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "ipfsv2.Options";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "unit", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "format", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "unit", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 2, name: "format", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Options {

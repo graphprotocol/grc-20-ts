@@ -95,6 +95,6 @@ message Value {
 }
 
 message Options {
-    string unit = 1;
-    string format = 2;
+    optional string unit = 1;
+    optional string format = 2;
 }
