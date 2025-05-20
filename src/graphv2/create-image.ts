@@ -61,17 +61,17 @@ export const createImage = async ({
   const id = providedId ?? generate();
   const { cid, dimensions } = await uploadImage(params);
 
-  const properties: PropertiesParam = {};
-  properties[IMAGE_URL_PROPERTY] = {
+  const values: PropertiesParam = {};
+  values[IMAGE_URL_PROPERTY] = {
     value: cid,
   };
   if (dimensions?.height) {
-    properties[IMAGE_HEIGHT_PROPERTY] = {
+    values[IMAGE_HEIGHT_PROPERTY] = {
       value: dimensions.height.toString(),
     };
   }
   if (dimensions?.width) {
-    properties[IMAGE_WIDTH_PROPERTY] = {
+    values[IMAGE_WIDTH_PROPERTY] = {
       value: dimensions.width.toString(),
     };
   }
@@ -80,7 +80,7 @@ export const createImage = async ({
     id,
     name,
     description,
-    properties,
+    values,
   });
 
   ops.push({

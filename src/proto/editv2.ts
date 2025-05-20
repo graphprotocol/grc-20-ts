@@ -1,21 +1,21 @@
-import { generate } from '../idv2.js';
+import { type Id, generate, toBytes } from '../idv2.js';
 import type { Op } from '../typesv2.js';
-import { ActionType, Edit, Entity, Op as OpBinary, OpType, Relation } from './gen/src/proto/ipfsv2_pb.js';
+import { Edit, Entity, Op as OpBinary, Relation, RelationUpdate } from './gen/src/proto/ipfsv2_pb.js';
 
 type MakeEditProposalParams = {
   name: string;
   ops: Op[];
-  author: string;
+  author: Id;
+  language?: Id;
 };
 
-export function encode({ name, ops, author }: MakeEditProposalParams): Uint8Array {
+export function encode({ name, ops, author, language }: MakeEditProposalParams): Uint8Array {
   return new Edit({
-    type: ActionType.ADD_EDIT,
-    version: '1.0.0',
-    id: generate(),
+    id: toBytes(generate()),
     name,
     ops: opsToBinary(ops),
-    authors: [author],
+    authors: [toBytes(author)],
+    language: language ? toBytes(language) : undefined,
   }).toBinary();
 }
 
@@ -24,42 +24,55 @@ function opsToBinary(ops: Op[]): OpBinary[] {
     switch (o.type) {
       case 'CREATE_RELATION':
         return new OpBinary({
-          type: OpType.CREATE_RELATION,
-          relation: Relation.fromJson(o.relation),
+          payload: {
+            case: 'createRelation',
+            value: Relation.fromJson(o.relation),
+          },
         });
       case 'DELETE_RELATION':
         return new OpBinary({
-          type: OpType.DELETE_RELATION,
-          relation: Relation.fromJson({
-            id: o.relation.id,
-          }),
+          payload: {
+            case: 'deleteRelation',
+            value: toBytes(o.id),
+          },
         });
       case 'CREATE_ENTITY':
         return new OpBinary({
-          type: OpType.CREATE_ENTITY,
-          entity: Entity.fromJson(o.entity),
+          payload: {
+            case: 'createEntity',
+            value: Entity.fromJson(o.entity),
+          },
         });
       case 'UPDATE_ENTITY':
         return new OpBinary({
-          type: OpType.UPDATE_ENTITY,
-          entity: Entity.fromJson(o.entity),
+          payload: {
+            case: 'updateEntity',
+            value: Entity.fromJson(o.entity),
+          },
         });
       case 'UNSET_PROPERTIES':
         return new OpBinary({
-          type: OpType.UNSET_PROPERTIES,
-          entity: Entity.fromJson(o.entity),
+          payload: {
+            case: 'unsetProperties',
+            value: {
+              id: toBytes(o.entity),
+              properties: o.properties.map(toBytes),
+            },
+          },
         });
       case 'DELETE_ENTITY':
         return new OpBinary({
-          type: OpType.DELETE_ENTITY,
-          entity: Entity.fromJson({
-            id: o.entity.id,
-          }),
+          payload: {
+            case: 'deleteEntity',
+            value: toBytes(o.id),
+          },
         });
       case 'UPDATE_RELATION':
         return new OpBinary({
-          type: OpType.UPDATE_RELATION,
-          relation: Relation.fromJson(o.relation),
+          payload: {
+            case: 'updateRelation',
+            value: RelationUpdate.fromJson(o.relation),
+          },
         });
     }
   });

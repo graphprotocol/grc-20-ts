@@ -10,7 +10,7 @@ import { gzipSync } from 'fflate';
 import { imageSize } from 'image-size';
 
 import { Edit, EditProposal } from '../protov2.js';
-import { Id } from './idv2.js';
+import { type Id, fromBytes } from './idv2.js';
 import type { Op } from './typesv2.js';
 
 class IpfsUploadError extends Error {
@@ -20,7 +20,7 @@ class IpfsUploadError extends Error {
 type PublishEditProposalParams = {
   name: string;
   ops: Op[];
-  author: string;
+  author: Id;
 };
 
 type PublishEditResult = {
@@ -59,7 +59,7 @@ export async function publishEdit(args: PublishEditProposalParams): Promise<Publ
   const cid = await Micro.runPromise(uploadBinary(formData));
   const result = Edit.fromBinary(edit);
 
-  return { cid, editId: Id(result.id) };
+  return { cid, editId: fromBytes(result.id) };
 }
 
 type PublishImageParams =

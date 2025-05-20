@@ -16,7 +16,7 @@ import { createRelation } from './create-relation.js';
  *   description: 'description of the entity',
  *   cover: imageEntityId,
  *   types: [typeEntityId1, typeEntityId2],
- *   properties: {
+ *   values: {
  *     // value property like text, number, url, time, point, checkbox
  *     [propertyId]: {
  *       value: 'value of the property',
@@ -33,7 +33,7 @@ import { createRelation } from './create-relation.js';
  *       entityName: 'name of the relation entity', // optional
  *       entityDescription: 'description of the relation entity', // optional
  *       entityCover: 'id of the cover', // optional
- *       entityProperties: { // optional properties for the relation
+ *       entityValues: { // optional values for the relation entity
  *         [propertyId]: {
  *           value: 'value of the property',
  *         },
@@ -58,7 +58,7 @@ export const createEntity = ({
   name,
   description,
   cover,
-  properties,
+  values,
   relations,
   types,
 }: EntityParams): CreateResult => {
@@ -81,7 +81,7 @@ export const createEntity = ({
       value: description,
     });
   }
-  for (const [key, value] of Object.entries(properties ?? {})) {
+  for (const [key, value] of Object.entries(values ?? {})) {
     newValues.push({
       propertyId: Id(key),
       value: value.value,
@@ -145,7 +145,7 @@ export const createEntity = ({
         entityName: relation.entityName,
         entityDescription: relation.entityDescription,
         entityCover: relation.entityCover,
-        entityProperties: relation.entityProperties,
+        entityValues: relation.entityValues,
         entityRelations: relation.entityRelations,
         entityTypes: relation.entityTypes,
       });

@@ -8,7 +8,7 @@ type CreateTypeParams = DefaultProperties & {
 };
 
 /**
- * Creates a type with the given name, description, cover, properties and relations.
+ * Creates a type with the given name, description, cover and properties.
  * All IDs passed to this function (cover, property IDs) are validated.
  * If any invalid ID is provided, the function will throw an error.
  *

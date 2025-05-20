@@ -5,7 +5,7 @@ import { Brand } from 'effect';
  * identifiers in TypeScript.
  */
 
-import { validate as uuidValidate, v4 as uuidv4 } from 'uuid';
+import { parse as uuidParse, stringify as uuidStringify, validate as uuidValidate, v4 as uuidv4 } from 'uuid';
 
 export type Id = string & Brand.Brand<'Id'>;
 
@@ -33,11 +33,19 @@ export function generate(): Id {
 }
 
 export function isValid(id: string): boolean {
-    return uuidValidate(id);
+  return uuidValidate(id);
 }
 
 export function assertValid(id: string, sourceHint?: string) {
   if (!isValid(id)) {
     throw new Error(`Invalid id: "${id}"${sourceHint ? ` for ${sourceHint}` : ''}`);
   }
+}
+
+export function toBytes(id: Id): Uint8Array {
+  return uuidParse(id);
+}
+
+export function fromBytes(bytes: Uint8Array): Id {
+  return Id(uuidStringify(bytes));
 }

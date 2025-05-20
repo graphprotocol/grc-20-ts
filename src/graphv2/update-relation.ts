@@ -27,7 +27,7 @@ export const updateRelation = ({ id, position, toSpace, fromProperty }: UpdateRe
     relation: {
       id,
       fromProperty,
-      index: position,
+      position,
       toSpace,
     },
   });

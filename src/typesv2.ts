@@ -23,10 +23,14 @@ export type Relation = {
   type: Id;
   fromEntity: Id;
   fromProperty?: Id;
+  fromVersion?: Id;
   toEntity: Id;
   toSpace?: Id;
+  toProperty?: Id;
+  toVersion?: Id;
   entity: Id;
-  index?: string;
+  position?: string;
+  verified?: boolean;
 };
 
 export type CreateEntityOp = {
@@ -47,7 +51,7 @@ export type UnsetPropertiesOp = {
 
 export type DeleteEntityOp = {
   type: 'DELETE_ENTITY';
-  entity: Pick<Entity, 'id'>;
+  id: Id;
 };
 
 export type CreateRelationOp = {
@@ -57,12 +61,23 @@ export type CreateRelationOp = {
 
 export type DeleteRelationOp = {
   type: 'DELETE_RELATION';
-  relation: Pick<Relation, 'id'>;
+  id: Id;
 };
 
 export type UpdateRelationOp = {
   type: 'UPDATE_RELATION';
-  relation: Pick<Relation, 'id' | 'index' | 'toSpace' | 'fromProperty'>;
+  relation: Pick<
+    Relation,
+    | 'id'
+    | 'position'
+    | 'toSpace'
+    | 'fromProperty'
+    | 'toProperty'
+    | 'fromVersion'
+    | 'toVersion'
+    | 'position'
+    | 'verified'
+  >;
 };
 
 export type Op =
@@ -90,14 +105,14 @@ export type PropertiesParam = Record<Id, ValueParams>;
 export type RelationsParam = Record<Id, RelationParams | Array<RelationParams>>;
 
 export type EntityParams = DefaultProperties & {
-  properties?: PropertiesParam;
+  values?: PropertiesParam;
   relations?: RelationsParam;
   types?: Array<Id>;
 };
 
 export type UpdateEntityParams = DefaultProperties & {
   id: Id;
-  properties?: PropertiesParam;
+  values?: PropertiesParam;
 };
 
 type RelationEntityParams = {

@@ -15,7 +15,7 @@ import { createEntity } from './create-entity.js';
  *   fromProperty: propertyId1,
  *   position: 'position of the relation',
  *   entityId: entityId3, // optional and will be generated if not provided
- *   entityProperties: {
+ *   entityValues: {
  *     propertyId1: { value: 'value1' },
  *     propertyId2: { value: 'value2' },
  *   },
@@ -44,7 +44,7 @@ export const createRelation = ({
   entityName,
   entityDescription,
   entityCover,
-  entityProperties,
+  entityValues,
   entityRelations,
   entityTypes,
 }: RelationParams): CreateResult => {
@@ -63,20 +63,20 @@ export const createRelation = ({
       entity: entityId,
       fromEntity,
       fromProperty,
-      index: position,
+      position,
       toEntity,
       toSpace,
       type,
     },
   });
 
-  if (entityName || entityDescription || entityCover || entityProperties || entityRelations || entityTypes) {
+  if (entityName || entityDescription || entityCover || entityValues || entityRelations || entityTypes) {
     const { ops: entityOps } = createEntity({
       id: entityId,
       name: entityName,
       description: entityDescription,
       cover: entityCover,
-      properties: entityProperties,
+      values: entityValues,
       relations: entityRelations,
       types: entityTypes,
     });

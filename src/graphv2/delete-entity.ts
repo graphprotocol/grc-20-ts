@@ -17,9 +17,7 @@ export const deleteEntity = ({ id }: { id: Id }): CreateResult => {
   assertValid(id);
   const op: DeleteEntityOp = {
     type: 'DELETE_ENTITY',
-    entity: {
-      id,
-    },
+    id,
   };
 
   return { id, ops: [op] };

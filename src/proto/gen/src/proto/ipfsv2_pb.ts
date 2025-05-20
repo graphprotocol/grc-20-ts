@@ -7,193 +7,33 @@ import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialM
 import { Message, proto3 } from "@bufbuild/protobuf";
 
 /**
- * @generated from enum ipfsv2.ActionType
- */
-export enum ActionType {
-  /**
-   * @generated from enum value: ACTION_TYPE_UNKNOWN = 0;
-   */
-  ACTION_TYPE_UNKNOWN = 0,
-
-  /**
-   * @generated from enum value: ADD_EDIT = 1;
-   */
-  ADD_EDIT = 1,
-
-  /**
-   * @generated from enum value: IMPORT_SPACE = 2;
-   */
-  IMPORT_SPACE = 2,
-
-  /**
-   * @generated from enum value: ARCHIVE_SPACE = 3;
-   */
-  ARCHIVE_SPACE = 3,
-}
-// Retrieve enum metadata with: proto3.getEnumType(ActionType)
-proto3.util.setEnumType(ActionType, "ipfsv2.ActionType", [
-  { no: 0, name: "ACTION_TYPE_UNKNOWN" },
-  { no: 1, name: "ADD_EDIT" },
-  { no: 2, name: "IMPORT_SPACE" },
-  { no: 3, name: "ARCHIVE_SPACE" },
-]);
-
-/**
- * @generated from enum ipfsv2.OpType
- */
-export enum OpType {
-  /**
-   * @generated from enum value: OP_TYPE_UNKNOWN = 0;
-   */
-  OP_TYPE_UNKNOWN = 0,
-
-  /**
-   * @generated from enum value: CREATE_ENTITY = 1;
-   */
-  CREATE_ENTITY = 1,
-
-  /**
-   * @generated from enum value: UPDATE_ENTITY = 2;
-   */
-  UPDATE_ENTITY = 2,
-
-  /**
-   * @generated from enum value: DELETE_ENTITY = 3;
-   */
-  DELETE_ENTITY = 3,
-
-  /**
-   * @generated from enum value: CREATE_RELATION = 4;
-   */
-  CREATE_RELATION = 4,
-
-  /**
-   * @generated from enum value: DELETE_RELATION = 5;
-   */
-  DELETE_RELATION = 5,
-
-  /**
-   * @generated from enum value: UPDATE_RELATION = 6;
-   */
-  UPDATE_RELATION = 6,
-
-  /**
-   * @generated from enum value: UNSET_PROPERTIES = 7;
-   */
-  UNSET_PROPERTIES = 7,
-
-  /**
-   * @generated from enum value: MOVE_ENTITY = 8;
-   */
-  MOVE_ENTITY = 8,
-
-  /**
-   * @generated from enum value: MERGE_ENTITIES = 9;
-   */
-  MERGE_ENTITIES = 9,
-
-  /**
-   * @generated from enum value: BRANCH_ENTITY = 10;
-   */
-  BRANCH_ENTITY = 10,
-}
-// Retrieve enum metadata with: proto3.getEnumType(OpType)
-proto3.util.setEnumType(OpType, "ipfsv2.OpType", [
-  { no: 0, name: "OP_TYPE_UNKNOWN" },
-  { no: 1, name: "CREATE_ENTITY" },
-  { no: 2, name: "UPDATE_ENTITY" },
-  { no: 3, name: "DELETE_ENTITY" },
-  { no: 4, name: "CREATE_RELATION" },
-  { no: 5, name: "DELETE_RELATION" },
-  { no: 6, name: "UPDATE_RELATION" },
-  { no: 7, name: "UNSET_PROPERTIES" },
-  { no: 8, name: "MOVE_ENTITY" },
-  { no: 9, name: "MERGE_ENTITIES" },
-  { no: 10, name: "BRANCH_ENTITY" },
-]);
-
-/**
- * @generated from message ipfsv2.Metadata
- */
-export class Metadata extends Message<Metadata> {
-  /**
-   * @generated from field: string version = 1;
-   */
-  version = "";
-
-  /**
-   * @generated from field: ipfsv2.ActionType type = 2;
-   */
-  type = ActionType.ACTION_TYPE_UNKNOWN;
-
-  constructor(data?: PartialMessage<Metadata>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ipfsv2.Metadata";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "version", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "type", kind: "enum", T: proto3.getEnumType(ActionType) },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Metadata {
-    return new Metadata().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Metadata {
-    return new Metadata().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Metadata {
-    return new Metadata().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Metadata | PlainMessage<Metadata> | undefined, b: Metadata | PlainMessage<Metadata> | undefined): boolean {
-    return proto3.util.equals(Metadata, a, b);
-  }
-}
-
-/**
  * @generated from message ipfsv2.Edit
  */
 export class Edit extends Message<Edit> {
   /**
-   * ------------------
-   * version and type are defined on every IPFS action
-   * ------------------
-   *
-   * @generated from field: string version = 1;
+   * @generated from field: bytes id = 1;
    */
-  version = "";
+  id = new Uint8Array(0);
 
   /**
-   * Should always be 1 for ADD_EDIT
-   *
-   * @generated from field: ipfsv2.ActionType type = 2;
-   */
-  type = ActionType.ACTION_TYPE_UNKNOWN;
-
-  /**
-   * @generated from field: string id = 3;
-   */
-  id = "";
-
-  /**
-   * @generated from field: string name = 4;
+   * @generated from field: string name = 2;
    */
   name = "";
 
   /**
-   * @generated from field: repeated ipfsv2.Op ops = 5;
+   * @generated from field: repeated ipfsv2.Op ops = 3;
    */
   ops: Op[] = [];
 
   /**
-   * @generated from field: repeated string authors = 6;
+   * @generated from field: repeated bytes authors = 4;
    */
-  authors: string[] = [];
+  authors: Uint8Array[] = [];
+
+  /**
+   * @generated from field: optional bytes language = 5;
+   */
+  language?: Uint8Array;
 
   constructor(data?: PartialMessage<Edit>) {
     super();
@@ -203,12 +43,11 @@ export class Edit extends Message<Edit> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "ipfsv2.Edit";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "version", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "type", kind: "enum", T: proto3.getEnumType(ActionType) },
-    { no: 3, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "ops", kind: "message", T: Op, repeated: true },
-    { no: 6, name: "authors", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "ops", kind: "message", T: Op, repeated: true },
+    { no: 4, name: "authors", kind: "scalar", T: 12 /* ScalarType.BYTES */, repeated: true },
+    { no: 5, name: "language", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Edit {
@@ -229,36 +68,242 @@ export class Edit extends Message<Edit> {
 }
 
 /**
- * @TODO: Use oneof instead of these weird optional state machines
- *
+ * @generated from message ipfsv2.ImportEdit
+ */
+export class ImportEdit extends Message<ImportEdit> {
+  /**
+   * @generated from field: bytes id = 1;
+   */
+  id = new Uint8Array(0);
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name = "";
+
+  /**
+   * @generated from field: repeated ipfsv2.Op ops = 3;
+   */
+  ops: Op[] = [];
+
+  /**
+   * @generated from field: repeated bytes authors = 4;
+   */
+  authors: Uint8Array[] = [];
+
+  /**
+   * @generated from field: bytes created_by = 5;
+   */
+  createdBy = new Uint8Array(0);
+
+  /**
+   * @generated from field: string created_at = 6;
+   */
+  createdAt = "";
+
+  /**
+   * @generated from field: bytes block_hash = 7;
+   */
+  blockHash = new Uint8Array(0);
+
+  /**
+   * @generated from field: string block_number = 8;
+   */
+  blockNumber = "";
+
+  /**
+   * @generated from field: bytes transaction_hash = 9;
+   */
+  transactionHash = new Uint8Array(0);
+
+  constructor(data?: PartialMessage<ImportEdit>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ipfsv2.ImportEdit";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "ops", kind: "message", T: Op, repeated: true },
+    { no: 4, name: "authors", kind: "scalar", T: 12 /* ScalarType.BYTES */, repeated: true },
+    { no: 5, name: "created_by", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+    { no: 6, name: "created_at", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 7, name: "block_hash", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+    { no: 8, name: "block_number", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 9, name: "transaction_hash", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ImportEdit {
+    return new ImportEdit().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ImportEdit {
+    return new ImportEdit().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ImportEdit {
+    return new ImportEdit().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ImportEdit | PlainMessage<ImportEdit> | undefined, b: ImportEdit | PlainMessage<ImportEdit> | undefined): boolean {
+    return proto3.util.equals(ImportEdit, a, b);
+  }
+}
+
+/**
+ * @generated from message ipfsv2.Import
+ */
+export class Import extends Message<Import> {
+  /**
+   * these strings are IPFS cids representing the import edit message
+   *
+   * @generated from field: repeated string edits = 1;
+   */
+  edits: string[] = [];
+
+  constructor(data?: PartialMessage<Import>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ipfsv2.Import";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "edits", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Import {
+    return new Import().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Import {
+    return new Import().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Import {
+    return new Import().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Import | PlainMessage<Import> | undefined, b: Import | PlainMessage<Import> | undefined): boolean {
+    return proto3.util.equals(Import, a, b);
+  }
+}
+
+/**
+ * @generated from message ipfsv2.IpfsFile
+ */
+export class IpfsFile extends Message<IpfsFile> {
+  /**
+   * @generated from field: string version = 1;
+   */
+  version = "";
+
+  /**
+   * @generated from oneof ipfsv2.IpfsFile.payload
+   */
+  payload: {
+    /**
+     * @generated from field: ipfsv2.Edit add_edit = 2;
+     */
+    value: Edit;
+    case: "addEdit";
+  } | {
+    /**
+     * @generated from field: ipfsv2.Import import_space = 3;
+     */
+    value: Import;
+    case: "importSpace";
+  } | {
+    /**
+     * @generated from field: bytes archive_space = 4;
+     */
+    value: Uint8Array;
+    case: "archiveSpace";
+  } | { case: undefined; value?: undefined } = { case: undefined };
+
+  constructor(data?: PartialMessage<IpfsFile>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ipfsv2.IpfsFile";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "version", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "add_edit", kind: "message", T: Edit, oneof: "payload" },
+    { no: 3, name: "import_space", kind: "message", T: Import, oneof: "payload" },
+    { no: 4, name: "archive_space", kind: "scalar", T: 12 /* ScalarType.BYTES */, oneof: "payload" },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): IpfsFile {
+    return new IpfsFile().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): IpfsFile {
+    return new IpfsFile().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): IpfsFile {
+    return new IpfsFile().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: IpfsFile | PlainMessage<IpfsFile> | undefined, b: IpfsFile | PlainMessage<IpfsFile> | undefined): boolean {
+    return proto3.util.equals(IpfsFile, a, b);
+  }
+}
+
+/**
  * @generated from message ipfsv2.Op
  */
 export class Op extends Message<Op> {
   /**
-   * @generated from field: ipfsv2.OpType type = 1;
+   * @generated from oneof ipfsv2.Op.payload
    */
-  type = OpType.OP_TYPE_UNKNOWN;
-
-  /**
-   * *
-   * Used when setting batch ops or deleting an entity
-   *
-   * @generated from field: optional ipfsv2.Entity entity = 2;
-   */
-  entity?: Entity;
-
-  /**
-   * *
-   * Used when creating or deleting a relation
-   *
-   * @generated from field: optional ipfsv2.Relation relation = 3;
-   */
-  relation?: Relation;
-
-  /**
-   * @generated from field: optional ipfsv2.Property property = 4;
-   */
-  property?: Property;
+  payload: {
+    /**
+     * @generated from field: ipfsv2.Entity create_entity = 1;
+     */
+    value: Entity;
+    case: "createEntity";
+  } | {
+    /**
+     * @generated from field: ipfsv2.Entity update_entity = 2;
+     */
+    value: Entity;
+    case: "updateEntity";
+  } | {
+    /**
+     * @generated from field: bytes delete_entity = 3;
+     */
+    value: Uint8Array;
+    case: "deleteEntity";
+  } | {
+    /**
+     * @generated from field: ipfsv2.Relation create_relation = 4;
+     */
+    value: Relation;
+    case: "createRelation";
+  } | {
+    /**
+     * @generated from field: ipfsv2.RelationUpdate update_relation = 5;
+     */
+    value: RelationUpdate;
+    case: "updateRelation";
+  } | {
+    /**
+     * @generated from field: bytes delete_relation = 6;
+     */
+    value: Uint8Array;
+    case: "deleteRelation";
+  } | {
+    /**
+     * @generated from field: ipfsv2.UnsetProperties unset_properties = 7;
+     */
+    value: UnsetProperties;
+    case: "unsetProperties";
+  } | { case: undefined; value?: undefined } = { case: undefined };
 
   constructor(data?: PartialMessage<Op>) {
     super();
@@ -268,10 +313,13 @@ export class Op extends Message<Op> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "ipfsv2.Op";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "type", kind: "enum", T: proto3.getEnumType(OpType) },
-    { no: 2, name: "entity", kind: "message", T: Entity, opt: true },
-    { no: 3, name: "relation", kind: "message", T: Relation, opt: true },
-    { no: 4, name: "property", kind: "message", T: Property, opt: true },
+    { no: 1, name: "create_entity", kind: "message", T: Entity, oneof: "payload" },
+    { no: 2, name: "update_entity", kind: "message", T: Entity, oneof: "payload" },
+    { no: 3, name: "delete_entity", kind: "scalar", T: 12 /* ScalarType.BYTES */, oneof: "payload" },
+    { no: 4, name: "create_relation", kind: "message", T: Relation, oneof: "payload" },
+    { no: 5, name: "update_relation", kind: "message", T: RelationUpdate, oneof: "payload" },
+    { no: 6, name: "delete_relation", kind: "scalar", T: 12 /* ScalarType.BYTES */, oneof: "payload" },
+    { no: 7, name: "unset_properties", kind: "message", T: UnsetProperties, oneof: "payload" },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Op {
@@ -292,51 +340,45 @@ export class Op extends Message<Op> {
 }
 
 /**
- * @generated from message ipfsv2.Property
+ * @generated from message ipfsv2.UnsetProperties
  */
-export class Property extends Message<Property> {
+export class UnsetProperties extends Message<UnsetProperties> {
   /**
    * @generated from field: bytes id = 1;
    */
   id = new Uint8Array(0);
 
   /**
-   * @generated from field: bytes type = 2;
+   * @generated from field: repeated bytes properties = 2;
    */
-  type = new Uint8Array(0);
+  properties: Uint8Array[] = [];
 
-  /**
-   * @generated from field: string name = 3;
-   */
-  name = "";
-
-  constructor(data?: PartialMessage<Property>) {
+  constructor(data?: PartialMessage<UnsetProperties>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ipfsv2.Property";
+  static readonly typeName = "ipfsv2.UnsetProperties";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 2, name: "type", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 3, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "properties", kind: "scalar", T: 12 /* ScalarType.BYTES */, repeated: true },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Property {
-    return new Property().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UnsetProperties {
+    return new UnsetProperties().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Property {
-    return new Property().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UnsetProperties {
+    return new UnsetProperties().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Property {
-    return new Property().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UnsetProperties {
+    return new UnsetProperties().fromJsonString(jsonString, options);
   }
 
-  static equals(a: Property | PlainMessage<Property> | undefined, b: Property | PlainMessage<Property> | undefined): boolean {
-    return proto3.util.equals(Property, a, b);
+  static equals(a: UnsetProperties | PlainMessage<UnsetProperties> | undefined, b: UnsetProperties | PlainMessage<UnsetProperties> | undefined): boolean {
+    return proto3.util.equals(UnsetProperties, a, b);
   }
 }
 
@@ -360,29 +402,54 @@ export class Relation extends Message<Relation> {
   fromEntity = new Uint8Array(0);
 
   /**
-   * @generated from field: optional bytes from_property = 4;
+   * @generated from field: optional bytes from_space = 4;
+   */
+  fromSpace?: Uint8Array;
+
+  /**
+   * @generated from field: optional bytes from_property = 5;
    */
   fromProperty?: Uint8Array;
 
   /**
-   * @generated from field: bytes to_entity = 5;
+   * @generated from field: optional bytes from_version = 6;
+   */
+  fromVersion?: Uint8Array;
+
+  /**
+   * @generated from field: bytes to_entity = 7;
    */
   toEntity = new Uint8Array(0);
 
   /**
-   * @generated from field: optional bytes to_space = 6;
+   * @generated from field: optional bytes to_space = 8;
    */
   toSpace?: Uint8Array;
 
   /**
-   * @generated from field: bytes entity = 7;
+   * @generated from field: optional bytes to_property = 9;
+   */
+  toProperty?: Uint8Array;
+
+  /**
+   * @generated from field: optional bytes to_version = 10;
+   */
+  toVersion?: Uint8Array;
+
+  /**
+   * @generated from field: bytes entity = 11;
    */
   entity = new Uint8Array(0);
 
   /**
-   * @generated from field: optional string index = 8;
+   * @generated from field: optional string position = 12;
    */
-  index?: string;
+  position?: string;
+
+  /**
+   * @generated from field: optional bool verified = 13;
+   */
+  verified?: boolean;
 
   constructor(data?: PartialMessage<Relation>) {
     super();
@@ -395,11 +462,16 @@ export class Relation extends Message<Relation> {
     { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
     { no: 2, name: "type", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
     { no: 3, name: "from_entity", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 4, name: "from_property", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
-    { no: 5, name: "to_entity", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 6, name: "to_space", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
-    { no: 7, name: "entity", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 8, name: "index", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 4, name: "from_space", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 5, name: "from_property", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 6, name: "from_version", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 7, name: "to_entity", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+    { no: 8, name: "to_space", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 9, name: "to_property", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 10, name: "to_version", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 11, name: "entity", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+    { no: 12, name: "position", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 13, name: "verified", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Relation {
@@ -416,6 +488,91 @@ export class Relation extends Message<Relation> {
 
   static equals(a: Relation | PlainMessage<Relation> | undefined, b: Relation | PlainMessage<Relation> | undefined): boolean {
     return proto3.util.equals(Relation, a, b);
+  }
+}
+
+/**
+ * @generated from message ipfsv2.RelationUpdate
+ */
+export class RelationUpdate extends Message<RelationUpdate> {
+  /**
+   * @generated from field: bytes id = 1;
+   */
+  id = new Uint8Array(0);
+
+  /**
+   * @generated from field: optional bytes from_space = 2;
+   */
+  fromSpace?: Uint8Array;
+
+  /**
+   * @generated from field: optional bytes from_property = 3;
+   */
+  fromProperty?: Uint8Array;
+
+  /**
+   * @generated from field: optional bytes from_version = 4;
+   */
+  fromVersion?: Uint8Array;
+
+  /**
+   * @generated from field: optional bytes to_space = 5;
+   */
+  toSpace?: Uint8Array;
+
+  /**
+   * @generated from field: optional bytes to_property = 6;
+   */
+  toProperty?: Uint8Array;
+
+  /**
+   * @generated from field: optional bytes to_version = 7;
+   */
+  toVersion?: Uint8Array;
+
+  /**
+   * @generated from field: optional string position = 8;
+   */
+  position?: string;
+
+  /**
+   * @generated from field: optional bool verified = 9;
+   */
+  verified?: boolean;
+
+  constructor(data?: PartialMessage<RelationUpdate>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ipfsv2.RelationUpdate";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: "from_space", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 3, name: "from_property", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 4, name: "from_version", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 5, name: "to_space", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 6, name: "to_property", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 7, name: "to_version", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 8, name: "position", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 9, name: "verified", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): RelationUpdate {
+    return new RelationUpdate().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): RelationUpdate {
+    return new RelationUpdate().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): RelationUpdate {
+    return new RelationUpdate().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: RelationUpdate | PlainMessage<RelationUpdate> | undefined, b: RelationUpdate | PlainMessage<RelationUpdate> | undefined): boolean {
+    return proto3.util.equals(RelationUpdate, a, b);
   }
 }
 
@@ -472,17 +629,9 @@ export class Value extends Message<Value> {
   propertyId = new Uint8Array(0);
 
   /**
-   * If we are in an UNSET_PROPERTIES op we don't
-   * need to pass the value
-   *
-   * @generated from field: optional string value = 2;
+   * @generated from field: string value = 2;
    */
-  value?: string;
-
-  /**
-   * @generated from field: optional ipfsv2.Options options = 3;
-   */
-  options?: Options;
+  value = "";
 
   constructor(data?: PartialMessage<Value>) {
     super();
@@ -493,8 +642,7 @@ export class Value extends Message<Value> {
   static readonly typeName = "ipfsv2.Value";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "property_id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 2, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
-    { no: 3, name: "options", kind: "message", T: Options, opt: true },
+    { no: 2, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Value {
@@ -511,49 +659,6 @@ export class Value extends Message<Value> {
 
   static equals(a: Value | PlainMessage<Value> | undefined, b: Value | PlainMessage<Value> | undefined): boolean {
     return proto3.util.equals(Value, a, b);
-  }
-}
-
-/**
- * @generated from message ipfsv2.Options
- */
-export class Options extends Message<Options> {
-  /**
-   * @generated from field: optional string unit = 1;
-   */
-  unit?: string;
-
-  /**
-   * @generated from field: optional string format = 2;
-   */
-  format?: string;
-
-  constructor(data?: PartialMessage<Options>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ipfsv2.Options";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "unit", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
-    { no: 2, name: "format", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Options {
-    return new Options().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Options {
-    return new Options().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Options {
-    return new Options().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Options | PlainMessage<Options> | undefined, b: Options | PlainMessage<Options> | undefined): boolean {
-    return proto3.util.equals(Options, a, b);
   }
 }
 

@@ -14,7 +14,7 @@ import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value } from
  *   name: 'name of the entity',
  *   description: 'description of the entity',
  *   cover: imageEntityId,
- *   properties: {
+ *   values: {
  *     // value property like text, number, url, time, point, checkbox
  *     [propertyId]: {
  *       type: 'TEXT', // TEXT | NUMBER | URL | TIME | POINT | CHECKBOX,
@@ -27,7 +27,7 @@ import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value } from
  * @returns – {@link CreateResult}
  * @throws Will throw an error if any provided ID is invalid
  */
-export const updateEntity = ({ id, name, description, cover, properties }: UpdateEntityParams): CreateResult => {
+export const updateEntity = ({ id, name, description, cover, values }: UpdateEntityParams): CreateResult => {
   assertValid(id, '`id` in `updateEntity`');
   const ops: Array<Op> = [];
 
@@ -44,7 +44,7 @@ export const updateEntity = ({ id, name, description, cover, properties }: Updat
       value: description,
     });
   }
-  for (const [key, value] of Object.entries(properties ?? {})) {
+  for (const [key, value] of Object.entries(values ?? {})) {
     newValues.push({
       propertyId: Id(key),
       value: value.value,

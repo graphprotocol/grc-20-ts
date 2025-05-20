@@ -17,9 +17,7 @@ export const deleteRelation = ({ id }: { id: Id }): CreateResult => {
   assertValid(id);
   const op: DeleteRelationOp = {
     type: 'DELETE_RELATION',
-    relation: {
-      id,
-    },
+    id,
   };
 
   return { id, ops: [op] };
