@@ -6,5 +6,6 @@ export * from './create-space.js';
 export * from './create-type.js';
 export * from './delete-entity.js';
 export * from './delete-relation.js';
-export * from './remove-entity-properties.js';
+export * from './unset-entity-properties.js';
+export * from './unset-relation.js';
 export * from './update-entity.js';

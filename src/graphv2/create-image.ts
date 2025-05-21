@@ -5,24 +5,10 @@ import {
   IMAGE_WIDTH_PROPERTY,
   TYPES_PROPERTY,
 } from '../core/idsv2/system.js';
-import { type Id, assertValid, generate } from '../idv2.js';
+import { assertValid, generate } from '../idv2.js';
 import { uploadImage } from '../ipfsv2.js';
-import type { CreateResult, PropertiesParam } from '../typesv2.js';
+import type { CreateImageParams, CreateResult, PropertiesParam } from '../typesv2.js';
 import { createEntity } from './create-entity.js';
-
-type CreateImageParams =
-  | {
-      blob: Blob;
-      name?: string;
-      description?: string;
-      id?: Id;
-    }
-  | {
-      url: string;
-      name?: string;
-      description?: string;
-      id?: Id;
-    };
 
 /**
  * Creates an entity with the given name, description, cover, properties, and types.

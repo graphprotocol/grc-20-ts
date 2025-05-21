@@ -303,6 +303,12 @@ export class Op extends Message<Op> {
      */
     value: UnsetProperties;
     case: "unsetProperties";
+  } | {
+    /**
+     * @generated from field: ipfsv2.UnsetRelation unset_relation = 8;
+     */
+    value: UnsetRelation;
+    case: "unsetRelation";
   } | { case: undefined; value?: undefined } = { case: undefined };
 
   constructor(data?: PartialMessage<Op>) {
@@ -320,6 +326,7 @@ export class Op extends Message<Op> {
     { no: 5, name: "update_relation", kind: "message", T: RelationUpdate, oneof: "payload" },
     { no: 6, name: "delete_relation", kind: "scalar", T: 12 /* ScalarType.BYTES */, oneof: "payload" },
     { no: 7, name: "unset_properties", kind: "message", T: UnsetProperties, oneof: "payload" },
+    { no: 8, name: "unset_relation", kind: "message", T: UnsetRelation, oneof: "payload" },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Op {
@@ -573,6 +580,79 @@ export class RelationUpdate extends Message<RelationUpdate> {
 
   static equals(a: RelationUpdate | PlainMessage<RelationUpdate> | undefined, b: RelationUpdate | PlainMessage<RelationUpdate> | undefined): boolean {
     return proto3.util.equals(RelationUpdate, a, b);
+  }
+}
+
+/**
+ * @generated from message ipfsv2.UnsetRelation
+ */
+export class UnsetRelation extends Message<UnsetRelation> {
+  /**
+   * @generated from field: bytes id = 1;
+   */
+  id = new Uint8Array(0);
+
+  /**
+   * @generated from field: optional bool from_space = 2;
+   */
+  fromSpace?: boolean;
+
+  /**
+   * @generated from field: optional bool from_version = 3;
+   */
+  fromVersion?: boolean;
+
+  /**
+   * @generated from field: optional bool to_space = 4;
+   */
+  toSpace?: boolean;
+
+  /**
+   * @generated from field: optional bool to_version = 5;
+   */
+  toVersion?: boolean;
+
+  /**
+   * @generated from field: optional bool position = 6;
+   */
+  position?: boolean;
+
+  /**
+   * @generated from field: optional bool verified = 7;
+   */
+  verified?: boolean;
+
+  constructor(data?: PartialMessage<UnsetRelation>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ipfsv2.UnsetRelation";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: "from_space", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 3, name: "from_version", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 4, name: "to_space", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 5, name: "to_version", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 6, name: "position", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 7, name: "verified", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UnsetRelation {
+    return new UnsetRelation().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UnsetRelation {
+    return new UnsetRelation().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UnsetRelation {
+    return new UnsetRelation().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: UnsetRelation | PlainMessage<UnsetRelation> | undefined, b: UnsetRelation | PlainMessage<UnsetRelation> | undefined): boolean {
+    return proto3.util.equals(UnsetRelation, a, b);
   }
 }
 

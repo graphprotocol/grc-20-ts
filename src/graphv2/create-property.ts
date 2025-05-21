@@ -12,10 +12,8 @@ import {
 } from '../core/idsv2/system.js';
 import type { Id } from '../idv2.js';
 import { assertValid, generate } from '../idv2.js';
-import type { CreateResult, DefaultProperties, ValueType } from '../typesv2.js';
+import type { CreatePropertyParams, CreateResult } from '../typesv2.js';
 import { createEntity } from './create-entity.js';
-
-type CreatePropertyParams = DefaultProperties & { type: ValueType };
 
 /**
  * Creates a property with the given name, description, cover, and type.

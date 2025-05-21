@@ -1,6 +1,5 @@
-import type { Id } from '../idv2.js';
 import { assertValid } from '../idv2.js';
-import type { CreateResult, DeleteEntityOp } from '../typesv2.js';
+import type { CreateResult, DeleteEntityOp, DeleteEntityParams } from '../typesv2.js';
 
 /**
  * Deletes an entity from a space.
@@ -10,10 +9,10 @@ import type { CreateResult, DeleteEntityOp } from '../typesv2.js';
  * const { ops } = await deleteEntity({ id: entityId });
  * ```
  *
- * @param params - The parameters for the entity to delete.
+ * @param params – {@link DeleteEntityParams}
  * @returns The operations to delete the entity.
  */
-export const deleteEntity = ({ id }: { id: Id }): CreateResult => {
+export const deleteEntity = ({ id }: DeleteEntityParams): CreateResult => {
   assertValid(id);
   const op: DeleteEntityOp = {
     type: 'DELETE_ENTITY',

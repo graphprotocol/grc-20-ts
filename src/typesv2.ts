@@ -80,6 +80,17 @@ export type UpdateRelationOp = {
   >;
 };
 
+export type UnsetRelationOp = {
+  type: 'UNSET_RELATION';
+  id: Id;
+  fromSpace?: boolean;
+  fromVersion?: boolean;
+  toSpace?: boolean;
+  toVersion?: boolean;
+  position?: boolean;
+  verified?: boolean;
+};
+
 export type Op =
   | CreateEntityOp
   | UpdateEntityOp
@@ -87,7 +98,8 @@ export type Op =
   | CreateRelationOp
   | DeleteRelationOp
   | UpdateRelationOp
-  | UnsetPropertiesOp;
+  | UnsetPropertiesOp
+  | UnsetRelationOp;
 
 type ValueParams = {
   value: string;
@@ -141,3 +153,46 @@ export type CreateResult = {
   id: Id;
   ops: Op[];
 };
+
+export type UnsetRelationParams = {
+  id: Id;
+  fromSpace?: boolean;
+  fromVersion?: boolean;
+  toSpace?: boolean;
+  toVersion?: boolean;
+  position?: boolean;
+  verified?: boolean;
+};
+
+export type UnsetEntityPropertiesParams = {
+  id: Id;
+  properties: Id[];
+};
+
+export type DeleteRelationParams = {
+  id: Id;
+};
+
+export type DeleteEntityParams = {
+  id: Id;
+};
+
+export type CreateTypeParams = DefaultProperties & {
+  properties?: Array<Id>;
+};
+
+export type CreatePropertyParams = DefaultProperties & { type: ValueType };
+
+export type CreateImageParams =
+  | {
+      blob: Blob;
+      name?: string;
+      description?: string;
+      id?: Id;
+    }
+  | {
+      url: string;
+      name?: string;
+      description?: string;
+      id?: Id;
+    };

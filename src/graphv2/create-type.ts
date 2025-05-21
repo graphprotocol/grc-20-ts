@@ -1,11 +1,7 @@
 import { PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/idsv2/system.js';
-import { type Id, assertValid, generate } from '../idv2.js';
-import type { CreateResult, DefaultProperties } from '../typesv2.js';
+import { assertValid, generate } from '../idv2.js';
+import type { CreateResult, CreateTypeParams } from '../typesv2.js';
 import { createEntity } from './create-entity.js';
-
-type CreateTypeParams = DefaultProperties & {
-  properties?: Array<Id>;
-};
 
 /**
  * Creates a type with the given name, description, cover and properties.

@@ -1,6 +1,5 @@
-import type { Id } from '../idv2.js';
 import { assertValid } from '../idv2.js';
-import type { CreateResult, DeleteRelationOp } from '../typesv2.js';
+import type { CreateResult, DeleteRelationOp, DeleteRelationParams } from '../typesv2.js';
 
 /**
  * Deletes a relation.
@@ -10,10 +9,10 @@ import type { CreateResult, DeleteRelationOp } from '../typesv2.js';
  * const { ops } = await deleteRelation({ id: relationId });
  * ```
  *
- * @param params - The parameters for the relation to delete.
+ * @param params – {@link DeleteRelationParams}
  * @returns The operations to delete the relation.
  */
-export const deleteRelation = ({ id }: { id: Id }): CreateResult => {
+export const deleteRelation = ({ id }: DeleteRelationParams): CreateResult => {
   assertValid(id);
   const op: DeleteRelationOp = {
     type: 'DELETE_RELATION',
