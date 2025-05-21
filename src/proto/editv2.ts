@@ -1,6 +1,13 @@
 import { type Id, generate, toBytes } from '../idv2.js';
 import type { Op } from '../typesv2.js';
-import { Edit, Entity, Op as OpBinary, Relation, RelationUpdate, UnsetRelation } from './gen/src/proto/ipfsv2_pb.js';
+import {
+  Edit,
+  Entity,
+  Op as OpBinary,
+  Relation,
+  RelationUpdate,
+  UnsetRelationFields,
+} from './gen/src/proto/ipfsv2_pb.js';
 
 type MakeEditProposalParams = {
   name: string;
@@ -36,13 +43,6 @@ function opsToBinary(ops: Op[]): OpBinary[] {
             value: toBytes(o.id),
           },
         });
-      case 'CREATE_ENTITY':
-        return new OpBinary({
-          payload: {
-            case: 'createEntity',
-            value: Entity.fromJson(o.entity),
-          },
-        });
       case 'UPDATE_ENTITY':
         return new OpBinary({
           payload: {
@@ -50,10 +50,10 @@ function opsToBinary(ops: Op[]): OpBinary[] {
             value: Entity.fromJson(o.entity),
           },
         });
-      case 'UNSET_PROPERTIES':
+      case 'UNSET_ENTITY_VALUES':
         return new OpBinary({
           payload: {
-            case: 'unsetProperties',
+            case: 'unsetEntityValues',
             value: {
               id: toBytes(o.entity),
               properties: o.properties.map(toBytes),
@@ -77,8 +77,8 @@ function opsToBinary(ops: Op[]): OpBinary[] {
       case 'UNSET_RELATION':
         return new OpBinary({
           payload: {
-            case: 'unsetRelation',
-            value: UnsetRelation.fromJson(o),
+            case: 'unsetRelationFields',
+            value: UnsetRelationFields.fromJson(o),
           },
         });
     }

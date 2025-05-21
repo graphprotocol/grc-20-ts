@@ -16,7 +16,7 @@ describe('createType', () => {
     expect(type.ops.length).toBe(2);
 
     // Check entity creation
-    expect(type.ops[0]?.type).toBe('CREATE_ENTITY');
+    expect(type.ops[0]?.type).toBe('UPDATE_ENTITY');
     expect(type.ops[0]).toMatchObject({
       entity: {
         id: type.id,
@@ -27,7 +27,7 @@ describe('createType', () => {
           },
         ],
       },
-      type: 'CREATE_ENTITY',
+      type: 'UPDATE_ENTITY',
     });
 
     // Check type relation to itself (marking it as a type)
@@ -56,7 +56,7 @@ describe('createType', () => {
     expect(type.ops.length).toBe(4);
 
     // Check entity creation
-    expect(type.ops[0]?.type).toBe('CREATE_ENTITY');
+    expect(type.ops[0]?.type).toBe('UPDATE_ENTITY');
     expect(type.ops[0]).toMatchObject({
       entity: {
         id: type.id,
@@ -67,7 +67,7 @@ describe('createType', () => {
           },
         ],
       },
-      type: 'CREATE_ENTITY',
+      type: 'UPDATE_ENTITY',
     });
 
     // Check types relation

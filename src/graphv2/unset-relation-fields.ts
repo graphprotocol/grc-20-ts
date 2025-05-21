@@ -5,7 +5,7 @@ import type { UnsetRelationOp, UnsetRelationParams } from '../typesv2.js';
  *
  * @example
  * ```ts
- * const { ops } = await unsetRelation({
+ * const { ops } = await unsetRelationFields({
  *   id: relationId,
  *   fromSpace: true, // optional
  *   fromVersion: true, // optional
@@ -19,7 +19,7 @@ import type { UnsetRelationOp, UnsetRelationParams } from '../typesv2.js';
  * @param params – {@link UnsetRelationParams}
  * @returns The operation to unset the relation.
  */
-export const unsetRelation = ({
+export const unsetRelationFields = ({
   id,
   fromSpace,
   fromVersion,

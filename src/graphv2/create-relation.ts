@@ -8,6 +8,7 @@ import { createEntity } from './create-entity.js';
  * @example
  * ```ts
  * const { id, ops } = createRelation({
+ *   id: relationId,
  *   fromEntity: entityId1,
  *   toEntity: entityId2,
  *   type: relationTypeId,

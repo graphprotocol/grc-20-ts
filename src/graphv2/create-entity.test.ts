@@ -12,9 +12,9 @@ describe('createEntity', () => {
     expect(entity).toBeDefined();
     expect(typeof entity.id).toBe('string');
     expect(entity.ops).toBeDefined();
-    expect(entity.ops).toHaveLength(1); // One CREATE_ENTITY op
+    expect(entity.ops).toHaveLength(1); // One UPDATE_ENTITY op
     expect(entity.ops[0]).toMatchObject({
-      type: 'CREATE_ENTITY',
+      type: 'UPDATE_ENTITY',
       entity: {
         id: entity.id,
         values: [],
@@ -29,11 +29,11 @@ describe('createEntity', () => {
 
     expect(entity).toBeDefined();
     expect(typeof entity.id).toBe('string');
-    expect(entity.ops).toHaveLength(3); // One CREATE_ENTITY + two CREATE_RELATION ops
+    expect(entity.ops).toHaveLength(3); // One UPDATE_ENTITY + two CREATE_RELATION ops
 
-    // Check CREATE_ENTITY op
+    // Check UPDATE_ENTITY op
     expect(entity.ops[0]).toMatchObject({
-      type: 'CREATE_ENTITY',
+      type: 'UPDATE_ENTITY',
       entity: {
         id: entity.id,
         values: [],
@@ -72,7 +72,7 @@ describe('createEntity', () => {
     expect(entity.ops).toHaveLength(1);
 
     expect(entity.ops[0]).toMatchObject({
-      type: 'CREATE_ENTITY',
+      type: 'UPDATE_ENTITY',
       entity: {
         id: entity.id,
         values: [
@@ -98,9 +98,9 @@ describe('createEntity', () => {
     expect(typeof entity.id).toBe('string');
     expect(entity.ops).toHaveLength(2);
 
-    // Check CREATE_ENTITY op
+    // Check UPDATE_ENTITY op
     expect(entity.ops[0]).toMatchObject({
-      type: 'CREATE_ENTITY',
+      type: 'UPDATE_ENTITY',
       entity: {
         id: entity.id,
         values: [],
@@ -133,7 +133,7 @@ describe('createEntity', () => {
     expect(entity.ops).toHaveLength(1);
 
     expect(entity.ops[0]).toMatchObject({
-      type: 'CREATE_ENTITY',
+      type: 'UPDATE_ENTITY',
       entity: {
         id: entity.id,
         values: [
@@ -157,7 +157,7 @@ describe('createEntity', () => {
     expect(entity.id).toBe(providedId);
     expect(entity.ops).toHaveLength(1);
     expect(entity.ops[0]).toMatchObject({
-      type: 'CREATE_ENTITY',
+      type: 'UPDATE_ENTITY',
       entity: {
         id: providedId,
         values: [

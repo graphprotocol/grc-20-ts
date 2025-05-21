@@ -43,8 +43,8 @@ describe('createImage', () => {
     expect(image.ops).toBeDefined();
     expect(image.ops).toHaveLength(2);
     if (image.ops[0]) {
-      expect(image.ops[0].type).toBe('CREATE_ENTITY');
-      if (image.ops[0].type === 'CREATE_ENTITY') {
+      expect(image.ops[0].type).toBe('UPDATE_ENTITY');
+      if (image.ops[0].type === 'UPDATE_ENTITY') {
         expect(image.ops[0].entity.values).toContainEqual({
           propertyId: SystemIds.IMAGE_URL_PROPERTY,
           value: 'ipfs://bafkreidgcqofpstvkzylgxbcn4xan6camlgf564sasepyt45sjgvnojxp4',
@@ -66,8 +66,8 @@ describe('createImage', () => {
     expect(image.ops).toBeDefined();
     expect(image.ops).toHaveLength(2);
     if (image.ops[0]) {
-      expect(image.ops[0].type).toBe('CREATE_ENTITY');
-      if (image.ops[0].type === 'CREATE_ENTITY') {
+      expect(image.ops[0].type).toBe('UPDATE_ENTITY');
+      if (image.ops[0].type === 'UPDATE_ENTITY') {
         expect(image.ops[0].entity.values).toContainEqual({
           propertyId: SystemIds.IMAGE_URL_PROPERTY,
           value: 'ipfs://bafkreidgcqofpstvkzylgxbcn4xan6camlgf564sasepyt45sjgvnojxp4',
@@ -91,14 +91,14 @@ describe('createImage', () => {
     expect(image.ops).toBeDefined();
     expect(image.ops).toHaveLength(2);
     if (image.ops[0]) {
-      expect(image.ops[0].type).toBe('CREATE_ENTITY');
-      if (image.ops[0].type === 'CREATE_ENTITY') {
+      expect(image.ops[0].type).toBe('UPDATE_ENTITY');
+      if (image.ops[0].type === 'UPDATE_ENTITY') {
         expect(image.ops[0].entity.values).toContainEqual({
           propertyId: SystemIds.NAME_PROPERTY,
           value: 'test image',
         });
       }
-      if (image.ops[0].type === 'CREATE_ENTITY') {
+      if (image.ops[0].type === 'UPDATE_ENTITY') {
         expect(image.ops[0].entity.values).toContainEqual({
           propertyId: SystemIds.DESCRIPTION_PROPERTY,
           value: 'test description',
@@ -114,7 +114,7 @@ describe('createImage', () => {
     expect(image.ops).toBeDefined();
     expect(image.ops).toHaveLength(2);
     if (image.ops[0]) {
-      expect(image.ops[0].type).toBe('CREATE_ENTITY');
+      expect(image.ops[0].type).toBe('UPDATE_ENTITY');
     }
     if (image.ops[1]) {
       expect(image.ops[1].type).toBe('CREATE_RELATION');
@@ -131,9 +131,9 @@ describe('createImage', () => {
     expect(image.id).toBe('8698adc1-6661-45a3-bea0-482ef419797f');
   });
 
-  it('throws an error if the provided id is invalid', () => {
+  it('throws an error if the provided id is invalid', async () => {
     // @ts-expect-error - invalid id type
-    expect(async () => await createImage({ id: 'invalid', url: 'http://localhost:3000/image' })).rejects.toThrow(
+    await expect(async () => await createImage({ id: 'invalid', url: 'http://localhost:3000/image' })).rejects.toThrow(
       'Invalid id: "invalid" for `id` in `createImage`',
     );
   });

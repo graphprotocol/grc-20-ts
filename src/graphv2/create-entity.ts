@@ -1,6 +1,6 @@
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/idsv2/system.js';
 import { Id, assertValid, generate } from '../idv2.js';
-import type { CreateEntityOp, CreateResult, EntityParams, Op, Value } from '../typesv2.js';
+import type { CreateResult, EntityParams, Op, UpdateEntityOp, Value } from '../typesv2.js';
 import { createRelation } from './create-relation.js';
 
 /**
@@ -88,8 +88,8 @@ export const createEntity = ({
     });
   }
 
-  const op: CreateEntityOp = {
-    type: 'CREATE_ENTITY',
+  const op: UpdateEntityOp = {
+    type: 'UPDATE_ENTITY',
     entity: {
       id,
       values: newValues,

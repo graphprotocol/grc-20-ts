@@ -33,18 +33,13 @@ export type Relation = {
   verified?: boolean;
 };
 
-export type CreateEntityOp = {
-  type: 'CREATE_ENTITY';
-  entity: Entity;
-};
-
 export type UpdateEntityOp = {
   type: 'UPDATE_ENTITY';
   entity: Entity;
 };
 
 export type UnsetPropertiesOp = {
-  type: 'UNSET_PROPERTIES';
+  type: 'UNSET_ENTITY_VALUES';
   entity: Id;
   properties: Id[];
 };
@@ -92,7 +87,6 @@ export type UnsetRelationOp = {
 };
 
 export type Op =
-  | CreateEntityOp
   | UpdateEntityOp
   | DeleteEntityOp
   | CreateRelationOp

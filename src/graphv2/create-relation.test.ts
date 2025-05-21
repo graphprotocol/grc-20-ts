@@ -92,7 +92,7 @@ describe('createRelation', () => {
     });
 
     expect(relation).toBeDefined();
-    expect(relation.ops).toHaveLength(2); // CREATE_RELATION + CREATE_ENTITY
+    expect(relation.ops).toHaveLength(2); // CREATE_RELATION + UPDATE_ENTITY
 
     // Check CREATE_RELATION op
     expect(relation.ops[0]).toMatchObject({
@@ -104,13 +104,13 @@ describe('createRelation', () => {
       },
     });
 
-    // Check CREATE_ENTITY op
+    // Check UPDATE_ENTITY op
     const createRelationOp = relation.ops[0];
     if (!createRelationOp || !isCreateRelationOp(createRelationOp)) {
       throw new Error('Expected first op to be CREATE_RELATION');
     }
     expect(relation.ops[1]).toMatchObject({
-      type: 'CREATE_ENTITY',
+      type: 'UPDATE_ENTITY',
       entity: {
         values: [
           {
@@ -135,7 +135,7 @@ describe('createRelation', () => {
     });
 
     expect(relation).toBeDefined();
-    expect(relation.ops).toHaveLength(4); // CREATE_RELATION + CREATE_ENTITY + two type relations
+    expect(relation.ops).toHaveLength(4); // CREATE_RELATION + UPDATE_ENTITY + two type relations
 
     // Check CREATE_RELATION op
     expect(relation.ops[0]).toMatchObject({
@@ -147,13 +147,13 @@ describe('createRelation', () => {
       },
     });
 
-    // Check CREATE_ENTITY op
+    // Check UPDATE_ENTITY op
     const createRelationOp = relation.ops[0];
     if (!createRelationOp || !isCreateRelationOp(createRelationOp)) {
       throw new Error('Expected first op to be CREATE_RELATION');
     }
     expect(relation.ops[1]).toMatchObject({
-      type: 'CREATE_ENTITY',
+      type: 'UPDATE_ENTITY',
       entity: {
         values: [],
       },
@@ -186,7 +186,7 @@ describe('createRelation', () => {
     });
 
     expect(relation).toBeDefined();
-    expect(relation.ops).toHaveLength(3); // CREATE_RELATION + CREATE_ENTITY + cover relation
+    expect(relation.ops).toHaveLength(3); // CREATE_RELATION + UPDATE_ENTITY + cover relation
 
     // Check CREATE_RELATION op
     expect(relation.ops[0]).toMatchObject({
@@ -198,13 +198,13 @@ describe('createRelation', () => {
       },
     });
 
-    // Check CREATE_ENTITY op with cover relation
+    // Check UPDATE_ENTITY op with cover relation
     const createRelationOp = relation.ops[0];
     if (!createRelationOp || !isCreateRelationOp(createRelationOp)) {
       throw new Error('Expected first op to be CREATE_RELATION');
     }
     expect(relation.ops[1]).toMatchObject({
-      type: 'CREATE_ENTITY',
+      type: 'UPDATE_ENTITY',
       entity: {
         values: [],
       },
