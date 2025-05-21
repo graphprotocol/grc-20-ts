@@ -3,6 +3,8 @@ import {
   NUMBER,
   POINT,
   PROPERTY,
+  RELATION,
+  RELATION_VALUE_RELATIONSHIP_TYPE,
   SCHEMA_TYPE,
   TEXT,
   TIME,
@@ -14,6 +16,7 @@ import type { Id } from '../idv2.js';
 import { assertValid, generate } from '../idv2.js';
 import type { CreatePropertyParams, CreateResult } from '../typesv2.js';
 import { createEntity } from './create-entity.js';
+import { createRelation } from './create-relation.js';
 
 /**
  * Creates a property with the given name, description, cover, and type.
@@ -72,40 +75,76 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
     },
   });
 
-  let toId: Id;
-  switch (params.type) {
-    case 'TEXT':
-      toId = TEXT;
-      break;
-    case 'NUMBER':
-      toId = NUMBER;
-      break;
-    case 'URL':
-      toId = URL;
-      break;
-    case 'TIME':
-      toId = TIME;
-      break;
-    case 'POINT':
-      toId = POINT;
-      break;
-    case 'CHECKBOX':
-      toId = CHECKBOX;
-      break;
-    default:
-      throw new Error(`Unsupported type: ${params.type}`);
-  }
-  // add the provided type to property "Value Types"
-  ops.push({
-    type: 'CREATE_RELATION',
-    relation: {
-      id: generate(),
-      entity: generate(),
+  if (params.type === 'RELATION') {
+    const { ops: valueTypeRelationOps } = createRelation({
+      toEntity: RELATION,
       fromEntity: entityId,
-      toEntity: toId,
       type: VALUE_TYPE_PROPERTY,
-    },
-  });
+    });
+    ops.push(...valueTypeRelationOps);
+
+    // add the provided properties to property "Properties"
+    if (params.properties) {
+      for (const propertyId of params.properties) {
+        assertValid(propertyId);
+        const { ops: relationOps } = createRelation({
+          fromEntity: entityId,
+          toEntity: propertyId,
+          type: PROPERTY,
+        });
+        ops.push(...relationOps);
+      }
+    }
+    if (params.relationValueTypes) {
+      // add the provided relation value types to property "Relation Value Types"
+      for (const relationValueTypeId of params.relationValueTypes) {
+        assertValid(relationValueTypeId);
+        const { ops: relationOps } = createRelation({
+          fromEntity: entityId,
+          toEntity: relationValueTypeId,
+          type: RELATION_VALUE_RELATIONSHIP_TYPE,
+        });
+        ops.push(...relationOps);
+      }
+    }
+  } else {
+    let toId: Id;
+    switch (params.type) {
+      case 'TEXT':
+        toId = TEXT;
+        break;
+      case 'NUMBER':
+        toId = NUMBER;
+        break;
+      case 'URL':
+        toId = URL;
+        break;
+      case 'TIME':
+        toId = TIME;
+        break;
+      case 'POINT':
+        toId = POINT;
+        break;
+      case 'CHECKBOX':
+        toId = CHECKBOX;
+        break;
+      default:
+        // @ts-expect-error
+        throw new Error(`Unsupported type: ${params.type}`);
+    }
+
+    // add the provided type to property "Value Types"
+    ops.push({
+      type: 'CREATE_RELATION',
+      relation: {
+        id: generate(),
+        entity: generate(),
+        fromEntity: entityId,
+        toEntity: toId,
+        type: VALUE_TYPE_PROPERTY,
+      },
+    });
+  }
 
   return { id: entityId, ops };
 };

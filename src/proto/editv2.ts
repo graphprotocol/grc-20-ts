@@ -1,6 +1,6 @@
 import { type Id, generate, toBytes } from '../idv2.js';
 import type { Op } from '../typesv2.js';
-import { Edit, Entity, Op as OpBinary, Relation, RelationUpdate } from './gen/src/proto/ipfsv2_pb.js';
+import { Edit, Entity, Op as OpBinary, Relation, RelationUpdate, UnsetRelation } from './gen/src/proto/ipfsv2_pb.js';
 
 type MakeEditProposalParams = {
   name: string;
@@ -26,7 +26,7 @@ function opsToBinary(ops: Op[]): OpBinary[] {
         return new OpBinary({
           payload: {
             case: 'createRelation',
-            value: Relation.fromJson(o.relation),
+            value: Relation.fromJson(o),
           },
         });
       case 'DELETE_RELATION':
@@ -72,6 +72,13 @@ function opsToBinary(ops: Op[]): OpBinary[] {
           payload: {
             case: 'updateRelation',
             value: RelationUpdate.fromJson(o.relation),
+          },
+        });
+      case 'UNSET_RELATION':
+        return new OpBinary({
+          payload: {
+            case: 'unsetRelation',
+            value: UnsetRelation.fromJson(o),
           },
         });
     }

@@ -181,7 +181,8 @@ export type CreateTypeParams = DefaultProperties & {
   properties?: Array<Id>;
 };
 
-export type CreatePropertyParams = DefaultProperties & { type: ValueType };
+export type CreatePropertyParams = DefaultProperties &
+  ({ type: ValueType } | { type: 'RELATION'; properties?: Array<Id>; relationValueTypes?: Array<Id> });
 
 export type CreateImageParams =
   | {

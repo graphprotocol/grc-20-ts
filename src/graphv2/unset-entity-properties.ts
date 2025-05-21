@@ -14,7 +14,7 @@ import type { UnsetEntityPropertiesParams, UnsetPropertiesOp } from '../typesv2.
  * @param params – {@link UnsetEntityPropertiesParams}
  * @returns The operation to unset the properties.
  */
-export const unsetEntityProperties = async ({ id, properties }: UnsetEntityPropertiesParams) => {
+export const unsetEntityProperties = ({ id, properties }: UnsetEntityPropertiesParams) => {
   const op: UnsetPropertiesOp = {
     type: 'UNSET_PROPERTIES',
     entity: id,

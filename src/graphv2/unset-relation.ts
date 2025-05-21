@@ -1,15 +1,4 @@
-import type { Id } from '../idv2.js';
-import type { UnsetRelationOp } from '../typesv2.js';
-
-type UnsetRelationParams = {
-  id: Id;
-  fromSpace?: boolean;
-  fromVersion?: boolean;
-  toSpace?: boolean;
-  toVersion?: boolean;
-  position?: boolean;
-  verified?: boolean;
-};
+import type { UnsetRelationOp, UnsetRelationParams } from '../typesv2.js';
 
 /**
  * Unsets fields from a relation.
@@ -30,7 +19,7 @@ type UnsetRelationParams = {
  * @param params – {@link UnsetRelationParams}
  * @returns The operation to unset the relation.
  */
-export const unsetRelation = async ({
+export const unsetRelation = ({
   id,
   fromSpace,
   fromVersion,
