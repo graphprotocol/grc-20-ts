@@ -1,7 +1,7 @@
 import { encodeFunctionData, stringToHex } from 'viem';
 
 import { SpaceAbi } from '../abis/index.js';
-import { VoteOption } from '../typesv2.js';
+import { VoteOption } from '../types.js';
 
 export function getProcessGeoProposalArguments(spacePluginAddress: `0x${string}`, ipfsUri: `ipfs://${string}`) {
   return [

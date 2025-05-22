@@ -5,12 +5,12 @@
  * @since 0.0.6
  */
 
-import { createRelation } from '~/src/graphv2/create-relation.js';
-import { updateEntity } from '~/src/graphv2/update-entity.js';
-import { Id, generate } from '../../idv2.js';
-import { SystemIds } from '../../system-ids-v2.js';
-import type { Op } from '../../typesv2.js';
-import { BLOCKS, DATA_BLOCK, DATA_SOURCE_TYPE_RELATION_TYPE, NAME_PROPERTY, TYPES_PROPERTY } from '../idsv2/system.js';
+import { createRelation } from '~/src/graph/create-relation.js';
+import { updateEntity } from '~/src/graph/update-entity.js';
+import { Id, generate } from '../../id.js';
+import { SystemIds } from '../../system-ids.js';
+import type { Op } from '../../types.js';
+import { BLOCKS, DATA_BLOCK, DATA_SOURCE_TYPE_RELATION_TYPE, NAME_PROPERTY, TYPES_PROPERTY } from '../ids/system.js';
 
 type DataBlockSourceType = 'QUERY' | 'COLLECTION' | 'GEO';
 

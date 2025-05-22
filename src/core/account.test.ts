@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
-import { Id, toBase64 } from '../idv2.js';
-import { NetworkIds, SystemIds } from '../system-ids-v2.js';
+import { Id, toBase64 } from '../id.js';
+import { NetworkIds, SystemIds } from '../system-ids.js';
 import { make } from './account.js';
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';

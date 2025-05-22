@@ -4,7 +4,7 @@
  * @since 0.0.6
  */
 
-import type { GraphUri } from '../typesv2.js';
+import type { GraphUri } from '../types.js';
 
 type SchemeQueryParams = {
   spaceId?: string;

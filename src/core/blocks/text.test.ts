@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
-import { Id, toBase64 } from '~/src/idv2.js';
-import { SystemIds } from '../../system-ids-v2.js';
+import { Id, toBase64 } from '~/src/id.js';
+import { SystemIds } from '../../system-ids.js';
 import { make } from './text.js';
 
 it('should generate ops for a text block entity', () => {

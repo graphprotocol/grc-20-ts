@@ -19,12 +19,6 @@ Data in The Graph lives both offchain and onchain. This data is written to IPFS,
 
 On The Graph, knowledge is organized into spaces. Anyone can create a space for a community, project or individual. Spaces are organized onchain into a set of multiple smart contracts. These smart contracts represent the space itself, its data and its governance process. Depending on which onchain actions you're taking you might be interacting with one or more of these smart contracts.
 
-### Triple
-
-The structure of knowledge on The Graph is built on simple primitives that compose to create more complex structures. Triples are the atomic unit. Triples are combined into entities. Entities are linked together to form a graph.
-
-[Read more about Triples in GRC-20](https://github.com/graphprotocol/graph-improvement-proposals/blob/main/grcs/0020-knowledge-graph.md#4-triples)
-
 ### Relations
 
 Relations describe the edges within the graph. Relations are themselves entities that include details about the relationship. For example a Company can have Team Members. Each Team Member relation can have an attribute describing when the person joined the team. This is a model that is commonly called a property graph.
@@ -55,43 +49,6 @@ Entities throughout The Graph are referenced via globally unique identifiers. Th
 import { Id } from '@graphprotocol/grc-20';
 
 const newId = Id.generate();
-```
-
-### Making ops
-
-The SDK exports a set of APIs for creating and deleting triple and relation ops.
-
-```ts
-import {
-  type CreateRelationOp,
-  type DeleteRelationOp,
-  type DeleteTripleOp,
-  Relation,
-  type SetTripleOp,
-  Triple,
-} from '@graphprotocol/grc-20';
-
-const setTripleOp: SetTripleOp = Triple.make({
-  entityId: 'id of entity',
-  attributeId: 'id of attribute',
-  value: {
-    type: 'TEXT', // TEXT | NUMBER | URL | TIME | POINT | CHECKBOX,
-    value: 'hello world',
-  },
-});
-
-const deleteTripleOp: DeleteTripleOp = Triple.remove({
-  entityId: 'id of entity',
-  attributeId: 'id of attribute',
-});
-
-const setRelationOp: CreateRelationOp = Relation.make({
-  fromId: 'id of from entity',
-  relationTypeId: 'id of relation type',
-  toId: 'id of to entity',
-});
-
-const deleteRelationOp: DeleteRelationOp = Relation.remove('id of relation');
 ```
 
 ### Creating properties, types and entities
@@ -125,18 +82,20 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
   description: 'description of the entity',
   types: […listOfTypeIds],
   cover: imageId,
-  properties: {
+  values: {
     // value property like text, number, url, time, point, checkbox
     [propertyId]: {
       type: 'TEXT', // TEXT | NUMBER | URL | TIME | POINT | CHECKBOX,
       value: 'value of the property',
     },
+  },
+  relations: {
     // relation property
     [propertyId]: {
       to: 'id of the entity',
-      relationId: 'id of the relation', // optional
+      id: 'id of the relation', // optional
       position: positionString, // optional
-      properties: {
+      values: {
         [propertyId]: {
           type: 'TEXT', // TEXT | NUMBER | URL | TIME | POINT | CHECKBOX,
           value: 'value of the property',
@@ -189,7 +148,7 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
   description: 'A restaurant serving fusion cuisine',
   cover: restaurantCoverId,
   types: [restaurantTypeId],
-  properties: {
+  values: {
     [WEBSITE_PROPERTY]: {
       type: 'URL',
       value: 'https://example.com',
@@ -209,7 +168,7 @@ const { id: personId, ops: createPersonOps } = Graph.createEntity({
   name: 'Jane Doe',
   types: [personTypeId],
   cover: personCoverId,
-  properties: {
+  values: {
     [agePropertyId]: {
       type: 'NUMBER',
       value: 42,

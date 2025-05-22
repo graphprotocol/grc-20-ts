@@ -5,13 +5,13 @@
  * @since 0.0.6
  */
 
-import { createEntity } from '../graphv2/create-entity.js';
-import { createRelation } from '../graphv2/create-relation.js';
-import { generate } from '../idv2.js';
-import type { Op } from '../typesv2.js';
+import { createEntity } from '../graph/create-entity.js';
+import { createRelation } from '../graph/create-relation.js';
+import { generate } from '../id.js';
+import type { Op } from '../types.js';
 import { getChecksumAddress } from './get-checksum-address.js';
-import { ETHEREUM } from './idsv2/network.js';
-import { ACCOUNT_TYPE, ADDRESS_PROPERTY, NAME_PROPERTY, NETWORK_PROPERTY, TYPES_PROPERTY } from './idsv2/system.js';
+import { ETHEREUM } from './ids/network.js';
+import { ACCOUNT_TYPE, ADDRESS_PROPERTY, NAME_PROPERTY, NETWORK_PROPERTY, TYPES_PROPERTY } from './ids/system.js';
 
 type MakeAccountReturnType = {
   accountId: string;

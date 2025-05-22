@@ -1,4 +1,4 @@
-export * from './src/typesv2.js';
+export * from './src/types.js';
 
 /**
  * This module provides utility functions for working knowledge graph
@@ -6,7 +6,7 @@ export * from './src/typesv2.js';
  *
  * @since 0.0.6
  */
-export * as Id from './src/idv2.js';
+export * as Id from './src/id.js';
 
 export {
   getAcceptEditorArguments,
@@ -31,14 +31,14 @@ export * as Encoding from './src/encoding.js';
 
 export { getChecksumAddress } from './src/core/get-checksum-address.js';
 
-export * as Graph from './src/graphv2/index.js';
+export * as Graph from './src/graph/index.js';
 /**
  * This module provides utility functions for interacting with the default
  * IPFS gateway in TypeScript.
  *
  * @since 0.1.1
  */
-export * as Ipfs from './src/ipfsv2.js';
+export * as Ipfs from './src/ipfs.js';
 
 export { Position, PositionRange } from './src/position.js';
 
@@ -54,4 +54,4 @@ export { getSmartAccountWalletClient } from './src/smart-wallet.js';
 /**
  * Provides ids for commonly used entities across the Knowledge Graph.
  */
-export { ContentIds, NetworkIds, SystemIds } from './src/system-ids-v2.js';
+export { ContentIds, NetworkIds, SystemIds } from './src/system-ids.js';

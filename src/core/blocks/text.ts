@@ -5,11 +5,11 @@
  * @since 0.0.6
  */
 
-import { createRelation } from '~/src/graphv2/create-relation.js';
-import { updateEntity } from '~/src/graphv2/update-entity.js';
-import { Id, generate } from '../../idv2.js';
-import type { Op } from '../../typesv2.js';
-import { BLOCKS, MARKDOWN_CONTENT, TEXT_BLOCK, TYPES_PROPERTY } from '../idsv2/system.js';
+import { createRelation } from '~/src/graph/create-relation.js';
+import { updateEntity } from '~/src/graph/update-entity.js';
+import { Id, generate } from '../../id.js';
+import type { Op } from '../../types.js';
+import { BLOCKS, MARKDOWN_CONTENT, TEXT_BLOCK, TYPES_PROPERTY } from '../ids/system.js';
 
 type TextBlockParams = { fromId: string; text: string; position?: string };
 

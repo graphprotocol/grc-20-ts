@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { GraphUri } from '../typesv2.js';
+import type { GraphUri } from '../types.js';
 import { fromEntityId, toEntityId, toSpaceId } from './scheme.js';
 
 describe('fromEntityId', () => {
