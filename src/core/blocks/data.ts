@@ -5,8 +5,8 @@
  * @since 0.0.6
  */
 
-import { createRelation } from '~/src/graph/create-relation.js';
-import { updateEntity } from '~/src/graph/update-entity.js';
+import { createRelation } from '../../graph/create-relation.js';
+import { updateEntity } from '../../graph/update-entity.js';
 import { Id, generate } from '../../id.js';
 import { SystemIds } from '../../system-ids.js';
 import type { Op } from '../../types.js';
