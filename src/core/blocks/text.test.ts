@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { Id, toBase64 } from '~/src/id.js';
+import { Id, toBase64 } from '../../id.js';
 import { SystemIds } from '../../system-ids.js';
 import { make } from './text.js';
 

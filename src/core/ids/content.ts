@@ -1,4 +1,4 @@
-import { Id } from '~/src/id.js';
+import { Id } from '../../id.js';
 
 export const ARTICLE_TYPE = Id('a2a5ed0c-acef-46b1-835d-e457956ce915');
 export const CITY_TYPE = Id('01b05333-941a-4b00-bc78-fac5a15b467d');
