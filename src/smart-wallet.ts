@@ -5,7 +5,7 @@ import type { Chain, Hex } from 'viem';
 import { createPublicClient, http } from 'viem';
 import { entryPoint07Address } from 'viem/account-abstraction';
 import { privateKeyToAccount } from 'viem/accounts';
-import type { GeoSmartAccount } from './types.js';
+import type { GeoSmartAccount } from './typesv2.js';
 
 const DEFAULT_RPC_URL = 'https://rpc-geo-genesis-h0q2s21xx8.t.conduit.xyz';
 

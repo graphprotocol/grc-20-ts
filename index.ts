@@ -1,4 +1,4 @@
-export * from './src/types.js';
+export * from './src/typesv2.js';
 
 /**
  * This module provides utility functions for working knowledge graph
@@ -6,13 +6,7 @@ export * from './src/types.js';
  *
  * @since 0.0.6
  */
-export * as Id from './src/id.js';
-
-/**
- * This module provides utility functions for working with base58 ids
- * in TypeScript.
- */
-export * as Base58 from './src/core/base58.js';
+export * as Id from './src/idv2.js';
 
 export {
   getAcceptEditorArguments,
@@ -31,38 +25,22 @@ export {
  */
 export { Account } from './src/account.js';
 
-export { DataBlock, ImageBlock, TextBlock } from './src/blocks.js';
+export { DataBlock, TextBlock } from './src/blocks.js';
 
 export * as Encoding from './src/encoding.js';
 
 export { getChecksumAddress } from './src/core/get-checksum-address.js';
 
-export * as Graph from './src/graph/index.js';
-
-/**
- * This module provides utility functions for working with knowledge graph
- * images in TypeScript.
- *
- * @since 0.0.6
- */
-export { Image } from './src/image.js';
-
+export * as Graph from './src/graphv2/index.js';
 /**
  * This module provides utility functions for interacting with the default
  * IPFS gateway in TypeScript.
  *
  * @since 0.1.1
  */
-export * as Ipfs from './src/ipfs.js';
+export * as Ipfs from './src/ipfsv2.js';
 
 export { Position, PositionRange } from './src/position.js';
-
-/**
- * This module provides utility functions for working with Relations in TypeScript.
- *
- * @since 0.0.6
- */
-export { Relation } from './src/relation.js';
 
 /**
  * This module provides utility functions for working with Graph URIs in TypeScript.
@@ -76,16 +54,4 @@ export { getSmartAccountWalletClient } from './src/smart-wallet.js';
 /**
  * Provides ids for commonly used entities across the Knowledge Graph.
  */
-export { ContentIds, NetworkIds, SystemIds } from './src/system-ids.js';
-
-/**
- * This module provides utility functions for working with Triples in TypeScript.
- *
- * @since 0.0.6
- */
-export { Triple } from './src/triple.js';
-
-export * as GraphV2 from './src/graphv2/index.js';
-export * as IdV2 from './src/idv2.js';
-export * as IpfsV2 from './src/ipfsv2.js';
-export * as SystemIdsV2 from './src/system-ids-v2.js';
+export { ContentIds, NetworkIds, SystemIds } from './src/system-ids-v2.js';

@@ -1,3 +1,7 @@
+import type { SafeSmartAccountImplementation } from 'permissionless/accounts';
+import type { SmartAccountClient } from 'permissionless/clients';
+import type { Address, Chain, HttpTransport } from 'viem';
+import type { SmartAccountImplementation } from 'viem/account-abstraction';
 import type { Id, IdBase64 } from './idv2.js';
 
 export type ValueType = 'TEXT' | 'NUMBER' | 'CHECKBOX' | 'URL' | 'TIME' | 'POINT';
@@ -179,3 +183,33 @@ export type CreateImageParams =
       description?: string;
       id?: Id;
     };
+
+type SafeSmartAccount = SafeSmartAccountImplementation<'0.7'> & {
+  address: Address;
+  getNonce: NonNullable<SmartAccountImplementation['getNonce']>;
+  isDeployed: () => Promise<boolean>;
+  type: 'smart';
+};
+
+export type GeoSmartAccount = SmartAccountClient<
+  HttpTransport<undefined, false>,
+  Chain,
+  object &
+    SafeSmartAccount & {
+      address: Address;
+      getNonce: NonNullable<SmartAccountImplementation['getNonce']>;
+      isDeployed: () => Promise<boolean>;
+      type: 'smart';
+    },
+  undefined,
+  undefined
+>;
+
+export type GraphUri = `graph://${string}`;
+
+export enum VoteOption {
+  None = 0,
+  Abstain = 1,
+  Yes = 2,
+  No = 3,
+}

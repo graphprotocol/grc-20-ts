@@ -13,11 +13,3 @@ export * as DataBlock from './core/blocks/data.js';
  * @since 0.0.6
  */
 export * as TextBlock from './core/blocks/text.js';
-
-/**
- * This module provides utility functions for working with image blocks
- * in TypeScript.
- *
- * @since 0.0.6
- */
-export * as ImageBlock from './core/blocks/image.js';

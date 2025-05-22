@@ -20,7 +20,7 @@ class IpfsUploadError extends Error {
 type PublishEditProposalParams = {
   name: string;
   ops: Op[];
-  author: Id;
+  author: string;
 };
 
 type PublishEditResult = {

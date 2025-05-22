@@ -22,7 +22,7 @@ describe('Edit', () => {
           },
         },
       ],
-      author: Id('14c98bef-f1d3-4be3-81bf-f19a35a68d8f'),
+      author: '0x000000000000000000000000000000000000',
     });
 
     const result = Edit.fromBinary(editBinary);
@@ -51,7 +51,7 @@ describe('Edit', () => {
           id: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
         },
       ],
-      author: Id('14c98bef-f1d3-4be3-81bf-f19a35a68d8f'),
+      author: '0x000000000000000000000000000000000000',
     });
 
     const result = Edit.fromBinary(editBinary);
@@ -79,7 +79,7 @@ describe('Edit', () => {
           },
         },
       ],
-      author: Id('14c98bef-f1d3-4be3-81bf-f19a35a68d8f'),
+      author: '0x000000000000000000000000000000000000',
     });
 
     const result = Edit.fromBinary(editBinary);
@@ -107,7 +107,7 @@ describe('Edit', () => {
           id: toBase64(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
         },
       ],
-      author: Id('14c98bef-f1d3-4be3-81bf-f19a35a68d8f'),
+      author: '0x000000000000000000000000000000000000',
     });
 
     const result = Edit.fromBinary(editBinary);
@@ -131,7 +131,7 @@ describe('Edit', () => {
           },
         },
       ],
-      author: Id('14c98bef-f1d3-4be3-81bf-f19a35a68d8f'),
+      author: '0x000000000000000000000000000000000000',
     });
 
     const result = Edit.fromBinary(editBinary);
@@ -161,7 +161,7 @@ describe('Edit', () => {
           },
         },
       ],
-      author: Id('14c98bef-f1d3-4be3-81bf-f19a35a68d8f'),
+      author: '0x000000000000000000000000000000000000',
     });
 
     const result = Edit.fromBinary(editBinary);
@@ -196,7 +196,7 @@ describe('Edit', () => {
           },
         },
       ],
-      author: Id('14c98bef-f1d3-4be3-81bf-f19a35a68d8f'),
+      author: '0x000000000000000000000000000000000000',
     });
 
     const result = Edit.fromBinary(editBinary);

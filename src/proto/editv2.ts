@@ -13,7 +13,7 @@ import {
 type MakeEditProposalParams = {
   name: string;
   ops: Op[];
-  author: Id;
+  author: string;
   language?: Id;
 };
 
@@ -27,12 +27,29 @@ interface EntityData {
   values: EntityValue[];
 }
 
+function hexToBytes(hex: string): Uint8Array {
+  let hexString = hex;
+  if (hexString.startsWith('0x')) {
+    hexString = hexString.slice(2);
+  }
+
+  if (hex.length % 2 !== 0) {
+    throw new Error('Invalid hex string: must have an even length');
+  }
+
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < hex.length; i += 2) {
+    bytes[i / 2] = Number.parseInt(hex.slice(i, i + 2), 16);
+  }
+  return bytes;
+}
+
 export function encode({ name, ops, author, language }: MakeEditProposalParams): Uint8Array {
   return new Edit({
     id: toBytes(generate()),
     name,
     ops: opsToBinary(ops),
-    authors: [toBytes(author)],
+    authors: [hexToBytes(author)],
     language: language ? toBytes(language) : undefined,
   }).toBinary();
 }
