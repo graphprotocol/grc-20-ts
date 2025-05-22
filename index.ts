@@ -55,3 +55,9 @@ export { getSmartAccountWalletClient } from './src/smart-wallet.js';
  * Provides ids for commonly used entities across the Knowledge Graph.
  */
 export { ContentIds, NetworkIds, SystemIds } from './src/system-ids.js';
+
+/**
+ * This module provides utility functions for working with base58 ids
+ * in TypeScript.
+ */
+export * as Base58 from './src/core/base58.js';
