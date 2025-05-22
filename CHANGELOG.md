@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.12.1
+
+### Patch Changes
+
+- 4afaa57: fix internal imports to avoid runtime errors of exported functions
+
 ## 0.12.0
 
 ### Minor Changes
