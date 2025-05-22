@@ -8,12 +8,6 @@ export * from './src/types.js';
  */
 export * as Id from './src/id.js';
 
-/**
- * This module provides utility functions for working with base58 ids
- * in TypeScript.
- */
-export * as Base58 from './src/core/base58.js';
-
 export {
   getAcceptEditorArguments,
   getAcceptSubspaceArguments,
@@ -31,22 +25,13 @@ export {
  */
 export { Account } from './src/account.js';
 
-export { DataBlock, ImageBlock, TextBlock } from './src/blocks.js';
+export { DataBlock, TextBlock } from './src/blocks.js';
 
 export * as Encoding from './src/encoding.js';
 
 export { getChecksumAddress } from './src/core/get-checksum-address.js';
 
 export * as Graph from './src/graph/index.js';
-
-/**
- * This module provides utility functions for working with knowledge graph
- * images in TypeScript.
- *
- * @since 0.0.6
- */
-export { Image } from './src/image.js';
-
 /**
  * This module provides utility functions for interacting with the default
  * IPFS gateway in TypeScript.
@@ -56,13 +41,6 @@ export { Image } from './src/image.js';
 export * as Ipfs from './src/ipfs.js';
 
 export { Position, PositionRange } from './src/position.js';
-
-/**
- * This module provides utility functions for working with Relations in TypeScript.
- *
- * @since 0.0.6
- */
-export { Relation } from './src/relation.js';
 
 /**
  * This module provides utility functions for working with Graph URIs in TypeScript.
@@ -77,10 +55,3 @@ export { getSmartAccountWalletClient } from './src/smart-wallet.js';
  * Provides ids for commonly used entities across the Knowledge Graph.
  */
 export { ContentIds, NetworkIds, SystemIds } from './src/system-ids.js';
-
-/**
- * This module provides utility functions for working with Triples in TypeScript.
- *
- * @since 0.0.6
- */
-export { Triple } from './src/triple.js';

@@ -4,7 +4,7 @@
  * @since 0.0.6
  */
 
-type GraphUri = `graph://${string}`;
+import type { GraphUri } from '../types.js';
 
 type SchemeQueryParams = {
   spaceId?: string;

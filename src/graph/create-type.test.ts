@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { AUTHORS_PROPERTY, WEBSITE_PROPERTY } from '../core/ids/content.js';
 import { NAME_PROPERTY, PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
-import { Id } from '../id.js';
+import { Id, toBase64 } from '../id.js';
 import { createType } from './create-type.js';
 
 describe('createType', () => {
@@ -15,18 +15,19 @@ describe('createType', () => {
     expect(type.ops).toBeDefined();
     expect(type.ops.length).toBe(2);
 
-    // Check name triple
-    expect(type.ops[0]?.type).toBe('SET_TRIPLE');
+    // Check entity creation
+    expect(type.ops[0]?.type).toBe('UPDATE_ENTITY');
     expect(type.ops[0]).toMatchObject({
-      triple: {
-        attribute: NAME_PROPERTY,
-        entity: type.id,
-        value: {
-          type: 'TEXT',
-          value: 'Article',
-        },
+      entity: {
+        id: toBase64(type.id),
+        values: [
+          {
+            propertyId: toBase64(NAME_PROPERTY),
+            value: 'Article',
+          },
+        ],
       },
-      type: 'SET_TRIPLE',
+      type: 'UPDATE_ENTITY',
     });
 
     // Check type relation to itself (marking it as a type)
@@ -34,9 +35,9 @@ describe('createType', () => {
     if (type.ops[1]?.type === 'CREATE_RELATION') {
       expect(type.ops[1]).toMatchObject({
         relation: {
-          fromEntity: type.id,
-          toEntity: SCHEMA_TYPE,
-          type: TYPES_PROPERTY,
+          fromEntity: toBase64(type.id),
+          toEntity: toBase64(SCHEMA_TYPE),
+          type: toBase64(TYPES_PROPERTY),
         },
         type: 'CREATE_RELATION',
       });
@@ -54,27 +55,28 @@ describe('createType', () => {
     expect(type.ops).toBeDefined();
     expect(type.ops.length).toBe(4);
 
-    // Check name triple
-    expect(type.ops[0]?.type).toBe('SET_TRIPLE');
+    // Check entity creation
+    expect(type.ops[0]?.type).toBe('UPDATE_ENTITY');
     expect(type.ops[0]).toMatchObject({
-      triple: {
-        attribute: NAME_PROPERTY,
-        entity: type.id,
-        value: {
-          type: 'TEXT',
-          value: 'Article',
-        },
+      entity: {
+        id: toBase64(type.id),
+        values: [
+          {
+            propertyId: toBase64(NAME_PROPERTY),
+            value: 'Article',
+          },
+        ],
       },
-      type: 'SET_TRIPLE',
+      type: 'UPDATE_ENTITY',
     });
 
     // Check types relation
     expect(type.ops[1]?.type).toBe('CREATE_RELATION');
     expect(type.ops[1]).toMatchObject({
       relation: {
-        fromEntity: type.id,
-        toEntity: SCHEMA_TYPE,
-        type: TYPES_PROPERTY,
+        fromEntity: toBase64(type.id),
+        toEntity: toBase64(SCHEMA_TYPE),
+        type: toBase64(TYPES_PROPERTY),
       },
       type: 'CREATE_RELATION',
     });
@@ -83,9 +85,9 @@ describe('createType', () => {
     expect(type.ops[2]?.type).toBe('CREATE_RELATION');
     expect(type.ops[2]).toMatchObject({
       relation: {
-        fromEntity: type.id,
-        toEntity: WEBSITE_PROPERTY,
-        type: PROPERTY,
+        fromEntity: toBase64(type.id),
+        toEntity: toBase64(WEBSITE_PROPERTY),
+        type: toBase64(PROPERTY),
       },
       type: 'CREATE_RELATION',
     });
@@ -94,9 +96,9 @@ describe('createType', () => {
     expect(type.ops[3]?.type).toBe('CREATE_RELATION');
     expect(type.ops[3]).toMatchObject({
       relation: {
-        fromEntity: type.id,
-        toEntity: AUTHORS_PROPERTY,
-        type: PROPERTY,
+        fromEntity: toBase64(type.id),
+        toEntity: toBase64(AUTHORS_PROPERTY),
+        type: toBase64(PROPERTY),
       },
       type: 'CREATE_RELATION',
     });
@@ -104,12 +106,12 @@ describe('createType', () => {
 
   it('creates a type with a provided id', async () => {
     const type = createType({
-      id: Id('WeUPYRkhnQLmHPH4S1ioc4'),
+      id: Id('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1'),
       name: 'Article',
     });
 
     expect(type).toBeDefined();
-    expect(type.id).toBe('WeUPYRkhnQLmHPH4S1ioc4');
+    expect(type.id).toBe('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1');
   });
 
   it('throws an error if the provided id is invalid', () => {

@@ -1,17 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { Id, toBase64 } from '../id.js';
-import { deleteEntity } from './delete-entity.js';
+import { deleteRelation } from './delete-relation.js';
 
-describe('deleteEntity', () => {
-  it('should create a delete entity operation with valid ID', () => {
+describe('deleteRelation', () => {
+  it('should create a delete relation operation with valid ID', () => {
     const id = Id('5cade575-7ecd-41ae-8348-1b22ffc2f94e');
-    const result = deleteEntity({ id });
+    const result = deleteRelation({ id });
 
     expect(result).toEqual({
       id,
       ops: [
         {
-          type: 'DELETE_ENTITY',
+          type: 'DELETE_RELATION',
           id: toBase64(id),
         },
       ],
@@ -22,6 +22,6 @@ describe('deleteEntity', () => {
     const id = 'invalid-id';
 
     // @ts-expect-error - invalid id type
-    expect(() => deleteEntity({ id })).toThrow('Invalid id: "invalid-id"');
+    expect(() => deleteRelation({ id })).toThrow('Invalid id: "invalid-id"');
   });
 });

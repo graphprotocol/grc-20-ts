@@ -13,12 +13,11 @@ describe('createProperty', () => {
     expect(property).toBeDefined();
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
-    expect(property.ops.length).toBe(5);
-    expect(property.ops[0]?.type).toBe('SET_TRIPLE');
-    expect(property.ops[1]?.type).toBe('SET_TRIPLE');
+    expect(property.ops.length).toBe(4);
+    expect(property.ops[0]?.type).toBe('UPDATE_ENTITY');
+    expect(property.ops[1]?.type).toBe('CREATE_RELATION');
     expect(property.ops[2]?.type).toBe('CREATE_RELATION');
     expect(property.ops[3]?.type).toBe('CREATE_RELATION');
-    expect(property.ops[4]?.type).toBe('CREATE_RELATION');
   });
 
   it('creates a NUMBER property', async () => {
@@ -31,12 +30,11 @@ describe('createProperty', () => {
     expect(property).toBeDefined();
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
-    expect(property.ops.length).toBe(5);
-    expect(property.ops[0]?.type).toBe('SET_TRIPLE');
-    expect(property.ops[1]?.type).toBe('SET_TRIPLE');
+    expect(property.ops.length).toBe(4);
+    expect(property.ops[0]?.type).toBe('UPDATE_ENTITY');
+    expect(property.ops[1]?.type).toBe('CREATE_RELATION');
     expect(property.ops[2]?.type).toBe('CREATE_RELATION');
     expect(property.ops[3]?.type).toBe('CREATE_RELATION');
-    expect(property.ops[4]?.type).toBe('CREATE_RELATION');
   });
 
   it('creates a RELATION property', async () => {
@@ -49,7 +47,7 @@ describe('createProperty', () => {
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
     expect(property.ops.length).toBe(4);
-    expect(property.ops[0]?.type).toBe('SET_TRIPLE');
+    expect(property.ops[0]?.type).toBe('UPDATE_ENTITY');
     expect(property.ops[1]?.type).toBe('CREATE_RELATION');
     expect(property.ops[2]?.type).toBe('CREATE_RELATION');
     expect(property.ops[3]?.type).toBe('CREATE_RELATION');
@@ -67,7 +65,7 @@ describe('createProperty', () => {
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
     expect(property.ops.length).toBe(6);
-    expect(property.ops[0]?.type).toBe('SET_TRIPLE');
+    expect(property.ops[0]?.type).toBe('UPDATE_ENTITY');
     expect(property.ops[1]?.type).toBe('CREATE_RELATION');
     expect(property.ops[2]?.type).toBe('CREATE_RELATION');
     expect(property.ops[3]?.type).toBe('CREATE_RELATION');
@@ -77,13 +75,13 @@ describe('createProperty', () => {
 
   it('creates a property with a provided id', async () => {
     const property = createProperty({
-      id: Id('WeUPYRkhnQLmHPH4S1ioc4'),
+      id: Id('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1'),
       name: 'Price',
       type: 'NUMBER',
     });
 
     expect(property).toBeDefined();
-    expect(property.id).toBe('WeUPYRkhnQLmHPH4S1ioc4');
+    expect(property.id).toBe('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1');
   });
 
   it('throws an error if the provided id is invalid', async () => {

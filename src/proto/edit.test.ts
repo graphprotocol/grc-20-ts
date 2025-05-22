@@ -1,165 +1,66 @@
 import { describe, expect, it } from 'vitest';
 
-import { Relation } from '../relation.js';
+import { Id, toBase64, toBytes } from '../id.js';
 import { encode } from './edit.js';
-import {
-  ActionType,
-  Edit,
-  ImportCsvColumnMetadata_CsvMetadataColumnType,
-  OpType,
-  ValueType,
-} from './gen/src/proto/ipfs_pb.js';
+import { Edit } from './gen/src/proto/ipfs_pb.js';
 
 describe('Edit', () => {
-  it('encodes and decodes Edit with SET_TRIPLE ops correctly', () => {
+  it('encodes and decodes Edit with UPDATE_ENTITY ops correctly', () => {
     const editBinary = encode({
       name: 'test',
       ops: [
         {
-          type: 'SET_TRIPLE',
-          triple: {
-            attribute: 'test-attribute-id',
-            entity: 'test-entity-id',
-            value: {
-              type: 'TEXT',
-              value: 'test value',
-            },
-          },
-        },
-      ],
-      author: '0x1234',
-    });
-
-    const result = Edit.fromBinary(editBinary);
-    expect(result.name).toBe('test');
-    expect(result.type).toBe(ActionType.ADD_EDIT);
-    expect(result.version).toBe('1.0.0');
-    expect(result.ops.length).toBe(1);
-    expect(result.ops).toEqual([
-      {
-        type: OpType.SET_TRIPLE,
-        triples: [],
-        triple: {
-          attribute: 'test-attribute-id',
-          entity: 'test-entity-id',
-          value: {
-            type: ValueType.TEXT,
-            value: 'test value',
-          },
-        },
-      },
-    ]);
-
-    const editBinaryWithOptions = encode({
-      name: 'test',
-      ops: [
-        {
-          type: 'SET_TRIPLE',
-          triple: {
-            attribute: 'test-attribute-id',
-            entity: 'test-entity-id',
-            value: {
-              type: 'TEXT',
-              value: 'test value',
-              options: {
-                format: 'format',
+          type: 'UPDATE_ENTITY',
+          entity: {
+            id: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+            values: [
+              {
+                propertyId: toBase64(Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc')),
+                value: 'test value',
               },
-            },
+            ],
           },
         },
       ],
-      author: '0x1234',
+      author: '0x000000000000000000000000000000000000',
     });
 
-    const resultWithOptions = Edit.fromBinary(editBinaryWithOptions);
-    expect(resultWithOptions.name).toBe('test');
-    expect(resultWithOptions.type).toBe(ActionType.ADD_EDIT);
-    expect(resultWithOptions.version).toBe('1.0.0');
-    expect(resultWithOptions.ops.length).toBe(1);
-    expect(resultWithOptions.ops).toEqual([
-      {
-        type: OpType.SET_TRIPLE,
-        triples: [],
-        triple: {
-          attribute: 'test-attribute-id',
-          entity: 'test-entity-id',
-          value: {
-            type: ValueType.TEXT,
-            value: 'test value',
-            options: {
-              format: 'format',
-            },
-          },
+    const result = Edit.fromBinary(editBinary);
+    expect(result.name).toBe('test');
+    expect(result.ops.length).toBe(1);
+    const op = result.ops[0];
+    if (!op) throw new Error('Expected op to be defined');
+    expect(op.payload?.case).toBe('updateEntity');
+    expect(op.payload?.value).toEqual({
+      id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      values: [
+        {
+          propertyId: toBytes(Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc')),
+          value: 'test value',
         },
-      },
-    ]);
+      ],
+    });
   });
 
-  it('encodes and decodes Edit with DELETE_TRIPLE ops correctly', () => {
+  it('encodes and decodes Edit with DELETE_ENTITY ops correctly', () => {
     const editBinary = encode({
       name: 'test',
       ops: [
         {
-          type: 'DELETE_TRIPLE',
-          triple: {
-            attribute: 'test-attribute-id',
-            entity: 'test-entity-id',
-          },
+          type: 'DELETE_ENTITY',
+          id: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
         },
       ],
-      author: '0x1234',
+      author: '0x000000000000000000000000000000000000',
     });
 
     const result = Edit.fromBinary(editBinary);
     expect(result.name).toBe('test');
-    expect(result.type).toBe(ActionType.ADD_EDIT);
-    expect(result.version).toBe('1.0.0');
     expect(result.ops.length).toBe(1);
-    expect(result.ops).toEqual([
-      {
-        type: OpType.DELETE_TRIPLE,
-        triples: [],
-        triple: {
-          attribute: 'test-attribute-id',
-          entity: 'test-entity-id',
-        },
-      },
-    ]);
-  });
-
-  it('encodes and decoded Edit with CREATE_RELATION ops correctly', () => {
-    const editBinary = encode({
-      name: 'test',
-      ops: [
-        Relation.make({
-          relationId: 'test-relation-id',
-          fromId: 'test-entity-id',
-          relationTypeId: 'test-relation-type-id',
-          toId: 'test-entity-id',
-          position: 'test-position',
-        }),
-      ],
-      author: '0x1234',
-    });
-
-    const result = Edit.fromBinary(editBinary);
-    expect(result.name).toBe('test');
-    expect(result.type).toBe(ActionType.ADD_EDIT);
-    expect(result.version).toBe('1.0.0');
-    expect(result.ops.length).toBe(1);
-    expect(result.ops).toEqual([
-      {
-        type: OpType.CREATE_RELATION,
-        triples: [],
-        relation: {
-          id: 'test-relation-id',
-          type: 'test-relation-type-id',
-          fromEntity: 'test-entity-id',
-          toEntity: 'test-entity-id',
-          index: 'test-position',
-        },
-      },
-    ]);
+    const op = result.ops[0];
+    if (!op) throw new Error('Expected op to be defined');
+    expect(op.payload?.case).toBe('deleteEntity');
+    expect(op.payload?.value).toEqual(toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')));
   });
 
   it('encodes and decodes Edit with CREATE_RELATION ops correctly', () => {
@@ -167,76 +68,151 @@ describe('Edit', () => {
       name: 'test',
       ops: [
         {
-          type: 'DELETE_RELATION',
+          type: 'CREATE_RELATION',
           relation: {
-            id: 'test-relation-id',
+            id: toBase64(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+            type: toBase64(Id('cf518eaf-ef74-4aad-bc87-fe09c2631fcd')),
+            fromEntity: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+            toEntity: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+            entity: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+            position: 'test-position',
           },
         },
       ],
-      author: '0x1234',
+      author: '0x000000000000000000000000000000000000',
     });
 
     const result = Edit.fromBinary(editBinary);
     expect(result.name).toBe('test');
-    expect(result.type).toBe(ActionType.ADD_EDIT);
-    expect(result.version).toBe('1.0.0');
     expect(result.ops.length).toBe(1);
-    expect(result.ops).toEqual([
-      {
-        type: OpType.DELETE_RELATION,
-        triples: [],
-        relation: {
-          id: 'test-relation-id',
-          fromEntity: '',
-          toEntity: '',
-          index: '',
-          type: '',
-        },
-      },
-    ]);
+    const op = result.ops[0];
+    if (!op) throw new Error('Expected op to be defined');
+    expect(op.payload?.case).toBe('createRelation');
+    expect(op.payload?.value).toEqual({
+      id: toBytes(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+      type: toBytes(Id('cf518eaf-ef74-4aad-bc87-fe09c2631fcd')),
+      fromEntity: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      toEntity: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      entity: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      position: 'test-position',
+    });
   });
 
-  it('encodes and decodes Edit with IMPORT_FILE ops correctly', () => {
+  it('encodes and decodes Edit with DELETE_RELATION ops correctly', () => {
     const editBinary = encode({
       name: 'test',
       ops: [
         {
-          type: 'IMPORT_FILE',
-          url: 'ipfs://test-cid',
-          metadata: {
-            type: 'CSV',
-            columns: [
-              {
-                id: 'foo',
-                type: 'TEXT',
-              },
-            ],
-          },
+          type: 'DELETE_RELATION',
+          id: toBase64(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
         },
       ],
-      author: '0x1234',
+      author: '0x000000000000000000000000000000000000',
     });
 
     const result = Edit.fromBinary(editBinary);
     expect(result.name).toBe('test');
-    expect(result.type).toBe(ActionType.ADD_EDIT);
-    expect(result.version).toBe('1.0.0');
     expect(result.ops.length).toBe(1);
-    expect(result.ops).toEqual([
-      {
-        type: OpType.IMPORT_FILE,
-        url: 'ipfs://test-cid',
-        triples: [],
-        metadata: {
-          type: 'CSV',
-          columns: [
-            {
-              id: 'foo',
-              type: ImportCsvColumnMetadata_CsvMetadataColumnType.TEXT,
-            },
-          ],
+    const op = result.ops[0];
+    if (!op) throw new Error('Expected op to be defined');
+    expect(op.payload?.case).toBe('deleteRelation');
+    expect(op.payload?.value).toEqual(toBytes(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')));
+  });
+
+  it('encodes and decodes Edit with UPDATE_RELATION ops correctly', () => {
+    const editBinary = encode({
+      name: 'test',
+      ops: [
+        {
+          type: 'UPDATE_RELATION',
+          relation: {
+            id: toBase64(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+            position: 'new-position',
+          },
         },
-      },
-    ]);
+      ],
+      author: '0x000000000000000000000000000000000000',
+    });
+
+    const result = Edit.fromBinary(editBinary);
+    expect(result.name).toBe('test');
+    expect(result.ops.length).toBe(1);
+    const op = result.ops[0];
+    if (!op) throw new Error('Expected op to be defined');
+    expect(op.payload?.case).toBe('updateRelation');
+    expect(op.payload?.value).toEqual({
+      id: toBytes(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+      position: 'new-position',
+    });
+  });
+
+  it('encodes and decodes Edit with UNSET_ENTITY_VALUES ops correctly', () => {
+    const editBinary = encode({
+      name: 'test',
+      ops: [
+        {
+          type: 'UNSET_ENTITY_VALUES',
+          unsetEntityValues: {
+            id: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+            properties: [
+              toBase64(Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc')),
+              toBase64(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+            ],
+          },
+        },
+      ],
+      author: '0x000000000000000000000000000000000000',
+    });
+
+    const result = Edit.fromBinary(editBinary);
+    expect(result.name).toBe('test');
+    expect(result.ops.length).toBe(1);
+    const op = result.ops[0];
+    if (!op) throw new Error('Expected op to be defined');
+    expect(op.payload?.case).toBe('unsetEntityValues');
+    expect(op.payload?.value).toEqual({
+      id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      properties: [
+        toBytes(Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc')),
+        toBytes(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+      ],
+    });
+  });
+
+  it('encodes and decodes Edit with UNSET_RELATION_FIELDS ops correctly', () => {
+    const editBinary = encode({
+      name: 'test',
+      ops: [
+        {
+          type: 'UNSET_RELATION_FIELDS',
+          unsetRelationFields: {
+            id: toBase64(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+            fromSpace: true,
+            fromVersion: false,
+            toSpace: true,
+            toVersion: false,
+            position: true,
+            verified: false,
+          },
+        },
+      ],
+      author: '0x000000000000000000000000000000000000',
+    });
+
+    const result = Edit.fromBinary(editBinary);
+    expect(result.name).toBe('test');
+    expect(result.ops.length).toBe(1);
+    const op = result.ops[0];
+    if (!op) throw new Error('Expected op to be defined');
+    expect(op.payload?.case).toBe('unsetRelationFields');
+    expect(op.payload?.value).toEqual({
+      id: toBytes(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+      fromSpace: true,
+      fromVersion: false,
+      toSpace: true,
+      toVersion: false,
+      position: true,
+      verified: false,
+    });
   });
 });

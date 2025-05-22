@@ -1,155 +1,99 @@
 syntax = "proto3";
 
-message IpfsMetadata {
-  // We version the data structured used to represent proposal metadata. Each
-  // proposal type has their own metadata and versioning that we can change
-  // independently of other proposal types.
-  string version = 1;
-  ActionType type = 2;
-}
+package ipfs;
 
 message Edit {
-  string version = 1;
-  ActionType type = 2;
-  string id = 3;
-  string name = 4;
-  repeated Op ops = 5;
-  repeated string authors = 6;
+  bytes id = 1;
+  string name = 2;
+  repeated Op ops = 3;
+  repeated bytes authors = 4;
+  optional bytes language = 5;
 }
 
 message ImportEdit {
-  string version = 1;
-  ActionType type = 2;
-  string id = 3;
-  string name = 4;
-  repeated Op ops = 5;
-  repeated string authors = 6;
-  string created_by = 7;
-  string created_at = 8;
-  string block_hash = 9;
-  string block_number = 10;
-  string transaction_hash = 11;
-}
-
-message ImportCsvMetadata {
-  string type = 1;
-  repeated ImportCsvColumnMetadata columns = 2;
-}
-
-message ImportCsvColumnMetadata {
-  enum CsvMetadataColumnType {
-    UNKNOWN = 0;
-    TEXT = 1;
-    NUMBER = 2;
-    CHECKBOX = 3;
-    URL = 4;
-    TIME = 5;
-    POINT = 6;
-    RELATION = 7;
-  }
-
-  string id = 1;
-  CsvMetadataColumnType type = 2;
-  optional string relation_type = 3;
-  optional bool is_id = 4;
-  optional Options options = 5;
-}
-
-message Op {
-  OpType type = 1;
-
-  /**
-   * Used when setting a single triple
-   */
-  optional Triple triple = 2;
-
-  /**
-   * Used when setting batch ops or deleting an entity
-   */
-  optional Entity entity = 3;
-
-  /**
-   * Used when creating or deleting a relation
-   */
-  optional Relation relation = 4;
-
-  /**
-   * Used when setting batch ops
-   */
-  repeated Triple triples = 5;
-
-  /**
-   * Used when importing a csv file
-   */
-  optional string url = 6;
-  optional ImportCsvMetadata metadata = 7;
-}
-
-message Triple {
-  string entity = 1;
-  string attribute = 2;
-  Value value = 3;
-}
-
-message Value {
-  ValueType type = 1;
-  string value = 2;
-  optional Options options = 3;
-}
-
-message Relation {
-  string id = 1;
-  string type = 2;
-  string from_entity = 3;
-  string to_entity = 4;
-  string index = 5;
-}
-
-message Entity {
-  string id = 1;
-  repeated string types = 2;
-}
-
-enum OpType {
-  OP_TYPE_UNKNOWN = 0;
-  SET_TRIPLE = 1;
-  DELETE_TRIPLE = 2;
-  SET_TRIPLE_BATCH = 3;
-  DELETE_ENTITY = 4;
-  CREATE_RELATION = 5;
-  DELETE_RELATION = 6;
-  IMPORT_FILE = 7;
-}
-
-enum ValueType {
-  VALUE_TYPE_UNKNOWN = 0;
-  TEXT = 1;
-  NUMBER = 2;
-  CHECKBOX = 3;
-  URL = 4;
-  TIME = 5;
-  POINT = 6;
-}
-
-enum ActionType {
-  ACTION_TYPE_UNKNOWN = 0;
-  ADD_EDIT = 1;
-  ADD_SUBSPACE = 2;
-  REMOVE_SUBSPACE = 3;
-  IMPORT_SPACE = 4;
-  ARCHIVE_SPACE = 5;
+  bytes id = 1;
+  string name = 2;
+  repeated Op ops = 3;
+  repeated bytes authors = 4;
+  bytes created_by = 5;
+  string created_at = 6;
+  bytes block_hash = 7;
+  string block_number = 8;
+  bytes transaction_hash = 9;
 }
 
 message Import {
-  string version = 1;
-  ActionType type = 2;
-  string previous_network = 3;
-  string previous_contract_address = 4;
-  repeated string edits = 5;
+  // these strings are IPFS cids representing the import edit message
+  repeated string edits = 1;
 }
 
-message Options {
-  optional string format = 1;
-  optional string unit = 2;
-  optional string language = 3;
+message IpfsFile {
+  string version = 1;
+
+  oneof payload {
+    Edit add_edit = 2;
+    Import import_space = 3;
+    bytes archive_space = 4;
+  }
+}
+
+message Op {
+  oneof payload {
+    Entity             update_entity = 1;
+    bytes              delete_entity = 2;
+    Relation           create_relation = 3;
+    RelationUpdate     update_relation = 4;
+    bytes              delete_relation = 5;
+    UnsetEntityValues        unset_entity_values = 6;
+    UnsetRelationFields      unset_relation_fields = 7;
+  }
+}
+
+message UnsetEntityValues {
+  bytes id = 1;
+  repeated bytes properties = 2;
+}
+
+message Relation {
+  bytes id = 1;
+  bytes type = 2;
+  bytes from_entity = 3;
+  optional bytes from_space = 4;
+  optional bytes from_version = 5;
+  bytes to_entity = 6;
+  optional bytes to_space = 7;
+  optional bytes to_version = 8;
+  bytes entity = 9;
+  optional string position = 10;
+  optional bool verified = 11;
+}
+
+message RelationUpdate {
+  bytes id = 1;
+  optional bytes from_space = 2;
+  optional bytes from_version = 3;
+  optional bytes to_space = 4;
+  optional bytes to_version = 5;
+  optional string position = 6;
+  optional bool verified = 7;
+}
+
+message UnsetRelationFields {
+  bytes id = 1;
+  optional bool from_space = 2;
+  optional bool from_version = 3;
+  optional bool to_space = 4;
+  optional bool to_version = 5;
+  optional bool position = 6;
+  optional bool verified = 7;
+}
+
+message Entity {
+  bytes id = 1;
+  repeated Value values = 2;
+}
+
+message Value {
+  bytes property_id = 1;
+  string value = 2;
 }

@@ -1,14 +1,10 @@
 import { PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
-import { type Id, assertValid, generate } from '../id.js';
-import { Relation } from '../relation.js';
-import type { CreateRelationOp, CreateResult, DefaultProperties, Op } from '../types.js';
-import { createDefaultProperties } from './helpers/create-default-properties.js';
-type CreateTypeParams = DefaultProperties & {
-  properties?: Array<Id>;
-};
+import { assertValid, generate, toBase64 } from '../id.js';
+import type { CreateResult, CreateTypeParams } from '../types.js';
+import { createEntity } from './create-entity.js';
 
 /**
- * Creates a type with the given name, description, cover, and properties.
+ * Creates a type with the given name, description, cover and properties.
  * All IDs passed to this function (cover, property IDs) are validated.
  * If any invalid ID is provided, the function will throw an error.
  *
@@ -26,33 +22,52 @@ type CreateTypeParams = DefaultProperties & {
  * @returns – {@link CreateResult}
  * @throws Will throw an error if any provided ID is invalid
  */
-export const createType = ({ id: providedId, name, description, cover, properties }: CreateTypeParams): CreateResult => {
+export const createType = ({
+  id: providedId,
+  name,
+  description,
+  cover,
+  properties,
+}: CreateTypeParams): CreateResult => {
   if (providedId) {
     assertValid(providedId, '`id` in `createType`');
   }
   const id = providedId ?? generate();
-  const ops: Op[] = [];
 
-  ops.push(...createDefaultProperties({ entityId: id, name, description, cover }));
+  const { ops } = createEntity({
+    id,
+    name,
+    description,
+    cover,
+  });
 
   // set property "Types" to "Type"
   assertValid(id);
-  const relationOp = Relation.make({
-    fromId: id,
-    relationTypeId: TYPES_PROPERTY,
-    toId: SCHEMA_TYPE,
+  ops.push({
+    type: 'CREATE_RELATION',
+    relation: {
+      id: toBase64(generate()),
+      entity: toBase64(generate()),
+      fromEntity: toBase64(id),
+      toEntity: toBase64(SCHEMA_TYPE),
+      type: toBase64(TYPES_PROPERTY),
+    },
   });
-  ops.push(relationOp);
 
   if (properties) {
     for (const propertyId of properties) {
       assertValid(propertyId);
-      const relationOp: CreateRelationOp = Relation.make({
-        fromId: id,
-        relationTypeId: PROPERTY,
-        toId: propertyId,
+      TYPES_PROPERTY;
+      ops.push({
+        type: 'CREATE_RELATION',
+        relation: {
+          id: toBase64(generate()),
+          entity: toBase64(generate()),
+          fromEntity: toBase64(id),
+          toEntity: toBase64(propertyId),
+          type: toBase64(PROPERTY),
+        },
       });
-      ops.push(relationOp);
     }
   }
 

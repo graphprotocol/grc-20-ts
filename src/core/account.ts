@@ -5,16 +5,17 @@
  * @since 0.0.6
  */
 
+import { createEntity } from '../graph/create-entity.js';
+import { createRelation } from '../graph/create-relation.js';
 import { generate } from '../id.js';
-import { Relation } from '../relation.js';
-import type { CreateRelationOp, SetTripleOp } from '../types.js';
+import type { Op } from '../types.js';
 import { getChecksumAddress } from './get-checksum-address.js';
 import { ETHEREUM } from './ids/network.js';
 import { ACCOUNT_TYPE, ADDRESS_PROPERTY, NAME_PROPERTY, NETWORK_PROPERTY, TYPES_PROPERTY } from './ids/system.js';
 
 type MakeAccountReturnType = {
   accountId: string;
-  ops: [CreateRelationOp, CreateRelationOp, SetTripleOp, SetTripleOp];
+  ops: Op[];
 };
 
 /**
@@ -33,46 +34,38 @@ type MakeAccountReturnType = {
  */
 export function make(address: string): MakeAccountReturnType {
   const accountId = generate();
-  const checkedAddress = getChecksumAddress(address);
+  const checkedAddress: string = getChecksumAddress(address);
+
+  const ops: Op[] = [];
+
+  const { ops: entityOps } = createEntity({
+    id: accountId,
+    values: {
+      [ADDRESS_PROPERTY]: { value: checkedAddress },
+      [NAME_PROPERTY]: { value: checkedAddress },
+    },
+  });
+  ops.push(...entityOps);
+
+  // Types -> Account
+  const { ops: accountOps } = createRelation({
+    fromEntity: accountId,
+    type: TYPES_PROPERTY,
+    toEntity: ACCOUNT_TYPE,
+  });
+  ops.push(...accountOps);
+
+  // Network -> Ethereum
+  // Signals that the account is for the Ethereum family of chains
+  const { ops: networkOps } = createRelation({
+    fromEntity: accountId,
+    type: NETWORK_PROPERTY,
+    toEntity: ETHEREUM,
+  });
+  ops.push(...networkOps);
 
   return {
     accountId,
-    ops: [
-      // Types -> Account
-      Relation.make({
-        fromId: accountId,
-        relationTypeId: TYPES_PROPERTY,
-        toId: ACCOUNT_TYPE,
-      }),
-      // Network -> Ethereum
-      // Signals that the account is for the Ethereum family of chains
-      Relation.make({
-        fromId: accountId,
-        relationTypeId: NETWORK_PROPERTY,
-        toId: ETHEREUM,
-      }),
-      {
-        type: 'SET_TRIPLE',
-        triple: {
-          entity: accountId,
-          attribute: ADDRESS_PROPERTY,
-          value: {
-            type: 'TEXT',
-            value: checkedAddress,
-          },
-        },
-      },
-      {
-        type: 'SET_TRIPLE',
-        triple: {
-          entity: accountId,
-          attribute: NAME_PROPERTY,
-          value: {
-            type: 'TEXT',
-            value: checkedAddress,
-          },
-        },
-      },
-    ],
+    ops,
   };
 }

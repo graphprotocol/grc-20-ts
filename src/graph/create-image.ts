@@ -1,21 +1,14 @@
-import { type Id, assertValid } from '../id.js';
-import { Image } from '../image.js';
+import {
+  IMAGE_HEIGHT_PROPERTY,
+  IMAGE_TYPE,
+  IMAGE_URL_PROPERTY,
+  IMAGE_WIDTH_PROPERTY,
+  TYPES_PROPERTY,
+} from '../core/ids/system.js';
+import { assertValid, generate, toBase64 } from '../id.js';
 import { uploadImage } from '../ipfs.js';
-import type { CreateResult, Op } from '../types.js';
-import { createDefaultProperties } from './helpers/create-default-properties.js';
-type CreateImageParams =
-  | {
-      blob: Blob;
-      name?: string;
-      description?: string;
-      id?: Id;
-    }
-  | {
-      url: string;
-      name?: string;
-      description?: string;
-      id?: Id;
-    };
+import type { CreateImageParams, CreateResult, PropertiesParam } from '../types.js';
+import { createEntity } from './create-entity.js';
 
 /**
  * Creates an entity with the given name, description, cover, properties, and types.
@@ -42,15 +35,50 @@ type CreateImageParams =
  * @returns – {@link CreateResult}
  * @throws Will throw an IpfsUploadError if the image cannot be uploaded to IPFS
  */
-export const createImage = async ({ name, description, id: providedId, ...params }: CreateImageParams): Promise<CreateResult> => {
+export const createImage = async ({
+  name,
+  description,
+  id: providedId,
+  ...params
+}: CreateImageParams): Promise<CreateResult> => {
   if (providedId) {
     assertValid(providedId, '`id` in `createImage`');
   }
-  const ops: Array<Op> = [];
+  const id = providedId ?? generate();
   const { cid, dimensions } = await uploadImage(params);
-  const { id, ops: imageOps } = Image.make({ cid, dimensions, id: providedId });
-  ops.push(...imageOps);
-  ops.push(...createDefaultProperties({ entityId: id, name, description }));
+
+  const values: PropertiesParam = {};
+  values[IMAGE_URL_PROPERTY] = {
+    value: cid,
+  };
+  if (dimensions?.height) {
+    values[IMAGE_HEIGHT_PROPERTY] = {
+      value: dimensions.height.toString(),
+    };
+  }
+  if (dimensions?.width) {
+    values[IMAGE_WIDTH_PROPERTY] = {
+      value: dimensions.width.toString(),
+    };
+  }
+
+  const { ops } = createEntity({
+    id,
+    name,
+    description,
+    values,
+  });
+
+  ops.push({
+    type: 'CREATE_RELATION',
+    relation: {
+      id: toBase64(generate()),
+      entity: toBase64(generate()),
+      fromEntity: toBase64(id),
+      toEntity: toBase64(IMAGE_TYPE),
+      type: toBase64(TYPES_PROPERTY),
+    },
+  });
 
   return {
     id,

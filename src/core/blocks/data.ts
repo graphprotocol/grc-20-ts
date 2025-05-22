@@ -5,10 +5,12 @@
  * @since 0.0.6
  */
 
-import { generate } from '../../id.js';
-import { Relation } from '../../relation.js';
+import { createRelation } from '~/src/graph/create-relation.js';
+import { updateEntity } from '~/src/graph/update-entity.js';
+import { Id, generate } from '../../id.js';
 import { SystemIds } from '../../system-ids.js';
-import type { CreateRelationOp, SetTripleOp } from '../../types.js';
+import type { Op } from '../../types.js';
+import { BLOCKS, DATA_BLOCK, DATA_SOURCE_TYPE_RELATION_TYPE, NAME_PROPERTY, TYPES_PROPERTY } from '../ids/system.js';
 
 type DataBlockSourceType = 'QUERY' | 'COLLECTION' | 'GEO';
 
@@ -47,42 +49,40 @@ type DataBlockParams = {
  * @param param args {@link TextBlockParams}
  * @returns ops – The ops for the Data Block entity: {@link Op}[]
  */
-export function make({ fromId, sourceType, position, name }: DataBlockParams): (SetTripleOp | CreateRelationOp)[] {
+export function make({ fromId, sourceType, position, name }: DataBlockParams): Op[] {
   const newBlockId = generate();
 
-  const dataBlockType = Relation.make({
-    fromId: newBlockId,
-    relationTypeId: SystemIds.TYPES_PROPERTY,
-    toId: SystemIds.DATA_BLOCK,
+  const ops: Op[] = [];
+  const { ops: dataBlockTypeOps } = createRelation({
+    fromEntity: newBlockId,
+    type: TYPES_PROPERTY,
+    toEntity: DATA_BLOCK,
   });
+  ops.push(...dataBlockTypeOps);
 
-  const dataBlockSourceType = Relation.make({
-    fromId: newBlockId,
-    relationTypeId: SystemIds.DATA_SOURCE_TYPE_RELATION_TYPE,
-    toId: getSourceTypeId(sourceType),
+  const { ops: dataBlockSourceTypeOps } = createRelation({
+    fromEntity: newBlockId,
+    type: DATA_SOURCE_TYPE_RELATION_TYPE,
+    toEntity: getSourceTypeId(sourceType),
   });
+  ops.push(...dataBlockSourceTypeOps);
 
-  const dataBlockRelation = Relation.make({
-    fromId,
-    relationTypeId: SystemIds.BLOCKS,
-    toId: newBlockId,
+  const { ops: dataBlockRelationOps } = createRelation({
+    fromEntity: Id(fromId),
+    type: BLOCKS,
+    toEntity: Id(newBlockId),
     position,
   });
-
-  const ops: (SetTripleOp | CreateRelationOp)[] = [dataBlockType, dataBlockSourceType, dataBlockRelation];
+  ops.push(...dataBlockRelationOps);
 
   if (name) {
-    ops.push({
-      type: 'SET_TRIPLE',
-      triple: {
-        attribute: SystemIds.NAME_PROPERTY,
-        entity: newBlockId,
-        value: {
-          type: 'TEXT',
-          value: name,
-        },
+    const { ops: nameOps } = updateEntity({
+      id: newBlockId,
+      values: {
+        [NAME_PROPERTY]: { value: name },
       },
     });
+    ops.push(...nameOps);
   }
 
   return ops;

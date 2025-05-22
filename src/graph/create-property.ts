@@ -12,13 +12,11 @@ import {
   URL,
   VALUE_TYPE_PROPERTY,
 } from '../core/ids/system.js';
-import { assertValid, generate } from '../id.js';
-import { Relation } from '../relation.js';
-import type { CreateResult, DefaultProperties, Op, ValueType } from '../types.js';
-import { createDefaultProperties } from './helpers/create-default-properties.js';
-
-type CreatePropertyParams = DefaultProperties &
-  ({ type: ValueType } | { type: 'RELATION'; properties?: Array<string>; relationValueTypes?: Array<string> });
+import type { Id } from '../id.js';
+import { assertValid, generate, toBase64 } from '../id.js';
+import type { CreatePropertyParams, CreateResult } from '../types.js';
+import { createEntity } from './create-entity.js';
+import { createRelation } from './create-relation.js';
 
 /**
  * Creates a property with the given name, description, cover, and type.
@@ -45,60 +43,72 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
     assertValid(id, '`id` in `createProperty`');
   }
   const entityId = id ?? generate();
-  const ops: Op[] = [];
 
-  ops.push(...createDefaultProperties({ entityId, name, description, cover }));
+  const { ops } = createEntity({
+    id: entityId,
+    name,
+    description,
+    cover,
+  });
 
   // add "Property" as "Types property"
-  const typesRelationOp = Relation.make({
-    fromId: entityId,
-    relationTypeId: TYPES_PROPERTY,
-    toId: PROPERTY,
+  ops.push({
+    type: 'CREATE_RELATION',
+    relation: {
+      id: toBase64(generate()),
+      entity: toBase64(generate()),
+      fromEntity: toBase64(entityId),
+      toEntity: toBase64(PROPERTY),
+      type: toBase64(TYPES_PROPERTY),
+    },
   });
-  ops.push(typesRelationOp);
 
   // add "Type" as "Types property"
-  const typeRelationOps = Relation.make({
-    fromId: entityId,
-    relationTypeId: TYPES_PROPERTY,
-    toId: SCHEMA_TYPE,
+  ops.push({
+    type: 'CREATE_RELATION',
+    relation: {
+      id: toBase64(generate()),
+      entity: toBase64(generate()),
+      fromEntity: toBase64(entityId),
+      toEntity: toBase64(SCHEMA_TYPE),
+      type: toBase64(TYPES_PROPERTY),
+    },
   });
-  ops.push(typeRelationOps);
 
   if (params.type === 'RELATION') {
-    const valueTypeRelationOp = Relation.make({
-      fromId: entityId,
-      relationTypeId: VALUE_TYPE_PROPERTY,
-      toId: RELATION,
+    const { ops: valueTypeRelationOps } = createRelation({
+      toEntity: RELATION,
+      fromEntity: entityId,
+      type: VALUE_TYPE_PROPERTY,
     });
-    ops.push(valueTypeRelationOp);
+    ops.push(...valueTypeRelationOps);
 
     // add the provided properties to property "Properties"
     if (params.properties) {
       for (const propertyId of params.properties) {
         assertValid(propertyId);
-        const relationOp = Relation.make({
-          fromId: entityId,
-          relationTypeId: PROPERTY,
-          toId: propertyId,
+        const { ops: relationOps } = createRelation({
+          fromEntity: entityId,
+          toEntity: propertyId,
+          type: PROPERTY,
         });
-        ops.push(relationOp);
+        ops.push(...relationOps);
       }
     }
     if (params.relationValueTypes) {
       // add the provided relation value types to property "Relation Value Types"
       for (const relationValueTypeId of params.relationValueTypes) {
         assertValid(relationValueTypeId);
-        const relationOp = Relation.make({
-          fromId: entityId,
-          relationTypeId: RELATION_VALUE_RELATIONSHIP_TYPE,
-          toId: relationValueTypeId,
+        const { ops: relationOps } = createRelation({
+          fromEntity: entityId,
+          toEntity: relationValueTypeId,
+          type: RELATION_VALUE_RELATIONSHIP_TYPE,
         });
-        ops.push(relationOp);
+        ops.push(...relationOps);
       }
     }
   } else {
-    let toId: string;
+    let toId: Id;
     switch (params.type) {
       case 'TEXT':
         toId = TEXT;
@@ -119,16 +129,21 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
         toId = CHECKBOX;
         break;
       default:
-        // @ts-expect-error params.type is never after eliminating all other cases
+        // @ts-expect-error
         throw new Error(`Unsupported type: ${params.type}`);
     }
+
     // add the provided type to property "Value Types"
-    const valueTypeRelationOp = Relation.make({
-      fromId: entityId,
-      relationTypeId: VALUE_TYPE_PROPERTY,
-      toId,
+    ops.push({
+      type: 'CREATE_RELATION',
+      relation: {
+        id: toBase64(generate()),
+        entity: toBase64(generate()),
+        fromEntity: toBase64(entityId),
+        toEntity: toBase64(toId),
+        type: toBase64(VALUE_TYPE_PROPERTY),
+      },
     });
-    ops.push(valueTypeRelationOp);
   }
 
   return { id: entityId, ops };

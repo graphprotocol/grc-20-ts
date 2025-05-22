@@ -5,10 +5,11 @@
  * @since 0.0.6
  */
 
-import { generate } from '../../id.js';
-import { Relation } from '../../relation.js';
-import { SystemIds } from '../../system-ids.js';
+import { createRelation } from '~/src/graph/create-relation.js';
+import { updateEntity } from '~/src/graph/update-entity.js';
+import { Id, generate } from '../../id.js';
 import type { Op } from '../../types.js';
+import { BLOCKS, MARKDOWN_CONTENT, TEXT_BLOCK, TYPES_PROPERTY } from '../ids/system.js';
 
 type TextBlockParams = { fromId: string; text: string; position?: string };
 
@@ -31,30 +32,30 @@ type TextBlockParams = { fromId: string; text: string; position?: string };
 export function make({ fromId, text, position }: TextBlockParams): Op[] {
   const newBlockId = generate();
 
-  const textBlockType = Relation.make({
-    fromId: newBlockId,
-    relationTypeId: SystemIds.TYPES_PROPERTY,
-    toId: SystemIds.TEXT_BLOCK,
+  const ops: Op[] = [];
+
+  const { ops: textBlockTypeOps } = createRelation({
+    fromEntity: newBlockId,
+    type: TYPES_PROPERTY,
+    toEntity: TEXT_BLOCK,
   });
+  ops.push(...textBlockTypeOps);
 
-  const textBlockMarkdownText = {
-    type: 'SET_TRIPLE',
-    triple: {
-      attribute: SystemIds.MARKDOWN_CONTENT,
-      entity: newBlockId,
-      value: {
-        type: 'TEXT',
-        value: text,
-      },
+  const { ops: textBlockMarkdownTextOps } = updateEntity({
+    id: newBlockId,
+    values: {
+      [MARKDOWN_CONTENT]: { value: text },
     },
-  } as const;
+  });
+  ops.push(...textBlockMarkdownTextOps);
 
-  const textBlockRelation = Relation.make({
-    fromId,
-    relationTypeId: SystemIds.BLOCKS,
-    toId: newBlockId,
+  const { ops: textBlockRelationOps } = createRelation({
+    fromEntity: Id(fromId),
+    type: BLOCKS,
+    toEntity: newBlockId,
     position,
   });
+  ops.push(...textBlockRelationOps);
 
-  return [textBlockType, textBlockMarkdownText, textBlockRelation];
+  return ops;
 }

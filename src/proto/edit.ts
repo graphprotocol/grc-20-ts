@@ -1,21 +1,56 @@
-import { generate } from '../id.js';
+import { type Id, fromBase64, generate, toBytes } from '../id.js';
 import type { Op } from '../types.js';
-import { ActionType, Edit, Entity, ImportCsvMetadata, Op as OpBinary, OpType, Relation, Triple } from './gen/src/proto/ipfs_pb.js';
+import {
+  Edit,
+  Entity,
+  Op as OpBinary,
+  Relation,
+  RelationUpdate,
+  UnsetEntityValues,
+  UnsetRelationFields,
+} from './gen/src/proto/ipfs_pb.js';
 
 type MakeEditProposalParams = {
   name: string;
   ops: Op[];
-  author: string;
+  author: `0x${string}`;
+  language?: Id;
 };
 
-export function encode({ name, ops, author }: MakeEditProposalParams): Uint8Array {
+interface EntityValue {
+  propertyId: Id;
+  value: string;
+}
+
+interface EntityData {
+  id: Id;
+  values: EntityValue[];
+}
+
+function hexToBytes(hex: string): Uint8Array {
+  let hexString = hex;
+  if (hexString.startsWith('0x')) {
+    hexString = hexString.slice(2);
+  }
+
+  if (hex.length % 2 !== 0) {
+    throw new Error('Invalid hex string: must have an even length');
+  }
+
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < hex.length; i += 2) {
+    bytes[i / 2] = Number.parseInt(hex.slice(i, i + 2), 16);
+  }
+  return bytes;
+}
+
+export function encode({ name, ops, author, language }: MakeEditProposalParams): Uint8Array {
   return new Edit({
-    type: ActionType.ADD_EDIT,
-    version: '1.0.0',
-    id: generate(),
+    id: toBytes(generate()),
     name,
     ops: opsToBinary(ops),
-    authors: [author],
+    authors: [hexToBytes(author)],
+    language: language ? toBytes(language) : undefined,
   }).toBinary();
 }
 
@@ -24,45 +59,53 @@ function opsToBinary(ops: Op[]): OpBinary[] {
     switch (o.type) {
       case 'CREATE_RELATION':
         return new OpBinary({
-          type: OpType.CREATE_RELATION,
-          relation: Relation.fromJson(o.relation),
+          payload: {
+            case: 'createRelation',
+            value: Relation.fromJson(o.relation),
+          },
         });
       case 'DELETE_RELATION':
         return new OpBinary({
-          type: OpType.DELETE_RELATION,
-          relation: Relation.fromJson({
-            id: o.relation.id,
-          }),
+          payload: {
+            case: 'deleteRelation',
+            value: toBytes(fromBase64(o.id)),
+          },
         });
-      case 'SET_BATCH_TRIPLE':
+      case 'UPDATE_ENTITY':
         return new OpBinary({
-          type: OpType.SET_TRIPLE_BATCH,
-          entity: Entity.fromJson(o.entity),
-          triples: o.triples.map(t => Triple.fromJson(t)),
+          payload: {
+            case: 'updateEntity',
+            value: Entity.fromJson(o.entity),
+          },
+        });
+      case 'UNSET_ENTITY_VALUES':
+        return new OpBinary({
+          payload: {
+            case: 'unsetEntityValues',
+            value: UnsetEntityValues.fromJson(o.unsetEntityValues),
+          },
         });
       case 'DELETE_ENTITY':
         return new OpBinary({
-          type: OpType.DELETE_ENTITY,
-          entity: Entity.fromJson({
-            id: o.entity.id,
-          }),
+          payload: {
+            case: 'deleteEntity',
+            value: toBytes(fromBase64(o.id)),
+          },
         });
-      case 'SET_TRIPLE':
+      case 'UPDATE_RELATION':
         return new OpBinary({
-          type: OpType.SET_TRIPLE,
-          triple: Triple.fromJson(o.triple), // janky but works
+          payload: {
+            case: 'updateRelation',
+            value: RelationUpdate.fromJson(o.relation),
+          },
         });
-      case 'DELETE_TRIPLE':
+      case 'UNSET_RELATION_FIELDS':
         return new OpBinary({
-          type: OpType.DELETE_TRIPLE,
-          triple: Triple.fromJson(o.triple), // janky but works
+          payload: {
+            case: 'unsetRelationFields',
+            value: UnsetRelationFields.fromJson(o.unsetRelationFields),
+          },
         });
-      case 'IMPORT_FILE':
-        return new OpBinary({
-          type: OpType.IMPORT_FILE,
-          url: o.url,
-          metadata: ImportCsvMetadata.fromJson(o.metadata),
-        })
     }
   });
 }

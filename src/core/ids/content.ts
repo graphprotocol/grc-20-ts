@@ -1,205 +1,61 @@
-import { Id } from '../../id.js';
+import { Id } from '~/src/id.js';
 
-export const ARTICLE_TYPE = Id('M5uDP7nCw3nvfQPUryn9gx');
-export const CITY_TYPE = Id('D6Wy4bdtdoUrG3PDZceHr');
-export const CLAIM_TYPE = Id('KeG9eTM8NUYFMAjnsvF4Dg');
-export const CONTINENT_TYPE = Id('7Jw6Y3vd3SnMCXs2a9MYGu');
-export const COUNTRY_TYPE = Id('9ECA63EvqWhaoPvbD13ebf');
-export const GOAL_TYPE = Id('3zr6t9YRRjX7cgSmzgibf8');
-export const JOB_TYPE = Id('CCiz2ejCzg5xZuskLD8vda');
-export const NEWS_EVENT_TYPE = Id('QAdjgcq9nD7Gv98vn2vrDd');
-export const NEWS_STORY_TYPE = Id('VKPGYGnFuaoAASiAukCVCX');
-export const POLICY_TYPE = Id('GhaWkvDmMT6KiZTDxRLMXK');
-export const PUBLISHER_TYPE = Id('BGCj2JLjDjqUmGW6iZaANK');
-export const QUOTE_TYPE = Id('XGsAzMuCVXPtV8e6UfMLd');
-export const REGION_TYPE = Id('Qu6vfQq68ecZ4PkihJ4nZN');
-export const SKILL_TYPE = Id('LLx1gxshUy1TFKnSKVG9W6');
-export const TAG_TYPE = Id('UnP1LtXV3EhrhvRADFcMZK');
-export const TOPIC_TYPE = Id('Cj7JSjWKbcdgmUjcLWNR4V');
+export const ARTICLE_TYPE = Id('a2a5ed0c-acef-46b1-835d-e457956ce915');
+export const CITY_TYPE = Id('01b05333-941a-4b00-bc78-fac5a15b467d');
+export const CLAIM_TYPE = Id('96f859ef-a1ca-4b22-9372-c86ad58b694b');
+export const CONTINENT_TYPE = Id('3317d044-a700-4a9d-bbaf-4c16ade42f76');
+export const COUNTRY_TYPE = Id('42a0a761-8c82-459f-ad08-34bfeb437cde');
+export const GOAL_TYPE = Id('1845ee99-80c6-48a3-abc3-809de1753c63');
+export const JOB_TYPE = Id('5ab7946f-82bc-4289-9d02-a5f13bd40935');
+export const NEWS_EVENT_TYPE = Id('bb9a85bd-6dc6-4efd-8232-e2782cb4b5f8');
+export const NEWS_STORY_TYPE = Id('e550fe51-7e90-4b2c-8fff-df13408f5634');
+export const POLICY_TYPE = Id('7f237bdd-d95f-4d3f-8686-f52a5dd29386');
+export const PUBLISHER_TYPE = Id('531ac4c5-e409-46ad-9dd3-abcd2db955a0');
+export const QUOTE_TYPE = Id('043a171c-6918-4dc3-a7db-b8471ca6fcc2');
+export const REGION_TYPE = Id('c188844a-7224-42ab-b476-2991c9c913f1');
+export const SKILL_TYPE = Id('9ca6ab1f-3a11-4e49-bbaf-72e0c9a985cf');
+export const TAG_TYPE = Id('e0fcc66c-9e86-43f4-8080-2469d8a1a93a');
+export const TOPIC_TYPE = Id('5ef5a586-0f27-4d8e-8f6c-59ae5b3e89e2');
 
-export const AVATAR_PROPERTY = Id('399xP4sGWSoepxeEnp3UdR');
-/*
- * @deprecated use AVATAR_PROPERTY
- */
-export const AVATAR_ATTRIBUTE = Id('399xP4sGWSoepxeEnp3UdR');
-export const BROADER_GOALS_PROPERTY = Id('EtNH2yJmrEK1Mcv7S5MjPN');
-/*
- * @deprecated use BROADER_GOALS_PROPERTY
- */
-export const BROADER_GOALS_ATTRIBUTE = Id('EtNH2yJmrEK1Mcv7S5MjPN');
-export const SUBGOALS_PROPERTY = Id('WX9xtsWqFPmAXcTBF833cF');
-/*
- * @deprecated use SUBGOALS_PROPERTY
- */
-export const SUBGOALS_ATTRIBUTE = Id('WX9xtsWqFPmAXcTBF833cF');
-export const DISCLAIMER_PROPERTY = Id('5zqNJMuTTPzYqhFFQFKJZ4');
-/*
- * @deprecated use DISCLAIMER_PROPERTY
- */
-export const DISCLAIMER_ATTRIBUTE = Id('5zqNJMuTTPzYqhFFQFKJZ4');
-export const EVENT_DATE_PROPERTY = Id('BBA1894NztMD9dWyhiwcsU');
-/*
- * @deprecated use EVENT_DATE_PROPERTY
- */
-export const EVENT_DATE_ATTRIBUTE = Id('BBA1894NztMD9dWyhiwcsU');
-export const RELATED_PEOPLE_PROPERTY = Id('Cc3AZqRReWs3Zk2W5ALtyw');
-/*
- * @deprecated use RELATED_PEOPLE_PROPERTY
- */
-export const RELATED_PEOPLE_ATTRIBUTE = Id('Cc3AZqRReWs3Zk2W5ALtyw');
-export const SKILLS_PROPERTY = Id('MCCkmuwQ7PY1GFYpgcmSHv');
-/*
- * @deprecated use SKILLS_PROPERTY
- */
-export const SKILLS_ATTRIBUTE = Id('MCCkmuwQ7PY1GFYpgcmSHv');
-export const ROLES_PROPERTY = Id('JkzhbbrXFMfXN7sduMKQRp');
-/*
- * @deprecated use ROLES_PROPERTY
- */
-export const ROLES_ATTRIBUTE = Id('JkzhbbrXFMfXN7sduMKQRp');
-export const HIGHLIGHTED_RELATED_ENTIRIES_PROPERTY = Id('2HNV2qhhCt314qp6fUDYsJ');
-/*
- * @deprecated use HIGHLIGHTED_RELATED_ENTIRIES_PROPERTY
- */
-export const HIGHLIGHTED_RELATED_ENTIRIES_ATTRIBUTE = Id('2HNV2qhhCt314qp6fUDYsJ');
-export const PUBLISHER_PROPERTY = Id('Lc4JrkpMUPhNstqs7mvnc5');
-/*
- * @deprecated use PUBLISHER_PROPERTY
- */
-export const PUBLISHER_ATTRIBUTE = Id('Lc4JrkpMUPhNstqs7mvnc5');
-export const AUTHORS_PROPERTY = Id('JzFpgguvcCaKhbQYPHsrNT');
-/*
- * @deprecated use AUTHORS_PROPERTY
- */
-export const AUTHORS_ATTRIBUTE = Id('JzFpgguvcCaKhbQYPHsrNT');
-export const WEB_ARCHIVE_URL_PROPERTY = Id('BTNv9aAFqAzDjQuf4u2fXK');
-/*
- * @deprecated use WEB_ARCHIVE_URL_PROPERTY
- */
-export const WEB_ARCHIVE_URL_ATTRIBUTE = Id('BTNv9aAFqAzDjQuf4u2fXK');
-export const PUBLISH_DATE_PROPERTY = Id('KPNjGaLx5dKofVhT6Dfw22');
-/*
- * @deprecated use PUBLISH_DATE_PROPERTY
- */
-export const PUBLISH_DATE_ATTRIBUTE = Id('KPNjGaLx5dKofVhT6Dfw22');
-export const OWNERS_PROPERTY = Id('RwDfM3vUvyLwSNYv6sWhc9');
-/*
- * @deprecated use OWNERS_PROPERTY
- */
-export const OWNERS_ATTRIBUTE = Id('RwDfM3vUvyLwSNYv6sWhc9');
-export const SOURCES_PROPERTY = Id('A7NJF2WPh8VhmvbfVWiyLo');
-/*
- * @deprecated use SOURCES_PROPERTY
- */
-export const SOURCES_ATTRIBUTE = Id('A7NJF2WPh8VhmvbfVWiyLo');
-export const QUOTES_THAT_SUPPORT_CLAIMS_PROPERTY = Id('WoWTti3qGM1nvz28K9zu1f');
-/*
- * @deprecated use QUOTES_THAT_SUPPORT_CLAIMS_PROPERTY
- */
-export const QUOTES_THAT_SUPPORT_CLAIMS_ATTRIBUTE = Id('WoWTti3qGM1nvz28K9zu1f');
-export const OPPOSING_ARGUMENTS_PROPERTY = Id('Agk2hbiBWsgHVXxpFAc7z5');
-/*
- * @deprecated use OPPOSING_ARGUMENTS_PROPERTY
- */
-export const OPPOSING_ARGUMENTS_ATTRIBUTE = Id('Agk2hbiBWsgHVXxpFAc7z5');
-export const SUPPORTING_ARGUMENTS_PROPERTY = Id('4gFz5SYHWkBJoAANfCt61v');
-/*
- * @deprecated use SUPPORTING_ARGUMENTS_PROPERTY
- */
-export const SUPPORTING_ARGUMENTS_ATTRIBUTE = Id('4gFz5SYHWkBJoAANfCt61v');
-export const WEBSITE_PROPERTY = Id('WVVjk5okbvLspwdY1iTmwp');
-/*
- * @deprecated use WEBSITE_PROPERTY
- */
-export const WEBSITE_ATTRIBUTE = Id('WVVjk5okbvLspwdY1iTmwp');
-export const BROADER_PROJECTS_PROPERTY = Id('62X1RkFCmH7vC7WR4JzRrk');
-/*
- * @deprecated use BROADER_PROJECTS_PROPERTY
- */
-export const BROADER_PROJECTS_ATTRIBUTE = Id('62X1RkFCmH7vC7WR4JzRrk');
-export const SUBPROJECTS_PROPERTY = Id('HCF2yGBEqcS8chspMNmoPY');
-/*
- * @deprecated use SUBPROJECTS_PROPERTY
- */
-export const SUBPROJECTS_ATTRIBUTE = Id('HCF2yGBEqcS8chspMNmoPY');
-export const TOPICS_PROPERTY = Id('9bCuX6B9KZDSaY8xtghNZo');
-/*
- * @deprecated use TOPICS_PROPERTY
- */
-export const TOPICS_ATTRIBUTE = Id('9bCuX6B9KZDSaY8xtghNZo');
-export const RELATED_ENTITIES_PROPERTY = Id('UcouYcgu8qhine1WCXkZEb');
-/*
- * @deprecated use RELATED_ENTITIES_PROPERTY
- */
-export const RELATED_ENTITIES_ATTRIBUTE = Id('UcouYcgu8qhine1WCXkZEb');
-export const X_PROPERTY = Id('2eroVfdaXQEUw314r5hr35');
-/*
- * @deprecated use X_PROPERTY
- */
-export const X_ATTRIBUTE = Id('2eroVfdaXQEUw314r5hr35');
-export const CITIES_PROPERTY = Id('5GBCRqS8HYqiBubFPy5aXk');
-/*
- * @deprecated use CITIES_PROPERTY
- */
-export const CITIES_ATTRIBUTE = Id('5GBCRqS8HYqiBubFPy5aXk');
-export const LOCATION_PROPERTY = Id('KWBLj9czHBBmYUT98rnxVM');
-/*
- * @deprecated use LOCATION_PROPERTY
- */
-export const LOCATION_ATTRIBUTE = Id('KWBLj9czHBBmYUT98rnxVM');
-export const WEB_URL_PROPERTY = Id('93stf6cgYvBsdPruRzq1KK');
-/*
- * @deprecated use WEB_URL_PROPERTY
- */
-export const WEB_URL_ATTRIBUTE = Id('93stf6cgYvBsdPruRzq1KK');
-export const SUBTOPICS_PROPERTY = Id('89cuddDgriDAZJV6oy8zmt');
-/*
- * @deprecated use SUBTOPICS_PROPERTY
- */
-export const SUBTOPICS_ATTRIBUTE = Id('89cuddDgriDAZJV6oy8zmt');
-export const RELATED_TOPICS_PROPERTY = Id('GrojMdwbutDvrciUgcL2e4');
-/*
- * @deprecated use RELATED_TOPICS_PROPERTY
- */
-export const RELATED_TOPICS_ATTRIBUTE = Id('GrojMdwbutDvrciUgcL2e4');
-export const COUNTRIES_PROPERTY = Id('RJNy4SeZSHMnpqXt3Jj5iM');
-/*
- * @deprecated use COUNTRIES_PROPERTY
- */
-export const COUNTRIES_ATTRIBUTE = Id('RJNy4SeZSHMnpqXt3Jj5iM');
-export const BROADER_TOPICS_PROPERTY = Id('P9apCagMDXQVdjgAZftxU5');
-/*
- * @deprecated use BROADER_TOPICS_PROPERTY
- */
-export const BROADER_TOPICS_ATTRIBUTE = Id('P9apCagMDXQVdjgAZftxU5');
-export const RELATED_PROJECTS_PROPERTY = Id('EcK9J1zwDzSQPTnBRcUg2A');
-/*
- * @deprecated use RELATED_PROJECTS_PROPERTY
- */
-export const RELATED_PROJECTS_ATTRIBUTE = Id('EcK9J1zwDzSQPTnBRcUg2A');
-export const CONTINENTS_PROPERTY = Id('4W6gL14KsToDLy5yUEdawU');
-/*
- * @deprecated use CONTINENTS_PROPERTY
- */
-export const CONTINENTS_ATTRIBUTE = Id('4W6gL14KsToDLy5yUEdawU');
-export const PERSON_PROPERTY = Id('W2aFZPy5nnU3DgdkWJCNVn');
-/*
- * @deprecated use PERSON_PROPERTY
- */
-export const PERSON_ATTRIBUTE = Id('W2aFZPy5nnU3DgdkWJCNVn');
-export const PROJECT_PROPERTY = Id('V7XvcnLXtbj7T2rvdNtKid');
-/*
- * @deprecated use PROJECT_PROPERTY
- */
-export const PROJECT_ATTRIBUTE = Id('V7XvcnLXtbj7T2rvdNtKid');
-export const RELATED_SPACES_PROPERTY = Id('CHwmK8bk4KMCqBNiV2waL9');
-/*
- * @deprecated use RELATED_SPACES_PROPERTY
- */
-export const RELATED_SPACES_ATTRIBUTE = Id('CHwmK8bk4KMCqBNiV2waL9');
+export const AVATAR_PROPERTY = Id('1155beff-fad5-49b7-a2e0-da4777b8792c');
+export const BROADER_GOALS_PROPERTY = Id('7072d8d0-3136-4993-9ae5-dacae05e25f9');
+export const SUBGOALS_PROPERTY = Id('ef0edbba-6987-4057-b616-836483df2344');
+export const DISCLAIMER_PROPERTY = Id('2877c1c3-d2ad-493f-abe7-6e1bb16e1c37');
+export const EVENT_DATE_PROPERTY = Id('52665f3e-fb7d-48d5-8b6b-abb21b0d36db');
+export const RELATED_PEOPLE_PROPERTY = Id('5df8e432-9cc5-4f03-8f85-4ac82e157ada');
+export const SKILLS_PROPERTY = Id('a38732e3-3a3d-47f9-a459-fb369c287709');
+export const ROLES_PROPERTY = Id('8fcfe5ef-3d91-47bd-8322-3830a998d26b');
+export const HIGHLIGHTED_RELATED_ENTIRIES_PROPERTY = Id('0a62474e-3a3f-4c86-b507-6ea582439dd1');
+export const PUBLISHER_PROPERTY = Id('9ec2b47e-4819-47c0-a99e-8ddb27a3ed8e');
+export const AUTHORS_PROPERTY = Id('91a9e2f6-e51a-48f7-9976-61de8561b690');
+export const WEB_ARCHIVE_URL_PROPERTY = Id('54aa3b25-c45d-4974-a937-6bb895aeaefe');
+export const PUBLISH_DATE_PROPERTY = Id('94e43fe8-faf2-4100-9eb8-87ab4f999723');
+export const OWNERS_PROPERTY = Id('c9ed4b4b-7294-4eda-9a03-a7975cd1651e');
+export const SOURCES_PROPERTY = Id('49c5d5e1-679a-4dbd-bfd3-3f618f227c94');
+export const QUOTES_THAT_SUPPORT_CLAIMS_PROPERTY = Id('f1576465-b8d1-479f-913c-9149fe0bd15e');
+export const OPPOSING_ARGUMENTS_PROPERTY = Id('4e6ec5d1-4292-498a-84e5-f607ca1a08ce');
+export const SUPPORTING_ARGUMENTS_PROPERTY = Id('1dc6a843-4588-4819-8e7a-6e672268f811');
+export const WEBSITE_PROPERTY = Id('eed38e74-e679-46bf-8a42-ea3e4f8fb5fb');
+export const BROADER_PROJECTS_PROPERTY = Id('28b3ee04-c2b9-46c3-bb9d-4c450e0f26fd');
+export const SUBPROJECTS_PROPERTY = Id('83240c7c-1a9b-4332-bbb5-67a76e02c003');
+export const TOPICS_PROPERTY = Id('458fbc07-0dbf-4c92-8f57-16f3fdde7c32');
+export const RELATED_ENTITIES_PROPERTY = Id('dfa6aebe-1ca9-4bf2-9fac-cc4cc7afb24c');
+export const X_PROPERTY = Id('0d625978-4b3c-4b57-a86f-de45c997c73c');
+export const CITIES_PROPERTY = Id('2282fece-7494-40d6-bcdc-aad2355c40fb');
+export const LOCATION_PROPERTY = Id('95d77002-1faf-4f7c-b7de-b21a7d48cda0');
+export const WEB_URL_PROPERTY = Id('412ff593-e915-4012-a43d-4c27ec5c68b6');
+export const SUBTOPICS_PROPERTY = Id('39e40cad-b23d-4f63-ab2f-aea1596436c7');
+export const RELATED_TOPICS_PROPERTY = Id('806d52bc-27e9-4c91-93c0-57978b093351');
+export const COUNTRIES_PROPERTY = Id('c4c88260-ea3a-4498-a2f9-be340a19758e');
+export const BROADER_TOPICS_PROPERTY = Id('b35bd6d3-9fb6-4f3a-8aea-f5a9b91b5ef6');
+export const RELATED_PROJECTS_PROPERTY = Id('6e3503fa-b974-460e-a3db-ab8af9a41427');
+export const CONTINENTS_PROPERTY = Id('1c5b7c0a-d187-425e-885c-2980d9db6b4b');
+export const PERSON_PROPERTY = Id('eb1141ae-ba35-43df-acdd-3329cccd8121');
+export const PROJECT_PROPERTY = Id('e3a96728-2b09-4af7-9af7-86ef1aa7837e');
+export const RELATED_SPACES_PROPERTY = Id('5b722cd3-61d6-494e-8887-1310566437ba');
 
 /**
  * Migration 1
  */
-export const VALUE_TYPE = Id('Y1HG66QvvthrmL3dredT53');
-export const PRINCIPLE_TYPE = Id('2tjghBgapq2CNRsUPMhZ5b');
+export const VALUE_TYPE = Id('fb1551b2-1816-46eb-8919-c73253c32022');
+export const PRINCIPLE_TYPE = Id('0f526048-26cf-40d6-8bab-967e5fb1a08a');

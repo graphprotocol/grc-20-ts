@@ -2,85 +2,50 @@ import type { SafeSmartAccountImplementation } from 'permissionless/accounts';
 import type { SmartAccountClient } from 'permissionless/clients';
 import type { Address, Chain, HttpTransport } from 'viem';
 import type { SmartAccountImplementation } from 'viem/account-abstraction';
-import type { Id } from './id.js';
-
-type OmitStrict<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+import type { Id, IdBase64 } from './id.js';
 
 export type ValueType = 'TEXT' | 'NUMBER' | 'CHECKBOX' | 'URL' | 'TIME' | 'POINT';
 
 export type Value = {
-  type: ValueType;
+  propertyId: IdBase64;
   value: string;
-  options?: TripleValueOptions;
 };
 
-export type TripleValueOptions = {
-  format?: string;
-  unit?: string;
-  language?: string;
+export type Entity = {
+  id: IdBase64;
+  values: Array<Value>;
 };
 
-type Triple = {
-  entity: string;
-  attribute: string;
-  value: Value;
+export type Relation = {
+  id: IdBase64;
+  type: IdBase64;
+  fromEntity: IdBase64;
+  fromSpace?: IdBase64;
+  fromVersion?: IdBase64;
+  toEntity: IdBase64;
+  toSpace?: IdBase64;
+  toVersion?: IdBase64;
+  entity: IdBase64;
+  position?: string;
+  verified?: boolean;
 };
 
-type Entity = {
-  id: string;
-  types: string[];
-};
-
-export type CsvMetadata = {
-  type: 'CSV';
-  columns: {
-    id: string;
-    type: ValueType | 'RELATION';
-    options?: TripleValueOptions;
-  }[];
-};
-
-export type FileMetadata = CsvMetadata;
-
-export type ImportFileOp = {
-  type: 'IMPORT_FILE';
-  /**
-   * ipfs:// prefixed cid representing the uploaded file
-   */
-  url: string;
-  /**
-   * ipfs:// prefixed cid representing metadata about the uploaded file
-   */
-  metadata: FileMetadata;
-};
-
-export type SetBatchTripleOp = {
-  type: 'SET_BATCH_TRIPLE';
+export type UpdateEntityOp = {
+  type: 'UPDATE_ENTITY';
   entity: Entity;
-  triples: Triple[];
+};
+
+export type UnsetEntityValuesOp = {
+  type: 'UNSET_ENTITY_VALUES';
+  unsetEntityValues: {
+    id: IdBase64;
+    properties: IdBase64[];
+  };
 };
 
 export type DeleteEntityOp = {
   type: 'DELETE_ENTITY';
-  entity: OmitStrict<Entity, 'types'>;
-};
-
-export type SetTripleOp = {
-  type: 'SET_TRIPLE';
-  triple: Triple;
-};
-
-export type DeleteTripleOp = {
-  type: 'DELETE_TRIPLE';
-  triple: OmitStrict<Triple, 'value'>;
-};
-
-type Relation = {
-  id: string;
-  type: string;
-  fromEntity: string;
-  toEntity: string;
-  index: string;
+  id: IdBase64;
 };
 
 export type CreateRelationOp = {
@@ -90,68 +55,39 @@ export type CreateRelationOp = {
 
 export type DeleteRelationOp = {
   type: 'DELETE_RELATION';
-  relation: Pick<Relation, 'id'>;
+  id: IdBase64;
+};
+
+export type UpdateRelationOp = {
+  type: 'UPDATE_RELATION';
+  relation: Pick<Relation, 'id' | 'position' | 'fromSpace' | 'toSpace' | 'fromVersion' | 'toVersion' | 'verified'>;
+};
+
+export type UnsetRelationFieldsOp = {
+  type: 'UNSET_RELATION_FIELDS';
+  unsetRelationFields: {
+    id: IdBase64;
+    fromSpace?: boolean;
+    fromVersion?: boolean;
+    toSpace?: boolean;
+    toVersion?: boolean;
+    position?: boolean;
+    verified?: boolean;
+  };
 };
 
 export type Op =
-  | SetTripleOp
-  | DeleteTripleOp
-  | SetBatchTripleOp
+  | UpdateEntityOp
   | DeleteEntityOp
   | CreateRelationOp
   | DeleteRelationOp
-  | ImportFileOp;
+  | UpdateRelationOp
+  | UnsetEntityValuesOp
+  | UnsetRelationFieldsOp;
 
-export type EditProposalMetadata = {
-  type: 'ADD_EDIT';
-  version: '0.0.1';
-  name: string;
-  ops: Op[];
-  // We generate the proposal id on the client so we can pass it to the proposal
-  // execution callback passed to a proposal.
-  id: string;
-  authors: string[];
+type ValueParams = {
+  value: string;
 };
-
-export type MembershipProposalMetadata = {
-  type: 'ADD_MEMBER' | 'REMOVE_MEMBER' | 'ADD_EDITOR' | 'REMOVE_EDITOR';
-  version: '1.0.0';
-  user: `0x${string}`;
-  // We generate the proposal id on the client so we can pass it to the proposal
-  // execution callback passed to a proposal.
-  id: string;
-  name?: string;
-};
-
-export type SubspaceProposalMetadata = {
-  type: 'ADD_SUBSPACE' | 'REMOVE_SUBSPACE';
-  version: '1.0.0';
-  subspace: `0x${string}`;
-  // We generate the proposal id on the client so we can pass it to the proposal
-  // execution callback passed to a proposal.
-  id: string;
-  name?: string;
-};
-
-export type ProposalMetadata = EditProposalMetadata | MembershipProposalMetadata | SubspaceProposalMetadata;
-
-export type ProposalType = Uppercase<ProposalMetadata['type']>;
-
-export enum VoteOption {
-  None = 0,
-  Abstain = 1,
-  Yes = 2,
-  No = 3,
-}
-
-export enum VotingMode {
-  Standard = 0,
-  EarlyExecution = 1,
-}
-
-export type ProposalStatus = 'PROPOSED' | 'ACCEPTED' | 'REJECTED' | 'CANCELED' | 'EXECUTED';
-
-export type GraphUri = `graph://${string}`;
 
 export type DefaultProperties = {
   id?: Id;
@@ -160,24 +96,93 @@ export type DefaultProperties = {
   cover?: Id;
 };
 
-type ValueParams = {
-  value: string;
-  type: ValueType;
+export type PropertiesParam = Record<Id, ValueParams>;
+
+export type RelationsParam = Record<Id, RelationParams | Array<RelationParams>>;
+
+export type EntityParams = DefaultProperties & {
+  values?: PropertiesParam;
+  relations?: RelationsParam;
+  types?: Array<Id>;
 };
 
-type RelationParams = {
-  to: Id;
+export type UpdateEntityParams = DefaultProperties & {
+  id: Id;
+  values?: PropertiesParam;
+};
+
+type RelationEntityParams = {
+  [K in keyof EntityParams as `entity${Capitalize<string & K>}`]?: EntityParams[K];
+};
+
+export type RelationParams = {
+  id?: Id;
+  fromEntity: Id;
+  toEntity: Id;
   relationId?: Id;
-  position?: string;
-  properties?: Record<string, ValueParams | RelationParams | Array<RelationParams>>;
-};
+  toSpace?: Id;
+  position?: string | undefined;
+  type: Id; // relation type id
+} & RelationEntityParams;
 
-export type PropertiesParam = Record<string, ValueParams | RelationParams | Array<RelationParams>>;
+export type UpdateRelationParams = {
+  id: Id;
+  position?: string | undefined;
+  verified?: boolean;
+  fromSpace?: Id;
+  fromVersion?: Id;
+  toVersion?: Id;
+  toSpace?: Id;
+};
 
 export type CreateResult = {
   id: Id;
   ops: Op[];
 };
+
+export type UnsetRelationParams = {
+  id: Id;
+  fromSpace?: boolean;
+  fromVersion?: boolean;
+  toSpace?: boolean;
+  toVersion?: boolean;
+  position?: boolean;
+  verified?: boolean;
+};
+
+export type UnsetEntityValuesParams = {
+  id: Id;
+  properties: Id[];
+};
+
+export type DeleteRelationParams = {
+  id: Id;
+};
+
+export type DeleteEntityParams = {
+  id: Id;
+};
+
+export type CreateTypeParams = DefaultProperties & {
+  properties?: Array<Id>;
+};
+
+export type CreatePropertyParams = DefaultProperties &
+  ({ type: ValueType } | { type: 'RELATION'; properties?: Array<Id>; relationValueTypes?: Array<Id> });
+
+export type CreateImageParams =
+  | {
+      blob: Blob;
+      name?: string;
+      description?: string;
+      id?: Id;
+    }
+  | {
+      url: string;
+      name?: string;
+      description?: string;
+      id?: Id;
+    };
 
 type SafeSmartAccount = SafeSmartAccountImplementation<'0.7'> & {
   address: Address;
@@ -199,3 +204,12 @@ export type GeoSmartAccount = SmartAccountClient<
   undefined,
   undefined
 >;
+
+export type GraphUri = `graph://${string}`;
+
+export enum VoteOption {
+  None = 0,
+  Abstain = 1,
+  Yes = 2,
+  No = 3,
+}
