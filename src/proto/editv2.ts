@@ -65,7 +65,7 @@ function opsToBinary(ops: Op[]): OpBinary[] {
         return new OpBinary({
           payload: {
             case: 'unsetEntityValues',
-            value: UnsetEntityValues.fromJson(o),
+            value: UnsetEntityValues.fromJson(o.unsetEntityValues),
           },
         });
       case 'DELETE_ENTITY':

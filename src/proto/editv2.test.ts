@@ -145,4 +145,74 @@ describe('Edit', () => {
       position: 'new-position',
     });
   });
+
+  it('encodes and decodes Edit with UNSET_ENTITY_VALUES ops correctly', () => {
+    const editBinary = encode({
+      name: 'test',
+      ops: [
+        {
+          type: 'UNSET_ENTITY_VALUES',
+          unsetEntityValues: {
+            id: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+            properties: [
+              toBase64(Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc')),
+              toBase64(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+            ],
+          },
+        },
+      ],
+      author: Id('14c98bef-f1d3-4be3-81bf-f19a35a68d8f'),
+    });
+
+    const result = Edit.fromBinary(editBinary);
+    expect(result.name).toBe('test');
+    expect(result.ops.length).toBe(1);
+    const op = result.ops[0];
+    if (!op) throw new Error('Expected op to be defined');
+    expect(op.payload?.case).toBe('unsetEntityValues');
+    expect(op.payload?.value).toEqual({
+      id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      properties: [
+        toBytes(Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc')),
+        toBytes(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+      ],
+    });
+  });
+
+  it('encodes and decodes Edit with UNSET_RELATION_FIELDS ops correctly', () => {
+    const editBinary = encode({
+      name: 'test',
+      ops: [
+        {
+          type: 'UNSET_RELATION_FIELDS',
+          unsetRelationFields: {
+            id: toBase64(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+            fromSpace: true,
+            fromVersion: false,
+            toSpace: true,
+            toVersion: false,
+            position: true,
+            verified: false,
+          },
+        },
+      ],
+      author: Id('14c98bef-f1d3-4be3-81bf-f19a35a68d8f'),
+    });
+
+    const result = Edit.fromBinary(editBinary);
+    expect(result.name).toBe('test');
+    expect(result.ops.length).toBe(1);
+    const op = result.ops[0];
+    if (!op) throw new Error('Expected op to be defined');
+    expect(op.payload?.case).toBe('unsetRelationFields');
+    expect(op.payload?.value).toEqual({
+      id: toBytes(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+      fromSpace: true,
+      fromVersion: false,
+      toSpace: true,
+      toVersion: false,
+      position: true,
+      verified: false,
+    });
+  });
 });
