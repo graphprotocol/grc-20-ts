@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.12.2
+
+### Patch Changes
+
+- a6d2b4b: restore Base58
+
 ## 0.12.1
 
 ### Patch Changes
