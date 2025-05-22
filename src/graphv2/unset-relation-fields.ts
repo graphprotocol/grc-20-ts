@@ -1,4 +1,5 @@
-import type { UnsetRelationOp, UnsetRelationParams } from '../typesv2.js';
+import { Id, toBase64 } from '../idv2.js';
+import type { UnsetRelationFieldsOp, UnsetRelationParams } from '../typesv2.js';
 
 /**
  * Unsets fields from a relation.
@@ -7,7 +8,6 @@ import type { UnsetRelationOp, UnsetRelationParams } from '../typesv2.js';
  * ```ts
  * const { ops } = await unsetRelationFields({
  *   id: relationId,
- *   fromSpace: true, // optional
  *   fromVersion: true, // optional
  *   toSpace: true, // optional
  *   toVersion: true, // optional
@@ -21,22 +21,22 @@ import type { UnsetRelationOp, UnsetRelationParams } from '../typesv2.js';
  */
 export const unsetRelationFields = ({
   id,
-  fromSpace,
   fromVersion,
   toSpace,
   toVersion,
   position,
   verified,
 }: UnsetRelationParams) => {
-  const op: UnsetRelationOp = {
-    type: 'UNSET_RELATION',
-    id,
-    fromSpace,
-    fromVersion,
-    toSpace,
-    toVersion,
-    position,
-    verified,
+  const op: UnsetRelationFieldsOp = {
+    type: 'UNSET_RELATION_FIELDS',
+    unsetRelationFields: {
+      id: toBase64(Id(id)),
+      fromVersion,
+      toSpace,
+      toVersion,
+      position,
+      verified,
+    },
   };
 
   return { id, ops: [op] };

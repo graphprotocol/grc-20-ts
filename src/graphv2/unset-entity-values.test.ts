@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Id } from '../idv2.js';
+import { Id, toBase64 } from '../idv2.js';
 import { unsetEntityValues } from './unset-entity-values.js';
 
 describe('unsetEntityValues', () => {
@@ -13,8 +13,10 @@ describe('unsetEntityValues', () => {
       ops: [
         {
           type: 'UNSET_ENTITY_VALUES',
-          entity: id,
-          properties,
+          unsetEntityValues: {
+            id: toBase64(id),
+            properties: properties.map(property => toBase64(property)),
+          },
         },
       ],
     });
@@ -30,8 +32,10 @@ describe('unsetEntityValues', () => {
       ops: [
         {
           type: 'UNSET_ENTITY_VALUES',
-          entity: id,
-          properties,
+          unsetEntityValues: {
+            id: toBase64(id),
+            properties: [],
+          },
         },
       ],
     });

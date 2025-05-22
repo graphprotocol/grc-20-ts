@@ -1,5 +1,5 @@
 import { PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/idsv2/system.js';
-import { assertValid, generate } from '../idv2.js';
+import { assertValid, generate, toBase64 } from '../idv2.js';
 import type { CreateResult, CreateTypeParams } from '../typesv2.js';
 import { createEntity } from './create-entity.js';
 
@@ -46,11 +46,11 @@ export const createType = ({
   ops.push({
     type: 'CREATE_RELATION',
     relation: {
-      id: generate(),
-      entity: generate(),
-      fromEntity: id,
-      toEntity: SCHEMA_TYPE,
-      type: TYPES_PROPERTY,
+      id: toBase64(generate()),
+      entity: toBase64(generate()),
+      fromEntity: toBase64(id),
+      toEntity: toBase64(SCHEMA_TYPE),
+      type: toBase64(TYPES_PROPERTY),
     },
   });
 
@@ -61,11 +61,11 @@ export const createType = ({
       ops.push({
         type: 'CREATE_RELATION',
         relation: {
-          id: generate(),
-          entity: generate(),
-          fromEntity: id,
-          toEntity: propertyId,
-          type: PROPERTY,
+          id: toBase64(generate()),
+          entity: toBase64(generate()),
+          fromEntity: toBase64(id),
+          toEntity: toBase64(propertyId),
+          type: toBase64(PROPERTY),
         },
       });
     }

@@ -1,34 +1,27 @@
-import type { Id } from './idv2.js';
+import type { Id, IdBase64 } from './idv2.js';
 
 export type ValueType = 'TEXT' | 'NUMBER' | 'CHECKBOX' | 'URL' | 'TIME' | 'POINT';
 
-export type ValueOptions = {
-  format?: string;
-  unit?: string;
-};
-
 export type Value = {
-  propertyId: Id;
+  propertyId: IdBase64;
   value: string;
-  options?: ValueOptions;
 };
 
 export type Entity = {
-  id: Id;
+  id: IdBase64;
   values: Array<Value>;
 };
 
 export type Relation = {
-  id: Id;
-  type: Id;
-  fromEntity: Id;
-  fromProperty?: Id;
-  fromVersion?: Id;
-  toEntity: Id;
-  toSpace?: Id;
-  toProperty?: Id;
-  toVersion?: Id;
-  entity: Id;
+  id: IdBase64;
+  type: IdBase64;
+  fromEntity: IdBase64;
+  fromSpace?: IdBase64;
+  fromVersion?: IdBase64;
+  toEntity: IdBase64;
+  toSpace?: IdBase64;
+  toVersion?: IdBase64;
+  entity: IdBase64;
   position?: string;
   verified?: boolean;
 };
@@ -38,15 +31,17 @@ export type UpdateEntityOp = {
   entity: Entity;
 };
 
-export type UnsetPropertiesOp = {
+export type UnsetEntityValuesOp = {
   type: 'UNSET_ENTITY_VALUES';
-  entity: Id;
-  properties: Id[];
+  unsetEntityValues: {
+    id: IdBase64;
+    properties: IdBase64[];
+  };
 };
 
 export type DeleteEntityOp = {
   type: 'DELETE_ENTITY';
-  id: Id;
+  id: IdBase64;
 };
 
 export type CreateRelationOp = {
@@ -56,29 +51,18 @@ export type CreateRelationOp = {
 
 export type DeleteRelationOp = {
   type: 'DELETE_RELATION';
-  id: Id;
+  id: IdBase64;
 };
 
 export type UpdateRelationOp = {
   type: 'UPDATE_RELATION';
-  relation: Pick<
-    Relation,
-    | 'id'
-    | 'position'
-    | 'toSpace'
-    | 'fromProperty'
-    | 'toProperty'
-    | 'fromVersion'
-    | 'toVersion'
-    | 'position'
-    | 'verified'
-  >;
+  relation: Pick<Relation, 'id' | 'position' | 'fromSpace' | 'toSpace' | 'fromVersion' | 'toVersion' | 'verified'>;
 };
 
-export type UnsetRelationOp = {
-  type: 'UNSET_RELATION';
+export type UnsetRelationFieldsOp = {
+  type: 'UNSET_RELATION_FIELDS';
   unsetRelationFields: {
-    id: Id;
+    id: IdBase64;
     fromSpace?: boolean;
     fromVersion?: boolean;
     toSpace?: boolean;
@@ -94,8 +78,8 @@ export type Op =
   | CreateRelationOp
   | DeleteRelationOp
   | UpdateRelationOp
-  | UnsetPropertiesOp
-  | UnsetRelationOp;
+  | UnsetEntityValuesOp
+  | UnsetRelationFieldsOp;
 
 type ValueParams = {
   value: string;
@@ -132,7 +116,6 @@ export type RelationParams = {
   fromEntity: Id;
   toEntity: Id;
   relationId?: Id;
-  fromProperty?: Id;
   toSpace?: Id;
   position?: string | undefined;
   type: Id; // relation type id
@@ -141,7 +124,10 @@ export type RelationParams = {
 export type UpdateRelationParams = {
   id: Id;
   position?: string | undefined;
-  fromProperty?: Id;
+  verified?: boolean;
+  fromSpace?: Id;
+  fromVersion?: Id;
+  toVersion?: Id;
   toSpace?: Id;
 };
 
@@ -160,7 +146,7 @@ export type UnsetRelationParams = {
   verified?: boolean;
 };
 
-export type UnsetEntityPropertiesParams = {
+export type UnsetEntityValuesParams = {
   id: Id;
   properties: Id[];
 };

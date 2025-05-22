@@ -1,4 +1,4 @@
-import { assertValid } from '../idv2.js';
+import { Id, assertValid, toBase64 } from '../idv2.js';
 import type { CreateResult, DeleteRelationOp, DeleteRelationParams } from '../typesv2.js';
 
 /**
@@ -13,10 +13,10 @@ import type { CreateResult, DeleteRelationOp, DeleteRelationParams } from '../ty
  * @returns The operations to delete the relation.
  */
 export const deleteRelation = ({ id }: DeleteRelationParams): CreateResult => {
-  assertValid(id);
+  assertValid(id, 'id is required');
   const op: DeleteRelationOp = {
     type: 'DELETE_RELATION',
-    id,
+    id: toBase64(Id(id)),
   };
 
   return { id, ops: [op] };

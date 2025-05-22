@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Id } from '../idv2.js';
+import { Id, toBase64 } from '../idv2.js';
 import { deleteRelation } from './delete-relation.js';
 
 describe('deleteRelation', () => {
@@ -12,7 +12,7 @@ describe('deleteRelation', () => {
       ops: [
         {
           type: 'DELETE_RELATION',
-          id,
+          id: toBase64(id),
         },
       ],
     });

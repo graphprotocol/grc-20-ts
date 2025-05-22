@@ -1,4 +1,4 @@
-import { assertValid } from '../idv2.js';
+import { assertValid, toBase64 } from '../idv2.js';
 import type { CreateResult, Op, UpdateRelationParams } from '../typesv2.js';
 
 /**
@@ -9,15 +9,25 @@ import type { CreateResult, Op, UpdateRelationParams } from '../typesv2.js';
  * const { id, ops } = updateRelation({
  *   id: relationId,
  *   position: 'position of the relation',
- *   fromProperty: 'id of the from property',
  *   toSpace: 'id of the to space',
+ *   fromVersion: 'id of the from version',
+ *   toVersion: 'id of the to version',
+ *   verified: true,
  * });
  * ```
  * @param params – {@link UpdateRelationParams}
  * @returns – {@link CreateResult}
  * @throws Will throw an error if any provided ID is invalid
  */
-export const updateRelation = ({ id, position, toSpace, fromProperty }: UpdateRelationParams): CreateResult => {
+export const updateRelation = ({
+  id,
+  position,
+  fromSpace,
+  toSpace,
+  fromVersion,
+  toVersion,
+  verified,
+}: UpdateRelationParams): CreateResult => {
   assertValid(id, '`id` in `updateRelation`');
 
   const ops: Array<Op> = [];
@@ -25,10 +35,13 @@ export const updateRelation = ({ id, position, toSpace, fromProperty }: UpdateRe
   ops.push({
     type: 'UPDATE_RELATION',
     relation: {
-      id,
-      fromProperty,
+      id: toBase64(id),
       position,
-      toSpace,
+      fromSpace: fromSpace ? toBase64(fromSpace) : undefined,
+      toSpace: toSpace ? toBase64(toSpace) : undefined,
+      fromVersion: fromVersion ? toBase64(fromVersion) : undefined,
+      toVersion: toVersion ? toBase64(toVersion) : undefined,
+      verified,
     },
   });
 

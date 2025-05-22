@@ -5,7 +5,7 @@ import {
   IMAGE_WIDTH_PROPERTY,
   TYPES_PROPERTY,
 } from '../core/idsv2/system.js';
-import { assertValid, generate } from '../idv2.js';
+import { assertValid, generate, toBase64 } from '../idv2.js';
 import { uploadImage } from '../ipfsv2.js';
 import type { CreateImageParams, CreateResult, PropertiesParam } from '../typesv2.js';
 import { createEntity } from './create-entity.js';
@@ -72,11 +72,11 @@ export const createImage = async ({
   ops.push({
     type: 'CREATE_RELATION',
     relation: {
-      id: generate(),
-      entity: generate(),
-      fromEntity: id,
-      toEntity: IMAGE_TYPE,
-      type: TYPES_PROPERTY,
+      id: toBase64(generate()),
+      entity: toBase64(generate()),
+      fromEntity: toBase64(id),
+      toEntity: toBase64(IMAGE_TYPE),
+      type: toBase64(TYPES_PROPERTY),
     },
   });
 

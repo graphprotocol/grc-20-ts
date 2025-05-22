@@ -1,4 +1,4 @@
-import { type Id, generate, toBytes } from '../idv2.js';
+import { type Id, fromBase64, generate, toBytes } from '../idv2.js';
 import type { Op } from '../typesv2.js';
 import {
   Edit,
@@ -6,6 +6,7 @@ import {
   Op as OpBinary,
   Relation,
   RelationUpdate,
+  UnsetEntityValues,
   UnsetRelationFields,
 } from './gen/src/proto/ipfsv2_pb.js';
 
@@ -26,17 +27,6 @@ interface EntityData {
   values: EntityValue[];
 }
 
-// Helper function to convert entity data to the correct format
-function convertEntityToProto(entity: EntityData) {
-  return new Entity({
-    id: toBytes(entity.id),
-    values: entity.values.map(v => ({
-      propertyId: toBytes(v.propertyId),
-      value: v.value,
-    })),
-  });
-}
-
 export function encode({ name, ops, author, language }: MakeEditProposalParams): Uint8Array {
   return new Edit({
     id: toBytes(generate()),
@@ -51,42 +41,38 @@ function opsToBinary(ops: Op[]): OpBinary[] {
   return ops.map(o => {
     switch (o.type) {
       case 'CREATE_RELATION':
-        console.error('createRelation', o, Relation.fromJson(o));
         return new OpBinary({
           payload: {
             case: 'createRelation',
-            value: Relation.fromJson(o),
+            value: Relation.fromJson(o.relation),
           },
         });
       case 'DELETE_RELATION':
         return new OpBinary({
           payload: {
             case: 'deleteRelation',
-            value: toBytes(o.id),
+            value: toBytes(fromBase64(o.id)),
           },
         });
       case 'UPDATE_ENTITY':
         return new OpBinary({
           payload: {
             case: 'updateEntity',
-            value: convertEntityToProto(o.entity),
+            value: Entity.fromJson(o.entity),
           },
         });
       case 'UNSET_ENTITY_VALUES':
         return new OpBinary({
           payload: {
             case: 'unsetEntityValues',
-            value: {
-              id: toBytes(o.entity),
-              properties: o.properties.map(toBytes),
-            },
+            value: UnsetEntityValues.fromJson(o),
           },
         });
       case 'DELETE_ENTITY':
         return new OpBinary({
           payload: {
             case: 'deleteEntity',
-            value: toBytes(o.id),
+            value: toBytes(fromBase64(o.id)),
           },
         });
       case 'UPDATE_RELATION':
@@ -96,7 +82,7 @@ function opsToBinary(ops: Op[]): OpBinary[] {
             value: RelationUpdate.fromJson(o.relation),
           },
         });
-      case 'UNSET_RELATION':
+      case 'UNSET_RELATION_FIELDS':
         return new OpBinary({
           payload: {
             case: 'unsetRelationFields',

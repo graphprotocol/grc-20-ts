@@ -1,5 +1,5 @@
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/idsv2/system.js';
-import { Id, assertValid, generate } from '../idv2.js';
+import { Id, assertValid, generate, toBase64 } from '../idv2.js';
 import type { CreateResult, EntityParams, Op, UpdateEntityOp, Value } from '../typesv2.js';
 import { createRelation } from './create-relation.js';
 
@@ -26,7 +26,6 @@ import { createRelation } from './create-relation.js';
  *     [relationId]: {
  *       to: 'id of the entity',
  *       id: 'id of the relation', // optional
- *       fromProperty: 'id of the from property', // optional
  *       toSpace: 'id of the to space', // optional
  *       position: positionString, // optional
  *       entityId: 'id of the relation entity', // optional and will be generated if not provided
@@ -71,19 +70,19 @@ export const createEntity = ({
   const newValues: Array<Value> = [];
   if (name) {
     newValues.push({
-      propertyId: NAME_PROPERTY,
+      propertyId: toBase64(NAME_PROPERTY),
       value: name,
     });
   }
   if (description) {
     newValues.push({
-      propertyId: DESCRIPTION_PROPERTY,
+      propertyId: toBase64(DESCRIPTION_PROPERTY),
       value: description,
     });
   }
   for (const [key, value] of Object.entries(values ?? {})) {
     newValues.push({
-      propertyId: Id(key),
+      propertyId: toBase64(Id(key)),
       value: value.value,
     });
   }
@@ -91,7 +90,7 @@ export const createEntity = ({
   const op: UpdateEntityOp = {
     type: 'UPDATE_ENTITY',
     entity: {
-      id,
+      id: toBase64(id),
       values: newValues,
     },
   };
@@ -102,11 +101,11 @@ export const createEntity = ({
     ops.push({
       type: 'CREATE_RELATION',
       relation: {
-        id: generate(),
-        entity: generate(),
-        fromEntity: id,
-        toEntity: cover,
-        type: COVER_PROPERTY,
+        id: toBase64(generate()),
+        entity: toBase64(generate()),
+        fromEntity: toBase64(id),
+        toEntity: toBase64(cover),
+        type: toBase64(COVER_PROPERTY),
       },
     });
   }
@@ -117,11 +116,11 @@ export const createEntity = ({
       ops.push({
         type: 'CREATE_RELATION',
         relation: {
-          id: generate(),
-          entity: generate(),
-          fromEntity: id,
-          toEntity: typeId,
-          type: TYPES_PROPERTY,
+          id: toBase64(generate()),
+          entity: toBase64(generate()),
+          fromEntity: toBase64(id),
+          toEntity: toBase64(typeId),
+          type: toBase64(TYPES_PROPERTY),
         },
       });
     }
@@ -139,7 +138,6 @@ export const createEntity = ({
         toEntity: relation.toEntity,
         type: Id(typeId),
         position: relation.position,
-        fromProperty: relation.fromProperty,
         toSpace: relation.toSpace,
         entityId: relationEntityId,
         entityName: relation.entityName,

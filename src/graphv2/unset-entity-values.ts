@@ -1,4 +1,5 @@
-import type { UnsetEntityPropertiesParams, UnsetPropertiesOp } from '../typesv2.js';
+import { Id, toBase64 } from '../idv2.js';
+import type { UnsetEntityValuesOp, UnsetEntityValuesParams } from '../typesv2.js';
 
 /**
  * Unsets properties from an entity.
@@ -11,14 +12,16 @@ import type { UnsetEntityPropertiesParams, UnsetPropertiesOp } from '../typesv2.
  * });
  * ```
  *
- * @param params – {@link UnsetEntityPropertiesParams}
+ * @param params – {@link UnsetEntityValuesParams}
  * @returns The operation to unset the properties.
  */
-export const unsetEntityValues = ({ id, properties }: UnsetEntityPropertiesParams) => {
-  const op: UnsetPropertiesOp = {
+export const unsetEntityValues = ({ id, properties }: UnsetEntityValuesParams) => {
+  const op: UnsetEntityValuesOp = {
     type: 'UNSET_ENTITY_VALUES',
-    entity: id,
-    properties,
+    unsetEntityValues: {
+      id: toBase64(Id(id)),
+      properties: properties.map(propertyId => toBase64(Id(propertyId))),
+    },
   };
 
   return { id, ops: [op] };

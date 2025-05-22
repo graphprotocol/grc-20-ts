@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { Id } from '../idv2.js';
+import { Id, toBase64 } from '../idv2.js';
 import { SystemIds } from '../system-ids-v2.js';
 import { createImage } from './create-image.js';
 
@@ -46,7 +46,7 @@ describe('createImage', () => {
       expect(image.ops[0].type).toBe('UPDATE_ENTITY');
       if (image.ops[0].type === 'UPDATE_ENTITY') {
         expect(image.ops[0].entity.values).toContainEqual({
-          propertyId: SystemIds.IMAGE_URL_PROPERTY,
+          propertyId: toBase64(SystemIds.IMAGE_URL_PROPERTY),
           value: 'ipfs://bafkreidgcqofpstvkzylgxbcn4xan6camlgf564sasepyt45sjgvnojxp4',
         });
       }
@@ -69,7 +69,7 @@ describe('createImage', () => {
       expect(image.ops[0].type).toBe('UPDATE_ENTITY');
       if (image.ops[0].type === 'UPDATE_ENTITY') {
         expect(image.ops[0].entity.values).toContainEqual({
-          propertyId: SystemIds.IMAGE_URL_PROPERTY,
+          propertyId: toBase64(SystemIds.IMAGE_URL_PROPERTY),
           value: 'ipfs://bafkreidgcqofpstvkzylgxbcn4xan6camlgf564sasepyt45sjgvnojxp4',
         });
       }
@@ -94,13 +94,13 @@ describe('createImage', () => {
       expect(image.ops[0].type).toBe('UPDATE_ENTITY');
       if (image.ops[0].type === 'UPDATE_ENTITY') {
         expect(image.ops[0].entity.values).toContainEqual({
-          propertyId: SystemIds.NAME_PROPERTY,
+          propertyId: toBase64(SystemIds.NAME_PROPERTY),
           value: 'test image',
         });
       }
       if (image.ops[0].type === 'UPDATE_ENTITY') {
         expect(image.ops[0].entity.values).toContainEqual({
-          propertyId: SystemIds.DESCRIPTION_PROPERTY,
+          propertyId: toBase64(SystemIds.DESCRIPTION_PROPERTY),
           value: 'test description',
         });
       }

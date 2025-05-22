@@ -1,4 +1,4 @@
-import { assertValid, generate } from '../idv2.js';
+import { assertValid, generate, toBase64 } from '../idv2.js';
 import type { CreateResult, Op, RelationParams } from '../typesv2.js';
 import { createEntity } from './create-entity.js';
 
@@ -13,7 +13,6 @@ import { createEntity } from './create-entity.js';
  *   toEntity: entityId2,
  *   type: relationTypeId,
  *   toSpace: spaceId,
- *   fromProperty: propertyId1,
  *   position: 'position of the relation',
  *   entityId: entityId3, // optional and will be generated if not provided
  *   entityValues: {
@@ -37,7 +36,6 @@ export const createRelation = ({
   id: providedId,
   fromEntity,
   toEntity,
-  fromProperty,
   position,
   toSpace,
   type,
@@ -60,14 +58,13 @@ export const createRelation = ({
   ops.push({
     type: 'CREATE_RELATION',
     relation: {
-      id,
-      entity: entityId,
-      fromEntity,
-      fromProperty,
+      id: toBase64(id),
+      entity: toBase64(entityId),
+      fromEntity: toBase64(fromEntity),
       position,
-      toEntity,
-      toSpace,
-      type,
+      toEntity: toBase64(toEntity),
+      toSpace: toSpace ? toBase64(toSpace) : undefined,
+      type: toBase64(type),
     },
   });
 

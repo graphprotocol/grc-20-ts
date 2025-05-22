@@ -1,4 +1,4 @@
-import { assertValid } from '../idv2.js';
+import { Id, assertValid, toBase64 } from '../idv2.js';
 import type { CreateResult, DeleteEntityOp, DeleteEntityParams } from '../typesv2.js';
 
 /**
@@ -13,10 +13,10 @@ import type { CreateResult, DeleteEntityOp, DeleteEntityParams } from '../typesv
  * @returns The operations to delete the entity.
  */
 export const deleteEntity = ({ id }: DeleteEntityParams): CreateResult => {
-  assertValid(id);
+  assertValid(id, 'id is required');
   const op: DeleteEntityOp = {
     type: 'DELETE_ENTITY',
-    id,
+    id: toBase64(Id(id)),
   };
 
   return { id, ops: [op] };
