@@ -1,5 +1,15 @@
 # @graphprotocol/grc-20
 
+## 0.12.0
+
+### Minor Changes
+
+- d1a22d7: Migrated to the new Entity based protocol (removed Triples, old Ids, renamed properties to values)
+
+### Patch Changes
+
+- 486ab3b: Create experimental protobuf for new IPFS format
+
 ## 0.11.5
 
 ### Patch Changes
