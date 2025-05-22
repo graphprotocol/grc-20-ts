@@ -77,13 +77,15 @@ export type UpdateRelationOp = {
 
 export type UnsetRelationOp = {
   type: 'UNSET_RELATION';
-  id: Id;
-  fromSpace?: boolean;
-  fromVersion?: boolean;
-  toSpace?: boolean;
-  toVersion?: boolean;
-  position?: boolean;
-  verified?: boolean;
+  unsetRelationFields: {
+    id: Id;
+    fromSpace?: boolean;
+    fromVersion?: boolean;
+    toSpace?: boolean;
+    toVersion?: boolean;
+    position?: boolean;
+    verified?: boolean;
+  };
 };
 
 export type Op =

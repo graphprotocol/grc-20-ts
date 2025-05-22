@@ -16,6 +16,27 @@ type MakeEditProposalParams = {
   language?: Id;
 };
 
+interface EntityValue {
+  propertyId: Id;
+  value: string;
+}
+
+interface EntityData {
+  id: Id;
+  values: EntityValue[];
+}
+
+// Helper function to convert entity data to the correct format
+function convertEntityToProto(entity: EntityData) {
+  return new Entity({
+    id: toBytes(entity.id),
+    values: entity.values.map(v => ({
+      propertyId: toBytes(v.propertyId),
+      value: v.value,
+    })),
+  });
+}
+
 export function encode({ name, ops, author, language }: MakeEditProposalParams): Uint8Array {
   return new Edit({
     id: toBytes(generate()),
@@ -30,6 +51,7 @@ function opsToBinary(ops: Op[]): OpBinary[] {
   return ops.map(o => {
     switch (o.type) {
       case 'CREATE_RELATION':
+        console.error('createRelation', o, Relation.fromJson(o));
         return new OpBinary({
           payload: {
             case: 'createRelation',
@@ -47,7 +69,7 @@ function opsToBinary(ops: Op[]): OpBinary[] {
         return new OpBinary({
           payload: {
             case: 'updateEntity',
-            value: Entity.fromJson(o.entity),
+            value: convertEntityToProto(o.entity),
           },
         });
       case 'UNSET_ENTITY_VALUES':
@@ -78,7 +100,7 @@ function opsToBinary(ops: Op[]): OpBinary[] {
         return new OpBinary({
           payload: {
             case: 'unsetRelationFields',
-            value: UnsetRelationFields.fromJson(o),
+            value: UnsetRelationFields.fromJson(o.unsetRelationFields),
           },
         });
     }
