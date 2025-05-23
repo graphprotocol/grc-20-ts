@@ -84,24 +84,35 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
   cover: imageId,
   values: {
     // value property like text, number, url, time, point, checkbox
-    [propertyId]: {
-      type: 'TEXT', // TEXT | NUMBER | URL | TIME | POINT | CHECKBOX,
-      value: 'value of the property',
-    },
+    [propertyId]: 'value of the property',
   },
   relations: {
     // relation property
     [propertyId]: {
-      to: 'id of the entity',
+      toEntity: 'id of the entity',
       id: 'id of the relation', // optional
       position: positionString, // optional
       values: {
-        [propertyId]: {
-          type: 'TEXT', // TEXT | NUMBER | URL | TIME | POINT | CHECKBOX,
-          value: 'value of the property',
-        },
+        [propertyId]: 'value of the property',
       },
     },
+  },
+});
+```
+
+#### Serializing values
+
+All values are serialized to a string. The SDK provides helper functions for serializing values to the correct format.
+
+```ts
+import { Graph } from '@graphprotocol/grc-20';
+
+const { id: personId, ops: createPersonOps } = Graph.createEntity({
+  values: {
+    [someNumberPropertyId]: Graph.serializeNumber(42),
+    [someCheckboxPropertyId]: Graph.serializeCheckbox(true),
+    [someDatePropertyId]: Graph.serializeDate(new Date()),
+    [somePointPropertyId]: Graph.serializePoint([1, 2]),
   },
 });
 ```
@@ -149,10 +160,7 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
   cover: restaurantCoverId,
   types: [restaurantTypeId],
   values: {
-    [WEBSITE_PROPERTY]: {
-      type: 'URL',
-      value: 'https://example.com',
-    },
+    [WEBSITE_PROPERTY]: 'https://example.com',
   },
 });
 ops.push(...createRestaurantOps);
@@ -169,13 +177,8 @@ const { id: personId, ops: createPersonOps } = Graph.createEntity({
   types: [personTypeId],
   cover: personCoverId,
   values: {
-    [agePropertyId]: {
-      type: 'NUMBER',
-      value: 42,
-    },
-    [likesPropertyId]: {
-      to: restaurantId,
-    },
+    [agePropertyId]: serializeNumber(42),
+    [likesPropertyId]: restaurantId,
   },
 });
 ops.push(...createPersonOps);

@@ -18,9 +18,7 @@ import { createRelation } from './create-relation.js';
  *   types: [typeEntityId1, typeEntityId2],
  *   values: {
  *     // value property like text, number, url, time, point, checkbox
- *     [propertyId]: {
- *       value: 'value of the property',
- *     }
+ *     [propertyId]: 'value of the property'
  *   },
  *   relations: {
  *     [relationPropertyId]: {
@@ -37,9 +35,7 @@ import { createRelation } from './create-relation.js';
  *       entityDescription: 'description of the relation entity', // optional
  *       entityCover: 'id of the cover', // optional
  *       entityValues: { // optional values for the relation entity
- *         [propertyId]: {
- *           value: 'value of the property',
- *         },
+ *         [propertyId]: 'value of the property',
  *       },
  *       entityRelations: {
  *         [relationPropertyId]: {

@@ -94,7 +94,9 @@ export type DefaultProperties = {
 
 export type PropertiesParam = Record<Id | string, string>;
 
-export type RelationsParam = Record<Id | string, RelationParams | Array<RelationParams>>;
+export type EntityRelationParams = Omit<RelationParams, 'fromEntity' | 'type'>;
+
+export type RelationsParam = Record<Id | string, EntityRelationParams | Array<EntityRelationParams>>;
 
 export type EntityParams = DefaultProperties & {
   values?: PropertiesParam;
