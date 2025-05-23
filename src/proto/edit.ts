@@ -18,16 +18,6 @@ type MakeEditProposalParams = {
   language?: Id;
 };
 
-interface EntityValue {
-  propertyId: Id;
-  value: string;
-}
-
-interface EntityData {
-  id: Id;
-  values: EntityValue[];
-}
-
 function hexToBytes(hex: string): Uint8Array {
   let hexString = hex;
   if (hexString.startsWith('0x')) {
