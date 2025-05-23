@@ -1,5 +1,5 @@
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
-import { Id, assertValid, generate, toBase64 } from '../id.js';
+import { Id, assertValid, generate } from '../id.js';
 import type { CreateResult, EntityParams, Op, UpdateEntityOp, Value } from '../types.js';
 import { createRelation } from './create-relation.js';
 
@@ -106,19 +106,19 @@ export const createEntity = ({
   const newValues: Array<Value> = [];
   if (name) {
     newValues.push({
-      propertyId: toBase64(NAME_PROPERTY),
+      propertyId: NAME_PROPERTY,
       value: name,
     });
   }
   if (description) {
     newValues.push({
-      propertyId: toBase64(DESCRIPTION_PROPERTY),
+      propertyId: DESCRIPTION_PROPERTY,
       value: description,
     });
   }
   for (const [key, value] of Object.entries(values ?? {})) {
     newValues.push({
-      propertyId: toBase64(Id(key)),
+      propertyId: Id(key),
       value,
     });
   }
@@ -126,7 +126,7 @@ export const createEntity = ({
   const op: UpdateEntityOp = {
     type: 'UPDATE_ENTITY',
     entity: {
-      id: toBase64(Id(id)),
+      id: Id(id),
       values: newValues,
     },
   };
@@ -136,11 +136,11 @@ export const createEntity = ({
     ops.push({
       type: 'CREATE_RELATION',
       relation: {
-        id: toBase64(generate()),
-        entity: toBase64(generate()),
-        fromEntity: toBase64(Id(id)),
-        toEntity: toBase64(Id(cover)),
-        type: toBase64(COVER_PROPERTY),
+        id: generate(),
+        entity: generate(),
+        fromEntity: Id(id),
+        toEntity: Id(cover),
+        type: COVER_PROPERTY,
       },
     });
   }
@@ -150,11 +150,11 @@ export const createEntity = ({
       ops.push({
         type: 'CREATE_RELATION',
         relation: {
-          id: toBase64(generate()),
-          entity: toBase64(generate()),
-          fromEntity: toBase64(Id(id)),
-          toEntity: toBase64(Id(typeId)),
-          type: toBase64(TYPES_PROPERTY),
+          id: generate(),
+          entity: generate(),
+          fromEntity: Id(id),
+          toEntity: Id(typeId),
+          type: TYPES_PROPERTY,
         },
       });
     }

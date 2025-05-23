@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CLAIM_TYPE, NEWS_STORY_TYPE } from '../core/ids/content.js';
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
-import { Id, toBase64 } from '../id.js';
+import { Id } from '../id.js';
 import { createEntity } from './create-entity.js';
 
 describe('createEntity', () => {
@@ -16,7 +16,7 @@ describe('createEntity', () => {
     expect(entity.ops[0]).toMatchObject({
       type: 'UPDATE_ENTITY',
       entity: {
-        id: toBase64(entity.id),
+        id: entity.id,
         values: [],
       },
     });
@@ -35,7 +35,7 @@ describe('createEntity', () => {
     expect(entity.ops[0]).toMatchObject({
       type: 'UPDATE_ENTITY',
       entity: {
-        id: toBase64(entity.id),
+        id: entity.id,
         values: [],
       },
     });
@@ -44,9 +44,9 @@ describe('createEntity', () => {
     expect(entity.ops[1]).toMatchObject({
       type: 'CREATE_RELATION',
       relation: {
-        fromEntity: toBase64(entity.id),
-        toEntity: toBase64(CLAIM_TYPE),
-        type: toBase64(TYPES_PROPERTY),
+        fromEntity: entity.id,
+        toEntity: CLAIM_TYPE,
+        type: TYPES_PROPERTY,
       },
     });
 
@@ -54,9 +54,9 @@ describe('createEntity', () => {
     expect(entity.ops[2]).toMatchObject({
       type: 'CREATE_RELATION',
       relation: {
-        fromEntity: toBase64(entity.id),
-        toEntity: toBase64(NEWS_STORY_TYPE),
-        type: toBase64(TYPES_PROPERTY),
+        fromEntity: entity.id,
+        toEntity: NEWS_STORY_TYPE,
+        type: TYPES_PROPERTY,
       },
     });
   });
@@ -74,14 +74,14 @@ describe('createEntity', () => {
     expect(entity.ops[0]).toMatchObject({
       type: 'UPDATE_ENTITY',
       entity: {
-        id: toBase64(entity.id),
+        id: entity.id,
         values: [
           {
-            propertyId: toBase64(NAME_PROPERTY),
+            propertyId: NAME_PROPERTY,
             value: 'Test Entity',
           },
           {
-            propertyId: toBase64(DESCRIPTION_PROPERTY),
+            propertyId: DESCRIPTION_PROPERTY,
             value: 'Test Description',
           },
         ],
@@ -102,7 +102,7 @@ describe('createEntity', () => {
     expect(entity.ops[0]).toMatchObject({
       type: 'UPDATE_ENTITY',
       entity: {
-        id: toBase64(entity.id),
+        id: entity.id,
         values: [],
       },
     });
@@ -111,9 +111,9 @@ describe('createEntity', () => {
     expect(entity.ops[1]).toMatchObject({
       type: 'CREATE_RELATION',
       relation: {
-        fromEntity: toBase64(entity.id),
-        toEntity: toBase64(coverId),
-        type: toBase64(COVER_PROPERTY),
+        fromEntity: entity.id,
+        toEntity: coverId,
+        type: COVER_PROPERTY,
       },
     });
   });
@@ -133,10 +133,10 @@ describe('createEntity', () => {
     expect(entity.ops[0]).toMatchObject({
       type: 'UPDATE_ENTITY',
       entity: {
-        id: toBase64(entity.id),
+        id: entity.id,
         values: [
           {
-            propertyId: toBase64(customPropertyId),
+            propertyId: customPropertyId,
             value: 'custom value',
           },
         ],
@@ -157,10 +157,10 @@ describe('createEntity', () => {
     expect(entity.ops[0]).toMatchObject({
       type: 'UPDATE_ENTITY',
       entity: {
-        id: toBase64(providedId),
+        id: providedId,
         values: [
           {
-            propertyId: toBase64(NAME_PROPERTY),
+            propertyId: NAME_PROPERTY,
             value: 'Test Entity',
           },
         ],

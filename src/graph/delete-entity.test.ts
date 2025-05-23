@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Id, toBase64 } from '../id.js';
+import { Id } from '../id.js';
 import { deleteEntity } from './delete-entity.js';
 
 describe('deleteEntity', () => {
@@ -12,7 +12,7 @@ describe('deleteEntity', () => {
       ops: [
         {
           type: 'DELETE_ENTITY',
-          id: toBase64(id),
+          id: id,
         },
       ],
     });

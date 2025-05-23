@@ -1,4 +1,4 @@
-import { Id, assertValid, toBase64 } from '../id.js';
+import { Id, assertValid } from '../id.js';
 import type { UnsetEntityValuesOp, UnsetEntityValuesParams } from '../types.js';
 
 /**
@@ -24,8 +24,8 @@ export const unsetEntityValues = ({ id, properties }: UnsetEntityValuesParams) =
   const op: UnsetEntityValuesOp = {
     type: 'UNSET_ENTITY_VALUES',
     unsetEntityValues: {
-      id: toBase64(Id(id)),
-      properties: properties.map(propertyId => toBase64(Id(propertyId))),
+      id: Id(id),
+      properties: properties.map(propertyId => Id(propertyId)),
     },
   };
 

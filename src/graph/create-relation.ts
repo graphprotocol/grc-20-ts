@@ -1,4 +1,4 @@
-import { Id, assertValid, generate, toBase64 } from '../id.js';
+import { Id, assertValid, generate } from '../id.js';
 import type { CreateResult, Op, RelationParams } from '../types.js';
 import { createEntity } from './create-entity.js';
 
@@ -72,13 +72,13 @@ export const createRelation = ({
   ops.push({
     type: 'CREATE_RELATION',
     relation: {
-      id: toBase64(Id(id)),
-      entity: toBase64(Id(entityId)),
-      fromEntity: toBase64(Id(fromEntity)),
+      id: Id(id),
+      entity: Id(entityId),
+      fromEntity: Id(fromEntity),
       position,
-      toEntity: toBase64(Id(toEntity)),
-      toSpace: toSpace ? toBase64(Id(toSpace)) : undefined,
-      type: toBase64(Id(type)),
+      toEntity: Id(toEntity),
+      toSpace: toSpace ? Id(toSpace) : undefined,
+      type: Id(type),
     },
   });
 

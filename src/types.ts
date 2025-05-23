@@ -2,30 +2,30 @@ import type { SafeSmartAccountImplementation } from 'permissionless/accounts';
 import type { SmartAccountClient } from 'permissionless/clients';
 import type { Address, Chain, HttpTransport } from 'viem';
 import type { SmartAccountImplementation } from 'viem/account-abstraction';
-import type { Id, IdBase64 } from './id.js';
+import type { Id } from './id.js';
 
 export type ValueType = 'TEXT' | 'NUMBER' | 'CHECKBOX' | 'URL' | 'TIME' | 'POINT';
 
 export type Value = {
-  propertyId: IdBase64;
+  propertyId: Id;
   value: string;
 };
 
 export type Entity = {
-  id: IdBase64;
+  id: Id;
   values: Array<Value>;
 };
 
 export type Relation = {
-  id: IdBase64;
-  type: IdBase64;
-  fromEntity: IdBase64;
-  fromSpace?: IdBase64;
-  fromVersion?: IdBase64;
-  toEntity: IdBase64;
-  toSpace?: IdBase64;
-  toVersion?: IdBase64;
-  entity: IdBase64;
+  id: Id;
+  type: Id;
+  fromEntity: Id;
+  fromSpace?: Id;
+  fromVersion?: Id;
+  toEntity: Id;
+  toSpace?: Id;
+  toVersion?: Id;
+  entity: Id;
   position?: string;
   verified?: boolean;
 };
@@ -38,14 +38,14 @@ export type UpdateEntityOp = {
 export type UnsetEntityValuesOp = {
   type: 'UNSET_ENTITY_VALUES';
   unsetEntityValues: {
-    id: IdBase64;
-    properties: IdBase64[];
+    id: Id;
+    properties: Id[];
   };
 };
 
 export type DeleteEntityOp = {
   type: 'DELETE_ENTITY';
-  id: IdBase64;
+  id: Id;
 };
 
 export type CreateRelationOp = {
@@ -55,7 +55,7 @@ export type CreateRelationOp = {
 
 export type DeleteRelationOp = {
   type: 'DELETE_RELATION';
-  id: IdBase64;
+  id: Id;
 };
 
 export type UpdateRelationOp = {
@@ -66,7 +66,7 @@ export type UpdateRelationOp = {
 export type UnsetRelationFieldsOp = {
   type: 'UNSET_RELATION_FIELDS';
   unsetRelationFields: {
-    id: IdBase64;
+    id: Id;
     fromSpace?: boolean;
     fromVersion?: boolean;
     toSpace?: boolean;

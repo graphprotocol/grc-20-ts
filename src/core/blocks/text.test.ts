@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { Id, toBase64 } from '../../id.js';
+import { Id } from '../../id.js';
 import { SystemIds } from '../../system-ids.js';
 import { make } from './text.js';
 
@@ -14,20 +14,20 @@ it('should generate ops for a text block entity', () => {
 
   expect(blockTypeOp?.type).toBe('CREATE_RELATION');
   if (blockTypeOp?.type === 'CREATE_RELATION') {
-    expect(blockTypeOp?.relation.type).toBe(toBase64(SystemIds.TYPES_PROPERTY));
-    expect(blockTypeOp?.relation.toEntity).toBe(toBase64(SystemIds.TEXT_BLOCK));
+    expect(blockTypeOp?.relation.type).toBe(SystemIds.TYPES_PROPERTY);
+    expect(blockTypeOp?.relation.toEntity).toBe(SystemIds.TEXT_BLOCK);
   }
 
   expect(blockMarkdownTextOp?.type).toBe('UPDATE_ENTITY');
   if (blockMarkdownTextOp?.type === 'UPDATE_ENTITY' && blockMarkdownTextOp?.entity.values?.[0]) {
-    expect(blockMarkdownTextOp.entity.values[0].propertyId).toBe(toBase64(SystemIds.MARKDOWN_CONTENT));
+    expect(blockMarkdownTextOp.entity.values[0].propertyId).toBe(SystemIds.MARKDOWN_CONTENT);
     expect(blockMarkdownTextOp.entity.values[0].value).toBe('test-text');
   }
 
   expect(blockRelationOp?.type).toBe('CREATE_RELATION');
   if (blockRelationOp?.type === 'CREATE_RELATION') {
-    expect(blockRelationOp?.relation.type).toBe(toBase64(SystemIds.BLOCKS));
-    expect(blockRelationOp?.relation.fromEntity).toBe(toBase64(Id('5871e8f7-b719-4897-9c4d-cf7c518d32ef')));
+    expect(blockRelationOp?.relation.type).toBe(SystemIds.BLOCKS);
+    expect(blockRelationOp?.relation.fromEntity).toBe(Id('5871e8f7-b719-4897-9c4d-cf7c518d32ef'));
   }
 
   expect(ops.length).toBe(3);

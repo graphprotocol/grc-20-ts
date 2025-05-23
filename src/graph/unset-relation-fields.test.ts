@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Id, toBase64 } from '../id.js';
+import { Id } from '../id.js';
 import { unsetRelationFields } from './unset-relation-fields.js';
 
 describe('unsetRelationFields', () => {
@@ -26,7 +26,7 @@ describe('unsetRelationFields', () => {
         {
           type: 'UNSET_RELATION_FIELDS',
           unsetRelationFields: {
-            id: toBase64(id),
+            id,
             fromVersion,
             toSpace,
             toVersion,
@@ -57,7 +57,7 @@ describe('unsetRelationFields', () => {
         {
           type: 'UNSET_RELATION_FIELDS',
           unsetRelationFields: {
-            id: toBase64(id),
+            id,
             toSpace,
             position,
             verified,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
-import { Id, toBase64 } from '../id.js';
+import { Id } from '../id.js';
 import { updateEntity } from './update-entity.js';
 
 describe('updateEntity', () => {
@@ -21,14 +21,14 @@ describe('updateEntity', () => {
     expect(result.ops[0]).toMatchObject({
       type: 'UPDATE_ENTITY',
       entity: {
-        id: toBase64(entityId),
+        id: entityId,
         values: [
           {
-            propertyId: toBase64(NAME_PROPERTY),
+            propertyId: NAME_PROPERTY,
             value: 'Updated Entity',
           },
           {
-            propertyId: toBase64(DESCRIPTION_PROPERTY),
+            propertyId: DESCRIPTION_PROPERTY,
             value: 'Updated Description',
           },
         ],
@@ -49,10 +49,10 @@ describe('updateEntity', () => {
     expect(result.ops[0]).toMatchObject({
       type: 'UPDATE_ENTITY',
       entity: {
-        id: toBase64(entityId),
+        id: entityId,
         values: [
           {
-            propertyId: toBase64(NAME_PROPERTY),
+            propertyId: NAME_PROPERTY,
             value: 'Updated Entity',
           },
         ],
@@ -74,7 +74,7 @@ describe('updateEntity', () => {
     expect(result.ops[0]).toMatchObject({
       type: 'UPDATE_ENTITY',
       entity: {
-        id: toBase64(entityId),
+        id: entityId,
         values: [],
       },
     });
@@ -83,9 +83,9 @@ describe('updateEntity', () => {
     expect(result.ops[1]).toMatchObject({
       type: 'CREATE_RELATION',
       relation: {
-        fromEntity: toBase64(entityId),
-        toEntity: toBase64(coverId),
-        type: toBase64(COVER_PROPERTY),
+        fromEntity: entityId,
+        toEntity: coverId,
+        type: COVER_PROPERTY,
       },
     });
   });
@@ -106,10 +106,10 @@ describe('updateEntity', () => {
     expect(result.ops[0]).toMatchObject({
       type: 'UPDATE_ENTITY',
       entity: {
-        id: toBase64(entityId),
+        id: entityId,
         values: [
           {
-            propertyId: toBase64(customPropertyId),
+            propertyId: customPropertyId,
             value: 'updated custom value',
           },
         ],

@@ -12,7 +12,7 @@ import {
   URL,
   VALUE_TYPE_PROPERTY,
 } from '../core/ids/system.js';
-import { Id, assertValid, generate, toBase64 } from '../id.js';
+import { Id, assertValid, generate } from '../id.js';
 import type { CreatePropertyParams, CreateResult } from '../types.js';
 import { createEntity } from './create-entity.js';
 import { createRelation } from './create-relation.js';
@@ -63,11 +63,11 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
   ops.push({
     type: 'CREATE_RELATION',
     relation: {
-      id: toBase64(generate()),
-      entity: toBase64(generate()),
-      fromEntity: toBase64(Id(entityId)),
-      toEntity: toBase64(PROPERTY),
-      type: toBase64(TYPES_PROPERTY),
+      id: generate(),
+      entity: generate(),
+      fromEntity: Id(entityId),
+      toEntity: PROPERTY,
+      type: TYPES_PROPERTY,
     },
   });
 
@@ -75,11 +75,11 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
   ops.push({
     type: 'CREATE_RELATION',
     relation: {
-      id: toBase64(generate()),
-      entity: toBase64(generate()),
-      fromEntity: toBase64(Id(entityId)),
-      toEntity: toBase64(SCHEMA_TYPE),
-      type: toBase64(TYPES_PROPERTY),
+      id: generate(),
+      entity: generate(),
+      fromEntity: Id(entityId),
+      toEntity: SCHEMA_TYPE,
+      type: TYPES_PROPERTY,
     },
   });
 
@@ -145,11 +145,11 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
     ops.push({
       type: 'CREATE_RELATION',
       relation: {
-        id: toBase64(generate()),
-        entity: toBase64(generate()),
-        fromEntity: toBase64(Id(entityId)),
-        toEntity: toBase64(toId),
-        type: toBase64(VALUE_TYPE_PROPERTY),
+        id: generate(),
+        entity: generate(),
+        fromEntity: Id(entityId),
+        toEntity: toId,
+        type: VALUE_TYPE_PROPERTY,
       },
     });
   }

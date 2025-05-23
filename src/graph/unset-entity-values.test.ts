@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Id, toBase64 } from '../id.js';
+import { Id } from '../id.js';
 import { unsetEntityValues } from './unset-entity-values.js';
 
 describe('unsetEntityValues', () => {
@@ -14,8 +14,8 @@ describe('unsetEntityValues', () => {
         {
           type: 'UNSET_ENTITY_VALUES',
           unsetEntityValues: {
-            id: toBase64(id),
-            properties: properties.map(property => toBase64(property)),
+            id: id,
+            properties: properties,
           },
         },
       ],
@@ -33,7 +33,7 @@ describe('unsetEntityValues', () => {
         {
           type: 'UNSET_ENTITY_VALUES',
           unsetEntityValues: {
-            id: toBase64(id),
+            id: id,
             properties: [],
           },
         },

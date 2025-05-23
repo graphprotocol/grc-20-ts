@@ -1,5 +1,5 @@
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
-import { Id, assertValid, generate, toBase64 } from '../id.js';
+import { Id, assertValid, generate } from '../id.js';
 import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value } from '../types.js';
 
 /**
@@ -38,19 +38,19 @@ export const updateEntity = ({ id, name, description, cover, values }: UpdateEnt
   const newValues: Array<Value> = [];
   if (name) {
     newValues.push({
-      propertyId: toBase64(NAME_PROPERTY),
+      propertyId: NAME_PROPERTY,
       value: name,
     });
   }
   if (description) {
     newValues.push({
-      propertyId: toBase64(DESCRIPTION_PROPERTY),
+      propertyId: DESCRIPTION_PROPERTY,
       value: description,
     });
   }
   for (const [key, value] of Object.entries(values ?? {})) {
     newValues.push({
-      propertyId: toBase64(Id(key)),
+      propertyId: Id(key),
       value,
     });
   }
@@ -58,7 +58,7 @@ export const updateEntity = ({ id, name, description, cover, values }: UpdateEnt
   const op: UpdateEntityOp = {
     type: 'UPDATE_ENTITY',
     entity: {
-      id: toBase64(Id(id)),
+      id: Id(id),
       values: newValues,
     },
   };
@@ -68,11 +68,11 @@ export const updateEntity = ({ id, name, description, cover, values }: UpdateEnt
     ops.push({
       type: 'CREATE_RELATION',
       relation: {
-        id: toBase64(generate()),
-        entity: toBase64(generate()),
-        fromEntity: toBase64(Id(id)),
-        toEntity: toBase64(Id(cover)),
-        type: toBase64(COVER_PROPERTY),
+        id: generate(),
+        entity: generate(),
+        fromEntity: Id(id),
+        toEntity: Id(cover),
+        type: COVER_PROPERTY,
       },
     });
   }

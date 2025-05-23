@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CLAIM_TYPE, NEWS_STORY_TYPE } from '../core/ids/content.js';
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
-import { Id, toBase64 } from '../id.js';
+import { Id } from '../id.js';
 import type { CreateRelationOp, Op } from '../types.js';
 import { createRelation } from './create-relation.js';
 
@@ -29,9 +29,9 @@ describe('createRelation', () => {
     expect(relation.ops[0]).toMatchObject({
       type: 'CREATE_RELATION',
       relation: {
-        fromEntity: toBase64(fromEntityId),
-        toEntity: toBase64(toEntityId),
-        type: toBase64(NAME_PROPERTY),
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
       },
     });
   });
@@ -50,11 +50,11 @@ describe('createRelation', () => {
     expect(relation.ops[0]).toMatchObject({
       type: 'CREATE_RELATION',
       relation: {
-        fromEntity: toBase64(fromEntityId),
-        toEntity: toBase64(toEntityId),
-        type: toBase64(NAME_PROPERTY),
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
         position: '1',
-        toSpace: toBase64(testSpaceId),
+        toSpace: testSpaceId,
       },
     });
   });
@@ -74,10 +74,10 @@ describe('createRelation', () => {
     expect(relation.ops[0]).toMatchObject({
       type: 'CREATE_RELATION',
       relation: {
-        id: toBase64(providedId),
-        fromEntity: toBase64(fromEntityId),
-        toEntity: toBase64(toEntityId),
-        type: toBase64(NAME_PROPERTY),
+        id: providedId,
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
       },
     });
   });
@@ -98,9 +98,9 @@ describe('createRelation', () => {
     expect(relation.ops[0]).toMatchObject({
       type: 'CREATE_RELATION',
       relation: {
-        fromEntity: toBase64(fromEntityId),
-        toEntity: toBase64(toEntityId),
-        type: toBase64(NAME_PROPERTY),
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
       },
     });
 
@@ -114,11 +114,11 @@ describe('createRelation', () => {
       entity: {
         values: [
           {
-            propertyId: toBase64(NAME_PROPERTY),
+            propertyId: NAME_PROPERTY,
             value: 'Test Entity',
           },
           {
-            propertyId: toBase64(DESCRIPTION_PROPERTY),
+            propertyId: DESCRIPTION_PROPERTY,
             value: 'Test Description',
           },
         ],
@@ -141,9 +141,9 @@ describe('createRelation', () => {
     expect(relation.ops[0]).toMatchObject({
       type: 'CREATE_RELATION',
       relation: {
-        fromEntity: toBase64(fromEntityId),
-        toEntity: toBase64(toEntityId),
-        type: toBase64(NAME_PROPERTY),
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
       },
     });
 
@@ -163,16 +163,16 @@ describe('createRelation', () => {
     expect(relation.ops[2]).toMatchObject({
       type: 'CREATE_RELATION',
       relation: {
-        toEntity: toBase64(CLAIM_TYPE),
-        type: toBase64(TYPES_PROPERTY),
+        toEntity: CLAIM_TYPE,
+        type: TYPES_PROPERTY,
       },
     });
 
     expect(relation.ops[3]).toMatchObject({
       type: 'CREATE_RELATION',
       relation: {
-        toEntity: toBase64(NEWS_STORY_TYPE),
-        type: toBase64(TYPES_PROPERTY),
+        toEntity: NEWS_STORY_TYPE,
+        type: TYPES_PROPERTY,
       },
     });
   });
@@ -192,9 +192,9 @@ describe('createRelation', () => {
     expect(relation.ops[0]).toMatchObject({
       type: 'CREATE_RELATION',
       relation: {
-        fromEntity: toBase64(fromEntityId),
-        toEntity: toBase64(toEntityId),
-        type: toBase64(NAME_PROPERTY),
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
       },
     });
 
@@ -214,8 +214,8 @@ describe('createRelation', () => {
     expect(relation.ops[2]).toMatchObject({
       type: 'CREATE_RELATION',
       relation: {
-        toEntity: toBase64(coverId),
-        type: toBase64(COVER_PROPERTY),
+        toEntity: coverId,
+        type: COVER_PROPERTY,
       },
     });
   });

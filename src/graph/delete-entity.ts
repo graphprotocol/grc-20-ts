@@ -1,4 +1,4 @@
-import { Id, assertValid, toBase64 } from '../id.js';
+import { Id, assertValid } from '../id.js';
 import type { CreateResult, DeleteEntityOp, DeleteEntityParams } from '../types.js';
 
 /**
@@ -16,7 +16,7 @@ export const deleteEntity = ({ id }: DeleteEntityParams): CreateResult => {
   assertValid(id, '`id` in `deleteEntity`');
   const op: DeleteEntityOp = {
     type: 'DELETE_ENTITY',
-    id: toBase64(Id(id)),
+    id: Id(id),
   };
 
   return { id: Id(id), ops: [op] };

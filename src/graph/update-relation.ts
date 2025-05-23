@@ -1,4 +1,4 @@
-import { Id, assertValid, toBase64 } from '../id.js';
+import { Id, assertValid } from '../id.js';
 import type { CreateResult, Op, UpdateRelationParams } from '../types.js';
 
 /**
@@ -39,12 +39,12 @@ export const updateRelation = ({
   ops.push({
     type: 'UPDATE_RELATION',
     relation: {
-      id: toBase64(Id(id)),
+      id: Id(id),
       position,
-      fromSpace: fromSpace ? toBase64(Id(fromSpace)) : undefined,
-      toSpace: toSpace ? toBase64(Id(toSpace)) : undefined,
-      fromVersion: fromVersion ? toBase64(Id(fromVersion)) : undefined,
-      toVersion: toVersion ? toBase64(Id(toVersion)) : undefined,
+      fromSpace: fromSpace ? Id(fromSpace) : undefined,
+      toSpace: toSpace ? Id(toSpace) : undefined,
+      fromVersion: fromVersion ? Id(fromVersion) : undefined,
+      toVersion: toVersion ? Id(toVersion) : undefined,
       verified,
     },
   });
