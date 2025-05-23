@@ -3,6 +3,7 @@ import { CLAIM_TYPE, NEWS_STORY_TYPE } from '../core/ids/content.js';
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
 import { createEntity } from './create-entity.js';
+import { serializeNumber } from './serialize.js';
 
 describe('createEntity', () => {
   const coverId = Id('30145d36-d5a5-4244-be59-3d111d879ba5');
@@ -138,6 +139,31 @@ describe('createEntity', () => {
           {
             propertyId: customPropertyId,
             value: 'custom value',
+          },
+        ],
+      },
+    });
+  });
+
+  it('creates an entity with a number value', async () => {
+    const entity = createEntity({
+      values: {
+        '295c8bc6-1ae3-42cb-b2a6-5b61080906ff': serializeNumber(42),
+      },
+    });
+
+    expect(entity).toBeDefined();
+    expect(typeof entity.id).toBe('string');
+    expect(entity.ops).toHaveLength(1);
+
+    expect(entity.ops[0]).toMatchObject({
+      type: 'UPDATE_ENTITY',
+      entity: {
+        id: entity.id,
+        values: [
+          {
+            propertyId: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+            value: '42',
           },
         ],
       },

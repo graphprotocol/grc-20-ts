@@ -100,6 +100,23 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
 });
 ```
 
+#### Serializing values
+
+All values are serialized to a string. The SDK provides helper functions for serializing values to the correct format.
+
+```ts
+import { Graph } from '@graphprotocol/grc-20';
+
+const { id: personId, ops: createPersonOps } = Graph.createEntity({
+  values: {
+    [someNumberPropertyId]: Graph.serializeNumber(42),
+    [someCheckboxPropertyId]: Graph.serializeCheckbox(true),
+    [someDatePropertyId]: Graph.serializeDate(new Date()),
+    [somePointPropertyId]: Graph.serializePoint([1, 2]),
+  },
+});
+```
+
 #### Example Flow
 
 ```ts
@@ -160,7 +177,7 @@ const { id: personId, ops: createPersonOps } = Graph.createEntity({
   types: [personTypeId],
   cover: personCoverId,
   values: {
-    [agePropertyId]: 42,
+    [agePropertyId]: serializeNumber(42),
     [likesPropertyId]: restaurantId,
   },
 });
