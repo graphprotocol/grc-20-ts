@@ -1,5 +1,12 @@
 # @graphprotocol/grc-20
 
+## 0.13.1
+
+### Patch Changes
+
+- abc9651: fix relations types for createEntity
+- 94bd4da: add Graph.serializeNumber, Graph.serializeCheckbox, Graph.serializeDate & Graph.serializePoint
+
 ## 0.13.0
 
 ### Minor Changes
