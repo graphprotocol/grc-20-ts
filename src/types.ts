@@ -85,10 +85,6 @@ export type Op =
   | UnsetEntityValuesOp
   | UnsetRelationFieldsOp;
 
-type ValueParams = {
-  value: string;
-};
-
 export type DefaultProperties = {
   id?: Id | string;
   name?: string;
@@ -96,7 +92,7 @@ export type DefaultProperties = {
   cover?: Id | string;
 };
 
-export type PropertiesParam = Record<Id | string, ValueParams>;
+export type PropertiesParam = Record<Id | string, string>;
 
 export type RelationsParam = Record<Id | string, RelationParams | Array<RelationParams>>;
 

@@ -51,7 +51,7 @@ export const updateEntity = ({ id, name, description, cover, values }: UpdateEnt
   for (const [key, value] of Object.entries(values ?? {})) {
     newValues.push({
       propertyId: toBase64(Id(key)),
-      value: value.value,
+      value,
     });
   }
 

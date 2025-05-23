@@ -95,9 +95,7 @@ describe('updateEntity', () => {
     const result = updateEntity({
       id: entityId,
       values: {
-        [customPropertyId]: {
-          value: 'updated custom value',
-        },
+        [customPropertyId]: 'updated custom value',
       },
     });
 

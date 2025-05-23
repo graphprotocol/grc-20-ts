@@ -122,9 +122,7 @@ describe('createEntity', () => {
     const customPropertyId = Id('fa269fd3-de98-49cf-90c4-4235d905a67c');
     const entity = createEntity({
       values: {
-        [customPropertyId]: {
-          value: 'custom value',
-        },
+        [customPropertyId]: 'custom value',
       },
     });
 
