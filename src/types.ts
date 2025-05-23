@@ -2,30 +2,30 @@ import type { SafeSmartAccountImplementation } from 'permissionless/accounts';
 import type { SmartAccountClient } from 'permissionless/clients';
 import type { Address, Chain, HttpTransport } from 'viem';
 import type { SmartAccountImplementation } from 'viem/account-abstraction';
-import type { Id, IdBase64 } from './id.js';
+import type { Id } from './id.js';
 
 export type ValueType = 'TEXT' | 'NUMBER' | 'CHECKBOX' | 'URL' | 'TIME' | 'POINT';
 
 export type Value = {
-  propertyId: IdBase64;
+  propertyId: Id;
   value: string;
 };
 
 export type Entity = {
-  id: IdBase64;
+  id: Id;
   values: Array<Value>;
 };
 
 export type Relation = {
-  id: IdBase64;
-  type: IdBase64;
-  fromEntity: IdBase64;
-  fromSpace?: IdBase64;
-  fromVersion?: IdBase64;
-  toEntity: IdBase64;
-  toSpace?: IdBase64;
-  toVersion?: IdBase64;
-  entity: IdBase64;
+  id: Id;
+  type: Id;
+  fromEntity: Id;
+  fromSpace?: Id;
+  fromVersion?: Id;
+  toEntity: Id;
+  toSpace?: Id;
+  toVersion?: Id;
+  entity: Id;
   position?: string;
   verified?: boolean;
 };
@@ -38,14 +38,14 @@ export type UpdateEntityOp = {
 export type UnsetEntityValuesOp = {
   type: 'UNSET_ENTITY_VALUES';
   unsetEntityValues: {
-    id: IdBase64;
-    properties: IdBase64[];
+    id: Id;
+    properties: Id[];
   };
 };
 
 export type DeleteEntityOp = {
   type: 'DELETE_ENTITY';
-  id: IdBase64;
+  id: Id;
 };
 
 export type CreateRelationOp = {
@@ -55,7 +55,7 @@ export type CreateRelationOp = {
 
 export type DeleteRelationOp = {
   type: 'DELETE_RELATION';
-  id: IdBase64;
+  id: Id;
 };
 
 export type UpdateRelationOp = {
@@ -66,7 +66,7 @@ export type UpdateRelationOp = {
 export type UnsetRelationFieldsOp = {
   type: 'UNSET_RELATION_FIELDS';
   unsetRelationFields: {
-    id: IdBase64;
+    id: Id;
     fromSpace?: boolean;
     fromVersion?: boolean;
     toSpace?: boolean;
@@ -85,29 +85,25 @@ export type Op =
   | UnsetEntityValuesOp
   | UnsetRelationFieldsOp;
 
-type ValueParams = {
-  value: string;
-};
-
 export type DefaultProperties = {
-  id?: Id;
+  id?: Id | string;
   name?: string;
   description?: string;
-  cover?: Id;
+  cover?: Id | string;
 };
 
-export type PropertiesParam = Record<Id, ValueParams>;
+export type PropertiesParam = Record<Id | string, string>;
 
-export type RelationsParam = Record<Id, RelationParams | Array<RelationParams>>;
+export type RelationsParam = Record<Id | string, RelationParams | Array<RelationParams>>;
 
 export type EntityParams = DefaultProperties & {
   values?: PropertiesParam;
   relations?: RelationsParam;
-  types?: Array<Id>;
+  types?: Array<Id | string>;
 };
 
 export type UpdateEntityParams = DefaultProperties & {
-  id: Id;
+  id: Id | string;
   values?: PropertiesParam;
 };
 
@@ -116,23 +112,26 @@ type RelationEntityParams = {
 };
 
 export type RelationParams = {
-  id?: Id;
-  fromEntity: Id;
-  toEntity: Id;
-  relationId?: Id;
-  toSpace?: Id;
+  id?: Id | string;
+  fromEntity: Id | string;
+  toEntity: Id | string;
+  toSpace?: Id | string;
+  fromSpace?: Id | string;
+  fromVersion?: Id | string;
+  toVersion?: Id | string;
+  verified?: boolean;
   position?: string | undefined;
-  type: Id; // relation type id
+  type: Id | string; // relation type id
 } & RelationEntityParams;
 
 export type UpdateRelationParams = {
-  id: Id;
+  id: Id | string;
   position?: string | undefined;
   verified?: boolean;
-  fromSpace?: Id;
-  fromVersion?: Id;
-  toVersion?: Id;
-  toSpace?: Id;
+  fromSpace?: Id | string;
+  fromVersion?: Id | string;
+  toVersion?: Id | string;
+  toSpace?: Id | string;
 };
 
 export type CreateResult = {
@@ -141,7 +140,7 @@ export type CreateResult = {
 };
 
 export type UnsetRelationParams = {
-  id: Id;
+  id: Id | string;
   fromSpace?: boolean;
   fromVersion?: boolean;
   toSpace?: boolean;
@@ -151,37 +150,40 @@ export type UnsetRelationParams = {
 };
 
 export type UnsetEntityValuesParams = {
-  id: Id;
-  properties: Id[];
+  id: Id | string;
+  properties: Array<Id | string>;
 };
 
 export type DeleteRelationParams = {
-  id: Id;
+  id: Id | string;
 };
 
 export type DeleteEntityParams = {
-  id: Id;
+  id: Id | string;
 };
 
 export type CreateTypeParams = DefaultProperties & {
-  properties?: Array<Id>;
+  properties?: Array<Id | string>;
 };
 
 export type CreatePropertyParams = DefaultProperties &
-  ({ type: ValueType } | { type: 'RELATION'; properties?: Array<Id>; relationValueTypes?: Array<Id> });
+  (
+    | { type: ValueType }
+    | { type: 'RELATION'; properties?: Array<Id | string>; relationValueTypes?: Array<Id | string> }
+  );
 
 export type CreateImageParams =
   | {
       blob: Blob;
       name?: string;
       description?: string;
-      id?: Id;
+      id?: Id | string;
     }
   | {
       url: string;
       name?: string;
       description?: string;
-      id?: Id;
+      id?: Id | string;
     };
 
 type SafeSmartAccount = SafeSmartAccountImplementation<'0.7'> & {

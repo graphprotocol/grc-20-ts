@@ -1,4 +1,4 @@
-import { assertValid, generate, toBase64 } from '../id.js';
+import { Id, assertValid, generate } from '../id.js';
 import type { CreateResult, Op, RelationParams } from '../types.js';
 import { createEntity } from './create-entity.js';
 
@@ -47,9 +47,23 @@ export const createRelation = ({
   entityRelations,
   entityTypes,
 }: RelationParams): CreateResult => {
-  if (providedId) {
-    assertValid(providedId, '`id` in `createType`');
+  if (providedId) assertValid(providedId, '`id` in `createRelation`');
+  if (fromEntity) assertValid(fromEntity, '`fromEntity` in `createRelation`');
+  if (toEntity) assertValid(toEntity, '`toEntity` in `createRelation`');
+  if (toSpace) assertValid(toSpace, '`toSpace` in `createRelation`');
+  if (type) assertValid(type, '`type` in `createRelation`');
+  if (providedEntityId) assertValid(providedEntityId, '`entityId` in `createRelation`');
+  if (entityCover) assertValid(entityCover, '`entityCover` in `createRelation`');
+  for (const [key] of Object.entries(entityValues ?? {})) {
+    assertValid(key, '`entityValues` in `createRelation`');
   }
+  for (const [key] of Object.entries(entityRelations ?? {})) {
+    assertValid(key, '`entityRelations` in `createRelation`');
+  }
+  for (const type of entityTypes ?? []) {
+    assertValid(type, '`entityTypes` in `createRelation`');
+  }
+
   const id = providedId ?? generate();
   const entityId = providedEntityId ?? generate();
 
@@ -58,13 +72,13 @@ export const createRelation = ({
   ops.push({
     type: 'CREATE_RELATION',
     relation: {
-      id: toBase64(id),
-      entity: toBase64(entityId),
-      fromEntity: toBase64(fromEntity),
+      id: Id(id),
+      entity: Id(entityId),
+      fromEntity: Id(fromEntity),
       position,
-      toEntity: toBase64(toEntity),
-      toSpace: toSpace ? toBase64(toSpace) : undefined,
-      type: toBase64(type),
+      toEntity: Id(toEntity),
+      toSpace: toSpace ? Id(toSpace) : undefined,
+      type: Id(type),
     },
   });
 
@@ -81,5 +95,5 @@ export const createRelation = ({
     ops.push(...entityOps);
   }
 
-  return { id, ops };
+  return { id: Id(id), ops };
 };

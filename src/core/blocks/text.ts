@@ -44,7 +44,7 @@ export function make({ fromId, text, position }: TextBlockParams): Op[] {
   const { ops: textBlockMarkdownTextOps } = updateEntity({
     id: newBlockId,
     values: {
-      [MARKDOWN_CONTENT]: { value: text },
+      [MARKDOWN_CONTENT]: text,
     },
   });
   ops.push(...textBlockMarkdownTextOps);

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { Id, toBase64, toBytes } from '../id.js';
+import { Id, toBytes } from '../id.js';
 import { encode } from './edit.js';
 import { Edit } from './gen/src/proto/ipfs_pb.js';
 
@@ -12,10 +12,10 @@ describe('Edit', () => {
         {
           type: 'UPDATE_ENTITY',
           entity: {
-            id: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+            id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
             values: [
               {
-                propertyId: toBase64(Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc')),
+                propertyId: Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc'),
                 value: 'test value',
               },
             ],
@@ -48,7 +48,7 @@ describe('Edit', () => {
       ops: [
         {
           type: 'DELETE_ENTITY',
-          id: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+          id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
         },
       ],
       author: '0x000000000000000000000000000000000000',
@@ -70,11 +70,11 @@ describe('Edit', () => {
         {
           type: 'CREATE_RELATION',
           relation: {
-            id: toBase64(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
-            type: toBase64(Id('cf518eaf-ef74-4aad-bc87-fe09c2631fcd')),
-            fromEntity: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
-            toEntity: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
-            entity: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+            id: Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7'),
+            type: Id('cf518eaf-ef74-4aad-bc87-fe09c2631fcd'),
+            fromEntity: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
+            toEntity: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
+            entity: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
             position: 'test-position',
           },
         },
@@ -104,7 +104,7 @@ describe('Edit', () => {
       ops: [
         {
           type: 'DELETE_RELATION',
-          id: toBase64(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+          id: Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7'),
         },
       ],
       author: '0x000000000000000000000000000000000000',
@@ -126,7 +126,7 @@ describe('Edit', () => {
         {
           type: 'UPDATE_RELATION',
           relation: {
-            id: toBase64(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+            id: Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7'),
             position: 'new-position',
           },
         },
@@ -153,11 +153,8 @@ describe('Edit', () => {
         {
           type: 'UNSET_ENTITY_VALUES',
           unsetEntityValues: {
-            id: toBase64(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
-            properties: [
-              toBase64(Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc')),
-              toBase64(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
-            ],
+            id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
+            properties: [Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc'), Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')],
           },
         },
       ],
@@ -186,7 +183,7 @@ describe('Edit', () => {
         {
           type: 'UNSET_RELATION_FIELDS',
           unsetRelationFields: {
-            id: toBase64(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+            id: Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7'),
             fromSpace: true,
             fromVersion: false,
             toSpace: true,

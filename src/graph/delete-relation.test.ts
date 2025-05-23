@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Id, toBase64 } from '../id.js';
+import { Id } from '../id.js';
 import { deleteRelation } from './delete-relation.js';
 
 describe('deleteRelation', () => {
@@ -12,7 +12,7 @@ describe('deleteRelation', () => {
       ops: [
         {
           type: 'DELETE_RELATION',
-          id: toBase64(id),
+          id: id,
         },
       ],
     });
@@ -21,7 +21,6 @@ describe('deleteRelation', () => {
   it('should throw an error when ID validation fails', () => {
     const id = 'invalid-id';
 
-    // @ts-expect-error - invalid id type
     expect(() => deleteRelation({ id })).toThrow('Invalid id: "invalid-id"');
   });
 });

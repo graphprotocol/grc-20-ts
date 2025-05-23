@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { AUTHORS_PROPERTY, WEBSITE_PROPERTY } from '../core/ids/content.js';
 import { NAME_PROPERTY, PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
-import { Id, toBase64 } from '../id.js';
+import { Id } from '../id.js';
 import { createType } from './create-type.js';
 
 describe('createType', () => {
@@ -19,10 +19,10 @@ describe('createType', () => {
     expect(type.ops[0]?.type).toBe('UPDATE_ENTITY');
     expect(type.ops[0]).toMatchObject({
       entity: {
-        id: toBase64(type.id),
+        id: type.id,
         values: [
           {
-            propertyId: toBase64(NAME_PROPERTY),
+            propertyId: NAME_PROPERTY,
             value: 'Article',
           },
         ],
@@ -35,9 +35,9 @@ describe('createType', () => {
     if (type.ops[1]?.type === 'CREATE_RELATION') {
       expect(type.ops[1]).toMatchObject({
         relation: {
-          fromEntity: toBase64(type.id),
-          toEntity: toBase64(SCHEMA_TYPE),
-          type: toBase64(TYPES_PROPERTY),
+          fromEntity: type.id,
+          toEntity: SCHEMA_TYPE,
+          type: TYPES_PROPERTY,
         },
         type: 'CREATE_RELATION',
       });
@@ -59,10 +59,10 @@ describe('createType', () => {
     expect(type.ops[0]?.type).toBe('UPDATE_ENTITY');
     expect(type.ops[0]).toMatchObject({
       entity: {
-        id: toBase64(type.id),
+        id: type.id,
         values: [
           {
-            propertyId: toBase64(NAME_PROPERTY),
+            propertyId: NAME_PROPERTY,
             value: 'Article',
           },
         ],
@@ -74,9 +74,9 @@ describe('createType', () => {
     expect(type.ops[1]?.type).toBe('CREATE_RELATION');
     expect(type.ops[1]).toMatchObject({
       relation: {
-        fromEntity: toBase64(type.id),
-        toEntity: toBase64(SCHEMA_TYPE),
-        type: toBase64(TYPES_PROPERTY),
+        fromEntity: type.id,
+        toEntity: SCHEMA_TYPE,
+        type: TYPES_PROPERTY,
       },
       type: 'CREATE_RELATION',
     });
@@ -85,9 +85,9 @@ describe('createType', () => {
     expect(type.ops[2]?.type).toBe('CREATE_RELATION');
     expect(type.ops[2]).toMatchObject({
       relation: {
-        fromEntity: toBase64(type.id),
-        toEntity: toBase64(WEBSITE_PROPERTY),
-        type: toBase64(PROPERTY),
+        fromEntity: type.id,
+        toEntity: WEBSITE_PROPERTY,
+        type: PROPERTY,
       },
       type: 'CREATE_RELATION',
     });
@@ -96,9 +96,9 @@ describe('createType', () => {
     expect(type.ops[3]?.type).toBe('CREATE_RELATION');
     expect(type.ops[3]).toMatchObject({
       relation: {
-        fromEntity: toBase64(type.id),
-        toEntity: toBase64(AUTHORS_PROPERTY),
-        type: toBase64(PROPERTY),
+        fromEntity: type.id,
+        toEntity: AUTHORS_PROPERTY,
+        type: PROPERTY,
       },
       type: 'CREATE_RELATION',
     });
@@ -115,7 +115,6 @@ describe('createType', () => {
   });
 
   it('throws an error if the provided id is invalid', () => {
-    // @ts-expect-error - invalid id type
     expect(() => createType({ id: 'invalid' })).toThrow('Invalid id: "invalid" for `id` in `createType`');
   });
 });

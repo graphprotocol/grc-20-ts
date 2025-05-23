@@ -1,5 +1,5 @@
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
-import { Id, assertValid, generate, toBase64 } from '../id.js';
+import { Id, assertValid, generate } from '../id.js';
 import type { CreateResult, EntityParams, Op, UpdateEntityOp, Value } from '../types.js';
 import { createRelation } from './create-relation.js';
 
@@ -23,10 +23,14 @@ import { createRelation } from './create-relation.js';
  *     }
  *   },
  *   relations: {
- *     [relationId]: {
+ *     [relationPropertyId]: {
  *       to: 'id of the entity',
  *       id: 'id of the relation', // optional
  *       toSpace: 'id of the to space', // optional
+ *       fromSpace: 'id of the from space', // optional
+ *       fromVersion: 'id of the from version', // optional
+ *       toVersion: 'id of the to version', // optional
+ *       verified: true, // optional
  *       position: positionString, // optional
  *       entityId: 'id of the relation entity', // optional and will be generated if not provided
  *       entityName: 'name of the relation entity', // optional
@@ -38,7 +42,7 @@ import { createRelation } from './create-relation.js';
  *         },
  *       },
  *       entityRelations: {
- *         [relationId]: {
+ *         [relationPropertyId]: {
  *           to: 'id of the entity',
  *           id: 'id of the relation', // optional
  *           position: positionString, // optional
@@ -61,66 +65,96 @@ export const createEntity = ({
   relations,
   types,
 }: EntityParams): CreateResult => {
-  if (providedId) {
-    assertValid(providedId, '`id` in `createEntity`');
+  if (providedId) assertValid(providedId, '`id` in `createEntity`');
+  if (cover) assertValid(cover, '`cover` in `createEntity`');
+  for (const [key] of Object.entries(values ?? {})) {
+    assertValid(key, '`values` in `createEntity`');
   }
+  // we only assert Ids one level deep for a better experience here, but multiple levels deep are
+  // asserted since we use createRelation and createEntity internally
+  for (const [key, relationEntry] of Object.entries(relations ?? {})) {
+    assertValid(key, '`relations` in `createEntity`');
+    if (Array.isArray(relationEntry)) {
+      for (const relation of relationEntry) {
+        assertValid(relation.toEntity, '`toEntity` in `relations` in `createEntity`');
+        if (relation.toSpace) assertValid(relation.toSpace, '`toSpace` in `relations` in `createEntity`');
+        if (relation.fromSpace) assertValid(relation.fromSpace, '`fromSpace` in `relations` in `createEntity`');
+        if (relation.fromVersion) assertValid(relation.fromVersion, '`fromVersion` in `relations` in `createEntity`');
+        if (relation.toVersion) assertValid(relation.toVersion, '`toVersion` in `relations` in `createEntity`');
+        if (relation.entityId) assertValid(relation.entityId, '`entityId` in `relations` in `createEntity`');
+        if (relation.entityCover) assertValid(relation.entityCover, '`entityCover` in `relations` in `createEntity`');
+      }
+    } else {
+      assertValid(relationEntry.toEntity, '`toEntity` in `relations` in `createEntity`');
+      if (relationEntry.toSpace) assertValid(relationEntry.toSpace, '`toSpace` in `relations` in `createEntity`');
+      if (relationEntry.fromSpace) assertValid(relationEntry.fromSpace, '`fromSpace` in `relations` in `createEntity`');
+      if (relationEntry.fromVersion)
+        assertValid(relationEntry.fromVersion, '`fromVersion` in `relations` in `createEntity`');
+      if (relationEntry.toVersion) assertValid(relationEntry.toVersion, '`toVersion` in `relations` in `createEntity`');
+      if (relationEntry.entityId) assertValid(relationEntry.entityId, '`entityId` in `relations` in `createEntity`');
+      if (relationEntry.entityCover)
+        assertValid(relationEntry.entityCover, '`entityCover` in `relations` in `createEntity`');
+    }
+  }
+  for (const typeId of types ?? []) {
+    assertValid(typeId, '`types` in `createEntity`');
+  }
+
   const id = providedId ?? generate();
   let ops: Array<Op> = [];
 
   const newValues: Array<Value> = [];
   if (name) {
     newValues.push({
-      propertyId: toBase64(NAME_PROPERTY),
+      propertyId: NAME_PROPERTY,
       value: name,
     });
   }
   if (description) {
     newValues.push({
-      propertyId: toBase64(DESCRIPTION_PROPERTY),
+      propertyId: DESCRIPTION_PROPERTY,
       value: description,
     });
   }
   for (const [key, value] of Object.entries(values ?? {})) {
     newValues.push({
-      propertyId: toBase64(Id(key)),
-      value: value.value,
+      propertyId: Id(key),
+      value,
     });
   }
 
   const op: UpdateEntityOp = {
     type: 'UPDATE_ENTITY',
     entity: {
-      id: toBase64(id),
+      id: Id(id),
       values: newValues,
     },
   };
   ops.push(op);
 
   if (cover) {
-    assertValid(cover);
     ops.push({
       type: 'CREATE_RELATION',
       relation: {
-        id: toBase64(generate()),
-        entity: toBase64(generate()),
-        fromEntity: toBase64(id),
-        toEntity: toBase64(cover),
-        type: toBase64(COVER_PROPERTY),
+        id: generate(),
+        entity: generate(),
+        fromEntity: Id(id),
+        toEntity: Id(cover),
+        type: COVER_PROPERTY,
       },
     });
   }
 
   if (types) {
     for (const typeId of types) {
-      assertValid(typeId);
       ops.push({
         type: 'CREATE_RELATION',
         relation: {
-          id: toBase64(generate()),
-          entity: toBase64(generate()),
-          fromEntity: toBase64(id),
-          toEntity: toBase64(typeId),
-          type: toBase64(TYPES_PROPERTY),
+          id: generate(),
+          entity: generate(),
+          fromEntity: Id(id),
+          toEntity: Id(typeId),
+          type: TYPES_PROPERTY,
         },
       });
     }
@@ -129,10 +163,7 @@ export const createEntity = ({
   for (const [typeId, value] of Object.entries(relations ?? {})) {
     const relationsEntries = Array.isArray(value) ? value : [value];
     for (const relation of relationsEntries) {
-      const relationId = relation.relationId ?? generate();
-      assertValid(relationId);
       const relationEntityId = relation.id ?? generate();
-      assertValid(relationEntityId);
       const { ops: relationOps } = createRelation({
         fromEntity: id,
         toEntity: relation.toEntity,
@@ -151,5 +182,5 @@ export const createEntity = ({
     }
   }
 
-  return { id, ops };
+  return { id: Id(id), ops };
 };

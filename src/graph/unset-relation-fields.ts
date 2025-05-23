@@ -1,4 +1,4 @@
-import { Id, toBase64 } from '../id.js';
+import { Id, assertValid } from '../id.js';
 import type { UnsetRelationFieldsOp, UnsetRelationParams } from '../types.js';
 
 /**
@@ -27,10 +27,12 @@ export const unsetRelationFields = ({
   position,
   verified,
 }: UnsetRelationParams) => {
+  assertValid(id, '`id` in `unsetRelationFields`');
+
   const op: UnsetRelationFieldsOp = {
     type: 'UNSET_RELATION_FIELDS',
     unsetRelationFields: {
-      id: toBase64(Id(id)),
+      id: Id(id),
       fromVersion,
       toSpace,
       toVersion,

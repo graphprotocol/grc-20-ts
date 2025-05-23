@@ -1,5 +1,5 @@
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
-import { Id, assertValid, generate, toBase64 } from '../id.js';
+import { Id, assertValid, generate } from '../id.js';
 import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value } from '../types.js';
 
 /**
@@ -29,50 +29,53 @@ import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value } from
  */
 export const updateEntity = ({ id, name, description, cover, values }: UpdateEntityParams): CreateResult => {
   assertValid(id, '`id` in `updateEntity`');
+  if (cover) assertValid(cover, '`cover` in `updateEntity`');
+  for (const [key] of Object.entries(values ?? {})) {
+    assertValid(key, '`values` in `updateEntity`');
+  }
   const ops: Array<Op> = [];
 
   const newValues: Array<Value> = [];
   if (name) {
     newValues.push({
-      propertyId: toBase64(NAME_PROPERTY),
+      propertyId: NAME_PROPERTY,
       value: name,
     });
   }
   if (description) {
     newValues.push({
-      propertyId: toBase64(DESCRIPTION_PROPERTY),
+      propertyId: DESCRIPTION_PROPERTY,
       value: description,
     });
   }
   for (const [key, value] of Object.entries(values ?? {})) {
     newValues.push({
-      propertyId: toBase64(Id(key)),
-      value: value.value,
+      propertyId: Id(key),
+      value,
     });
   }
 
   const op: UpdateEntityOp = {
     type: 'UPDATE_ENTITY',
     entity: {
-      id: toBase64(Id(id)),
+      id: Id(id),
       values: newValues,
     },
   };
   ops.push(op);
 
   if (cover) {
-    assertValid(cover);
     ops.push({
       type: 'CREATE_RELATION',
       relation: {
-        id: toBase64(generate()),
-        entity: toBase64(generate()),
-        fromEntity: toBase64(Id(id)),
-        toEntity: toBase64(Id(cover)),
-        type: toBase64(COVER_PROPERTY),
+        id: generate(),
+        entity: generate(),
+        fromEntity: Id(id),
+        toEntity: Id(cover),
+        type: COVER_PROPERTY,
       },
     });
   }
 
-  return { id, ops };
+  return { id: Id(id), ops };
 };
