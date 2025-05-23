@@ -5,7 +5,7 @@ import {
   IMAGE_WIDTH_PROPERTY,
   TYPES_PROPERTY,
 } from '../core/ids/system.js';
-import { assertValid, generate, toBase64 } from '../id.js';
+import { Id, assertValid, generate, toBase64 } from '../id.js';
 import { uploadImage } from '../ipfs.js';
 import type { CreateImageParams, CreateResult, PropertiesParam } from '../types.js';
 import { createEntity } from './create-entity.js';
@@ -41,9 +41,8 @@ export const createImage = async ({
   id: providedId,
   ...params
 }: CreateImageParams): Promise<CreateResult> => {
-  if (providedId) {
-    assertValid(providedId, '`id` in `createImage`');
-  }
+  if (providedId) assertValid(providedId, '`id` in `createImage`');
+
   const id = providedId ?? generate();
   const { cid, dimensions } = await uploadImage(params);
 
@@ -74,14 +73,14 @@ export const createImage = async ({
     relation: {
       id: toBase64(generate()),
       entity: toBase64(generate()),
-      fromEntity: toBase64(id),
+      fromEntity: toBase64(Id(id)),
       toEntity: toBase64(IMAGE_TYPE),
       type: toBase64(TYPES_PROPERTY),
     },
   });
 
   return {
-    id,
+    id: Id(id),
     ops,
   };
 };

@@ -21,7 +21,6 @@ describe('deleteRelation', () => {
   it('should throw an error when ID validation fails', () => {
     const id = 'invalid-id';
 
-    // @ts-expect-error - invalid id type
     expect(() => deleteRelation({ id })).toThrow('Invalid id: "invalid-id"');
   });
 });

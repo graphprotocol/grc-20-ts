@@ -29,6 +29,10 @@ import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value } from
  */
 export const updateEntity = ({ id, name, description, cover, values }: UpdateEntityParams): CreateResult => {
   assertValid(id, '`id` in `updateEntity`');
+  if (cover) assertValid(cover, '`cover` in `updateEntity`');
+  for (const [key] of Object.entries(values ?? {})) {
+    assertValid(key, '`values` in `updateEntity`');
+  }
   const ops: Array<Op> = [];
 
   const newValues: Array<Value> = [];
@@ -61,7 +65,6 @@ export const updateEntity = ({ id, name, description, cover, values }: UpdateEnt
   ops.push(op);
 
   if (cover) {
-    assertValid(cover);
     ops.push({
       type: 'CREATE_RELATION',
       relation: {
@@ -74,5 +77,5 @@ export const updateEntity = ({ id, name, description, cover, values }: UpdateEnt
     });
   }
 
-  return { id, ops };
+  return { id: Id(id), ops };
 };

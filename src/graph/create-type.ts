@@ -1,5 +1,5 @@
 import { PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
-import { assertValid, generate, toBase64 } from '../id.js';
+import { Id, assertValid, generate, toBase64 } from '../id.js';
 import type { CreateResult, CreateTypeParams } from '../types.js';
 import { createEntity } from './create-entity.js';
 
@@ -32,6 +32,9 @@ export const createType = ({
   if (providedId) {
     assertValid(providedId, '`id` in `createType`');
   }
+  for (const propertyId of properties ?? []) {
+    assertValid(propertyId, '`properties` in `createType`');
+  }
   const id = providedId ?? generate();
 
   const { ops } = createEntity({
@@ -48,7 +51,7 @@ export const createType = ({
     relation: {
       id: toBase64(generate()),
       entity: toBase64(generate()),
-      fromEntity: toBase64(id),
+      fromEntity: toBase64(Id(id)),
       toEntity: toBase64(SCHEMA_TYPE),
       type: toBase64(TYPES_PROPERTY),
     },
@@ -56,20 +59,19 @@ export const createType = ({
 
   if (properties) {
     for (const propertyId of properties) {
-      assertValid(propertyId);
-      TYPES_PROPERTY;
+      assertValid(propertyId, '`propertyId` in `createType`');
       ops.push({
         type: 'CREATE_RELATION',
         relation: {
           id: toBase64(generate()),
           entity: toBase64(generate()),
-          fromEntity: toBase64(id),
-          toEntity: toBase64(propertyId),
+          fromEntity: toBase64(Id(id)),
+          toEntity: toBase64(Id(propertyId)),
           type: toBase64(PROPERTY),
         },
       });
     }
   }
 
-  return { id, ops };
+  return { id: Id(id), ops };
 };

@@ -223,12 +223,11 @@ describe('createRelation', () => {
   it('throws an error if the provided id is invalid', () => {
     expect(() =>
       createRelation({
-        // @ts-expect-error - Testing invalid id type
         id: 'invalid',
         fromEntity: fromEntityId,
         toEntity: toEntityId,
         type: NAME_PROPERTY,
       }),
-    ).toThrow('Invalid id: "invalid" for `id` in `createType`');
+    ).toThrow('Invalid id: "invalid" for `id` in `createRelation`');
   });
 });

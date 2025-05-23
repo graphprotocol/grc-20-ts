@@ -171,7 +171,6 @@ describe('createEntity', () => {
   });
 
   it('throws an error if the provided id is invalid', () => {
-    // @ts-expect-error - invalid id type
     expect(() => createEntity({ id: 'invalid' })).toThrow('Invalid id: "invalid" for `id` in `createEntity`');
   });
 });

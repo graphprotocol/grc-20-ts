@@ -132,7 +132,6 @@ describe('createImage', () => {
   });
 
   it('throws an error if the provided id is invalid', async () => {
-    // @ts-expect-error - invalid id type
     await expect(async () => await createImage({ id: 'invalid', url: 'http://localhost:3000/image' })).rejects.toThrow(
       'Invalid id: "invalid" for `id` in `createImage`',
     );

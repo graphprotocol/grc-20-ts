@@ -12,8 +12,7 @@ import {
   URL,
   VALUE_TYPE_PROPERTY,
 } from '../core/ids/system.js';
-import type { Id } from '../id.js';
-import { assertValid, generate, toBase64 } from '../id.js';
+import { Id, assertValid, generate, toBase64 } from '../id.js';
 import type { CreatePropertyParams, CreateResult } from '../types.js';
 import { createEntity } from './create-entity.js';
 import { createRelation } from './create-relation.js';
@@ -42,6 +41,15 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
   if (id) {
     assertValid(id, '`id` in `createProperty`');
   }
+  if (cover) assertValid(cover, '`cover` in `createProperty`');
+  if (params.type === 'RELATION') {
+    for (const propertyId of params.properties ?? []) {
+      assertValid(propertyId, '`properties` in `createProperty`');
+    }
+    for (const relationValueTypeId of params.relationValueTypes ?? []) {
+      assertValid(relationValueTypeId, '`relationValueTypes` in `createProperty`');
+    }
+  }
   const entityId = id ?? generate();
 
   const { ops } = createEntity({
@@ -57,7 +65,7 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
     relation: {
       id: toBase64(generate()),
       entity: toBase64(generate()),
-      fromEntity: toBase64(entityId),
+      fromEntity: toBase64(Id(entityId)),
       toEntity: toBase64(PROPERTY),
       type: toBase64(TYPES_PROPERTY),
     },
@@ -69,7 +77,7 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
     relation: {
       id: toBase64(generate()),
       entity: toBase64(generate()),
-      fromEntity: toBase64(entityId),
+      fromEntity: toBase64(Id(entityId)),
       toEntity: toBase64(SCHEMA_TYPE),
       type: toBase64(TYPES_PROPERTY),
     },
@@ -139,12 +147,12 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
       relation: {
         id: toBase64(generate()),
         entity: toBase64(generate()),
-        fromEntity: toBase64(entityId),
+        fromEntity: toBase64(Id(entityId)),
         toEntity: toBase64(toId),
         type: toBase64(VALUE_TYPE_PROPERTY),
       },
     });
   }
 
-  return { id: entityId, ops };
+  return { id: Id(entityId), ops };
 };

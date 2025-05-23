@@ -120,12 +120,10 @@ describe('updateEntity', () => {
   });
 
   it('throws an error if the provided id is invalid', () => {
-    // @ts-expect-error - invalid id type
     expect(() => updateEntity({ id: 'invalid' })).toThrow('Invalid id: "invalid" for `id` in `updateEntity`');
   });
 
   it('throws an error if the provided cover id is invalid', () => {
-    // @ts-expect-error - invalid cover id type
     expect(() => updateEntity({ id: entityId, cover: 'invalid' })).toThrow('Invalid id: "invalid"');
   });
 });

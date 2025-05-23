@@ -13,11 +13,11 @@ import type { CreateResult, DeleteEntityOp, DeleteEntityParams } from '../types.
  * @returns The operations to delete the entity.
  */
 export const deleteEntity = ({ id }: DeleteEntityParams): CreateResult => {
-  assertValid(id, 'id is required');
+  assertValid(id, '`id` in `deleteEntity`');
   const op: DeleteEntityOp = {
     type: 'DELETE_ENTITY',
     id: toBase64(Id(id)),
   };
 
-  return { id, ops: [op] };
+  return { id: Id(id), ops: [op] };
 };
