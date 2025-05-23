@@ -1,5 +1,16 @@
 # @graphprotocol/grc-20
 
+## 0.13.0
+
+### Minor Changes
+
+- 2381f25: switch to plain UUID strings in Ops (prev they were base64 encoded string UUIDs)
+- a9b47ba: values now accept a string instead of { value: string }
+
+### Patch Changes
+
+- 0db48c2: all functions accept also `string` for an ID and all IDs are asserted
+
 ## 0.12.2
 
 ### Patch Changes
