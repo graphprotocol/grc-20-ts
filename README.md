@@ -134,6 +134,49 @@ const { id: personId, ops: createPersonOps } = Graph.createEntity({
 });
 ```
 
+#### Options for values
+
+Some values have options that can be set.
+
+- Text values can be set to a specific `language`.
+- Number values can be set to a specific `format` and `unit`.
+- Time values can be set to a specific `timezone`, `format`, `hasTime` and `hasDate`.
+
+```ts
+const { id: textEntityId, ops: createTextEntityOps } = Graph.createEntity({
+  values: [
+    {
+      property: someTextPropertyId,
+      value: 'Hello',
+      options: {
+        type: 'text',
+        language: Id('dad6e52a-5e94-4e55-9411-cfe3a3c3ea64'),
+      },
+    },
+    {
+      property: someNumberPropertyId,
+      value: Graph.serializeNumber(42),
+      options: {
+        type: 'number',
+        format: '¤#,##0.00',
+        unit: Id('016c9b1c-d8a8-4e4d-9e84-4e40878bb235'),
+      },
+    },
+    {
+      property: someTimePropertyId,
+      value: Graph.serializeTime(new Date()),
+      options: {
+        type: 'time',
+        timezone: Id('d697dd47-fd6f-4096-99b8-7af10b5f59aa'),
+        format: 'EEEE, MMMM d, yyyy',
+        hasTime: true,
+        hasDate: true,
+      },
+    },
+  ],
+});
+```
+
 #### Example Flow
 
 ```ts

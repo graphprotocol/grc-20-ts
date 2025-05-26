@@ -262,7 +262,7 @@ describe('createEntity', () => {
           options: {
             type: 'number',
             format: '1.2-2',
-            unit: 'USD',
+            unit: '016c9b1c-d8a8-4e4d-9e84-4e40878bb235',
           },
         },
       ],
@@ -283,7 +283,7 @@ describe('createEntity', () => {
             options: {
               number: {
                 format: '1.2-2',
-                unit: 'USD',
+                unit: '016c9b1c-d8a8-4e4d-9e84-4e40878bb235',
               },
             },
           },

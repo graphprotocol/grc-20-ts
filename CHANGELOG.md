@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.15.0
+
+### Minor Changes
+
+- be6bab8: change number options unit from string to Id
+
 ## 0.14.0
 
 ### Minor Changes
