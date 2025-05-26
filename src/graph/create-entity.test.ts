@@ -78,11 +78,11 @@ describe('createEntity', () => {
         id: entity.id,
         values: [
           {
-            propertyId: NAME_PROPERTY,
+            property: NAME_PROPERTY,
             value: 'Test Entity',
           },
           {
-            propertyId: DESCRIPTION_PROPERTY,
+            property: DESCRIPTION_PROPERTY,
             value: 'Test Description',
           },
         ],
@@ -123,7 +123,7 @@ describe('createEntity', () => {
     const customPropertyId = Id('fa269fd3-de98-49cf-90c4-4235d905a67c');
     const entity = createEntity({
       values: {
-        [customPropertyId]: 'custom value',
+        [customPropertyId]: { value: 'custom value' },
       },
     });
 
@@ -137,8 +137,44 @@ describe('createEntity', () => {
         id: entity.id,
         values: [
           {
-            propertyId: customPropertyId,
+            property: customPropertyId,
             value: 'custom value',
+          },
+        ],
+      },
+    });
+  });
+
+  it('creates an entity with a text value with options', () => {
+    const entity = createEntity({
+      values: {
+        '295c8bc6-1ae3-42cb-b2a6-5b61080906ff': {
+          value: 'test',
+          options: { type: 'text', language: Id('0a4e9810-f78f-429e-a4ce-b1904a43251d') },
+        },
+      },
+    });
+
+    expect(entity).toBeDefined();
+    expect(typeof entity.id).toBe('string');
+    expect(entity.ops).toHaveLength(1);
+
+    expect(entity.ops[0]).toMatchObject({
+      type: 'UPDATE_ENTITY',
+    });
+    expect(entity.ops[0]).toMatchObject({
+      type: 'UPDATE_ENTITY',
+      entity: {
+        id: entity.id,
+        values: [
+          {
+            property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+            value: 'test',
+            options: {
+              text: {
+                language: '0a4e9810-f78f-429e-a4ce-b1904a43251d',
+              },
+            },
           },
         ],
       },
@@ -148,7 +184,7 @@ describe('createEntity', () => {
   it('creates an entity with a number value', () => {
     const entity = createEntity({
       values: {
-        '295c8bc6-1ae3-42cb-b2a6-5b61080906ff': serializeNumber(42),
+        '295c8bc6-1ae3-42cb-b2a6-5b61080906ff': { value: serializeNumber(42) },
       },
     });
 
@@ -162,8 +198,88 @@ describe('createEntity', () => {
         id: entity.id,
         values: [
           {
-            propertyId: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+            property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
             value: '42',
+          },
+        ],
+      },
+    });
+  });
+
+  it('creates an entity with a number value with options', () => {
+    const entity = createEntity({
+      values: {
+        '295c8bc6-1ae3-42cb-b2a6-5b61080906ff': {
+          value: serializeNumber(42),
+          options: {
+            type: 'number',
+            format: '1.2-2',
+            unit: 'USD',
+          },
+        },
+      },
+    });
+
+    expect(entity).toBeDefined();
+    expect(typeof entity.id).toBe('string');
+    expect(entity.ops).toHaveLength(1);
+
+    expect(entity.ops[0]).toMatchObject({
+      type: 'UPDATE_ENTITY',
+      entity: {
+        id: entity.id,
+        values: [
+          {
+            property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+            value: '42',
+            options: {
+              number: {
+                format: '1.2-2',
+                unit: 'USD',
+              },
+            },
+          },
+        ],
+      },
+    });
+  });
+
+  it('creates an entity with a time value with options', () => {
+    const entity = createEntity({
+      values: {
+        '295c8bc6-1ae3-42cb-b2a6-5b61080906ff': {
+          value: '2021-01-01',
+          options: {
+            type: 'time',
+            format: 'YYYY-MM-DD',
+            timezone: Id('156431a8-0edf-4093-a08e-4c4ed0d5e466'),
+            hasDate: true,
+            hasTime: true,
+          },
+        },
+      },
+    });
+
+    expect(entity).toBeDefined();
+    expect(typeof entity.id).toBe('string');
+    expect(entity.ops).toHaveLength(1);
+
+    expect(entity.ops[0]).toMatchObject({
+      type: 'UPDATE_ENTITY',
+      entity: {
+        id: entity.id,
+        values: [
+          {
+            property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+            value: '2021-01-01',
+            options: {
+              time: {
+                format: 'YYYY-MM-DD',
+                timezone: Id('156431a8-0edf-4093-a08e-4c4ed0d5e466'),
+                hasDate: true,
+                hasTime: true,
+              },
+            },
           },
         ],
       },

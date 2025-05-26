@@ -1,6 +1,6 @@
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
 import { Id, assertValid, generate } from '../id.js';
-import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value } from '../types.js';
+import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value, ValueOptions } from '../types.js';
 
 /**
  * Updates an entity with the given name, description, cover and properties.
@@ -15,9 +15,7 @@ import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value } from
  *   description: 'description of the entity',
  *   cover: imageEntityId,
  *   values: {
- *     // value property like text, number, url, time, point, checkbox
  *     [propertyId]: {
- *       type: 'TEXT', // TEXT | NUMBER | URL | TIME | POINT | CHECKBOX,
  *       value: 'value of the property',
  *     }
  *   },
@@ -38,20 +36,52 @@ export const updateEntity = ({ id, name, description, cover, values }: UpdateEnt
   const newValues: Array<Value> = [];
   if (name) {
     newValues.push({
-      propertyId: NAME_PROPERTY,
+      property: NAME_PROPERTY,
       value: name,
     });
   }
   if (description) {
     newValues.push({
-      propertyId: DESCRIPTION_PROPERTY,
+      property: DESCRIPTION_PROPERTY,
       value: description,
     });
   }
-  for (const [key, value] of Object.entries(values ?? {})) {
+  for (const [key, valueEntry] of Object.entries(values ?? {})) {
+    let options: ValueOptions | undefined = undefined;
+    if (valueEntry.options) {
+      const optionsParam = valueEntry.options;
+      switch (optionsParam.type) {
+        case 'text':
+          options = {
+            text: {
+              language: optionsParam.language,
+            },
+          };
+          break;
+        case 'number':
+          options = {
+            number: {
+              format: optionsParam.format,
+              unit: optionsParam.unit,
+            },
+          };
+          break;
+        case 'time':
+          options = {
+            time: {
+              format: optionsParam.format,
+              timezone: optionsParam.timezone,
+              hasDate: optionsParam.hasDate,
+              hasTime: optionsParam.hasTime,
+            },
+          };
+          break;
+      }
+    }
     newValues.push({
-      propertyId: Id(key),
-      value,
+      property: Id(key),
+      value: valueEntry.value,
+      options,
     });
   }
 

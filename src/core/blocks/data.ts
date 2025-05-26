@@ -79,7 +79,7 @@ export function make({ fromId, sourceType, position, name }: DataBlockParams): O
     const { ops: nameOps } = updateEntity({
       id: newBlockId,
       values: {
-        [NAME_PROPERTY]: name,
+        [NAME_PROPERTY]: { value: name },
       },
     });
     ops.push(...nameOps);
