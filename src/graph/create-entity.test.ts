@@ -122,9 +122,7 @@ describe('createEntity', () => {
   it('creates an entity with custom values', () => {
     const customPropertyId = Id('fa269fd3-de98-49cf-90c4-4235d905a67c');
     const entity = createEntity({
-      values: {
-        [customPropertyId]: { value: 'custom value' },
-      },
+      values: [{ property: customPropertyId, value: 'custom value' }],
     });
 
     expect(entity).toBeDefined();
@@ -147,21 +145,19 @@ describe('createEntity', () => {
 
   it('creates an entity with a text value with options', () => {
     const entity = createEntity({
-      values: {
-        '295c8bc6-1ae3-42cb-b2a6-5b61080906ff': {
+      values: [
+        {
+          property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
           value: 'test',
           options: { type: 'text', language: Id('0a4e9810-f78f-429e-a4ce-b1904a43251d') },
         },
-      },
+      ],
     });
 
     expect(entity).toBeDefined();
     expect(typeof entity.id).toBe('string');
     expect(entity.ops).toHaveLength(1);
 
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-    });
     expect(entity.ops[0]).toMatchObject({
       type: 'UPDATE_ENTITY',
       entity: {
@@ -181,11 +177,62 @@ describe('createEntity', () => {
     });
   });
 
+  it('creates an entity with a text value in two different languages', () => {
+    const entity = createEntity({
+      values: [
+        {
+          property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+          value: 'test',
+          options: { type: 'text', language: Id('0a4e9810-f78f-429e-a4ce-b1904a43251d') },
+        },
+        {
+          property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+          value: 'prueba',
+          options: { type: 'text', language: Id('dad6e52a-5e94-4e55-9411-cfe3a3c3ea64') },
+        },
+      ],
+    });
+
+    expect(entity).toBeDefined();
+    expect(typeof entity.id).toBe('string');
+    expect(entity.ops).toHaveLength(1);
+
+    expect(entity.ops[0]).toMatchObject({
+      type: 'UPDATE_ENTITY',
+      entity: {
+        id: entity.id,
+        values: [
+          {
+            property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+            value: 'test',
+            options: {
+              text: {
+                language: '0a4e9810-f78f-429e-a4ce-b1904a43251d',
+              },
+            },
+          },
+          {
+            property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+            value: 'prueba',
+            options: {
+              text: {
+                language: 'dad6e52a-5e94-4e55-9411-cfe3a3c3ea64',
+              },
+            },
+          },
+        ],
+      },
+    });
+  });
+
   it('creates an entity with a number value', () => {
     const entity = createEntity({
-      values: {
-        '295c8bc6-1ae3-42cb-b2a6-5b61080906ff': { value: serializeNumber(42) },
-      },
+      values: [
+        {
+          property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+          value: serializeNumber(42),
+        },
+      ],
     });
 
     expect(entity).toBeDefined();
@@ -208,8 +255,9 @@ describe('createEntity', () => {
 
   it('creates an entity with a number value with options', () => {
     const entity = createEntity({
-      values: {
-        '295c8bc6-1ae3-42cb-b2a6-5b61080906ff': {
+      values: [
+        {
+          property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
           value: serializeNumber(42),
           options: {
             type: 'number',
@@ -217,7 +265,7 @@ describe('createEntity', () => {
             unit: 'USD',
           },
         },
-      },
+      ],
     });
 
     expect(entity).toBeDefined();
@@ -246,8 +294,9 @@ describe('createEntity', () => {
 
   it('creates an entity with a time value with options', () => {
     const entity = createEntity({
-      values: {
-        '295c8bc6-1ae3-42cb-b2a6-5b61080906ff': {
+      values: [
+        {
+          property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
           value: '2021-01-01',
           options: {
             type: 'time',
@@ -257,7 +306,7 @@ describe('createEntity', () => {
             hasTime: true,
           },
         },
-      },
+      ],
     });
 
     expect(entity).toBeDefined();

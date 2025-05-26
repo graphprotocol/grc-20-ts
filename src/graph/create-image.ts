@@ -46,13 +46,22 @@ export const createImage = async ({
   const id = providedId ?? generate();
   const { cid, dimensions } = await uploadImage(params);
 
-  const values: PropertiesParam = {};
-  values[IMAGE_URL_PROPERTY] = { value: cid };
+  const values: PropertiesParam = [];
+  values.push({
+    property: IMAGE_URL_PROPERTY,
+    value: cid,
+  });
   if (dimensions?.height) {
-    values[IMAGE_HEIGHT_PROPERTY] = { value: dimensions.height.toString() };
+    values.push({
+      property: IMAGE_HEIGHT_PROPERTY,
+      value: dimensions.height.toString(),
+    });
   }
   if (dimensions?.width) {
-    values[IMAGE_WIDTH_PROPERTY] = { value: dimensions.width.toString() };
+    values.push({
+      property: IMAGE_WIDTH_PROPERTY,
+      value: dimensions.width.toString(),
+    });
   }
 
   const { ops } = createEntity({

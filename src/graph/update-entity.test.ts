@@ -94,9 +94,7 @@ describe('updateEntity', () => {
     const customPropertyId = Id('fa269fd3-de98-49cf-90c4-4235d905a67c');
     const result = updateEntity({
       id: entityId,
-      values: {
-        [customPropertyId]: { value: 'updated custom value' },
-      },
+      values: [{ property: customPropertyId, value: 'updated custom value' }],
     });
 
     expect(result).toBeDefined();
