@@ -669,18 +669,80 @@ export class Entity extends Message<Entity> {
 }
 
 /**
+ * @generated from message ipfs.Options
+ */
+export class Options extends Message<Options> {
+  /**
+   * @generated from oneof ipfs.Options.value
+   */
+  value: {
+    /**
+     * @generated from field: ipfs.TextOptions text = 1;
+     */
+    value: TextOptions;
+    case: "text";
+  } | {
+    /**
+     * @generated from field: ipfs.NumberOptions number = 2;
+     */
+    value: NumberOptions;
+    case: "number";
+  } | {
+    /**
+     * @generated from field: ipfs.TimeOptions time = 3;
+     */
+    value: TimeOptions;
+    case: "time";
+  } | { case: undefined; value?: undefined } = { case: undefined };
+
+  constructor(data?: PartialMessage<Options>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ipfs.Options";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "text", kind: "message", T: TextOptions, oneof: "value" },
+    { no: 2, name: "number", kind: "message", T: NumberOptions, oneof: "value" },
+    { no: 3, name: "time", kind: "message", T: TimeOptions, oneof: "value" },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Options {
+    return new Options().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Options {
+    return new Options().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Options {
+    return new Options().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Options | PlainMessage<Options> | undefined, b: Options | PlainMessage<Options> | undefined): boolean {
+    return proto3.util.equals(Options, a, b);
+  }
+}
+
+/**
  * @generated from message ipfs.Value
  */
 export class Value extends Message<Value> {
   /**
-   * @generated from field: bytes property_id = 1;
+   * @generated from field: bytes property = 1;
    */
-  propertyId = new Uint8Array(0);
+  property = new Uint8Array(0);
 
   /**
    * @generated from field: string value = 2;
    */
   value = "";
+
+  /**
+   * @generated from field: optional ipfs.Options options = 3;
+   */
+  options?: Options;
 
   constructor(data?: PartialMessage<Value>) {
     super();
@@ -690,8 +752,9 @@ export class Value extends Message<Value> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "ipfs.Value";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "property_id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+    { no: 1, name: "property", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
     { no: 2, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "options", kind: "message", T: Options, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Value {
@@ -708,6 +771,141 @@ export class Value extends Message<Value> {
 
   static equals(a: Value | PlainMessage<Value> | undefined, b: Value | PlainMessage<Value> | undefined): boolean {
     return proto3.util.equals(Value, a, b);
+  }
+}
+
+/**
+ * @generated from message ipfs.TextOptions
+ */
+export class TextOptions extends Message<TextOptions> {
+  /**
+   * @generated from field: optional bytes language = 1;
+   */
+  language?: Uint8Array;
+
+  constructor(data?: PartialMessage<TextOptions>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ipfs.TextOptions";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "language", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): TextOptions {
+    return new TextOptions().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): TextOptions {
+    return new TextOptions().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): TextOptions {
+    return new TextOptions().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: TextOptions | PlainMessage<TextOptions> | undefined, b: TextOptions | PlainMessage<TextOptions> | undefined): boolean {
+    return proto3.util.equals(TextOptions, a, b);
+  }
+}
+
+/**
+ * @generated from message ipfs.NumberOptions
+ */
+export class NumberOptions extends Message<NumberOptions> {
+  /**
+   * @generated from field: optional string format = 1;
+   */
+  format?: string;
+
+  /**
+   * @generated from field: optional string unit = 2;
+   */
+  unit?: string;
+
+  constructor(data?: PartialMessage<NumberOptions>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ipfs.NumberOptions";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "format", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 2, name: "unit", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): NumberOptions {
+    return new NumberOptions().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): NumberOptions {
+    return new NumberOptions().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): NumberOptions {
+    return new NumberOptions().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: NumberOptions | PlainMessage<NumberOptions> | undefined, b: NumberOptions | PlainMessage<NumberOptions> | undefined): boolean {
+    return proto3.util.equals(NumberOptions, a, b);
+  }
+}
+
+/**
+ * @generated from message ipfs.TimeOptions
+ */
+export class TimeOptions extends Message<TimeOptions> {
+  /**
+   * @generated from field: optional string format = 1;
+   */
+  format?: string;
+
+  /**
+   * @generated from field: optional bytes timezone = 2;
+   */
+  timezone?: Uint8Array;
+
+  /**
+   * @generated from field: optional bool has_date = 3;
+   */
+  hasDate?: boolean;
+
+  /**
+   * @generated from field: optional bool has_time = 4;
+   */
+  hasTime?: boolean;
+
+  constructor(data?: PartialMessage<TimeOptions>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ipfs.TimeOptions";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "format", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 2, name: "timezone", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 3, name: "has_date", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 4, name: "has_time", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): TimeOptions {
+    return new TimeOptions().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): TimeOptions {
+    return new TimeOptions().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): TimeOptions {
+    return new TimeOptions().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: TimeOptions | PlainMessage<TimeOptions> | undefined, b: TimeOptions | PlainMessage<TimeOptions> | undefined): boolean {
+    return proto3.util.equals(TimeOptions, a, b);
   }
 }
 

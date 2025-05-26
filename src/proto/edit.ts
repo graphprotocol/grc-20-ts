@@ -1,6 +1,14 @@
 import type { JsonValue } from '@bufbuild/protobuf';
-import { type Id, generate, toBase64, toBytes } from '../id.js';
-import type { Entity, Op, Relation, UnsetEntityValuesOp, UnsetRelationFieldsOp, UpdateRelationOp } from '../types.js';
+import { Id, generate, toBase64, toBytes } from '../id.js';
+import type {
+  Entity,
+  Op,
+  Relation,
+  UnsetEntityValuesOp,
+  UnsetRelationFieldsOp,
+  UpdateRelationOp,
+  ValueOptions,
+} from '../types.js';
 import {
   Edit,
   Entity as EntityProto,
@@ -47,24 +55,24 @@ export function encode({ name, ops, author, language }: MakeEditProposalParams):
 
 function convertRelationIdsToBase64(relation: Relation): JsonValue {
   const result: Record<string, string | boolean> = {
-    id: toBase64(relation.id).toString(),
-    type: toBase64(relation.type).toString(),
-    from_entity: toBase64(relation.fromEntity).toString(),
-    to_entity: toBase64(relation.toEntity).toString(),
-    entity: toBase64(relation.entity).toString(),
+    id: toBase64(relation.id),
+    type: toBase64(relation.type),
+    from_entity: toBase64(relation.fromEntity),
+    to_entity: toBase64(relation.toEntity),
+    entity: toBase64(relation.entity),
   };
 
   if (relation.fromSpace) {
-    result.from_space = toBase64(relation.fromSpace).toString();
+    result.from_space = toBase64(relation.fromSpace);
   }
   if (relation.fromVersion) {
-    result.from_version = toBase64(relation.fromVersion).toString();
+    result.from_version = toBase64(relation.fromVersion);
   }
   if (relation.toSpace) {
-    result.to_space = toBase64(relation.toSpace).toString();
+    result.to_space = toBase64(relation.toSpace);
   }
   if (relation.toVersion) {
-    result.to_version = toBase64(relation.toVersion).toString();
+    result.to_version = toBase64(relation.toVersion);
   }
   if (relation.position !== undefined) {
     result.position = relation.position;
@@ -78,27 +86,27 @@ function convertRelationIdsToBase64(relation: Relation): JsonValue {
 
 function convertUnsetEntityValuesToBase64(unsetEntityValues: UnsetEntityValuesOp['unsetEntityValues']): JsonValue {
   return {
-    id: toBase64(unsetEntityValues.id).toString(),
-    properties: unsetEntityValues.properties.map(propertyId => toBase64(propertyId).toString()),
+    id: toBase64(unsetEntityValues.id),
+    properties: unsetEntityValues.properties.map(propertyId => toBase64(propertyId)),
   };
 }
 
 function convertUpdateRelationToBase64(relation: UpdateRelationOp['relation']): JsonValue {
   const result: Record<string, string | boolean> = {
-    id: toBase64(relation.id).toString(),
+    id: toBase64(relation.id),
   };
 
   if (relation.fromSpace) {
-    result.from_space = toBase64(relation.fromSpace).toString();
+    result.from_space = toBase64(relation.fromSpace);
   }
   if (relation.fromVersion) {
-    result.from_version = toBase64(relation.fromVersion).toString();
+    result.from_version = toBase64(relation.fromVersion);
   }
   if (relation.toSpace) {
-    result.to_space = toBase64(relation.toSpace).toString();
+    result.to_space = toBase64(relation.toSpace);
   }
   if (relation.toVersion) {
-    result.to_version = toBase64(relation.toVersion).toString();
+    result.to_version = toBase64(relation.toVersion);
   }
   if (relation.position !== undefined) {
     result.position = relation.position;
@@ -114,7 +122,7 @@ function convertUnsetRelationFieldsToBase64(
   unsetRelationFields: UnsetRelationFieldsOp['unsetRelationFields'],
 ): JsonValue {
   const result: Record<string, string | boolean> = {
-    id: toBase64(unsetRelationFields.id).toString(),
+    id: toBase64(unsetRelationFields.id),
   };
 
   if (unsetRelationFields.fromSpace !== undefined) {
@@ -142,10 +150,43 @@ function convertUnsetRelationFieldsToBase64(
 function convertUpdateEntityToBase64(entity: Entity): JsonValue {
   return {
     id: toBase64(entity.id).toString(),
-    values: entity.values.map(value => ({
-      property_id: toBase64(value.propertyId).toString(),
-      value: value.value,
-    })),
+    values: entity.values.map(value => {
+      let options: ValueOptions | undefined;
+      if (value.options) {
+        if (value.options.text) {
+          options = {
+            text: {
+              language: value.options.text.language ? toBase64(Id(value.options.text.language)).toString() : undefined,
+            },
+          };
+        } else if (value.options.number) {
+          options = {
+            number: {
+              format: value.options.number.format,
+              unit: value.options.number.unit,
+            },
+          };
+        } else if (value.options.time) {
+          options = {
+            time: {
+              format: value.options.time.format,
+              timezone: value.options.time.timezone ? toBase64(Id(value.options.time.timezone)).toString() : undefined,
+              hasDate: value.options.time.hasDate,
+              hasTime: value.options.time.hasTime,
+            },
+          };
+        }
+      }
+
+      const lala: JsonValue = {
+        property: toBase64(value.property).toString(),
+        value: value.value,
+      };
+      if (options) {
+        lala.options = options;
+      }
+      return lala;
+    }),
   };
 }
 

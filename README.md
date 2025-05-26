@@ -84,7 +84,7 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
   cover: imageId,
   values: {
     // value property like text, number, url, time, point, checkbox
-    [propertyId]: 'value of the property',
+    [propertyId]: { value: 'value of the property' },
   },
   relations: {
     // relation property
@@ -93,7 +93,7 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
       id: 'id of the relation', // optional
       position: positionString, // optional
       values: {
-        [propertyId]: 'value of the property',
+        [propertyId]: { value: 'value of the property' },
       },
     },
   },

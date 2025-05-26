@@ -24,11 +24,11 @@ describe('updateEntity', () => {
         id: entityId,
         values: [
           {
-            propertyId: NAME_PROPERTY,
+            property: NAME_PROPERTY,
             value: 'Updated Entity',
           },
           {
-            propertyId: DESCRIPTION_PROPERTY,
+            property: DESCRIPTION_PROPERTY,
             value: 'Updated Description',
           },
         ],
@@ -52,7 +52,7 @@ describe('updateEntity', () => {
         id: entityId,
         values: [
           {
-            propertyId: NAME_PROPERTY,
+            property: NAME_PROPERTY,
             value: 'Updated Entity',
           },
         ],
@@ -95,7 +95,7 @@ describe('updateEntity', () => {
     const result = updateEntity({
       id: entityId,
       values: {
-        [customPropertyId]: 'updated custom value',
+        [customPropertyId]: { value: 'updated custom value' },
       },
     });
 
@@ -109,7 +109,7 @@ describe('updateEntity', () => {
         id: entityId,
         values: [
           {
-            propertyId: customPropertyId,
+            property: customPropertyId,
             value: 'updated custom value',
           },
         ],

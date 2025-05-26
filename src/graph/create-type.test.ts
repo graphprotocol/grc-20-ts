@@ -22,7 +22,7 @@ describe('createType', () => {
         id: type.id,
         values: [
           {
-            propertyId: NAME_PROPERTY,
+            property: NAME_PROPERTY,
             value: 'Article',
           },
         ],
@@ -62,7 +62,7 @@ describe('createType', () => {
         id: type.id,
         values: [
           {
-            propertyId: NAME_PROPERTY,
+            property: NAME_PROPERTY,
             value: 'Article',
           },
         ],

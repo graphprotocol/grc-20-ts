@@ -8,7 +8,7 @@ it('full flow', async () => {
     name: 'test',
     description: 'test',
     values: {
-      [WEBSITE_PROPERTY]: 'test',
+      [WEBSITE_PROPERTY]: { value: 'test' },
     },
   });
 

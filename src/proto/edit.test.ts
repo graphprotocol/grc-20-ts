@@ -15,8 +15,13 @@ describe('Edit', () => {
             id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
             values: [
               {
-                propertyId: Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc'),
+                property: Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc'),
                 value: 'test value',
+                options: {
+                  text: {
+                    language: Id('a6104fe0-d695-4f93-92fa-0a1afc552bc5'),
+                  },
+                },
               },
             ],
           },
@@ -35,8 +40,16 @@ describe('Edit', () => {
       id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
       values: [
         {
-          propertyId: toBytes(Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc')),
+          property: toBytes(Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc')),
           value: 'test value',
+          options: {
+            value: {
+              case: 'text',
+              value: {
+                language: toBytes(Id('a6104fe0-d695-4f93-92fa-0a1afc552bc5')),
+              },
+            },
+          },
         },
       ],
     });

@@ -41,8 +41,8 @@ export function make(address: string): MakeAccountReturnType {
   const { ops: entityOps } = createEntity({
     id: accountId,
     values: {
-      [ADDRESS_PROPERTY]: checkedAddress,
-      [NAME_PROPERTY]: checkedAddress,
+      [ADDRESS_PROPERTY]: { value: checkedAddress },
+      [NAME_PROPERTY]: { value: checkedAddress },
     },
   });
   ops.push(...entityOps);

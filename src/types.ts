@@ -6,9 +6,16 @@ import type { Id } from './id.js';
 
 export type ValueType = 'TEXT' | 'NUMBER' | 'CHECKBOX' | 'URL' | 'TIME' | 'POINT';
 
+export type ValueOptions = {
+  text?: { language?: string | Id };
+  number?: { format?: string; unit?: string };
+  time?: { format?: string; timezone?: string | Id; hasDate?: boolean; hasTime?: boolean };
+};
+
 export type Value = {
-  propertyId: Id;
+  property: Id;
   value: string;
+  options?: ValueOptions | undefined;
 };
 
 export type Entity = {
@@ -85,6 +92,22 @@ export type Op =
   | UnsetEntityValuesOp
   | UnsetRelationFieldsOp;
 
+export type ValueOptionsParams =
+  | { type: 'number'; format?: string | undefined; unit?: string | undefined }
+  | { type: 'text'; language?: string | Id | undefined }
+  | {
+      type: 'time';
+      format?: string | undefined;
+      timezone?: string | Id | undefined;
+      hasDate?: boolean | undefined;
+      hasTime?: boolean | undefined;
+    };
+
+export type ValueParams = {
+  value: string;
+  options?: ValueOptionsParams | undefined;
+};
+
 export type DefaultProperties = {
   id?: Id | string;
   name?: string;
@@ -92,7 +115,7 @@ export type DefaultProperties = {
   cover?: Id | string;
 };
 
-export type PropertiesParam = Record<Id | string, string>;
+export type PropertiesParam = Record<Id | string, ValueParams>;
 
 export type EntityRelationParams = Omit<RelationParams, 'fromEntity' | 'type'>;
 

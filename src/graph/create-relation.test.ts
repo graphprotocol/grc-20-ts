@@ -114,11 +114,11 @@ describe('createRelation', () => {
       entity: {
         values: [
           {
-            propertyId: NAME_PROPERTY,
+            property: NAME_PROPERTY,
             value: 'Test Entity',
           },
           {
-            propertyId: DESCRIPTION_PROPERTY,
+            property: DESCRIPTION_PROPERTY,
             value: 'Test Description',
           },
         ],
