@@ -1,5 +1,12 @@
 # @graphprotocol/grc-20
 
+## 0.14.0
+
+### Minor Changes
+
+- 7a79644: use an array instead of a object for values to support multiple languages per property
+- 21a9b29: add options to value and change api to accept { value: string, options: Options }
+
 ## 0.13.1
 
 ### Patch Changes
