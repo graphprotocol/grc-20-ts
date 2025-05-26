@@ -115,7 +115,7 @@ export type DefaultProperties = {
   cover?: Id | string;
 };
 
-export type PropertiesParam = Record<Id | string, ValueParams>;
+export type PropertiesParam = Array<{ property: Id | string } & ValueParams>;
 
 export type EntityRelationParams = Omit<RelationParams, 'fromEntity' | 'type'>;
 

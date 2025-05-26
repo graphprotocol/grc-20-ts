@@ -14,10 +14,12 @@ import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value, Value
  *   name: 'name of the entity',
  *   description: 'description of the entity',
  *   cover: imageEntityId,
- *   values: {
- *     [propertyId]: {
+ *   values: [
+ *     {
+ *       property: propertyId,
  *       value: 'value of the property',
  *     }
+ *   ]
  *   },
  * });
  * ```
@@ -28,8 +30,8 @@ import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value, Value
 export const updateEntity = ({ id, name, description, cover, values }: UpdateEntityParams): CreateResult => {
   assertValid(id, '`id` in `updateEntity`');
   if (cover) assertValid(cover, '`cover` in `updateEntity`');
-  for (const [key] of Object.entries(values ?? {})) {
-    assertValid(key, '`values` in `updateEntity`');
+  for (const { property } of values ?? []) {
+    assertValid(property, '`values` in `updateEntity`');
   }
   const ops: Array<Op> = [];
 
@@ -46,7 +48,7 @@ export const updateEntity = ({ id, name, description, cover, values }: UpdateEnt
       value: description,
     });
   }
-  for (const [key, valueEntry] of Object.entries(values ?? {})) {
+  for (const valueEntry of values ?? []) {
     let options: ValueOptions | undefined = undefined;
     if (valueEntry.options) {
       const optionsParam = valueEntry.options;
@@ -79,7 +81,7 @@ export const updateEntity = ({ id, name, description, cover, values }: UpdateEnt
       }
     }
     newValues.push({
-      property: Id(key),
+      property: Id(valueEntry.property),
       value: valueEntry.value,
       options,
     });

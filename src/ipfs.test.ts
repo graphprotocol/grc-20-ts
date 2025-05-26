@@ -7,9 +7,12 @@ it('full flow', async () => {
   const { id, ops } = createEntity({
     name: 'test',
     description: 'test',
-    values: {
-      [WEBSITE_PROPERTY]: { value: 'test' },
-    },
+    values: [
+      {
+        property: WEBSITE_PROPERTY,
+        value: 'test',
+      },
+    ],
   });
 
   const { cid, editId } = await publishEdit({

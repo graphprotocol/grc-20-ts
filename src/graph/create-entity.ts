@@ -16,10 +16,12 @@ import { createRelation } from './create-relation.js';
  *   description: 'description of the entity',
  *   cover: imageEntityId,
  *   types: [typeEntityId1, typeEntityId2],
- *   values: {
- *     // value property like text, number, url, time, point, checkbox
- *     [propertyId]: { value: 'value of the property' }
- *   },
+ *   values: [
+ *     {
+ *       property: propertyId,
+ *       value: 'value of the property'
+ *     }
+ *   ],
  *   relations: {
  *     [relationPropertyId]: {
  *       to: 'id of the entity',
@@ -63,8 +65,8 @@ export const createEntity = ({
 }: EntityParams): CreateResult => {
   if (providedId) assertValid(providedId, '`id` in `createEntity`');
   if (cover) assertValid(cover, '`cover` in `createEntity`');
-  for (const [key, valueEntry] of Object.entries(values ?? {})) {
-    assertValid(key, '`values` in `createEntity`');
+  for (const valueEntry of values ?? []) {
+    assertValid(valueEntry.property, '`values` in `createEntity`');
     if (valueEntry.options) {
       const optionsParam = valueEntry.options;
       switch (optionsParam.type) {
@@ -134,7 +136,7 @@ export const createEntity = ({
       value: description,
     });
   }
-  for (const [key, valueEntry] of Object.entries(values ?? {})) {
+  for (const valueEntry of values ?? []) {
     let options: ValueOptions | undefined = undefined;
     if (valueEntry.options) {
       const optionsParam = valueEntry.options;
@@ -168,7 +170,7 @@ export const createEntity = ({
     }
 
     newValues.push({
-      property: Id(key),
+      property: Id(valueEntry.property),
       value: valueEntry.value,
       options,
     });

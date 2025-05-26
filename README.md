@@ -82,19 +82,24 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
   description: 'description of the entity',
   types: […listOfTypeIds],
   cover: imageId,
-  values: {
-    // value property like text, number, url, time, point, checkbox
-    [propertyId]: { value: 'value of the property' },
-  },
+  values: [
+    {
+      property: propertyId,
+      value: 'value of the property'
+    }
+  ],
   relations: {
     // relation property
     [propertyId]: {
       toEntity: 'id of the entity',
       id: 'id of the relation', // optional
       position: positionString, // optional
-      values: {
-        [propertyId]: { value: 'value of the property' },
-      },
+      values: [
+        {
+          property: propertyId,
+          value: 'value of the property'
+        }
+      ],
     },
   },
 });
@@ -108,12 +113,24 @@ All values are serialized to a string. The SDK provides helper functions for ser
 import { Graph } from '@graphprotocol/grc-20';
 
 const { id: personId, ops: createPersonOps } = Graph.createEntity({
-  values: {
-    [someNumberPropertyId]: Graph.serializeNumber(42),
-    [someCheckboxPropertyId]: Graph.serializeCheckbox(true),
-    [someDatePropertyId]: Graph.serializeDate(new Date()),
-    [somePointPropertyId]: Graph.serializePoint([1, 2]),
-  },
+  values: [
+    {
+      property: someNumberPropertyId,
+      value: Graph.serializeNumber(42),
+    },
+    {
+      property: someCheckboxPropertyId,
+      value: Graph.serializeCheckbox(true),
+    },
+    {
+      property: someDatePropertyId,
+      value: Graph.serializeDate(new Date()),
+    },
+    {
+      property: somePointPropertyId,
+      value: Graph.serializePoint([1, 2]),
+    },
+  ]
 });
 ```
 
@@ -159,9 +176,12 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
   description: 'A restaurant serving fusion cuisine',
   cover: restaurantCoverId,
   types: [restaurantTypeId],
-  values: {
-    [WEBSITE_PROPERTY]: 'https://example.com',
-  },
+  values: [
+    {
+      property: WEBSITE_PROPERTY,
+      value: 'https://example.com',
+    },
+  ],
 });
 ops.push(...createRestaurantOps);
 
@@ -176,10 +196,16 @@ const { id: personId, ops: createPersonOps } = Graph.createEntity({
   name: 'Jane Doe',
   types: [personTypeId],
   cover: personCoverId,
-  values: {
-    [agePropertyId]: serializeNumber(42),
-    [likesPropertyId]: restaurantId,
-  },
+  values: [
+    {
+      property: agePropertyId,
+      value: serializeNumber(42),
+    },
+    {
+      property: likesPropertyId,
+      value: restaurantId,
+    },
+  ],
 });
 ops.push(...createPersonOps);
 ```
