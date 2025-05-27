@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.15.1
+
+### Patch Changes
+
+- d3f8f83: fix options encoding
+
 ## 0.15.0
 
 ### Minor Changes

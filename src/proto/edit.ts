@@ -156,36 +156,36 @@ function convertUpdateEntityToBase64(entity: Entity): JsonValue {
         if (value.options.text) {
           options = {
             text: {
-              language: value.options.text.language ? toBase64(Id(value.options.text.language)).toString() : undefined,
+              ...(value.options.text.language && { language: toBase64(Id(value.options.text.language)).toString() }),
             },
           };
         } else if (value.options.number) {
           options = {
             number: {
-              format: value.options.number.format,
-              unit: value.options.number.unit,
+              ...(value.options.number.format && { format: value.options.number.format }),
+              ...(value.options.number.unit && { unit: value.options.number.unit }),
             },
           };
         } else if (value.options.time) {
           options = {
             time: {
-              format: value.options.time.format,
-              timezone: value.options.time.timezone ? toBase64(Id(value.options.time.timezone)).toString() : undefined,
-              hasDate: value.options.time.hasDate,
-              hasTime: value.options.time.hasTime,
+              ...(value.options.time.format && { format: value.options.time.format }),
+              ...(value.options.time.timezone && { timezone: toBase64(Id(value.options.time.timezone)).toString() }),
+              ...(value.options.time.hasDate && { hasDate: value.options.time.hasDate }),
+              ...(value.options.time.hasTime && { hasTime: value.options.time.hasTime }),
             },
           };
         }
       }
 
-      const lala: JsonValue = {
+      const valueEntry: JsonValue = {
         property: toBase64(value.property).toString(),
         value: value.value,
       };
       if (options) {
-        lala.options = options;
+        valueEntry.options = options;
       }
-      return lala;
+      return valueEntry;
     }),
   };
 }
