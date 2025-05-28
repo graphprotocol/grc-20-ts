@@ -37,7 +37,7 @@ Data in The Graph is stored as an Op (operation). Ops represent a set of changes
 
 When writing data, these ops are grouped into a logical set called an "Edit." An Edit has a name, authors, and other metadata to represent the set of changes. This edit is then encoded into a binary representation for storage efficiency.
 
-[Ops and edits in GRC-20](https://github.com/graphprotocol/graph-improvement-proposals/blob/main/grcs/0020-knowledge-graph.md#13-ops)
+[Ops and edits in GRC-20](https://github.com/yanivtal/graph-improvement-proposals/blob/new-ops/grcs/0020-knowledge-graph.md#101-operations-op)
 
 ## Using
 
