@@ -8,11 +8,13 @@ import type {
   UnsetRelationFieldsOp,
   UpdateRelationOp,
   ValueOptions,
+  ValueType,
 } from '../types.js';
 import {
   Edit,
   Entity as EntityProto,
   Op as OpBinary,
+  Property,
   Relation as RelationProto,
   RelationUpdate,
   UnsetEntityValues,
@@ -162,17 +164,7 @@ function convertUpdateEntityToBase64(entity: Entity): JsonValue {
         } else if (value.options.number) {
           options = {
             number: {
-              ...(value.options.number.format && { format: value.options.number.format }),
               ...(value.options.number.unit && { unit: value.options.number.unit }),
-            },
-          };
-        } else if (value.options.time) {
-          options = {
-            time: {
-              ...(value.options.time.format && { format: value.options.time.format }),
-              ...(value.options.time.timezone && { timezone: toBase64(Id(value.options.time.timezone)).toString() }),
-              ...(value.options.time.hasDate && { hasDate: value.options.time.hasDate }),
-              ...(value.options.time.hasTime && { hasTime: value.options.time.hasTime }),
             },
           };
         }
@@ -190,6 +182,13 @@ function convertUpdateEntityToBase64(entity: Entity): JsonValue {
   };
 }
 
+function convertPropertyToBase64(property: { id: Id; type: ValueType | 'RELATION' }): JsonValue {
+  return {
+    id: toBase64(property.id).toString(),
+    type: property.type,
+  };
+}
+
 function opsToBinary(ops: Op[]): OpBinary[] {
   return ops.map(o => {
     switch (o.type) {
@@ -198,6 +197,13 @@ function opsToBinary(ops: Op[]): OpBinary[] {
           payload: {
             case: 'createRelation',
             value: RelationProto.fromJson(convertRelationIdsToBase64(o.relation)),
+          },
+        });
+      case 'CREATE_PROPERTY':
+        return new OpBinary({
+          payload: {
+            case: 'createProperty',
+            value: Property.fromJson(convertPropertyToBase64(o.property)),
           },
         });
       case 'DELETE_RELATION':

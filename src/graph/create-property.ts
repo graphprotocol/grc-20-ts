@@ -1,19 +1,6 @@
-import {
-  CHECKBOX,
-  NUMBER,
-  POINT,
-  PROPERTY,
-  RELATION,
-  RELATION_VALUE_RELATIONSHIP_TYPE,
-  SCHEMA_TYPE,
-  TEXT,
-  TIME,
-  TYPES_PROPERTY,
-  URL,
-  VALUE_TYPE_PROPERTY,
-} from '../core/ids/system.js';
+import { PROPERTY, RELATION_VALUE_RELATIONSHIP_TYPE, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
 import { Id, assertValid, generate } from '../id.js';
-import type { CreatePropertyParams, CreateResult } from '../types.js';
+import type { CreatePropertyParams, CreateResult, Op } from '../types.js';
 import { createEntity } from './create-entity.js';
 import { createRelation } from './create-relation.js';
 
@@ -52,12 +39,23 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
   }
   const entityId = id ?? generate();
 
-  const { ops } = createEntity({
+  const ops: Array<Op> = [];
+  // add "Property" as "Types property"
+  ops.push({
+    type: 'CREATE_PROPERTY',
+    property: {
+      id: Id(entityId),
+      type: params.type,
+    },
+  });
+
+  const { ops: entityOps } = createEntity({
     id: entityId,
     name,
     description,
     cover,
   });
+  ops.push(...entityOps);
 
   // add "Property" as "Types property"
   ops.push({
@@ -84,13 +82,6 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
   });
 
   if (params.type === 'RELATION') {
-    const { ops: valueTypeRelationOps } = createRelation({
-      toEntity: RELATION,
-      fromEntity: entityId,
-      type: VALUE_TYPE_PROPERTY,
-    });
-    ops.push(...valueTypeRelationOps);
-
     // add the provided properties to property "Properties"
     if (params.properties) {
       for (const propertyId of params.properties) {
@@ -115,43 +106,6 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
         ops.push(...relationOps);
       }
     }
-  } else {
-    let toId: Id;
-    switch (params.type) {
-      case 'TEXT':
-        toId = TEXT;
-        break;
-      case 'NUMBER':
-        toId = NUMBER;
-        break;
-      case 'URL':
-        toId = URL;
-        break;
-      case 'TIME':
-        toId = TIME;
-        break;
-      case 'POINT':
-        toId = POINT;
-        break;
-      case 'CHECKBOX':
-        toId = CHECKBOX;
-        break;
-      default:
-        // @ts-expect-error
-        throw new Error(`Unsupported type: ${params.type}`);
-    }
-
-    // add the provided type to property "Value Types"
-    ops.push({
-      type: 'CREATE_RELATION',
-      relation: {
-        id: generate(),
-        entity: generate(),
-        fromEntity: Id(entityId),
-        toEntity: toId,
-        type: VALUE_TYPE_PROPERTY,
-      },
-    });
   }
 
   return { id: Id(entityId), ops };

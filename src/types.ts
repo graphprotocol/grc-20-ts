@@ -4,12 +4,11 @@ import type { Address, Chain, HttpTransport } from 'viem';
 import type { SmartAccountImplementation } from 'viem/account-abstraction';
 import type { Id } from './id.js';
 
-export type ValueType = 'TEXT' | 'NUMBER' | 'CHECKBOX' | 'URL' | 'TIME' | 'POINT';
+export type ValueType = 'TEXT' | 'NUMBER' | 'CHECKBOX' | 'TIME' | 'POINT';
 
 export type ValueOptions = {
   text?: { language?: string | Id };
-  number?: { format?: string; unit?: string };
-  time?: { format?: string; timezone?: string | Id; hasDate?: boolean; hasTime?: boolean };
+  number?: { unit?: string | Id };
 };
 
 export type Value = {
@@ -37,9 +36,19 @@ export type Relation = {
   verified?: boolean;
 };
 
+export type Property = {
+  id: Id;
+  type: ValueType | 'RELATION';
+};
+
 export type UpdateEntityOp = {
   type: 'UPDATE_ENTITY';
   entity: Entity;
+};
+
+export type CreatePropertyOp = {
+  type: 'CREATE_PROPERTY';
+  property: Property;
 };
 
 export type UnsetEntityValuesOp = {
@@ -89,19 +98,13 @@ export type Op =
   | CreateRelationOp
   | DeleteRelationOp
   | UpdateRelationOp
+  | CreatePropertyOp
   | UnsetEntityValuesOp
   | UnsetRelationFieldsOp;
 
 export type ValueOptionsParams =
-  | { type: 'number'; format?: string | undefined; unit?: string | undefined }
-  | { type: 'text'; language?: string | Id | undefined }
-  | {
-      type: 'time';
-      format?: string | undefined;
-      timezone?: string | Id | undefined;
-      hasDate?: boolean | undefined;
-      hasTime?: boolean | undefined;
-    };
+  | { type: 'number'; unit?: string | Id | undefined }
+  | { type: 'text'; language?: string | Id | undefined };
 
 export type ValueParams = {
   value: string;

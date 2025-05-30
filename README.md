@@ -61,7 +61,7 @@ import { Graph } from '@graphprotocol/grc-20';
 // create a property
 const propertyResult = Graph.createProperty({
   name: 'name of the property',
-  type: 'TEXT', // TEXT | NUMBER | URL | TIME | POINT | CHECKBOX | RELATION,
+  type: 'TEXT', // TEXT | NUMBER | TIME | POINT | CHECKBOX | RELATION,
 });
 
 // create a type
@@ -107,7 +107,7 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
 
 #### Serializing values
 
-All values are serialized to a string. The SDK provides helper functions for serializing values to the correct format.
+All values are serialized to a string. The SDK provides helper functions for serializing values to the correct string format.
 
 ```ts
 import { Graph } from '@graphprotocol/grc-20';
@@ -139,8 +139,7 @@ const { id: personId, ops: createPersonOps } = Graph.createEntity({
 Some values have options that can be set.
 
 - Text values can be set to a specific `language`.
-- Number values can be set to a specific `format` and `unit`.
-- Time values can be set to a specific `timezone`, `format`, `hasTime` and `hasDate`.
+- Number values can be set to a specific `unit`.
 
 ```ts
 const { id: textEntityId, ops: createTextEntityOps } = Graph.createEntity({
@@ -158,19 +157,7 @@ const { id: textEntityId, ops: createTextEntityOps } = Graph.createEntity({
       value: Graph.serializeNumber(42),
       options: {
         type: 'number',
-        format: '¤#,##0.00',
         unit: Id('016c9b1c-d8a8-4e4d-9e84-4e40878bb235'),
-      },
-    },
-    {
-      property: someTimePropertyId,
-      value: Graph.serializeTime(new Date()),
-      options: {
-        type: 'time',
-        timezone: Id('d697dd47-fd6f-4096-99b8-7af10b5f59aa'),
-        format: 'EEEE, MMMM d, yyyy',
-        hasTime: true,
-        hasDate: true,
       },
     },
   ],

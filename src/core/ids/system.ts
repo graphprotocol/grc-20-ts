@@ -17,13 +17,7 @@ export const BLOCKS = Id('beaba5cb-a677-41a8-b353-77030613fc70');
 
 /** Value types */
 
-export const VALUE_TYPE_PROPERTY = Id('ee26ef23-f7f1-4eb6-b742-3b0fa38c1fd8');
-export const CHECKBOX = Id('7aa4792e-eacd-4186-8272-fa7fc18298ac');
-export const TIME = Id('167664f6-68f8-40e1-976b-20bd16ed8d47');
-export const TEXT = Id('9edb6fcc-e454-4aa5-8611-39d7f024c010');
 export const URL = Id('283127c9-6142-4684-92ed-90b0ebc7f29a');
-export const NUMBER = Id('9b597aae-c31c-46c8-8565-a370da0c2a65');
-export const POINT = Id('df250d17-e364-413d-9779-2ddaae841e34');
 export const IMAGE = Id('f3f790c4-c74e-4d23-a0a9-1e8ef84e30d9');
 
 export const RELATION = Id('4b6d9fc1-fbfe-474c-861c-83398e1b50d9');

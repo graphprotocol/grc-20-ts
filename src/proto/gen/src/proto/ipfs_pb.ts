@@ -7,6 +7,50 @@ import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialM
 import { Message, proto3 } from "@bufbuild/protobuf";
 
 /**
+ * @generated from enum grc20.NativeTypes
+ */
+export enum NativeTypes {
+  /**
+   * @generated from enum value: TEXT = 0;
+   */
+  TEXT = 0,
+
+  /**
+   * @generated from enum value: NUMBER = 1;
+   */
+  NUMBER = 1,
+
+  /**
+   * @generated from enum value: CHECKBOX = 2;
+   */
+  CHECKBOX = 2,
+
+  /**
+   * @generated from enum value: TIME = 3;
+   */
+  TIME = 3,
+
+  /**
+   * @generated from enum value: POINT = 4;
+   */
+  POINT = 4,
+
+  /**
+   * @generated from enum value: RELATION = 5;
+   */
+  RELATION = 5,
+}
+// Retrieve enum metadata with: proto3.getEnumType(NativeTypes)
+proto3.util.setEnumType(NativeTypes, "grc20.NativeTypes", [
+  { no: 0, name: "TEXT" },
+  { no: 1, name: "NUMBER" },
+  { no: 2, name: "CHECKBOX" },
+  { no: 3, name: "TIME" },
+  { no: 4, name: "POINT" },
+  { no: 5, name: "RELATION" },
+]);
+
+/**
  * @generated from message grc20.Edit
  */
 export class Edit extends Message<Edit> {
@@ -293,13 +337,19 @@ export class Op extends Message<Op> {
     case: "deleteRelation";
   } | {
     /**
-     * @generated from field: grc20.UnsetEntityValues unset_entity_values = 6;
+     * @generated from field: grc20.Property create_property = 6;
+     */
+    value: Property;
+    case: "createProperty";
+  } | {
+    /**
+     * @generated from field: grc20.UnsetEntityValues unset_entity_values = 7;
      */
     value: UnsetEntityValues;
     case: "unsetEntityValues";
   } | {
     /**
-     * @generated from field: grc20.UnsetRelationFields unset_relation_fields = 7;
+     * @generated from field: grc20.UnsetRelationFields unset_relation_fields = 8;
      */
     value: UnsetRelationFields;
     case: "unsetRelationFields";
@@ -318,8 +368,9 @@ export class Op extends Message<Op> {
     { no: 3, name: "create_relation", kind: "message", T: Relation, oneof: "payload" },
     { no: 4, name: "update_relation", kind: "message", T: RelationUpdate, oneof: "payload" },
     { no: 5, name: "delete_relation", kind: "scalar", T: 12 /* ScalarType.BYTES */, oneof: "payload" },
-    { no: 6, name: "unset_entity_values", kind: "message", T: UnsetEntityValues, oneof: "payload" },
-    { no: 7, name: "unset_relation_fields", kind: "message", T: UnsetRelationFields, oneof: "payload" },
+    { no: 6, name: "create_property", kind: "message", T: Property, oneof: "payload" },
+    { no: 7, name: "unset_entity_values", kind: "message", T: UnsetEntityValues, oneof: "payload" },
+    { no: 8, name: "unset_relation_fields", kind: "message", T: UnsetRelationFields, oneof: "payload" },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Op {
@@ -336,6 +387,49 @@ export class Op extends Message<Op> {
 
   static equals(a: Op | PlainMessage<Op> | undefined, b: Op | PlainMessage<Op> | undefined): boolean {
     return proto3.util.equals(Op, a, b);
+  }
+}
+
+/**
+ * @generated from message grc20.Property
+ */
+export class Property extends Message<Property> {
+  /**
+   * @generated from field: bytes id = 1;
+   */
+  id = new Uint8Array(0);
+
+  /**
+   * @generated from field: grc20.NativeTypes type = 2;
+   */
+  type = NativeTypes.TEXT;
+
+  constructor(data?: PartialMessage<Property>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "grc20.Property";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: "type", kind: "enum", T: proto3.getEnumType(NativeTypes) },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Property {
+    return new Property().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Property {
+    return new Property().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Property {
+    return new Property().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Property | PlainMessage<Property> | undefined, b: Property | PlainMessage<Property> | undefined): boolean {
+    return proto3.util.equals(Property, a, b);
   }
 }
 
@@ -687,12 +781,6 @@ export class Options extends Message<Options> {
      */
     value: NumberOptions;
     case: "number";
-  } | {
-    /**
-     * @generated from field: grc20.TimeOptions time = 3;
-     */
-    value: TimeOptions;
-    case: "time";
   } | { case: undefined; value?: undefined } = { case: undefined };
 
   constructor(data?: PartialMessage<Options>) {
@@ -705,7 +793,6 @@ export class Options extends Message<Options> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "text", kind: "message", T: TextOptions, oneof: "value" },
     { no: 2, name: "number", kind: "message", T: NumberOptions, oneof: "value" },
-    { no: 3, name: "time", kind: "message", T: TimeOptions, oneof: "value" },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Options {
@@ -816,12 +903,7 @@ export class TextOptions extends Message<TextOptions> {
  */
 export class NumberOptions extends Message<NumberOptions> {
   /**
-   * @generated from field: optional string format = 1;
-   */
-  format?: string;
-
-  /**
-   * @generated from field: optional bytes unit = 2;
+   * @generated from field: optional bytes unit = 1;
    */
   unit?: Uint8Array;
 
@@ -833,8 +915,7 @@ export class NumberOptions extends Message<NumberOptions> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "grc20.NumberOptions";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "format", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
-    { no: 2, name: "unit", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 1, name: "unit", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): NumberOptions {
@@ -851,61 +932,6 @@ export class NumberOptions extends Message<NumberOptions> {
 
   static equals(a: NumberOptions | PlainMessage<NumberOptions> | undefined, b: NumberOptions | PlainMessage<NumberOptions> | undefined): boolean {
     return proto3.util.equals(NumberOptions, a, b);
-  }
-}
-
-/**
- * @generated from message grc20.TimeOptions
- */
-export class TimeOptions extends Message<TimeOptions> {
-  /**
-   * @generated from field: optional string format = 1;
-   */
-  format?: string;
-
-  /**
-   * @generated from field: optional bytes timezone = 2;
-   */
-  timezone?: Uint8Array;
-
-  /**
-   * @generated from field: optional bool has_date = 3;
-   */
-  hasDate?: boolean;
-
-  /**
-   * @generated from field: optional bool has_time = 4;
-   */
-  hasTime?: boolean;
-
-  constructor(data?: PartialMessage<TimeOptions>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.TimeOptions";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "format", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
-    { no: 2, name: "timezone", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
-    { no: 3, name: "has_date", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
-    { no: 4, name: "has_time", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): TimeOptions {
-    return new TimeOptions().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): TimeOptions {
-    return new TimeOptions().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): TimeOptions {
-    return new TimeOptions().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: TimeOptions | PlainMessage<TimeOptions> | undefined, b: TimeOptions | PlainMessage<TimeOptions> | undefined): boolean {
-    return proto3.util.equals(TimeOptions, a, b);
   }
 }
 

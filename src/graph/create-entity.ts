@@ -76,14 +76,12 @@ export const createEntity = ({
           }
           break;
         case 'number':
-          break;
-        case 'time':
-          if (optionsParam.timezone) {
-            assertValid(optionsParam.timezone, '`timezone` in `options` in `values` in `createEntity`');
+          if (optionsParam.unit) {
+            assertValid(optionsParam.unit, '`unit` in `options` in `values` in `createEntity`');
           }
           break;
         default:
-          // @ts-expect-error - we only support text, number, and time options
+          // @ts-expect-error - we only support text and number options
           throw new Error(`Invalid option type: ${optionsParam.type}`);
       }
     }
@@ -151,18 +149,7 @@ export const createEntity = ({
         case 'number':
           options = {
             number: {
-              format: optionsParam.format,
               unit: optionsParam.unit,
-            },
-          };
-          break;
-        case 'time':
-          options = {
-            time: {
-              format: optionsParam.format,
-              timezone: optionsParam.timezone,
-              hasDate: optionsParam.hasDate,
-              hasTime: optionsParam.hasTime,
             },
           };
           break;
