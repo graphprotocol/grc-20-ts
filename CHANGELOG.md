@@ -1,5 +1,12 @@
 # @graphprotocol/grc-20
 
+## 0.16.0
+
+### Minor Changes
+
+- 8a2bdc7: remove native type IDs
+- 51d91fa: remove Time options, remove Options format, introduce CREATE_PROPERTY Op
+
 ## 0.15.1
 
 ### Patch Changes
