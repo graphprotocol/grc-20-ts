@@ -30,8 +30,25 @@ import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value, Value
 export const updateEntity = ({ id, name, description, cover, values }: UpdateEntityParams): CreateResult => {
   assertValid(id, '`id` in `updateEntity`');
   if (cover) assertValid(cover, '`cover` in `updateEntity`');
-  for (const { property } of values ?? []) {
+  for (const { property, options } of values ?? []) {
     assertValid(property, '`values` in `updateEntity`');
+    if (options) {
+      switch (options.type) {
+        case 'text':
+          if (options.language) {
+            assertValid(options.language, '`language` in `options` in `values` in `createEntity`');
+          }
+          break;
+        case 'number':
+          if (options.unit) {
+            assertValid(options.unit, '`unit` in `options` in `values` in `createEntity`');
+          }
+          break;
+        default:
+          // @ts-expect-error - we only support text and number options
+          throw new Error(`Invalid option type: ${options.type}`);
+      }
+    }
   }
   const ops: Array<Op> = [];
 
@@ -63,18 +80,7 @@ export const updateEntity = ({ id, name, description, cover, values }: UpdateEnt
         case 'number':
           options = {
             number: {
-              format: optionsParam.format,
               unit: optionsParam.unit,
-            },
-          };
-          break;
-        case 'time':
-          options = {
-            time: {
-              format: optionsParam.format,
-              timezone: optionsParam.timezone,
-              hasDate: optionsParam.hasDate,
-              hasTime: optionsParam.hasTime,
             },
           };
           break;

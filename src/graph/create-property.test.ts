@@ -14,8 +14,8 @@ describe('createProperty', () => {
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
     expect(property.ops.length).toBe(4);
-    expect(property.ops[0]?.type).toBe('UPDATE_ENTITY');
-    expect(property.ops[1]?.type).toBe('CREATE_RELATION');
+    expect(property.ops[0]?.type).toBe('CREATE_PROPERTY');
+    expect(property.ops[1]?.type).toBe('UPDATE_ENTITY');
     expect(property.ops[2]?.type).toBe('CREATE_RELATION');
     expect(property.ops[3]?.type).toBe('CREATE_RELATION');
   });
@@ -31,8 +31,8 @@ describe('createProperty', () => {
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
     expect(property.ops.length).toBe(4);
-    expect(property.ops[0]?.type).toBe('UPDATE_ENTITY');
-    expect(property.ops[1]?.type).toBe('CREATE_RELATION');
+    expect(property.ops[0]?.type).toBe('CREATE_PROPERTY');
+    expect(property.ops[1]?.type).toBe('UPDATE_ENTITY');
     expect(property.ops[2]?.type).toBe('CREATE_RELATION');
     expect(property.ops[3]?.type).toBe('CREATE_RELATION');
   });
@@ -47,8 +47,8 @@ describe('createProperty', () => {
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
     expect(property.ops.length).toBe(4);
-    expect(property.ops[0]?.type).toBe('UPDATE_ENTITY');
-    expect(property.ops[1]?.type).toBe('CREATE_RELATION');
+    expect(property.ops[0]?.type).toBe('CREATE_PROPERTY');
+    expect(property.ops[1]?.type).toBe('UPDATE_ENTITY');
     expect(property.ops[2]?.type).toBe('CREATE_RELATION');
     expect(property.ops[3]?.type).toBe('CREATE_RELATION');
   });
@@ -65,8 +65,8 @@ describe('createProperty', () => {
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
     expect(property.ops.length).toBe(6);
-    expect(property.ops[0]?.type).toBe('UPDATE_ENTITY');
-    expect(property.ops[1]?.type).toBe('CREATE_RELATION');
+    expect(property.ops[0]?.type).toBe('CREATE_PROPERTY');
+    expect(property.ops[1]?.type).toBe('UPDATE_ENTITY');
     expect(property.ops[2]?.type).toBe('CREATE_RELATION');
     expect(property.ops[3]?.type).toBe('CREATE_RELATION');
     expect(property.ops[4]?.type).toBe('CREATE_RELATION');

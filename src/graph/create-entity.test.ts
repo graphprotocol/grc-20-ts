@@ -261,7 +261,6 @@ describe('createEntity', () => {
           value: serializeNumber(42),
           options: {
             type: 'number',
-            format: '1.2-2',
             unit: '016c9b1c-d8a8-4e4d-9e84-4e40878bb235',
           },
         },
@@ -282,51 +281,7 @@ describe('createEntity', () => {
             value: '42',
             options: {
               number: {
-                format: '1.2-2',
                 unit: '016c9b1c-d8a8-4e4d-9e84-4e40878bb235',
-              },
-            },
-          },
-        ],
-      },
-    });
-  });
-
-  it('creates an entity with a time value with options', () => {
-    const entity = createEntity({
-      values: [
-        {
-          property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
-          value: '2021-01-01',
-          options: {
-            type: 'time',
-            format: 'YYYY-MM-DD',
-            timezone: Id('156431a8-0edf-4093-a08e-4c4ed0d5e466'),
-            hasDate: true,
-            hasTime: true,
-          },
-        },
-      ],
-    });
-
-    expect(entity).toBeDefined();
-    expect(typeof entity.id).toBe('string');
-    expect(entity.ops).toHaveLength(1);
-
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [
-          {
-            property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
-            value: '2021-01-01',
-            options: {
-              time: {
-                format: 'YYYY-MM-DD',
-                timezone: Id('156431a8-0edf-4093-a08e-4c4ed0d5e466'),
-                hasDate: true,
-                hasTime: true,
               },
             },
           },

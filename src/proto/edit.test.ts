@@ -55,6 +55,87 @@ describe('Edit', () => {
     });
   });
 
+  it('encodes and decodes an edit with a CREATE_PROPERTY ops with a point type correctly', () => {
+    const editBinary = encode({
+      name: 'test',
+      ops: [
+        {
+          type: 'CREATE_PROPERTY',
+          property: {
+            id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
+            type: 'POINT',
+          },
+        },
+      ],
+      author: '0x000000000000000000000000000000000000',
+    });
+
+    const result = Edit.fromBinary(editBinary);
+    expect(result.name).toBe('test');
+    expect(result.ops.length).toBe(1);
+    const op = result.ops[0];
+    if (!op) throw new Error('Expected op to be defined');
+    expect(op.payload?.case).toBe('createProperty');
+    expect(op.payload?.value).toEqual({
+      id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      type: 4,
+    });
+  });
+
+  it('encodes and decodes an edit with a CREATE_PROPERTY ops with a relation type correctly', () => {
+    const editBinary = encode({
+      name: 'test',
+      ops: [
+        {
+          type: 'CREATE_PROPERTY',
+          property: {
+            id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
+            type: 'RELATION',
+          },
+        },
+      ],
+      author: '0x000000000000000000000000000000000000',
+    });
+
+    const result = Edit.fromBinary(editBinary);
+    expect(result.name).toBe('test');
+    expect(result.ops.length).toBe(1);
+    const op = result.ops[0];
+    if (!op) throw new Error('Expected op to be defined');
+    expect(op.payload?.case).toBe('createProperty');
+    expect(op.payload?.value).toEqual({
+      id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      type: 5,
+    });
+  });
+
+  it('encodes and decodes an edit with a CREATE_PROPERTY ops with a text type correctly', () => {
+    const editBinary = encode({
+      name: 'test',
+      ops: [
+        {
+          type: 'CREATE_PROPERTY',
+          property: {
+            id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
+            type: 'TEXT',
+          },
+        },
+      ],
+      author: '0x000000000000000000000000000000000000',
+    });
+
+    const result = Edit.fromBinary(editBinary);
+    expect(result.name).toBe('test');
+    expect(result.ops.length).toBe(1);
+    const op = result.ops[0];
+    if (!op) throw new Error('Expected op to be defined');
+    expect(op.payload?.case).toBe('createProperty');
+    expect(op.payload?.value).toEqual({
+      id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      type: 0,
+    });
+  });
+
   it('encodes and decodes Edit with DELETE_ENTITY ops correctly', () => {
     const editBinary = encode({
       name: 'test',
