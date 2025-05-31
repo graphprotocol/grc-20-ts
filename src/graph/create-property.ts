@@ -29,7 +29,7 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
     assertValid(id, '`id` in `createProperty`');
   }
   if (cover) assertValid(cover, '`cover` in `createProperty`');
-  if (params.type === 'RELATION') {
+  if (params.dataType === 'RELATION') {
     for (const propertyId of params.properties ?? []) {
       assertValid(propertyId, '`properties` in `createProperty`');
     }
@@ -45,7 +45,7 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
     type: 'CREATE_PROPERTY',
     property: {
       id: Id(entityId),
-      type: params.type,
+      dataType: params.dataType,
     },
   });
 
@@ -81,7 +81,7 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
     },
   });
 
-  if (params.type === 'RELATION') {
+  if (params.dataType === 'RELATION') {
     // add the provided properties to property "Properties"
     if (params.properties) {
       for (const propertyId of params.properties) {

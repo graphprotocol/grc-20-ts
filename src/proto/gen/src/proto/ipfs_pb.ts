@@ -7,9 +7,9 @@ import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialM
 import { Message, proto3 } from "@bufbuild/protobuf";
 
 /**
- * @generated from enum grc20.NativeTypes
+ * @generated from enum grc20.DataType
  */
-export enum NativeTypes {
+export enum DataType {
   /**
    * @generated from enum value: TEXT = 0;
    */
@@ -40,8 +40,8 @@ export enum NativeTypes {
    */
   RELATION = 5,
 }
-// Retrieve enum metadata with: proto3.getEnumType(NativeTypes)
-proto3.util.setEnumType(NativeTypes, "grc20.NativeTypes", [
+// Retrieve enum metadata with: proto3.getEnumType(DataType)
+proto3.util.setEnumType(DataType, "grc20.DataType", [
   { no: 0, name: "TEXT" },
   { no: 1, name: "NUMBER" },
   { no: 2, name: "CHECKBOX" },
@@ -400,9 +400,9 @@ export class Property extends Message<Property> {
   id = new Uint8Array(0);
 
   /**
-   * @generated from field: grc20.NativeTypes type = 2;
+   * @generated from field: grc20.DataType data_type = 2;
    */
-  type = NativeTypes.TEXT;
+  dataType = DataType.TEXT;
 
   constructor(data?: PartialMessage<Property>) {
     super();
@@ -413,7 +413,7 @@ export class Property extends Message<Property> {
   static readonly typeName = "grc20.Property";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 2, name: "type", kind: "enum", T: proto3.getEnumType(NativeTypes) },
+    { no: 2, name: "data_type", kind: "enum", T: proto3.getEnumType(DataType) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Property {

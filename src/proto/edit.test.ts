@@ -63,7 +63,7 @@ describe('Edit', () => {
           type: 'CREATE_PROPERTY',
           property: {
             id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
-            type: 'POINT',
+            dataType: 'POINT',
           },
         },
       ],
@@ -78,7 +78,7 @@ describe('Edit', () => {
     expect(op.payload?.case).toBe('createProperty');
     expect(op.payload?.value).toEqual({
       id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
-      type: 4,
+      dataType: 4,
     });
   });
 
@@ -90,7 +90,7 @@ describe('Edit', () => {
           type: 'CREATE_PROPERTY',
           property: {
             id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
-            type: 'RELATION',
+            dataType: 'RELATION',
           },
         },
       ],
@@ -105,7 +105,7 @@ describe('Edit', () => {
     expect(op.payload?.case).toBe('createProperty');
     expect(op.payload?.value).toEqual({
       id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
-      type: 5,
+      dataType: 5,
     });
   });
 
@@ -117,7 +117,7 @@ describe('Edit', () => {
           type: 'CREATE_PROPERTY',
           property: {
             id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
-            type: 'TEXT',
+            dataType: 'TEXT',
           },
         },
       ],
@@ -132,7 +132,7 @@ describe('Edit', () => {
     expect(op.payload?.case).toBe('createProperty');
     expect(op.payload?.value).toEqual({
       id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
-      type: 0,
+      dataType: 0,
     });
   });
 

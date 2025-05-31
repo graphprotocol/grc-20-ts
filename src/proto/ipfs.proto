@@ -50,7 +50,7 @@ message Op {
   }
 }
 
-enum NativeTypes {
+enum DataType {
     TEXT = 0;
     NUMBER = 1;
     CHECKBOX = 2;
@@ -61,7 +61,7 @@ enum NativeTypes {
 
 message Property {
     bytes id = 1;
-    NativeTypes type = 2;
+    DataType data_type = 2;
 }
 
 message UnsetEntityValues {
