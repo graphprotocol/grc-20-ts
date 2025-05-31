@@ -1,6 +1,7 @@
 import type { JsonValue } from '@bufbuild/protobuf';
 import { Id, generate, toBase64, toBytes } from '../id.js';
 import type {
+  DataType,
   Entity,
   Op,
   Relation,
@@ -8,7 +9,6 @@ import type {
   UnsetRelationFieldsOp,
   UpdateRelationOp,
   ValueOptions,
-  ValueType,
 } from '../types.js';
 import {
   Edit,
@@ -182,10 +182,10 @@ function convertUpdateEntityToBase64(entity: Entity): JsonValue {
   };
 }
 
-function convertPropertyToBase64(property: { id: Id; type: ValueType | 'RELATION' }): JsonValue {
+function convertPropertyToBase64(property: { id: Id; dataType: DataType }): JsonValue {
   return {
     id: toBase64(property.id).toString(),
-    type: property.type,
+    dataType: property.dataType,
   };
 }
 

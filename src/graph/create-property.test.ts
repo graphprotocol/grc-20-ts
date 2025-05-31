@@ -8,7 +8,7 @@ describe('createProperty', () => {
     const property = createProperty({
       name: 'Disclaimer',
       description: 'This is a disclaimer',
-      type: 'TEXT',
+      dataType: 'TEXT',
     });
     expect(property).toBeDefined();
     expect(typeof property.id).toBe('string');
@@ -24,7 +24,7 @@ describe('createProperty', () => {
     const property = createProperty({
       name: 'Price',
       description: 'The price of the product',
-      type: 'NUMBER',
+      dataType: 'NUMBER',
     });
 
     expect(property).toBeDefined();
@@ -40,7 +40,7 @@ describe('createProperty', () => {
   it('creates a RELATION property', async () => {
     const property = createProperty({
       name: 'City',
-      type: 'RELATION',
+      dataType: 'RELATION',
     });
 
     expect(property).toBeDefined();
@@ -56,7 +56,7 @@ describe('createProperty', () => {
   it('creates a RELATION property with properties and relation value types', async () => {
     const property = createProperty({
       name: 'City',
-      type: 'RELATION',
+      dataType: 'RELATION',
       properties: [ROLES_PROPERTY],
       relationValueTypes: [JOB_TYPE],
     });
@@ -77,7 +77,7 @@ describe('createProperty', () => {
     const property = createProperty({
       id: Id('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1'),
       name: 'Price',
-      type: 'NUMBER',
+      dataType: 'NUMBER',
     });
 
     expect(property).toBeDefined();

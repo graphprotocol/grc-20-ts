@@ -4,7 +4,9 @@ import type { Address, Chain, HttpTransport } from 'viem';
 import type { SmartAccountImplementation } from 'viem/account-abstraction';
 import type { Id } from './id.js';
 
-export type ValueType = 'TEXT' | 'NUMBER' | 'CHECKBOX' | 'TIME' | 'POINT';
+export type ValueDataType = 'TEXT' | 'NUMBER' | 'CHECKBOX' | 'TIME' | 'POINT';
+
+export type DataType = ValueDataType | 'RELATION';
 
 export type ValueOptions = {
   text?: { language?: string | Id };
@@ -38,7 +40,7 @@ export type Relation = {
 
 export type Property = {
   id: Id;
-  type: ValueType | 'RELATION';
+  dataType: DataType;
 };
 
 export type UpdateEntityOp = {
@@ -196,8 +198,8 @@ export type CreateTypeParams = DefaultProperties & {
 
 export type CreatePropertyParams = DefaultProperties &
   (
-    | { type: ValueType }
-    | { type: 'RELATION'; properties?: Array<Id | string>; relationValueTypes?: Array<Id | string> }
+    | { dataType: ValueDataType }
+    | { dataType: 'RELATION'; properties?: Array<Id | string>; relationValueTypes?: Array<Id | string> }
   );
 
 export type CreateImageParams =
