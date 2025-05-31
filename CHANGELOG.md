@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.17.0
+
+### Minor Changes
+
+- 20d635d: change NativeTypes to DataType in protobuf and type to dataType in createProperty
+
 ## 0.16.0
 
 ### Minor Changes
