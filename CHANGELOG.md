@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.17.1
+
+### Patch Changes
+
+- Do not set created property as a Type
+
 ## 0.17.0
 
 ### Minor Changes
