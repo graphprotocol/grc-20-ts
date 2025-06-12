@@ -61,11 +61,6 @@ export type UnsetEntityValuesOp = {
   };
 };
 
-export type DeleteEntityOp = {
-  type: 'DELETE_ENTITY';
-  id: Id;
-};
-
 export type CreateRelationOp = {
   type: 'CREATE_RELATION';
   relation: Relation;

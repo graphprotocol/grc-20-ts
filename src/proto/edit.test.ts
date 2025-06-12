@@ -136,27 +136,6 @@ describe('Edit', () => {
     });
   });
 
-  it('encodes and decodes Edit with DELETE_ENTITY ops correctly', () => {
-    const editBinary = encode({
-      name: 'test',
-      ops: [
-        {
-          type: 'DELETE_ENTITY',
-          id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
-        },
-      ],
-      author: '0x000000000000000000000000000000000000',
-    });
-
-    const result = Edit.fromBinary(editBinary);
-    expect(result.name).toBe('test');
-    expect(result.ops.length).toBe(1);
-    const op = result.ops[0];
-    if (!op) throw new Error('Expected op to be defined');
-    expect(op.payload?.case).toBe('deleteEntity');
-    expect(op.payload?.value).toEqual(toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')));
-  });
-
   it('encodes and decodes Edit with CREATE_RELATION ops correctly', () => {
     const editBinary = encode({
       name: 'test',

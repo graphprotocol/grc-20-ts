@@ -40,13 +40,12 @@ message File {
 message Op {
   oneof payload {
     Entity             update_entity = 1;
-    bytes              delete_entity = 2;
-    Relation           create_relation = 3;
-    RelationUpdate     update_relation = 4;
-    bytes              delete_relation = 5;
-    Property           create_property = 6;
-    UnsetEntityValues        unset_entity_values = 7;
-    UnsetRelationFields      unset_relation_fields = 8;
+    Relation           create_relation = 2;
+    RelationUpdate     update_relation = 3;
+    bytes              delete_relation = 4;
+    Property           create_property = 5;
+    UnsetEntityValues        unset_entity_values = 6;
+    UnsetRelationFields      unset_relation_fields = 7;
   }
 }
 

@@ -313,43 +313,37 @@ export class Op extends Message<Op> {
     case: "updateEntity";
   } | {
     /**
-     * @generated from field: bytes delete_entity = 2;
-     */
-    value: Uint8Array;
-    case: "deleteEntity";
-  } | {
-    /**
-     * @generated from field: grc20.Relation create_relation = 3;
+     * @generated from field: grc20.Relation create_relation = 2;
      */
     value: Relation;
     case: "createRelation";
   } | {
     /**
-     * @generated from field: grc20.RelationUpdate update_relation = 4;
+     * @generated from field: grc20.RelationUpdate update_relation = 3;
      */
     value: RelationUpdate;
     case: "updateRelation";
   } | {
     /**
-     * @generated from field: bytes delete_relation = 5;
+     * @generated from field: bytes delete_relation = 4;
      */
     value: Uint8Array;
     case: "deleteRelation";
   } | {
     /**
-     * @generated from field: grc20.Property create_property = 6;
+     * @generated from field: grc20.Property create_property = 5;
      */
     value: Property;
     case: "createProperty";
   } | {
     /**
-     * @generated from field: grc20.UnsetEntityValues unset_entity_values = 7;
+     * @generated from field: grc20.UnsetEntityValues unset_entity_values = 6;
      */
     value: UnsetEntityValues;
     case: "unsetEntityValues";
   } | {
     /**
-     * @generated from field: grc20.UnsetRelationFields unset_relation_fields = 8;
+     * @generated from field: grc20.UnsetRelationFields unset_relation_fields = 7;
      */
     value: UnsetRelationFields;
     case: "unsetRelationFields";
@@ -364,13 +358,12 @@ export class Op extends Message<Op> {
   static readonly typeName = "grc20.Op";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "update_entity", kind: "message", T: Entity, oneof: "payload" },
-    { no: 2, name: "delete_entity", kind: "scalar", T: 12 /* ScalarType.BYTES */, oneof: "payload" },
-    { no: 3, name: "create_relation", kind: "message", T: Relation, oneof: "payload" },
-    { no: 4, name: "update_relation", kind: "message", T: RelationUpdate, oneof: "payload" },
-    { no: 5, name: "delete_relation", kind: "scalar", T: 12 /* ScalarType.BYTES */, oneof: "payload" },
-    { no: 6, name: "create_property", kind: "message", T: Property, oneof: "payload" },
-    { no: 7, name: "unset_entity_values", kind: "message", T: UnsetEntityValues, oneof: "payload" },
-    { no: 8, name: "unset_relation_fields", kind: "message", T: UnsetRelationFields, oneof: "payload" },
+    { no: 2, name: "create_relation", kind: "message", T: Relation, oneof: "payload" },
+    { no: 3, name: "update_relation", kind: "message", T: RelationUpdate, oneof: "payload" },
+    { no: 4, name: "delete_relation", kind: "scalar", T: 12 /* ScalarType.BYTES */, oneof: "payload" },
+    { no: 5, name: "create_property", kind: "message", T: Property, oneof: "payload" },
+    { no: 6, name: "unset_entity_values", kind: "message", T: UnsetEntityValues, oneof: "payload" },
+    { no: 7, name: "unset_relation_fields", kind: "message", T: UnsetRelationFields, oneof: "payload" },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Op {

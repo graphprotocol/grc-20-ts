@@ -227,13 +227,6 @@ function opsToBinary(ops: Op[]): OpBinary[] {
             value: UnsetEntityValues.fromJson(convertUnsetEntityValuesToBase64(o.unsetEntityValues)),
           },
         });
-      case 'DELETE_ENTITY':
-        return new OpBinary({
-          payload: {
-            case: 'deleteEntity',
-            value: toBytes(o.id),
-          },
-        });
       case 'UPDATE_RELATION':
         return new OpBinary({
           payload: {
