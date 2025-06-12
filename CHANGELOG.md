@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.18.0
+
+### Minor Changes
+
+- 1a664aa: remove deleteEntity
+
 ## 0.17.1
 
 ### Patch Changes

@@ -91,7 +91,6 @@ export type UnsetRelationFieldsOp = {
 
 export type Op =
   | UpdateEntityOp
-  | DeleteEntityOp
   | CreateRelationOp
   | DeleteRelationOp
   | UpdateRelationOp
