@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Id } from '../id.js';
 import { SystemIds } from '../system-ids.js';
+import { DEFAULT_API_ORIGIN } from './constants.js';
 import { createImage } from './create-image.js';
 
 // serialized like this:
@@ -11,7 +12,7 @@ const testImageContent =
   'iVBORw0KGgoAAAANSUhEUgAAAAoAAAAHCAMAAAAGcixRAAAAY1BMVEXvvubYz97i2Ojm3Oz4vu3gv+f2yfTqxvDj1v/hxe/u0Pvn1v3Oxc7wx/LHs87r2uzYs7np3++lnaPq1OrZxtjx3PL8xPLG0OXjyuHizeS3qsDfz+nMu8PZtc3TvNjdyO77z/t7oOngAAAACnRSTlP+////y/7e/tbEPoYQ1AAAAAlwSFlzAAALEwAACxMBAJqcGAAAAEhJREFUeNoFwQkCQDAMBMBNgtJL77r5/yvNYPqc1toYM+Pt1VPcgjDGvj4ke2BGS3Y9SSQRUDh7kkKM+5J82OptxNAA55TSyw+IpgNhAhO+gAAAAABJRU5ErkJggg==';
 
 const testImageBlob = new Blob([Buffer.from(testImageContent, 'base64')], { type: 'image/png' });
-const ipfsUploadUrl = 'https://api-testnet.grc-20.thegraph.com/ipfs/upload-file';
+const ipfsUploadUrl = `${DEFAULT_API_ORIGIN}/ipfs/upload-file`;
 
 describe('createImage', () => {
   beforeEach(() => {

@@ -10,6 +10,7 @@ import { gzipSync } from 'fflate';
 import { imageSize } from 'image-size';
 
 import { Edit, EditProposal } from '../proto.js';
+import { DEFAULT_API_ORIGIN } from './graph/constants.js';
 import { type Id, fromBytes } from './id.js';
 import type { Op } from './types.js';
 
@@ -164,7 +165,7 @@ function uploadBinary(formData: FormData) {
   return Micro.gen(function* () {
     const result = yield* Micro.tryPromise({
       try: () =>
-        fetch('https://api-testnet.grc-20.thegraph.com/ipfs/upload-edit', {
+        fetch(`${DEFAULT_API_ORIGIN}/ipfs/upload-edit`, {
           method: 'POST',
           body: formData,
         }),
@@ -187,7 +188,7 @@ function uploadFile(formData: FormData) {
   return Micro.gen(function* () {
     const result = yield* Micro.tryPromise({
       try: () =>
-        fetch('https://api-testnet.grc-20.thegraph.com/ipfs/upload-file', {
+        fetch(`${DEFAULT_API_ORIGIN}/ipfs/upload-file`, {
           method: 'POST',
           body: formData,
         }),

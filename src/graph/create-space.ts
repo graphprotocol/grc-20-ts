@@ -1,4 +1,4 @@
-import { DEFAULT_API_HOST } from './constants.js';
+import { DEFAULT_API_ORIGIN } from './constants.js';
 
 type Params = {
   editorAddress: string;
@@ -10,7 +10,7 @@ type Params = {
  * Creates a space with the given name and editor address.
  */
 export const createSpace = async (params: Params) => {
-  const apiHost = DEFAULT_API_HOST;
+  const apiHost = DEFAULT_API_ORIGIN;
   const result = await fetch(`${apiHost}/deploy`, {
     method: 'POST',
     body: JSON.stringify({
@@ -23,6 +23,9 @@ export const createSpace = async (params: Params) => {
     },
   });
 
-  const { spaceId } = await result.json();
-  return { id: spaceId };
+  console.log(result);
+
+  const jsonResult = await result.json();
+  console.log('jsonResult', jsonResult);
+  return { id: jsonResult.spaceId };
 };

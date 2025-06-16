@@ -1,4 +1,5 @@
 import { Micro } from 'effect';
+import { DEFAULT_API_ORIGIN } from './graph/constants.js';
 
 class GetEditCalldataError extends Error {
   readonly _tag = 'GetEditCalldataError';
@@ -14,7 +15,7 @@ export async function getEditCalldata(params: GetEditCalldataParams) {
   const getCalldata = Micro.gen(function* () {
     const result = yield* Micro.tryPromise({
       try: () =>
-        fetch(`https://api-testnet.grc-20.thegraph.com/space/${params.spaceId}/edit/calldata`, {
+        fetch(`${DEFAULT_API_ORIGIN}/space/${params.spaceId}/edit/calldata`, {
           method: 'POST',
           body: JSON.stringify({
             cid: params.cid,

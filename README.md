@@ -274,7 +274,7 @@ const spaceId = 'space-id';
 const cid = 'ipfs://hash';
 
 // This returns the correct contract address and calldata depending on the space id
-const result = await fetch(`https://api-testnet.grc-20.thegraph.com/space/${spaceId}/edit/calldata`, {
+const result = await fetch(`https://hypergraph-v2.up.railway.app/space/${spaceId}/edit/calldata`, {
   method: "POST",
   body: JSON.stringify({ 
     cid: cid,
@@ -329,6 +329,7 @@ The API supports deploying to both testnet and mainnet. By default it will deplo
 
 ```ts
 import { Graph } from '@graphprotocol/grc-20';
+// needs to be a valid address
 const editorAddress = '0x000000000000000000000000000000000000';
 const spaceName = 'Example-Name';
 
