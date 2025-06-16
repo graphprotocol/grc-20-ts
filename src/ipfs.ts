@@ -10,7 +10,7 @@ import { gzipSync } from 'fflate';
 import { imageSize } from 'image-size';
 
 import { Edit, EditProposal } from '../proto.js';
-import { DEFAULT_API_ORIGIN } from './graph/constants.js';
+import { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './graph/constants.js';
 import { type Id, fromBytes } from './id.js';
 import type { Op } from './types.js';
 
@@ -22,6 +22,7 @@ type PublishEditProposalParams = {
   name: string;
   ops: Op[];
   author: `0x${string}`;
+  network?: 'TESTNET' | 'MAINNET';
 };
 
 type PublishEditResult = {
@@ -49,7 +50,7 @@ type PublishEditResult = {
  * @returns - {@link PublishEditResult}
  */
 export async function publishEdit(args: PublishEditProposalParams): Promise<PublishEditResult> {
-  const { name, ops, author } = args;
+  const { name, ops, author, network = 'MAINNET' } = args;
 
   const edit = EditProposal.encode({ name, ops, author });
 
@@ -57,7 +58,7 @@ export async function publishEdit(args: PublishEditProposalParams): Promise<Publ
   const formData = new FormData();
   formData.append('file', blob);
 
-  const cid = await Micro.runPromise(uploadBinary(formData));
+  const cid = await Micro.runPromise(uploadBinary(formData, network));
   const result = Edit.fromBinary(edit);
 
   return { cid, editId: fromBytes(result.id) };
@@ -71,7 +72,7 @@ type PublishImageParams =
       url: string;
     };
 
-export async function uploadImage(params: PublishImageParams) {
+export async function uploadImage(params: PublishImageParams, network?: 'TESTNET' | 'MAINNET') {
   const formData = new FormData();
   let blob: Blob;
   if ('blob' in params) {
@@ -90,7 +91,7 @@ export async function uploadImage(params: PublishImageParams) {
     dimensions = imageSize(buffer);
   } catch (error) {}
 
-  const cid = await Micro.runPromise(uploadFile(formData));
+  const cid = await Micro.runPromise(uploadFile(formData, network));
 
   if (dimensions) {
     return {
@@ -150,7 +151,7 @@ export async function uploadImage(params: PublishImageParams) {
  * @param csvString The CSV to upload as a string
  * @returns IPFS CID representing the uploaded file prefixed with `ipfs://`
  */
-export async function uploadCSV(csvString: string): Promise<`ipfs://${string}`> {
+export async function uploadCSV(csvString: string, network?: 'TESTNET' | 'MAINNET'): Promise<`ipfs://${string}`> {
   const encoder = new TextEncoder();
   const csvStringBytes = encoder.encode(csvString);
   const blob = await gzipSync(csvStringBytes);
@@ -158,14 +159,14 @@ export async function uploadCSV(csvString: string): Promise<`ipfs://${string}`> 
   const formData = new FormData();
   formData.append('file', new Blob([blob], { type: 'text/csv' }));
 
-  return await Micro.runPromise(uploadBinary(formData));
+  return await Micro.runPromise(uploadBinary(formData, network));
 }
 
-function uploadBinary(formData: FormData) {
+function uploadBinary(formData: FormData, network?: 'TESTNET' | 'MAINNET') {
   return Micro.gen(function* () {
     const result = yield* Micro.tryPromise({
       try: () =>
-        fetch(`${DEFAULT_API_ORIGIN}/ipfs/upload-edit`, {
+        fetch(`${network === 'TESTNET' ? TESTNET_API_ORIGIN : MAINNET_API_ORIGIN}/ipfs/upload-edit`, {
           method: 'POST',
           body: formData,
         }),
@@ -184,11 +185,11 @@ function uploadBinary(formData: FormData) {
   });
 }
 
-function uploadFile(formData: FormData) {
+function uploadFile(formData: FormData, network?: 'TESTNET' | 'MAINNET') {
   return Micro.gen(function* () {
     const result = yield* Micro.tryPromise({
       try: () =>
-        fetch(`${DEFAULT_API_ORIGIN}/ipfs/upload-file`, {
+        fetch(`${network === 'TESTNET' ? TESTNET_API_ORIGIN : MAINNET_API_ORIGIN}/ipfs/upload-file`, {
           method: 'POST',
           body: formData,
         }),

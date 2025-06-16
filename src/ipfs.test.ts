@@ -19,6 +19,7 @@ it('full flow', async () => {
     name: 'test',
     ops,
     author: '0x000000000000000000000000000000000000',
+    network: 'TESTNET',
   });
 
   console.log(cid, editId);

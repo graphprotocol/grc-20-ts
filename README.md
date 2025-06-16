@@ -257,6 +257,7 @@ const { cid } = await Ipfs.publishEdit({
   name: 'Edit name',
   ops: ops,
   author: '0x000000000000000000000000000000000000', 
+  network: 'TESTNET', // optional, defaults to MAINNET
 })
 ```
 
@@ -272,15 +273,12 @@ We expose an API for fetching the appropriate calldata for the correct contract 
 // You'll need to know your space id and have an IPFS hash ahead of time
 const spaceId = 'space-id';
 const cid = 'ipfs://hash';
+const API_ORIGIN = 'https://hypergraph-v2-testnet.up.railway.app'; // or 'https://hypergraph-v2.up.railway.app'
 
 // This returns the correct contract address and calldata depending on the space id
-const result = await fetch(`https://hypergraph-v2.up.railway.app/space/${spaceId}/edit/calldata`, {
+const result = await fetch(`${API_ORIGIN}/space/${spaceId}/edit/calldata`, {
   method: "POST",
-  body: JSON.stringify({ 
-    cid: cid,
-    // Optionally specify TESTNET or MAINNET. Defaults to MAINNET
-    network: "TESTNET",
-   }),
+  body: JSON.stringify({ cid }),
 });
 
 const { to, data } = await result.json();
