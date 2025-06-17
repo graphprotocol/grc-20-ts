@@ -1,9 +1,12 @@
+import type { Op } from '../../proto.js';
 import { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './constants.js';
 
 type Params = {
   editorAddress: string;
   name: string;
   network?: 'TESTNET' | 'MAINNET';
+  ops?: Op[],
+  spaceEntityId?: string;
 };
 
 /**
@@ -17,6 +20,8 @@ export const createSpace = async (params: Params) => {
     body: JSON.stringify({
       spaceName: params.name,
       initialEditorAddress: params.editorAddress,
+      ops: params.ops,
+      spaceEntity: params.spaceEntityId
     }),
     headers: {
       'Content-Type': 'application/json',
