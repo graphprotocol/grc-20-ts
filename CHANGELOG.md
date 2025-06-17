@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.20.0
+
+### Minor Changes
+
+- Introduce optional spaceEntityId and ops when creating space
+
 ## 0.19.0
 
 ### Minor Changes
