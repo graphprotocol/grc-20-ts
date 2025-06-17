@@ -23,9 +23,6 @@ export const createSpace = async (params: Params) => {
     },
   });
 
-  console.log(result);
-
   const jsonResult = await result.json();
-  console.log('jsonResult', jsonResult);
   return { id: jsonResult.spaceId };
 };
