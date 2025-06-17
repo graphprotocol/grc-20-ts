@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.19.0
+
+### Minor Changes
+
+- e26f4b1: switch to new API endpoint and allow to use testnet or mainnet
+
 ## 0.18.0
 
 ### Minor Changes

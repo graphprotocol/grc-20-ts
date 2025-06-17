@@ -1,4 +1,4 @@
-import { DEFAULT_API_HOST } from './constants.js';
+import { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './constants.js';
 
 type Params = {
   editorAddress: string;
@@ -10,19 +10,19 @@ type Params = {
  * Creates a space with the given name and editor address.
  */
 export const createSpace = async (params: Params) => {
-  const apiHost = DEFAULT_API_HOST;
+  const apiHost = params.network === 'TESTNET' ? TESTNET_API_ORIGIN : MAINNET_API_ORIGIN;
+  console.log('apiHost', apiHost);
   const result = await fetch(`${apiHost}/deploy`, {
     method: 'POST',
     body: JSON.stringify({
       spaceName: params.name,
       initialEditorAddress: params.editorAddress,
-      network: params.network ?? 'MAINNET',
     }),
     headers: {
       'Content-Type': 'application/json',
     },
   });
 
-  const { spaceId } = await result.json();
-  return { id: spaceId };
+  const jsonResult = await result.json();
+  return { id: jsonResult.spaceId };
 };
