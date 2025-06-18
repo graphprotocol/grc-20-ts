@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.20.1
+
+### Patch Changes
+
+- 827c9f0: add getWalletClient for testnet users
+
 ## 0.20.0
 
 ### Minor Changes

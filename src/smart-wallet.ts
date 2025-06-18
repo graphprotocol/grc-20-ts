@@ -1,13 +1,14 @@
 import { type SmartAccountClient, createSmartAccountClient } from 'permissionless';
 import { toSafeSmartAccount } from 'permissionless/accounts';
 import { createPimlicoClient } from 'permissionless/clients/pimlico';
-import type { Chain, Hex } from 'viem';
-import { createPublicClient, http } from 'viem';
+import type { Chain, Hex, WalletClient } from 'viem';
+import { createPublicClient, createWalletClient, http } from 'viem';
 import { entryPoint07Address } from 'viem/account-abstraction';
 import { privateKeyToAccount } from 'viem/accounts';
 import type { GeoSmartAccount } from './types.js';
 
-const DEFAULT_RPC_URL = 'https://rpc-geo-genesis-h0q2s21xx8.t.conduit.xyz';
+const MAINNET_DEFAULT_RPC_URL = 'https://rpc-geo-genesis-h0q2s21xx8.t.conduit.xyz';
+const TESTNET_DEFAULT_RPC_URL = 'https://rpc-geo-test-zc16z3tcvf.t.conduit.xyz';
 
 /**
  * We provide a fallback API key for gas sponsorship for the duration of the
@@ -18,6 +19,27 @@ const DEFAULT_API_KEY = 'pim_KqHm63txxhbCYjdDaWaHqH';
 type GetSmartAccountWalletClientParams = {
   privateKey: Hex;
   rpcUrl?: string;
+};
+
+const createChain = (network: 'TESTNET' | 'MAINNET', rpcUrl: string) => {
+  const chain: Chain = {
+    id: network === 'TESTNET' ? Number('19411') : Number('80451'),
+    name: 'Geo Genesis',
+    nativeCurrency: {
+      name: 'Ethereum',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    rpcUrls: {
+      default: {
+        http: [rpcUrl ?? (network === 'TESTNET' ? TESTNET_DEFAULT_RPC_URL : MAINNET_DEFAULT_RPC_URL)],
+      },
+      public: {
+        http: [rpcUrl ?? (network === 'TESTNET' ? TESTNET_DEFAULT_RPC_URL : MAINNET_DEFAULT_RPC_URL)],
+      },
+    },
+  };
+  return chain;
 };
 
 // type GeoSmartAccountWalletClient = Promise<ReturnType<typeof createSmartAccountClient>>;
@@ -40,31 +62,14 @@ type GetSmartAccountWalletClientParams = {
  */
 export const getSmartAccountWalletClient = async ({
   privateKey,
-  rpcUrl = DEFAULT_RPC_URL,
+  rpcUrl = MAINNET_DEFAULT_RPC_URL,
 }: GetSmartAccountWalletClientParams): Promise<GeoSmartAccount> => {
-  const GEOGENESIS: Chain = {
-    id: Number('80451'),
-    name: 'Geo Genesis',
-    nativeCurrency: {
-      name: 'Ethereum',
-      symbol: 'ETH',
-      decimals: 18,
-    },
-    rpcUrls: {
-      default: {
-        http: [rpcUrl],
-      },
-      public: {
-        http: [rpcUrl],
-      },
-    },
-  };
-
+  const chain = createChain('MAINNET', rpcUrl);
   const transport = http(rpcUrl);
 
   const publicClient = createPublicClient({
     transport,
-    chain: GEOGENESIS,
+    chain,
   });
 
   const safeAccount = await toSafeSmartAccount({
@@ -81,7 +86,7 @@ export const getSmartAccountWalletClient = async ({
   const bundlerTransport = http(`https://api.pimlico.io/v2/80451/rpc?apikey=${DEFAULT_API_KEY}`);
   const paymasterClient = createPimlicoClient({
     transport: bundlerTransport,
-    chain: GEOGENESIS,
+    chain,
     entryPoint: {
       address: entryPoint07Address,
       version: '0.7',
@@ -89,7 +94,7 @@ export const getSmartAccountWalletClient = async ({
   });
 
   const smartAccount = createSmartAccountClient({
-    chain: GEOGENESIS,
+    chain,
     account: safeAccount,
     paymaster: paymasterClient,
     bundlerTransport,
@@ -101,4 +106,18 @@ export const getSmartAccountWalletClient = async ({
   });
 
   return smartAccount;
+};
+
+export const getWalletClient = async ({
+  privateKey,
+  rpcUrl = TESTNET_DEFAULT_RPC_URL,
+}: GetSmartAccountWalletClientParams): Promise<WalletClient> => {
+  const chain = createChain('TESTNET', rpcUrl);
+  const transport = http(rpcUrl);
+  const wallet = createWalletClient({
+    account: privateKeyToAccount(privateKey),
+    chain,
+    transport,
+  });
+  return wallet;
 };

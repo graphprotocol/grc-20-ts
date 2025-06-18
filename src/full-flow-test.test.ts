@@ -1,13 +1,14 @@
-import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts';
+import { privateKeyToAccount } from 'viem/accounts';
 import { it } from 'vitest';
 import { Ipfs } from '../index.js';
 import { createEntity } from './graph/create-entity.js';
-import { getSmartAccountWalletClient } from './smart-wallet.js';
+import { createSpace } from './graph/create-space.js';
+import { getWalletClient } from './smart-wallet.js';
 
 it.skip('should create a space', async () => {
-  const addressPrivateKey = generatePrivateKey();
+  const addressPrivateKey = '0xTODO';
   const { address } = privateKeyToAccount(addressPrivateKey);
-  const smartAccountWalletClient = await getSmartAccountWalletClient({
+  const smartAccountWalletClient = await getWalletClient({
     privateKey: addressPrivateKey,
   });
 
@@ -15,18 +16,18 @@ it.skip('should create a space', async () => {
   console.log('address', address);
   // console.log('smartAccountWalletClient', smartAccountWalletClient);
 
-  // const space = await createSpace({
-  //   editorAddress: address,
-  //   name: 'test (nik)',
-  //   network: 'TESTNET',
-  // });
+  const space = await createSpace({
+    editorAddress: address,
+    name: 'test (nik2)',
+    network: 'TESTNET',
+  });
 
-  // console.log('space', space);
-  const spaceId = '20140df6-3249-4945-9264-782ca8c9ba4f';
+  console.log('space', space);
+  const spaceId = space.id;
 
   const { ops, id } = await createEntity({
-    name: 'test (nik)',
-    description: 'test (nik)',
+    name: 'test (nik2)',
+    description: 'test (nik2)',
   });
   console.log('entity id', id);
 
@@ -53,6 +54,8 @@ it.skip('should create a space', async () => {
   console.log('data', data);
 
   const txResult = await smartAccountWalletClient.sendTransaction({
+    // @ts-expect-error - TODO: fix the types error
+    account: smartAccountWalletClient.account,
     to: to,
     value: 0n,
     data: data,
