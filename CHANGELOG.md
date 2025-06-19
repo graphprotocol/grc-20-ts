@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.20.2
+
+### Patch Changes
+
+- fae408d: use correct relation and relation entity IDs
+
 ## 0.20.1
 
 ### Patch Changes
