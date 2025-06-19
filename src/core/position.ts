@@ -11,9 +11,13 @@ export function generateBetween(first: string | null, second: string | null) {
 }
 
 /**
- * A randomly generated position with jittering.
+ * Generates a random position with jittering.
+ * 
+ * @returns A random position as a string.
  */
-export const DEFAULT = generateBetween(null, null);
+export function generate(): string {
+  return generateBetween(null, null)
+}
 
 type MaybePosition = string | null
 
