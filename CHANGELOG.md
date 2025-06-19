@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.21.0
+
+### Minor Changes
+
+- Use fractional indexing-based position API with jittering
+
 ## 0.20.2
 
 ### Patch Changes
