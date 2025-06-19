@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.21.1
+
+### Patch Changes
+
+- Adds APIs for comparing and sorting positions
+
 ## 0.21.0
 
 ### Minor Changes
