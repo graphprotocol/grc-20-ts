@@ -21,7 +21,7 @@ export function generate(): string {
 
 type MaybePosition = string | null
 
-function compare(a: MaybePosition, b: MaybePosition) {
+export function compare(a: MaybePosition, b: MaybePosition) {
   // This ALWAYS puts nulls at the bottom, regardless of what 
   // fractional indexes exist
   if (a === null && b === null) return 0;
