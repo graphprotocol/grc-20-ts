@@ -203,8 +203,10 @@ export const createEntity = ({
   for (const [typeId, value] of Object.entries(relations ?? {})) {
     const relationsEntries = Array.isArray(value) ? value : [value];
     for (const relation of relationsEntries) {
-      const relationEntityId = relation.id ?? generate();
+      const relationId = relation.id ?? generate();
+      const relationEntityId = relation.entityId ?? relationId;
       const { ops: relationOps } = createRelation({
+        id: relationId,
         fromEntity: id,
         toEntity: relation.toEntity,
         type: Id(typeId),
