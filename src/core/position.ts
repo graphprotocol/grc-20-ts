@@ -4,11 +4,8 @@
  * @since 0.0.6
  */
 
-import { PositionSource } from 'position-strings';
+import { generateJitteredKeyBetween } from "fractional-indexing-jittered";
 
-export const Position = new PositionSource();
-
-export const PositionRange = {
-  FIRST: PositionSource.FIRST,
-  LAST: PositionSource.LAST,
-};
+export function generateBetween(first: string | null, second: string | null) {
+  return generateJitteredKeyBetween(first, second);
+}

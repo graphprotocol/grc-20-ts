@@ -23,6 +23,9 @@ importers:
       fflate:
         specifier: ^0.8.2
         version: 0.8.2
+      fractional-indexing-jittered:
+        specifier: ^1.0.0
+        version: 1.0.0
       graphql-request:
         specifier: ^7.1.2
         version: 7.1.2(graphql@16.10.0)
@@ -32,9 +35,6 @@ importers:
       permissionless:
         specifier: ^0.2.35
         version: 0.2.35(ox@0.6.7(typescript@5.8.2))(viem@2.23.6(typescript@5.8.2))
-      position-strings:
-        specifier: ^2.0.1
-        version: 2.0.1
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -628,9 +628,6 @@ packages:
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
 
-  '@types/seedrandom@2.4.34':
-    resolution: {integrity: sha512-ytDiArvrn/3Xk6/vtylys5tlY6eo7Ane0hvcx++TKo6RxQXuVfW0AF/oeWqAj9dN29SyhtawuXstgmPlwNcv/A==}
-
   '@types/uuid@10.0.0':
     resolution: {integrity: sha512-7gqG38EyHgyP1S+7+xomFtL+ZNHcKv6DwNaCZmJmo1vgMugyF3TCnXVg4t1uk89mLNwnLtnY3TpOpCOyp1/xHQ==}
 
@@ -829,6 +826,9 @@ packages:
   find-up@4.1.0:
     resolution: {integrity: sha512-PpOwAdQ/YlXQ2vj8a3h8IipDuYRi3wceVQQGYWxNINccq40Anw7BlsEXCMbt1Zt+OLA6Fq9suIpIWD0OsnISlw==}
     engines: {node: '>=8'}
+
+  fractional-indexing-jittered@1.0.0:
+    resolution: {integrity: sha512-0tLU0FOedVY7lrvN4LK0DVj6FTuYM0pWDpN97/8UTZE2lx1+OwX8+2uL7IOWc2PmktYTHQjMT6FvZZ3SGCdZdg==}
 
   fs-extra@7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
@@ -1042,9 +1042,6 @@ packages:
   pify@4.0.1:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
-
-  position-strings@2.0.1:
-    resolution: {integrity: sha512-kPVJHLd4q1HnWROKmrbEpKZ0s1FrKt5G6W96wc1PYBGJ2Gw/ZcxhMoRbDw6g02fUiaPTM5/L/fAaUOzE7I/GUg==}
 
   postcss@8.5.3:
     resolution: {integrity: sha512-dle9A3yYxlBSrt8Fu+IpjGT8SY8hN0mlaA6GY8t0P5PjIOZemULz/E2Bnm/2dcUOena75OTNkHI76uZBNUUq3A==}
@@ -1972,8 +1969,6 @@ snapshots:
 
   '@types/node@12.20.55': {}
 
-  '@types/seedrandom@2.4.34': {}
-
   '@types/uuid@10.0.0': {}
 
   '@typescript/vfs@1.6.1(typescript@4.5.2)':
@@ -2222,6 +2217,8 @@ snapshots:
       locate-path: 5.0.0
       path-exists: 4.0.0
 
+  fractional-indexing-jittered@1.0.0: {}
+
   fs-extra@7.0.1:
     dependencies:
       graceful-fs: 4.2.11
@@ -2401,10 +2398,6 @@ snapshots:
   picomatch@2.3.1: {}
 
   pify@4.0.1: {}
-
-  position-strings@2.0.1:
-    dependencies:
-      '@types/seedrandom': 2.4.34
 
   postcss@8.5.3:
     dependencies:
