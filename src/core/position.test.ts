@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { sort } from './position.js'; // Adjust import path as needed
+import { generate, sort } from './position.js'; // Adjust import path as needed
+
+describe('fractional index default generation', () => {
+  it('should generate a random position', () => {
+    const a = generate();
+    const b = generate();
+    expect(a).not.toEqual(b);
+  });
+});
 
 describe('fractional index sorting', () => {
   describe('sort function', () => {
@@ -71,7 +79,7 @@ describe('fractional index sorting', () => {
     it('should handle very long fractional indexes', () => {
       const positions = [`a0${'x'.repeat(50)}`, 'a0', `a0${'y'.repeat(30)}`];
       const result = sort(positions);
-      expect(result).toEqual(['a0', `a0${'x'.repeat(50)}`,  `a0${'y'.repeat(30)}`]);
+      expect(result).toEqual(['a0', `a0${'x'.repeat(50)}`, `a0${'y'.repeat(30)}`]);
     });
 
     it('should handle mixed case and special characters', () => {
