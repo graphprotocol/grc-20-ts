@@ -5,6 +5,7 @@ type Params = {
 	editorAddress: string
 	name: string
 	network?: "TESTNET" | "MAINNET"
+	spaceType?: "PUBLIC" | "PERSONAL"
 	ops?: Op[]
 	spaceEntityId?: string
 }
@@ -34,6 +35,7 @@ export const createSpace = async (params: Params) => {
 			initialEditorAddress: params.editorAddress,
 			ops: params.ops,
 			spaceEntityId: params.spaceEntityId,
+			spaceType: params.spaceType,
 		}),
 		headers: {
 			"Content-Type": "application/json",
