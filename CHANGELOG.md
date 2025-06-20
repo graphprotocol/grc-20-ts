@@ -1,5 +1,12 @@
 # @graphprotocol/grc-20
 
+## 0.21.2
+
+### Patch Changes
+
+- 7d90db4: expose getWalletClient for testnet experiments
+- 76f5b65: unless provided create separate ids for relation id and relation entity id
+
 ## 0.21.1
 
 ### Patch Changes
