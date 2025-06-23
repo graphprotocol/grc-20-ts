@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.21.3
+
+### Patch Changes
+
+- Number unit option should be encoded as a uuid
+
 ## 0.21.2
 
 ### Patch Changes
