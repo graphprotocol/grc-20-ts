@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.21.4
+
+### Patch Changes
+
+- Update testnet endpoint to correct url
+
 ## 0.21.3
 
 ### Patch Changes

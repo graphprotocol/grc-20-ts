@@ -46,7 +46,7 @@ When writing data, these ops are grouped into a logical set called an "Edit." An
 Entities throughout The Graph are referenced via globally unique identifiers. The SDK exposes APIs for creating these IDs.
 
 ```ts
-import { Id } from '@graphprotocol/grc-20';
+import { Id } from "@graphprotocol/grc-20";
 
 const newId = Id.generate();
 ```
@@ -110,7 +110,7 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
 All values are serialized to a string. The SDK provides helper functions for serializing values to the correct string format.
 
 ```ts
-import { Graph } from '@graphprotocol/grc-20';
+import { Graph } from "@graphprotocol/grc-20";
 
 const { id: personId, ops: createPersonOps } = Graph.createEntity({
   values: [
@@ -130,7 +130,7 @@ const { id: personId, ops: createPersonOps } = Graph.createEntity({
       property: somePointPropertyId,
       value: Graph.serializePoint([1, 2]),
     },
-  ]
+  ],
 });
 ```
 
@@ -146,18 +146,18 @@ const { id: textEntityId, ops: createTextEntityOps } = Graph.createEntity({
   values: [
     {
       property: someTextPropertyId,
-      value: 'Hello',
+      value: "Hello",
       options: {
-        type: 'text',
-        language: Id('dad6e52a-5e94-4e55-9411-cfe3a3c3ea64'),
+        type: "text",
+        language: Id("dad6e52a-5e94-4e55-9411-cfe3a3c3ea64"),
       },
     },
     {
       property: someNumberPropertyId,
       value: Graph.serializeNumber(42),
       options: {
-        type: 'number',
-        unit: Id('016c9b1c-d8a8-4e4d-9e84-4e40878bb235'),
+        type: "number",
+        unit: Id("016c9b1c-d8a8-4e4d-9e84-4e40878bb235"),
       },
     },
   ],
@@ -167,63 +167,66 @@ const { id: textEntityId, ops: createTextEntityOps } = Graph.createEntity({
 #### Example Flow
 
 ```ts
-import { Graph } from '@graphprotocol/grc-20';
+import { Graph } from "@graphprotocol/grc-20";
 
 const ops: Array<Op> = [];
 
 // create an age property
 const { id: agePropertyId, ops: createAgePropertyOps } = Graph.createProperty({
-  type: 'NUMBER',
-  name: 'Age',
+  type: "NUMBER",
+  name: "Age",
 });
 ops.push(...createAgePropertyOps);
 
 // create a likes property
-const { id: likesPropertyId, ops: createLikesPropertyOps } = Graph.createProperty({
-  type: 'RELATION',
-  name: 'Likes',
-});
+const { id: likesPropertyId, ops: createLikesPropertyOps } =
+  Graph.createProperty({
+    type: "RELATION",
+    name: "Likes",
+  });
 ops.push(...createLikesPropertyOps);
 
 // create a person type
 const { id: personTypeId, ops: createPersonTypeOps } = Graph.createType({
-  name: 'Person',
+  name: "Person",
   cover: personCoverId,
   properties: [agePropertyId, likesPropertyId],
 });
 ops.push(...createPersonTypeOps);
 
 // create an restaurant cover image
-const { id: restaurantCoverId, ops: createRestaurantCoverOps } = await Graph.createImage({
-  url: 'https://example.com/image.png',
-});
+const { id: restaurantCoverId, ops: createRestaurantCoverOps } =
+  await Graph.createImage({
+    url: "https://example.com/image.png",
+  });
 ops.push(...createRestaurantCoverOps);
 
 // create a restaurant entity with a website property
-const restaurantTypeId = 'A9QizqoXSqjfPUBjLoPJa2';
+const restaurantTypeId = "A9QizqoXSqjfPUBjLoPJa2";
 const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
-  name: 'Yum Yum',
-  description: 'A restaurant serving fusion cuisine',
+  name: "Yum Yum",
+  description: "A restaurant serving fusion cuisine",
   cover: restaurantCoverId,
   types: [restaurantTypeId],
   values: [
     {
       property: WEBSITE_PROPERTY,
-      value: 'https://example.com',
+      value: "https://example.com",
     },
   ],
 });
 ops.push(...createRestaurantOps);
 
 // create a person cover image
-const { id: personCoverId, ops: createPersonCoverOps } = await Graph.createImage({
-  url: 'https://example.com/avatar.png',
-});
+const { id: personCoverId, ops: createPersonCoverOps } =
+  await Graph.createImage({
+    url: "https://example.com/avatar.png",
+  });
 ops.push(...createPersonCoverOps);
 
 // create a person entity with a likes relation to the restaurant entity
 const { id: personId, ops: createPersonOps } = Graph.createEntity({
-  name: 'Jane Doe',
+  name: "Jane Doe",
   types: [personTypeId],
   cover: personCoverId,
   values: [
@@ -246,19 +249,19 @@ Once you have a set of ops ready to publish, you'll need to binary encode them i
 
 Currently the indexer only supports reading a specific gateway. You should use our IPFS API to guarantee data availability for your published data while in early access.
 
-Additionally, the indexer expects that IPFS CIDs be prefixed with `ipfs://` so it knows how to process it correctly. The API already returns the CID prefixed with `ipfs://`. 
+Additionally, the indexer expects that IPFS CIDs be prefixed with `ipfs://` so it knows how to process it correctly. The API already returns the CID prefixed with `ipfs://`.
 
 We've abstracted the IPFS publishing and binary encoding into a single API.
 
 ```ts
-import { Ipfs } from '@graphprotocol/grc-20';
+import { Ipfs } from "@graphprotocol/grc-20";
 
 const { cid } = await Ipfs.publishEdit({
-  name: 'Edit name',
+  name: "Edit name",
   ops: ops,
-  author: '0x000000000000000000000000000000000000', 
-  network: 'TESTNET', // optional, defaults to MAINNET
-})
+  author: "0x000000000000000000000000000000000000",
+  network: "TESTNET", // optional, defaults to MAINNET
+});
 ```
 
 ### Publishing an edit onchain using your wallet
@@ -271,9 +274,9 @@ We expose an API for fetching the appropriate calldata for the correct contract 
 
 ```ts
 // You'll need to know your space id and have an IPFS hash ahead of time
-const spaceId = 'space-id';
-const cid = 'ipfs://hash';
-const API_ORIGIN = 'https://hypergraph-v2-testnet.up.railway.app'; // or 'https://hypergraph-v2.up.railway.app'
+const spaceId = "space-id";
+const cid = "ipfs://hash";
+const API_ORIGIN = "https://api-testnet.geobrowser.io"; // or 'https://hypergraph-v2.up.railway.app'
 
 // This returns the correct contract address and calldata depending on the space id
 const result = await fetch(`${API_ORIGIN}/space/${spaceId}/edit/calldata`, {
@@ -299,7 +302,7 @@ To use `getSmartAccountWalletClient` you'll need the private key associated with
 Transaction costs from your smart account will be sponsored by the Geo team for the duration of the early access period. Eventually you will need to provide your own API key or provide funds to your smart account.
 
 ```ts
-import { getSmartAccountWalletClient } from '@graphprotocol/grc-20';
+import { getSmartAccountWalletClient } from "@graphprotocol/grc-20";
 
 // IMPORTANT: Be careful with your private key. Don't commit it to version control.
 // You can get your private key using https://www.geobrowser.io/export-wallet
@@ -326,15 +329,15 @@ You can deploy spaces programmatically using the API. Currently there are two ty
 The API supports deploying to both testnet and mainnet. By default it will deploy to mainnet.
 
 ```ts
-import { Graph } from '@graphprotocol/grc-20';
+import { Graph } from "@graphprotocol/grc-20";
 // needs to be a valid address
-const editorAddress = '0x000000000000000000000000000000000000';
-const spaceName = 'Example-Name';
+const editorAddress = "0x000000000000000000000000000000000000";
+const spaceName = "Example-Name";
 
 const spaceId = await Graph.createSpace({
-  initialEditorAddress, 
-  spaceName, 
+  initialEditorAddress,
+  spaceName,
   // Optionally specify TESTNET or MAINNET. Defaults to MAINNET
-  network: 'TESTNET',
+  network: "TESTNET",
 });
 ```
