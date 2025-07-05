@@ -1,7 +1,12 @@
-import { PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
-import { Id, assertValid, generate } from '../id.js';
-import type { CreateResult, CreateTypeParams } from '../types.js';
-import { createEntity } from './create-entity.js';
+import {
+  PROPERTIES,
+  PROPERTY,
+  SCHEMA_TYPE,
+  TYPES_PROPERTY,
+} from "../core/ids/system.js";
+import { Id, assertValid, generate } from "../id.js";
+import type { CreateResult, CreateTypeParams } from "../types.js";
+import { createEntity } from "./create-entity.js";
 
 /**
  * Creates a type with the given name, description, cover and properties.
@@ -30,10 +35,10 @@ export const createType = ({
   properties,
 }: CreateTypeParams): CreateResult => {
   if (providedId) {
-    assertValid(providedId, '`id` in `createType`');
+    assertValid(providedId, "`id` in `createType`");
   }
   for (const propertyId of properties ?? []) {
-    assertValid(propertyId, '`properties` in `createType`');
+    assertValid(propertyId, "`properties` in `createType`");
   }
   const id = providedId ?? generate();
 
@@ -47,7 +52,7 @@ export const createType = ({
   // set property "Types" to "Type"
   assertValid(id);
   ops.push({
-    type: 'CREATE_RELATION',
+    type: "CREATE_RELATION",
     relation: {
       id: generate(),
       entity: generate(),
@@ -59,15 +64,16 @@ export const createType = ({
 
   if (properties) {
     for (const propertyId of properties) {
-      assertValid(propertyId, '`propertyId` in `createType`');
+      assertValid(propertyId, "`propertyId` in `createType`");
+      // Set Properties on the Type
       ops.push({
-        type: 'CREATE_RELATION',
+        type: "CREATE_RELATION",
         relation: {
           id: generate(),
           entity: generate(),
           fromEntity: Id(id),
           toEntity: Id(propertyId),
-          type: PROPERTY,
+          type: PROPERTIES,
         },
       });
     }
