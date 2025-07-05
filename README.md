@@ -338,3 +338,70 @@ const spaceId = await Graph.createSpace({
   network: 'TESTNET',
 });
 ```
+
+## Full Publishing Flow
+
+```ts
+import { privateKeyToAccount } from 'viem/accounts';
+import { Graph, Ipfs, getWalletClient } from "@graphprotocol/grc-20";
+
+const addressPrivateKey = '0xTODO';
+const { address } = privateKeyToAccount(addressPrivateKey);
+
+// Take the address and enter it in Faucet to get some testnet ETH https://faucet.conduit.xyz/geo-test-zc16z3tcvf
+
+const smartAccountWalletClient = await getWalletClient({
+  privateKey: addressPrivateKey,
+});
+
+console.log('addressPrivateKey', addressPrivateKey);
+console.log('address', address);
+// console.log('smartAccountWalletClient', smartAccountWalletClient);
+
+const space = await Graph.createSpace({
+  editorAddress: address,
+  name: 'test',
+  network: 'TESTNET',
+});
+
+console.log('space', space);
+const spaceId = space.id;
+
+const { ops, id } = await Graph.createEntity({
+  name: 'test name',
+  description: 'test description',
+});
+console.log('entity id', id);
+
+const { cid } = await Ipfs.publishEdit({
+  name: 'Edit name',
+  ops,
+  author: address,
+});
+
+console.log('cid', cid);
+
+const result = await fetch(`https://hypergraph-v2-testnet.up.railway.app/space/${spaceId}/edit/calldata`, {
+  method: 'POST',
+  body: JSON.stringify({ cid }),
+});
+
+console.log('edit result', result);
+
+const editResultJson = await result.json();
+console.log('editResultJson', editResultJson);
+const { to, data } = editResultJson;
+
+console.log('to', to);
+console.log('data', data);
+
+const txResult = await smartAccountWalletClient.sendTransaction({
+  // @ts-expect-error - TODO: fix the types error
+  account: smartAccountWalletClient.account,
+  to: to,
+  value: 0n,
+  data: data,
+});
+
+console.log('txResult', txResult);
+  ```
