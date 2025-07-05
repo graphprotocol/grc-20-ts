@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.21.4
+
+### Patch Changes
+
+- Use correct system id when creating properties on a Type
+
 ## 0.21.3
 
 ### Patch Changes

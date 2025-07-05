@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { AUTHORS_PROPERTY, WEBSITE_PROPERTY } from '../core/ids/content.js';
-import { NAME_PROPERTY, PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
+import { NAME_PROPERTY, PROPERTIES, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
 import { createType } from './create-type.js';
 
@@ -87,7 +87,7 @@ describe('createType', () => {
       relation: {
         fromEntity: type.id,
         toEntity: WEBSITE_PROPERTY,
-        type: PROPERTY,
+        type: PROPERTIES,
       },
       type: 'CREATE_RELATION',
     });
@@ -98,7 +98,7 @@ describe('createType', () => {
       relation: {
         fromEntity: type.id,
         toEntity: AUTHORS_PROPERTY,
-        type: PROPERTY,
+        type: PROPERTIES,
       },
       type: 'CREATE_RELATION',
     });

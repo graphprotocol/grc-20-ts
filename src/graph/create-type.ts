@@ -1,4 +1,4 @@
-import { PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
+import { PROPERTIES, PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
 import { Id, assertValid, generate } from '../id.js';
 import type { CreateResult, CreateTypeParams } from '../types.js';
 import { createEntity } from './create-entity.js';
@@ -60,6 +60,7 @@ export const createType = ({
   if (properties) {
     for (const propertyId of properties) {
       assertValid(propertyId, '`propertyId` in `createType`');
+      // Set Properties on the Type
       ops.push({
         type: 'CREATE_RELATION',
         relation: {
@@ -67,7 +68,7 @@ export const createType = ({
           entity: generate(),
           fromEntity: Id(id),
           toEntity: Id(propertyId),
-          type: PROPERTY,
+          type: PROPERTIES,
         },
       });
     }
