@@ -290,6 +290,31 @@ const txResult = await walletClient.sendTransaction({
 });
 ```
 
+### Publishing an edit onchain using your wallet
+
+```ts
+import { privateKeyToAccount } from 'viem/accounts';
+import { getWalletClient } from "@graphprotocol/grc-20";
+
+const addressPrivateKey = '0xTODO';
+const { address } = privateKeyToAccount(addressPrivateKey);
+
+// Take the address and enter it in Faucet to get some testnet ETH https://faucet.conduit.xyz/geo-test-zc16z3tcvf
+
+const smartAccountWalletClient = await getWalletClient({
+  privateKey: addressPrivateKey,
+});
+
+// publish an edit to IPFS
+// get the calldata for the edit
+
+const txResult = await smartAccountWalletClient.sendTransaction({
+  to: to,
+  value: 0n,
+  data: data,
+});
+```
+
 ### Publishing an edit onchain using your Geo Account
 
 The Geo Genesis browser uses a smart account associated with your account to publish edits. There may be situations where you want to use the same account in your code as you do on Geo Genesis. In order to get the smart account wallet client you can use the `getSmartAccountWalletClient` function.
