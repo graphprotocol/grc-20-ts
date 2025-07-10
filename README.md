@@ -61,7 +61,7 @@ import { Graph } from '@graphprotocol/grc-20';
 // create a property
 const propertyResult = Graph.createProperty({
   name: 'name of the property',
-  type: 'TEXT', // TEXT | NUMBER | TIME | POINT | CHECKBOX | RELATION,
+  dataType: 'TEXT', // TEXT | NUMBER | TIME | POINT | CHECKBOX | RELATION,
 });
 
 // create a type
@@ -173,14 +173,14 @@ const ops: Array<Op> = [];
 
 // create an age property
 const { id: agePropertyId, ops: createAgePropertyOps } = Graph.createProperty({
-  type: 'NUMBER',
+  dataType: 'NUMBER',
   name: 'Age',
 });
 ops.push(...createAgePropertyOps);
 
 // create a likes property
 const { id: likesPropertyId, ops: createLikesPropertyOps } = Graph.createProperty({
-  type: 'RELATION',
+  dataType: 'RELATION',
   name: 'Likes',
 });
 ops.push(...createLikesPropertyOps);
