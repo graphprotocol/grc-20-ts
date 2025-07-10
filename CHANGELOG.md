@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.21.5
+
+### Patch Changes
+
+- 9ca687a: update testnet API endpoint and expose it under Graph.TESTNET_API_ORIGIN
+
 ## 0.21.4
 
 ### Patch Changes
