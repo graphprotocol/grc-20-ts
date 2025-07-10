@@ -1,3 +1,4 @@
+export { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './constants.js';
 export * from './create-entity.js';
 export * from './create-image.js';
 export * from './create-property.js';

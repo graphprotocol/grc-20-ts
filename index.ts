@@ -14,7 +14,7 @@ export {
   getCalldataForSpaceGovernanceType,
   getProcessGeoProposalArguments,
   getRemoveEditorArguments,
-  getRemoveSubspaceArguments,
+  getRemoveSubspaceArguments
 } from './src/encodings/index.js';
 
 /**
