@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.21.6
+
+### Patch Changes
+
+- a487de7: fix build
+
 ## 0.21.5
 
 ### Patch Changes
