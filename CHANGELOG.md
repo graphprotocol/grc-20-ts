@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.22.0
+
+### Minor Changes
+
+- 9a56d1b: Added new configuration to Graph.createSpace to support deploying public spaces.
+
 ## 0.21.6
 
 ### Patch Changes
