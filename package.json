@@ -31,7 +31,6 @@
     "@bufbuild/protobuf": "^1.9.0",
     "@changesets/cli": "^2.27.12",
     "effect": "^3.13.6",
-    "ethers": "^5.7.2",
     "fflate": "^0.8.2",
     "fractional-indexing-jittered": "^1.0.0",
     "graphql-request": "^7.1.2",
