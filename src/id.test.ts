@@ -1,7 +1,6 @@
 import { expect, it } from 'vitest';
 
-import { generate } from './id-utils.js';
-import { isValid } from './id.js';
+import { generate, isValid } from './id-utils.js';
 
 
 it('should validate uuid', () => {

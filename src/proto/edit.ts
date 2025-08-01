@@ -1,5 +1,6 @@
 import type { JsonValue } from "@bufbuild/protobuf";
-import { Id, generate, toBase64, toBytes } from "../id.js";
+import { Id } from '../id.js';
+import { generate, toBase64, toBytes } from '../id-utils.js';
 import type {
   DataType,
   Entity,

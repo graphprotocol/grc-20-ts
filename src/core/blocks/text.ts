@@ -7,7 +7,8 @@
 
 import { createRelation } from '../../graph/create-relation.js';
 import { updateEntity } from '../../graph/update-entity.js';
-import { Id, generate } from '../../id.js';
+import { Id } from '../../id.js';
+import { generate } from '../../id-utils.js';
 import type { Op } from '../../types.js';
 import { BLOCKS, MARKDOWN_CONTENT, TEXT_BLOCK, TYPES_PROPERTY } from '../ids/system.js';
 

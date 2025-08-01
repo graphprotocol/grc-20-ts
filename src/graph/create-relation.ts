@@ -1,4 +1,5 @@
-import { Id, assertValid, generate } from '../id.js';
+import { Id } from '../id.js';
+import { assertValid, generate } from '../id-utils.js';
 import type { CreateResult, Op, RelationParams } from '../types.js';
 import { createEntity } from './create-entity.js';
 

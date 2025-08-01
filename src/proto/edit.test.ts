@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { Id, toBytes } from "../id.js";
+import { Id } from '../id.js';
+import { toBytes } from '../id-utils.js';
 import { encode } from "./edit.js";
 import { Edit } from "./gen/src/proto/ipfs_pb.js";
 

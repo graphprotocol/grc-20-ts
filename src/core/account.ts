@@ -7,7 +7,7 @@
 
 import { createEntity } from '../graph/create-entity.js';
 import { createRelation } from '../graph/create-relation.js';
-import { generate } from '../id.js';
+import { generate } from '../id-utils.js';
 import type { Op } from '../types.js';
 import { getChecksumAddress } from './get-checksum-address.js';
 import { ETHEREUM } from './ids/network.js';

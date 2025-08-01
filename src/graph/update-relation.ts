@@ -1,4 +1,5 @@
-import { Id, assertValid } from '../id.js';
+import { Id } from '../id.js';
+import { assertValid } from '../id-utils.js';
 import type { CreateResult, Op, UpdateRelationParams } from '../types.js';
 
 /**
