@@ -290,13 +290,16 @@ describe('updateRelation', () => {
       verified: true,
     });
 
+    expect(result.ops).toHaveLength(1);
     const op = result.ops[0];
-    expect(isUpdateRelationOp(op)).toBe(true);
+    expect(op).toBeDefined();
     
-    if (isUpdateRelationOp(op)) {
+    if (op && isUpdateRelationOp(op)) {
       expect(op.relation.id).toBe(relationId);
       expect(op.relation.position).toBe('test-position');
       expect(op.relation.verified).toBe(true);
+    } else {
+      throw new Error('Expected op to be defined and of type UPDATE_RELATION');
     }
   });
 }); 
