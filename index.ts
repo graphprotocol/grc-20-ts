@@ -6,7 +6,9 @@ export * from './src/types.js';
  *
  * @since 0.0.6
  */
-export * as Id from './src/id.js';
+export * as IdUtils from './src/id-utils.js';
+
+export { Id } from './src/id.js';
 
 export {
   getAcceptEditorArguments,
