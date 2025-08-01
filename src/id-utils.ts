@@ -1,14 +1,13 @@
-import { Brand } from 'effect';
-import { parse as uuidParse, stringify as uuidStringify, v4 as uuidv4 } from 'uuid';
-import { Id, isValid } from './id.js';
-
-export { isValid };
-
 /**
  * This module provides utility functions for working knowledge graph
  * identifiers in TypeScript.
  */
 
+import { Brand } from 'effect';
+import { parse as uuidParse, stringify as uuidStringify, v4 as uuidv4 } from 'uuid';
+import { Id, isValid } from './id.js';
+
+export { isValid };
 export type IdBase64 = string & Brand.Brand<'IdBase64'>;
 
 
