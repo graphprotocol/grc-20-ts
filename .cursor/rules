@@ -1,0 +1,93 @@
+# GRC-20 Project Cursor Rules
+
+## Project Overview
+This is a TypeScript library for Graph Protocol GRC-20 operations. The project uses:
+- TypeScript with strict mode
+- Vitest for testing
+- Biome for linting and formatting
+- ES modules with .js extensions
+- Effect library for functional programming
+- Ethers and Viem for blockchain interactions
+
+## Code Style & Formatting
+- Use 2-space indentation
+- Maximum line width of 120 characters
+- Single quotes for strings
+- Trailing commas in all multi-line structures
+- Use ES modules with .js extensions in imports
+- Organize imports automatically with Biome
+
+## File Naming Conventions
+- Use kebab-case for file names (e.g., `unset-relation-fields.ts`)
+- Test files should end with `.test.ts`
+- Use descriptive, action-oriented names for functions and files
+
+## TypeScript Patterns
+- Use strict TypeScript configuration
+- Prefer explicit types over inference when it improves readability
+- Use `type` imports for type-only imports
+- Use `assertValid` from `id-utils.js` for ID validation
+- Use the `Id` type wrapper for all IDs
+
+## Testing Patterns
+- Use Vitest with `describe`, `it`, and `expect`
+- Test files should be co-located with source files
+- Use descriptive test names that explain the behavior
+- Test both happy path and edge cases
+- Use `Id()` constructor for creating test IDs
+
+## Graph Operations
+- All graph operations return objects with `id` and `ops` properties
+- Operations should be typed with specific operation types
+- Use JSDoc comments for public functions with examples
+- Validate inputs using `assertValid` for IDs
+
+## Import/Export Patterns
+- Use relative imports with .js extensions
+- Group imports: external libraries, then internal modules
+- Use named exports for functions and types
+- Export types from a central `types.ts` file
+
+## Error Handling
+- Use Effect library for functional error handling
+- Validate inputs early in functions
+- Provide clear error messages
+
+## Documentation
+- Use JSDoc comments for public APIs
+- Include usage examples in comments
+- Document parameter types and return values
+- Use `@example` tags for complex functions
+
+## Project Structure
+- `src/core/` - Core utilities and base classes
+- `src/graph/` - Graph operations and mutations
+- `src/abis/` - Ethereum contract ABIs
+- `src/encodings/` - Data encoding utilities
+- `src/proto/` - Protocol buffer definitions
+
+## Development Workflow
+- Use `pnpm` as package manager
+- Run `pnpm lint` before committing
+- Run `pnpm test` to ensure tests pass
+- Use changesets for version management
+- Build with `pnpm build` before publishing
+
+## Common Patterns
+- Use destructuring for function parameters
+- Prefer const over let when possible
+- Use object shorthand notation
+- Return early from functions when possible
+- Use template literals for string interpolation
+
+## Blockchain Integration
+- Use viem for blockchain interactions
+- Handle addresses with proper validation
+- Use typed contract ABIs
+- Follow Ethereum naming conventions for blockchain functions
+
+## Performance Considerations
+- Use efficient data structures for graph operations
+- Minimize object creation in hot paths
+- Use appropriate caching strategies
+- Consider memory usage for large graph operations 
