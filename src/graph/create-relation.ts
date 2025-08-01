@@ -25,7 +25,14 @@ import { createEntity } from './create-entity.js';
  *     { property: propertyId2, value: 'value2' },
  *   ],
  *   entityRelations: { // optional
- *     relationTypeId1: { to: entityId3, type: relationTypeId2 },
+ *     relationTypeId1: { 
+ *       toEntity: entityId3, 
+ *       type: relationTypeId2,
+ *       toSpace: spaceId3,
+ *       toVersion: versionId3,
+ *       position: 'position of the relation',
+ *       verified: true,
+ *     },
  *   },
  *   entityTypes: [typeId1, typeId2], // optional
  *   entityName: 'name of the relation entity', // optional
