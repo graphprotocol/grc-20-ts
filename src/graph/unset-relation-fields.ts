@@ -1,5 +1,5 @@
-import { Id } from '../id.js';
 import { assertValid } from '../id-utils.js';
+import { Id } from '../id.js';
 import type { UnsetRelationFieldsOp, UnsetRelationParams } from '../types.js';
 
 /**
@@ -9,6 +9,7 @@ import type { UnsetRelationFieldsOp, UnsetRelationParams } from '../types.js';
  * ```ts
  * const { ops } = await unsetRelationFields({
  *   id: relationId,
+ *   fromSpace: true, // optional
  *   fromVersion: true, // optional
  *   toSpace: true, // optional
  *   toVersion: true, // optional
@@ -22,6 +23,7 @@ import type { UnsetRelationFieldsOp, UnsetRelationParams } from '../types.js';
  */
 export const unsetRelationFields = ({
   id,
+  fromSpace,
   fromVersion,
   toSpace,
   toVersion,
@@ -34,6 +36,7 @@ export const unsetRelationFields = ({
     type: 'UNSET_RELATION_FIELDS',
     unsetRelationFields: {
       id: Id(id),
+      fromSpace,
       fromVersion,
       toSpace,
       toVersion,
