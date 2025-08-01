@@ -1,5 +1,5 @@
-import { Id } from '../id.js';
 import { assertValid } from '../id-utils.js';
+import { Id } from '../id.js';
 import type { CreateResult, Op, UpdateRelationParams } from '../types.js';
 
 /**
@@ -9,11 +9,12 @@ import type { CreateResult, Op, UpdateRelationParams } from '../types.js';
  * ```ts
  * const { id, ops } = updateRelation({
  *   id: relationId,
- *   position: 'position of the relation',
- *   toSpace: 'id of the to space',
- *   fromVersion: 'id of the from version',
- *   toVersion: 'id of the to version',
- *   verified: true,
+ *   position: 'position of the relation', // optional
+ *   fromSpace: 'id of the from space', // optional
+ *   toSpace: 'id of the to space', // optional
+ *   fromVersion: 'id of the from version', // optional
+ *   toVersion: 'id of the to version', // optional
+ *   verified: true, // optional
  * });
  * ```
  * @param params – {@link UpdateRelationParams}
