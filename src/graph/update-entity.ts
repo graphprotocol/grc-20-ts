@@ -1,6 +1,6 @@
-import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
+import { DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
+import { assertValid } from '../id-utils.js';
 import { Id } from '../id.js';
-import { assertValid, generate } from '../id-utils.js';
 import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value, ValueOptions } from '../types.js';
 
 /**
@@ -14,7 +14,6 @@ import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value, Value
  *   id: entityId,
  *   name: 'name of the entity',
  *   description: 'description of the entity',
- *   cover: imageEntityId,
  *   values: [
  *     {
  *       property: propertyId,
@@ -28,9 +27,8 @@ import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value, Value
  * @returns – {@link CreateResult}
  * @throws Will throw an error if any provided ID is invalid
  */
-export const updateEntity = ({ id, name, description, cover, values }: UpdateEntityParams): CreateResult => {
+export const updateEntity = ({ id, name, description, values }: UpdateEntityParams): CreateResult => {
   assertValid(id, '`id` in `updateEntity`');
-  if (cover) assertValid(cover, '`cover` in `updateEntity`');
   for (const { property, options } of values ?? []) {
     assertValid(property, '`values` in `updateEntity`');
     if (options) {
@@ -102,19 +100,6 @@ export const updateEntity = ({ id, name, description, cover, values }: UpdateEnt
     },
   };
   ops.push(op);
-
-  if (cover) {
-    ops.push({
-      type: 'CREATE_RELATION',
-      relation: {
-        id: generate(),
-        entity: generate(),
-        fromEntity: Id(id),
-        toEntity: Id(cover),
-        type: COVER_PROPERTY,
-      },
-    });
-  }
 
   return { id: Id(id), ops };
 };

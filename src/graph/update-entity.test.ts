@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
+import { DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
 import { updateEntity } from './update-entity.js';
 
@@ -60,36 +60,6 @@ describe('updateEntity', () => {
     });
   });
 
-  it('updates an entity with cover', async () => {
-    const result = updateEntity({
-      id: entityId,
-      cover: coverId,
-    });
-
-    expect(result).toBeDefined();
-    expect(result.id).toBe(entityId);
-    expect(result.ops).toHaveLength(2);
-
-    // Check UPDATE_ENTITY op
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entityId,
-        values: [],
-      },
-    });
-
-    // Check cover relation
-    expect(result.ops[1]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: entityId,
-        toEntity: coverId,
-        type: COVER_PROPERTY,
-      },
-    });
-  });
-
   it('updates an entity with custom values', async () => {
     const customPropertyId = Id('fa269fd3-de98-49cf-90c4-4235d905a67c');
     const result = updateEntity({
@@ -117,9 +87,5 @@ describe('updateEntity', () => {
 
   it('throws an error if the provided id is invalid', () => {
     expect(() => updateEntity({ id: 'invalid' })).toThrow('Invalid id: "invalid" for `id` in `updateEntity`');
-  });
-
-  it('throws an error if the provided cover id is invalid', () => {
-    expect(() => updateEntity({ id: entityId, cover: 'invalid' })).toThrow('Invalid id: "invalid"');
   });
 });
