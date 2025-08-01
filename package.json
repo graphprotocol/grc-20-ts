@@ -33,7 +33,6 @@
     "effect": "^3.13.6",
     "fflate": "^0.8.2",
     "fractional-indexing-jittered": "^1.0.0",
-    "graphql-request": "^7.1.2",
     "image-size": "^2.0.0",
     "permissionless": "^0.2.35",
     "uuid": "^11.1.0",
