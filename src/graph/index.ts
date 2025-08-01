@@ -10,3 +10,4 @@ export * from './serialize.js';
 export * from './unset-entity-values.js';
 export * from './unset-relation-fields.js';
 export * from './update-entity.js';
+export * from './update-relation.js';
