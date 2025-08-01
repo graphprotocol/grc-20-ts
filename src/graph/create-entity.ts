@@ -25,7 +25,7 @@ import { createRelation } from './create-relation.js';
  *   ],
  *   relations: {
  *     [relationPropertyId]: {
- *       to: 'id of the entity',
+ *       toEntity: 'id of the entity',
  *       id: 'id of the relation', // optional
  *       toSpace: 'id of the to space', // optional
  *       fromSpace: 'id of the from space', // optional
@@ -40,13 +40,14 @@ import { createRelation } from './create-relation.js';
  *       entityValues: [ // optional values for the relation entity
  *         { property: propertyId, value: 'value of the property' },
  *       ],
- *       entityRelations: {
+ *       entityRelations: { // same structure as `relations` and can be nested
  *         [relationPropertyId]: {
- *           to: 'id of the entity',
+ *           toEntity: 'id of the entity',
  *           id: 'id of the relation', // optional
  *           position: positionString, // optional
  *         },
  *       },
+ *       entityTypes: [typeEntityId1, typeEntityId2], // optional
  *     },
  *   },
  * });
