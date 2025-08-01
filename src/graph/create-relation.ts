@@ -20,10 +20,10 @@ import { createEntity } from './create-entity.js';
  *   verified: true, // optional
  *   position: 'position of the relation', // optional
  *   entityId: entityId3, // optional and will be generated if not provided
- *   entityValues: { // optional
- *     propertyId1: { value: 'value1' },
- *     propertyId2: { value: 'value2' },
- *   },
+ *   entityValues: [ // optional
+ *     { property: propertyId1, value: 'value1' },
+ *     { property: propertyId2, value: 'value2' },
+ *   ],
  *   entityRelations: { // optional
  *     relationTypeId1: { to: entityId3, type: relationTypeId2 },
  *   },
@@ -66,8 +66,26 @@ export const createRelation = ({
   if (type) assertValid(type, '`type` in `createRelation`');
   if (providedEntityId) assertValid(providedEntityId, '`entityId` in `createRelation`');
   if (entityCover) assertValid(entityCover, '`entityCover` in `createRelation`');
-  for (const [key] of Object.entries(entityValues ?? {})) {
-    assertValid(key, '`entityValues` in `createRelation`');
+  for (const valueEntry of entityValues ?? []) {
+    assertValid(valueEntry.property, '`entityValues` in `createRelation`');
+    if (valueEntry.options) {
+      const optionsParam = valueEntry.options;
+      switch (optionsParam.type) {
+        case 'text':
+          if (optionsParam.language) {
+            assertValid(optionsParam.language, '`language` in `options` in `entityValues` in `createRelation`');
+          }
+          break;
+        case 'number':
+          if (optionsParam.unit) {
+            assertValid(optionsParam.unit, '`unit` in `options` in `entityValues` in `createRelation`');
+          }
+          break;
+        default:
+          // @ts-expect-error - we only support text and number options
+          throw new Error(`Invalid option type: ${optionsParam.type}`);
+      }
+    }
   }
   for (const [key] of Object.entries(entityRelations ?? {})) {
     assertValid(key, '`entityRelations` in `createRelation`');

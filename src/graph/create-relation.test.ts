@@ -324,4 +324,99 @@ describe('createRelation', () => {
       }),
     ).toThrow('Invalid id: "invalid" for `toVersion` in `createRelation`');
   });
+
+  it('creates a relation with entityValues', () => {
+    const customPropertyId = Id('fa269fd3-de98-49cf-90c4-4235d905a67c');
+    const relation = createRelation({
+      fromEntity: fromEntityId,
+      toEntity: toEntityId,
+      type: NAME_PROPERTY,
+      entityValues: [{ property: customPropertyId, value: 'custom value' }],
+    });
+
+    expect(relation).toBeDefined();
+    expect(relation.ops).toHaveLength(2); // CREATE_RELATION + UPDATE_ENTITY
+
+    // Check CREATE_RELATION op
+    expect(relation.ops[0]).toMatchObject({
+      type: 'CREATE_RELATION',
+      relation: {
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
+      },
+    });
+
+    // Check UPDATE_ENTITY op
+    expect(relation.ops[1]).toMatchObject({
+      type: 'UPDATE_ENTITY',
+      entity: {
+        values: [
+          {
+            property: customPropertyId,
+            value: 'custom value',
+          },
+        ],
+      },
+    });
+  });
+
+  it('creates a relation with entityValues that have options', () => {
+    const customPropertyId = Id('fa269fd3-de98-49cf-90c4-4235d905a67c');
+    const languageId = Id('0a4e9810-f78f-429e-a4ce-b1904a43251d');
+    const relation = createRelation({
+      fromEntity: fromEntityId,
+      toEntity: toEntityId,
+      type: NAME_PROPERTY,
+      entityValues: [
+        {
+          property: customPropertyId,
+          value: 'test',
+          options: { type: 'text', language: languageId },
+        },
+      ],
+    });
+
+    expect(relation).toBeDefined();
+    expect(relation.ops).toHaveLength(2); // CREATE_RELATION + UPDATE_ENTITY
+
+    // Check CREATE_RELATION op
+    expect(relation.ops[0]).toMatchObject({
+      type: 'CREATE_RELATION',
+      relation: {
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
+      },
+    });
+
+    // Check UPDATE_ENTITY op
+    expect(relation.ops[1]).toMatchObject({
+      type: 'UPDATE_ENTITY',
+      entity: {
+        values: [
+          {
+            property: customPropertyId,
+            value: 'test',
+            options: {
+              text: {
+                language: languageId,
+              },
+            },
+          },
+        ],
+      },
+    });
+  });
+
+  it('throws an error if entityValues property is invalid', () => {
+    expect(() =>
+      createRelation({
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
+        entityValues: [{ property: 'invalid', value: 'test' }],
+      }),
+    ).toThrow('Invalid id: "invalid" for `entityValues` in `createRelation`');
+  });
 });
