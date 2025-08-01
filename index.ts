@@ -3,8 +3,6 @@ export * from './src/types.js';
 /**
  * This module provides utility functions for working knowledge graph
  * identifiers in TypeScript.
- *
- * @since 0.0.6
  */
 export * as IdUtils from './src/id-utils.js';
 
