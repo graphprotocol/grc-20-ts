@@ -1,5 +1,13 @@
 # @graphprotocol/grc-20
 
+## 0.23.1
+
+### Patch Changes
+
+- b0c5265: remove used graphql-request depedency
+- e898210: remove @changesets/cli from depdendencies
+- c67a046: remove unused ethers dependency
+
 ## 0.23.0
 
 ### Minor Changes
