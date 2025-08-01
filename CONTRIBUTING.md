@@ -36,5 +36,6 @@ pnpm changeset
 pnpm changeset version # commit the changes
 pnpm build
 pnpm changeset publish
+git push origin <version tag> # e.g. v0.23.0
 gh release create
 ```
