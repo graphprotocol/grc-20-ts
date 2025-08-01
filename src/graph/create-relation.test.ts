@@ -14,6 +14,9 @@ describe('createRelation', () => {
   const toEntityId = Id('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1');
   const coverId = Id('fa269fd3-de98-49cf-90c4-4235d905a67c');
   const testSpaceId = Id('c1dc6e5c-63e1-43ba-b3d4-755b251a4ea2');
+  const fromSpaceId = Id('d1dc6e5c-63e1-43ba-b3d4-755b251a4ea3');
+  const fromVersionId = Id('e1dc6e5c-63e1-43ba-b3d4-755b251a4ea4');
+  const toVersionId = Id('f1dc6e5c-63e1-43ba-b3d4-755b251a4ea5');
 
   it('creates a basic relation without additional properties', async () => {
     const relation = createRelation({
@@ -55,6 +58,64 @@ describe('createRelation', () => {
         type: NAME_PROPERTY,
         position: '1',
         toSpace: testSpaceId,
+      },
+    });
+  });
+
+  it('creates a relation with fromSpace, fromVersion, toVersion, and verified', async () => {
+    const relation = createRelation({
+      fromEntity: fromEntityId,
+      toEntity: toEntityId,
+      type: NAME_PROPERTY,
+      fromSpace: fromSpaceId,
+      fromVersion: fromVersionId,
+      toVersion: toVersionId,
+      verified: true,
+    });
+
+    expect(relation).toBeDefined();
+    expect(relation.ops).toHaveLength(1);
+    expect(relation.ops[0]).toMatchObject({
+      type: 'CREATE_RELATION',
+      relation: {
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
+        fromSpace: fromSpaceId,
+        fromVersion: fromVersionId,
+        toVersion: toVersionId,
+        verified: true,
+      },
+    });
+  });
+
+  it('creates a relation with all optional fields', async () => {
+    const relation = createRelation({
+      fromEntity: fromEntityId,
+      toEntity: toEntityId,
+      type: NAME_PROPERTY,
+      position: '1',
+      fromSpace: fromSpaceId,
+      toSpace: testSpaceId,
+      fromVersion: fromVersionId,
+      toVersion: toVersionId,
+      verified: false,
+    });
+
+    expect(relation).toBeDefined();
+    expect(relation.ops).toHaveLength(1);
+    expect(relation.ops[0]).toMatchObject({
+      type: 'CREATE_RELATION',
+      relation: {
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
+        position: '1',
+        fromSpace: fromSpaceId,
+        toSpace: testSpaceId,
+        fromVersion: fromVersionId,
+        toVersion: toVersionId,
+        verified: false,
       },
     });
   });
@@ -229,5 +290,38 @@ describe('createRelation', () => {
         type: NAME_PROPERTY,
       }),
     ).toThrow('Invalid id: "invalid" for `id` in `createRelation`');
+  });
+
+  it('throws an error if fromSpace is invalid', () => {
+    expect(() =>
+      createRelation({
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
+        fromSpace: 'invalid',
+      }),
+    ).toThrow('Invalid id: "invalid" for `fromSpace` in `createRelation`');
+  });
+
+  it('throws an error if fromVersion is invalid', () => {
+    expect(() =>
+      createRelation({
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
+        fromVersion: 'invalid',
+      }),
+    ).toThrow('Invalid id: "invalid" for `fromVersion` in `createRelation`');
+  });
+
+  it('throws an error if toVersion is invalid', () => {
+    expect(() =>
+      createRelation({
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
+        toVersion: 'invalid',
+      }),
+    ).toThrow('Invalid id: "invalid" for `toVersion` in `createRelation`');
   });
 });

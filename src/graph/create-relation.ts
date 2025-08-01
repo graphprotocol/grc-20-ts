@@ -1,5 +1,5 @@
-import { Id } from '../id.js';
 import { assertValid, generate } from '../id-utils.js';
+import { Id } from '../id.js';
 import type { CreateResult, Op, RelationParams } from '../types.js';
 import { createEntity } from './create-entity.js';
 
@@ -13,7 +13,11 @@ import { createEntity } from './create-entity.js';
  *   fromEntity: entityId1,
  *   toEntity: entityId2,
  *   type: relationTypeId,
- *   toSpace: spaceId,
+ *   fromSpace: spaceId1,
+ *   toSpace: spaceId2,
+ *   fromVersion: versionId1,
+ *   toVersion: versionId2,
+ *   verified: true,
  *   position: 'position of the relation',
  *   entityId: entityId3, // optional and will be generated if not provided
  *   entityValues: {
@@ -38,7 +42,11 @@ export const createRelation = ({
   fromEntity,
   toEntity,
   position,
+  fromSpace,
   toSpace,
+  fromVersion,
+  toVersion,
+  verified,
   type,
   entityId: providedEntityId,
   entityName,
@@ -51,7 +59,10 @@ export const createRelation = ({
   if (providedId) assertValid(providedId, '`id` in `createRelation`');
   if (fromEntity) assertValid(fromEntity, '`fromEntity` in `createRelation`');
   if (toEntity) assertValid(toEntity, '`toEntity` in `createRelation`');
+  if (fromSpace) assertValid(fromSpace, '`fromSpace` in `createRelation`');
   if (toSpace) assertValid(toSpace, '`toSpace` in `createRelation`');
+  if (fromVersion) assertValid(fromVersion, '`fromVersion` in `createRelation`');
+  if (toVersion) assertValid(toVersion, '`toVersion` in `createRelation`');
   if (type) assertValid(type, '`type` in `createRelation`');
   if (providedEntityId) assertValid(providedEntityId, '`entityId` in `createRelation`');
   if (entityCover) assertValid(entityCover, '`entityCover` in `createRelation`');
@@ -76,9 +87,13 @@ export const createRelation = ({
       id: Id(id),
       entity: Id(entityId),
       fromEntity: Id(fromEntity),
+      fromSpace: fromSpace ? Id(fromSpace) : undefined,
+      fromVersion: fromVersion ? Id(fromVersion) : undefined,
       position,
       toEntity: Id(toEntity),
       toSpace: toSpace ? Id(toSpace) : undefined,
+      toVersion: toVersion ? Id(toVersion) : undefined,
+      verified,
       type: Id(type),
     },
   });
