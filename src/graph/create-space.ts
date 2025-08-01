@@ -1,7 +1,7 @@
 import type { Op } from '../types.js';
 import { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './constants.js';
 
-type Params = {
+type CreateSpaceParams = {
   editorAddress: string;
   name: string;
   network?: 'TESTNET' | 'MAINNET';
@@ -33,8 +33,22 @@ type DeployParams = BaseDeployParams &
 
 /**
  * Creates a space with the given name and editor address.
+ *
+ * @example
+ * ```ts
+ * const { id } = await createSpace({
+ *   editorAddress: '0x1234567890123456789012345678901234567890',
+ *   name: 'My Space',
+ *   network: 'TESTNET', // optional, defaults to 'MAINNET'
+ *   spaceEntityId: '1234567890123456789012345678901234567890', // optional
+ *   governanceType: 'PUBLIC', // optional, defaults to 'PERSONAL'
+ *   ops: [], // optional
+ * });
+ * ```
+ * @param params – {@link CreateSpaceParams}
+ * @returns – {@link Id}
  */
-export const createSpace = async (params: Params) => {
+export const createSpace = async (params: CreateSpaceParams) => {
   const governanceType = params.governanceType ?? 'PERSONAL';
   const apiHost = params.network === 'TESTNET' ? TESTNET_API_ORIGIN : MAINNET_API_ORIGIN;
   console.log('apiHost', apiHost);
