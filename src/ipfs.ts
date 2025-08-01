@@ -11,7 +11,8 @@ import { imageSize } from 'image-size';
 
 import { Edit, EditProposal } from '../proto.js';
 import { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './graph/constants.js';
-import { type Id, fromBytes } from './id.js';
+import type { Id } from './id.js';
+import { fromBytes } from './id-utils.js';
 import type { Op } from './types.js';
 
 class IpfsUploadError extends Error {

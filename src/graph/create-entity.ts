@@ -1,5 +1,6 @@
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
-import { Id, assertValid, generate } from '../id.js';
+import { Id } from '../id.js';
+import { assertValid, generate } from '../id-utils.js';
 import type { CreateResult, EntityParams, Op, UpdateEntityOp, Value, ValueOptions } from '../types.js';
 import { createRelation } from './create-relation.js';
 

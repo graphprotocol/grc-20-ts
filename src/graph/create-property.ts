@@ -1,5 +1,6 @@
 import {PROPERTY, RELATION_VALUE_RELATIONSHIP_TYPE, SCHEMA_TYPE, TYPES_PROPERTY} from "../core/ids/system.js"
-import {Id, assertValid, generate} from "../id.js"
+import { Id } from '../id.js';
+import { assertValid, generate } from '../id-utils.js';
 import type {CreatePropertyParams, CreateResult, Op} from "../types.js"
 import {createEntity} from "./create-entity.js"
 import {createRelation} from "./create-relation.js"
