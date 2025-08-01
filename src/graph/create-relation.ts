@@ -9,28 +9,28 @@ import { createEntity } from './create-entity.js';
  * @example
  * ```ts
  * const { id, ops } = createRelation({
- *   id: relationId,
+ *   id: relationId, // optional
  *   fromEntity: entityId1,
  *   toEntity: entityId2,
  *   type: relationTypeId,
- *   fromSpace: spaceId1,
- *   toSpace: spaceId2,
- *   fromVersion: versionId1,
- *   toVersion: versionId2,
- *   verified: true,
- *   position: 'position of the relation',
+ *   fromSpace: spaceId1, // optional
+ *   toSpace: spaceId2, // optional
+ *   fromVersion: versionId1, // optional
+ *   toVersion: versionId2, // optional
+ *   verified: true, // optional
+ *   position: 'position of the relation', // optional
  *   entityId: entityId3, // optional and will be generated if not provided
- *   entityValues: {
+ *   entityValues: { // optional
  *     propertyId1: { value: 'value1' },
  *     propertyId2: { value: 'value2' },
  *   },
- *   entityRelations: {
+ *   entityRelations: { // optional
  *     relationTypeId1: { to: entityId3, type: relationTypeId2 },
  *   },
- *   entityTypes: [typeId1, typeId2],
- *   entityName: 'name of the relation entity',
- *   entityDescription: 'description of the relation entity',
- *   entityCover: imageEntityId,
+ *   entityTypes: [typeId1, typeId2], // optional
+ *   entityName: 'name of the relation entity', // optional
+ *   entityDescription: 'description of the relation entity', // optional
+ *   entityCover: imageEntityId, // optional
  * });
  * ```
  * @param params – {@link RelationParams}
