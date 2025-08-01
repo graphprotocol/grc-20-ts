@@ -1,6 +1,6 @@
-import { PROPERTIES, PROPERTY, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
-import { Id } from '../id.js';
+import { PROPERTIES, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
 import { assertValid, generate } from '../id-utils.js';
+import { Id } from '../id.js';
 import type { CreateResult, CreateTypeParams } from '../types.js';
 import { createEntity } from './create-entity.js';
 
@@ -12,10 +12,10 @@ import { createEntity } from './create-entity.js';
  * @example
  * ```ts
  * const { id, ops } = createType({
+ *   id: typeId, // optional and will be generated if not provided
  *   name: 'name of the type',
  *   description: 'description of the type',
  *   cover: imageEntityId,
- *   id: typeId, // optional and will be generated if not provided
  *   properties: [propertyEntityId1, propertyEntityId2],
  * });
  * ```
