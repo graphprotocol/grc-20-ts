@@ -1,23 +1,25 @@
-import {PROPERTY, RELATION_VALUE_RELATIONSHIP_TYPE, SCHEMA_TYPE, TYPES_PROPERTY} from "../core/ids/system.js"
-import { Id } from '../id.js';
+import { PROPERTY, RELATION_VALUE_RELATIONSHIP_TYPE, TYPES_PROPERTY } from "../core/ids/system.js";
 import { assertValid, generate } from '../id-utils.js';
-import type {CreatePropertyParams, CreateResult, Op} from "../types.js"
-import {createEntity} from "./create-entity.js"
-import {createRelation} from "./create-relation.js"
+import { Id } from '../id.js';
+import type { CreatePropertyParams, CreateResult, Op } from "../types.js";
+import { createEntity } from "./create-entity.js";
+import { createRelation } from "./create-relation.js";
 
 /**
- * Creates a property with the given name, description, cover, and type.
- * All IDs passed to this function (cover, relation value types) are validated.
+ * Creates a property with the given name, description, cover, and dataType.
+ * All IDs passed to this function (cover, relation value types, properties) are validated.
  * If any invalid ID is provided, the function will throw an error.
  *
  * @example
  * ```ts
  * const { id, ops } = createProperty({
- *   name: 'name of the property',
- *   type: 'TEXT'
- *   description: 'description of the property',
- *   cover: imageEntityId,
  *   id: propertyId, // optional and will be generated if not provided
+ *   dataType: 'TEXT',
+ *   name: 'name of the property', // optional
+ *   description: 'description of the property', // optional
+ *   cover: imageEntityId, // optional
+ *   properties: [propertyId1, propertyId2], // optional
+ *   relationValueTypes: [relationValueTypeId1, relationValueTypeId2], // optional
  * });
  * ```
  * @param params – {@link CreatePropertyParams}
