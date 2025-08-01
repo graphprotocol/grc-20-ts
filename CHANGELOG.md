@@ -1,5 +1,20 @@
 # @graphprotocol/grc-20
 
+## 0.23.0
+
+### Minor Changes
+
+- 7425e73: directly export Id from the package and all other functions and types under IdUtils
+- e806514: remove cover from updateEntity
+
+### Patch Changes
+
+- 6babbbf: add fromSpace, fromVersion, toVersion, verified to createRelation
+- 4068869: add updateRelation
+- 42154fb: properly handle all relation fields (`fromSpace`, `fromVersion`, `toVersion`, `verified`) for relations in createEntity
+- 9e87178: add fromSpace to unsetRelationFields
+- 6babbbf: fix entityValues structure for createRelation
+
 ## 0.22.0
 
 ### Minor Changes
