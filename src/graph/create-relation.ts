@@ -1,5 +1,5 @@
-import { Id } from '../id.js';
 import { assertValid, generate } from '../id-utils.js';
+import { Id } from '../id.js';
 import type { CreateResult, Op, RelationParams } from '../types.js';
 import { createEntity } from './create-entity.js';
 
@@ -9,24 +9,35 @@ import { createEntity } from './create-entity.js';
  * @example
  * ```ts
  * const { id, ops } = createRelation({
- *   id: relationId,
+ *   id: relationId, // optional
  *   fromEntity: entityId1,
  *   toEntity: entityId2,
  *   type: relationTypeId,
- *   toSpace: spaceId,
- *   position: 'position of the relation',
+ *   fromSpace: spaceId1, // optional
+ *   toSpace: spaceId2, // optional
+ *   fromVersion: versionId1, // optional
+ *   toVersion: versionId2, // optional
+ *   verified: true, // optional
+ *   position: 'position of the relation', // optional
  *   entityId: entityId3, // optional and will be generated if not provided
- *   entityValues: {
- *     propertyId1: { value: 'value1' },
- *     propertyId2: { value: 'value2' },
+ *   entityValues: [ // optional
+ *     { property: propertyId1, value: 'value1' },
+ *     { property: propertyId2, value: 'value2' },
+ *   ],
+ *   entityRelations: { // optional
+ *     relationTypeId1: { 
+ *       toEntity: entityId3, 
+ *       type: relationTypeId2,
+ *       toSpace: spaceId3,
+ *       toVersion: versionId3,
+ *       position: 'position of the relation',
+ *       verified: true,
+ *     },
  *   },
- *   entityRelations: {
- *     relationTypeId1: { to: entityId3, type: relationTypeId2 },
- *   },
- *   entityTypes: [typeId1, typeId2],
- *   entityName: 'name of the relation entity',
- *   entityDescription: 'description of the relation entity',
- *   entityCover: imageEntityId,
+ *   entityTypes: [typeId1, typeId2], // optional
+ *   entityName: 'name of the relation entity', // optional
+ *   entityDescription: 'description of the relation entity', // optional
+ *   entityCover: imageEntityId, // optional
  * });
  * ```
  * @param params – {@link RelationParams}
@@ -38,7 +49,11 @@ export const createRelation = ({
   fromEntity,
   toEntity,
   position,
+  fromSpace,
   toSpace,
+  fromVersion,
+  toVersion,
+  verified,
   type,
   entityId: providedEntityId,
   entityName,
@@ -51,12 +66,33 @@ export const createRelation = ({
   if (providedId) assertValid(providedId, '`id` in `createRelation`');
   if (fromEntity) assertValid(fromEntity, '`fromEntity` in `createRelation`');
   if (toEntity) assertValid(toEntity, '`toEntity` in `createRelation`');
+  if (fromSpace) assertValid(fromSpace, '`fromSpace` in `createRelation`');
   if (toSpace) assertValid(toSpace, '`toSpace` in `createRelation`');
+  if (fromVersion) assertValid(fromVersion, '`fromVersion` in `createRelation`');
+  if (toVersion) assertValid(toVersion, '`toVersion` in `createRelation`');
   if (type) assertValid(type, '`type` in `createRelation`');
   if (providedEntityId) assertValid(providedEntityId, '`entityId` in `createRelation`');
   if (entityCover) assertValid(entityCover, '`entityCover` in `createRelation`');
-  for (const [key] of Object.entries(entityValues ?? {})) {
-    assertValid(key, '`entityValues` in `createRelation`');
+  for (const valueEntry of entityValues ?? []) {
+    assertValid(valueEntry.property, '`entityValues` in `createRelation`');
+    if (valueEntry.options) {
+      const optionsParam = valueEntry.options;
+      switch (optionsParam.type) {
+        case 'text':
+          if (optionsParam.language) {
+            assertValid(optionsParam.language, '`language` in `options` in `entityValues` in `createRelation`');
+          }
+          break;
+        case 'number':
+          if (optionsParam.unit) {
+            assertValid(optionsParam.unit, '`unit` in `options` in `entityValues` in `createRelation`');
+          }
+          break;
+        default:
+          // @ts-expect-error - we only support text and number options
+          throw new Error(`Invalid option type: ${optionsParam.type}`);
+      }
+    }
   }
   for (const [key] of Object.entries(entityRelations ?? {})) {
     assertValid(key, '`entityRelations` in `createRelation`');
@@ -76,9 +112,13 @@ export const createRelation = ({
       id: Id(id),
       entity: Id(entityId),
       fromEntity: Id(fromEntity),
+      fromSpace: fromSpace ? Id(fromSpace) : undefined,
+      fromVersion: fromVersion ? Id(fromVersion) : undefined,
       position,
       toEntity: Id(toEntity),
       toSpace: toSpace ? Id(toSpace) : undefined,
+      toVersion: toVersion ? Id(toVersion) : undefined,
+      verified,
       type: Id(type),
     },
   });
