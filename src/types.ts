@@ -126,7 +126,7 @@ export type EntityParams = DefaultProperties & {
   types?: Array<Id | string>;
 };
 
-export type UpdateEntityParams = DefaultProperties & {
+export type UpdateEntityParams = Omit<DefaultProperties, 'cover'> & {
   id: Id | string;
   values?: PropertiesParam;
 };
