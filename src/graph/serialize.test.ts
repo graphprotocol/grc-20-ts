@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { serializeCheckbox, serializeDate, serializeNumber, serializePoint } from './serialize.js';
+import { serializeBoolean, serializeDate, serializeNumber, serializePoint } from './serialize.js';
 
 describe('serializeNumber', () => {
   it('should convert positive numbers to string', () => {
@@ -14,13 +14,13 @@ describe('serializeNumber', () => {
   });
 });
 
-describe('serializeCheckbox', () => {
+describe('serializeBoolean', () => {
   it('should convert true to "1"', () => {
-    expect(serializeCheckbox(true)).toBe('1');
+    expect(serializeBoolean(true)).toBe('1');
   });
 
   it('should convert false to "0"', () => {
-    expect(serializeCheckbox(false)).toBe('0');
+    expect(serializeBoolean(false)).toBe('0');
   });
 });
 

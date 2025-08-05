@@ -120,7 +120,7 @@ const { id: personId, ops: createPersonOps } = Graph.createEntity({
     },
     {
       property: someCheckboxPropertyId,
-      value: Graph.serializeCheckbox(true),
+      value: Graph.serializeBoolean(true),
     },
     {
       property: someDatePropertyId,
