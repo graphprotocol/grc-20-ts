@@ -11,9 +11,9 @@ import { Message, proto3 } from "@bufbuild/protobuf";
  */
 export enum DataType {
   /**
-   * @generated from enum value: TEXT = 0;
+   * @generated from enum value: STRING = 0;
    */
-  TEXT = 0,
+  STRING = 0,
 
   /**
    * @generated from enum value: NUMBER = 1;
@@ -21,9 +21,9 @@ export enum DataType {
   NUMBER = 1,
 
   /**
-   * @generated from enum value: CHECKBOX = 2;
+   * @generated from enum value: BOOLEAN = 2;
    */
-  CHECKBOX = 2,
+  BOOLEAN = 2,
 
   /**
    * @generated from enum value: TIME = 3;
@@ -42,9 +42,9 @@ export enum DataType {
 }
 // Retrieve enum metadata with: proto3.getEnumType(DataType)
 proto3.util.setEnumType(DataType, "grc20.DataType", [
-  { no: 0, name: "TEXT" },
+  { no: 0, name: "STRING" },
   { no: 1, name: "NUMBER" },
-  { no: 2, name: "CHECKBOX" },
+  { no: 2, name: "BOOLEAN" },
   { no: 3, name: "TIME" },
   { no: 4, name: "POINT" },
   { no: 5, name: "RELATION" },
@@ -395,7 +395,7 @@ export class Property extends Message<Property> {
   /**
    * @generated from field: grc20.DataType data_type = 2;
    */
-  dataType = DataType.TEXT;
+  dataType = DataType.STRING;
 
   constructor(data?: PartialMessage<Property>) {
     super();

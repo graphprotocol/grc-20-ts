@@ -50,9 +50,9 @@ message Op {
 }
 
 enum DataType {
-    TEXT = 0;
+    STRING = 0;
     NUMBER = 1;
-    CHECKBOX = 2;
+    BOOLEAN = 2;
     TIME = 3;
     POINT = 4;
     RELATION = 5;
