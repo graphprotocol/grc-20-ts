@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.24.0
+
+### Minor Changes
+
+- 45f70f7: Rename protobuf data types to STRING and BOOLEAN
+
 ## 0.23.1
 
 ### Patch Changes
