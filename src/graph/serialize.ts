@@ -2,7 +2,7 @@ export const serializeNumber = (value: number) => {
   return value.toString();
 };
 
-export const serializeCheckbox = (value: boolean) => {
+export const serializeBoolean = (value: boolean) => {
   return value ? '1' : '0';
 };
 

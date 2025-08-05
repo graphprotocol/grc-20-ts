@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.24.1
+
+### Patch Changes
+
+- 6b2568b: rename serializeCheckbox to serializeBoolean
+
 ## 0.24.0
 
 ### Minor Changes
