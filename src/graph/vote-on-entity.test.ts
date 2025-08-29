@@ -6,7 +6,7 @@ describe('vote-on-entity', () => {
     it('converts a UUID to hex format', () => {
       const uuid = '550e8400-e29b-41d4-a716-446655440000';
       const expectedHex = '0x550e8400e29b41d4a716446655440000';
-      
+
       // Since uuidToHex is not exported, we test it indirectly through voteOnEntity
       // The function is tested as part of the voteOnEntity tests below
     });
@@ -57,25 +57,25 @@ describe('vote-on-entity', () => {
 
     it('throws InvalidEntityIdError for invalid entity ID', () => {
       const invalidEntityId = 'not-a-valid-uuid';
-      
+
       expect(() =>
         voteOnEntity({
           entityId: invalidEntityId,
           spaceId: validSpaceId,
           voteType: 'up',
-        })
+        }),
       ).toThrow('Invalid entity ID: not-a-valid-uuid');
     });
 
     it('throws InvalidSpaceIdError for invalid space ID', () => {
       const invalidSpaceId = 'invalid-space-id';
-      
+
       expect(() =>
         voteOnEntity({
           entityId: validEntityId,
           spaceId: invalidSpaceId,
           voteType: 'up',
-        })
+        }),
       ).toThrow('Invalid space ID: invalid-space-id');
     });
 
@@ -84,8 +84,8 @@ describe('vote-on-entity', () => {
         voteOnEntity({
           entityId: validEntityId,
           spaceId: validSpaceId,
-          voteType: 'invalid' as any,
-        })
+          voteType: 'invalid' as unknown as 'up' | 'down' | 'remove',
+        }),
       ).toThrow("Invalid vote type: invalid. Must be 'up', 'down', or 'remove'");
     });
 
