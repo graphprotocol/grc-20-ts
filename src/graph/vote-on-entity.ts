@@ -1,29 +1,26 @@
 import { encodeAbiParameters } from 'viem';
 import { isValid } from '../id.js';
 
-class InvalidEntityIdError extends Error {
+export class InvalidEntityIdError extends Error {
   constructor(entityId: string) {
     super(`Invalid entity ID: ${entityId}`);
     this.name = 'InvalidEntityIdError';
   }
 }
 
-class InvalidSpaceIdError extends Error {
+export class InvalidSpaceIdError extends Error {
   constructor(spaceId: string) {
     super(`Invalid space ID: ${spaceId}`);
     this.name = 'InvalidSpaceIdError';
   }
 }
 
-class InvalidVoteTypeError extends Error {
+export class InvalidVoteTypeError extends Error {
   constructor(voteType: string) {
     super(`Invalid vote type: ${voteType}. Must be 'up', 'down', or 'remove'`);
     this.name = 'InvalidVoteTypeError';
   }
 }
-
-const ACTIONS_CONTRACT_ADDRESS_MAINNET = '';
-const ACTIONS_CONTRACT_ADDRESS_TESTNET = '0x20b8d41da487C80e06667409E81aB8b173C9e076';
 
 const ACTION_FUNCTION_ABI = [
   {
@@ -92,10 +89,6 @@ const PACKED_VOTE_TYPE: Record<UpvoteEntityParams['voteType'], `0x${string}`> = 
  * @returns Encoded ABI parameters as hex string for contract call
  * @throws {Error} If entityId or spaceId are invalid UUIDs
  * @throws {Error} If voteType is not one of the allowed values
- * 
- * @TODO
- * - Contract address for mainnet actions contract
- * - How do we pass in an account? Or do we just return calldata?
  */
 export async function voteOnEntity({ entityId, spaceId, voteType }: UpvoteEntityParams): Promise<`0x${string}`> {
   if (!isValid(entityId)) {
@@ -113,7 +106,7 @@ export async function voteOnEntity({ entityId, spaceId, voteType }: UpvoteEntity
   /**
    * Encode parameters for the Actions contract
    * https://github.com/defi-wonderland/gaia/blob/7e5b5aaedee43c3f4967616b738e68265bfe1450/actions-indexer/README.md#example
-   * 
+   *
    * Parameters:
    * - kind (0): Type of action being performed (0 = voting)
    * - version (1): Version identifier for the action schema
