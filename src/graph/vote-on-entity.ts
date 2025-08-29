@@ -90,7 +90,7 @@ const PACKED_VOTE_TYPE: Record<UpvoteEntityParams['voteType'], `0x${string}`> = 
  * @throws {Error} If entityId or spaceId are invalid UUIDs
  * @throws {Error} If voteType is not one of the allowed values
  */
-export async function voteOnEntity({ entityId, spaceId, voteType }: UpvoteEntityParams): Promise<`0x${string}`> {
+export function voteOnEntity({ entityId, spaceId, voteType }: UpvoteEntityParams): `0x${string}` {
   if (!isValid(entityId)) {
     throw new InvalidEntityIdError(entityId);
   }
