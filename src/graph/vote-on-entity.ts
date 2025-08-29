@@ -121,7 +121,7 @@ export function voteOnEntity({ entityId, spaceId, voteType }: UpvoteEntityParams
     1,
     0,
     uuidToHex(spaceId),
-    0,
+    '0x00000000000000000000000000000000',
     uuidToHex(entityId),
     PACKED_VOTE_TYPE[voteType],
   ]);
