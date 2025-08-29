@@ -1,4 +1,4 @@
-import { encodeAbiParameters } from 'viem';
+import { encodeFunctionData } from 'viem';
 import { isValid } from '../id.js';
 
 export class InvalidEntityIdError extends Error {
@@ -60,6 +60,83 @@ const ACTION_FUNCTION_ABI = [
   },
 ];
 
+const ACTIONS_CONTRACT_ABI = [
+  {
+    anonymous: true,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'bytes32',
+        name: 'word0',
+        type: 'bytes32',
+      },
+      {
+        indexed: false,
+        internalType: 'bytes32',
+        name: 'word1',
+        type: 'bytes32',
+      },
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'sender',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'bytes',
+        name: 'payload',
+        type: 'bytes',
+      },
+    ],
+    name: 'Action',
+    type: 'event',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint16',
+        name: 'kind',
+        type: 'uint16',
+      },
+      {
+        internalType: 'uint16',
+        name: 'version',
+        type: 'uint16',
+      },
+      {
+        internalType: 'uint8',
+        name: 'objectType',
+        type: 'uint8',
+      },
+      {
+        internalType: 'bytes16',
+        name: 'spacePOV',
+        type: 'bytes16',
+      },
+      {
+        internalType: 'bytes16',
+        name: 'groupId',
+        type: 'bytes16',
+      },
+      {
+        internalType: 'bytes16',
+        name: 'objectId',
+        type: 'bytes16',
+      },
+      {
+        internalType: 'bytes',
+        name: 'payload',
+        type: 'bytes',
+      },
+    ],
+    name: 'action',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+] as const;
+
 type UpvoteEntityParams = {
   entityId: string;
   spaceId: string;
@@ -116,15 +193,19 @@ export function voteOnEntity({ entityId, spaceId, voteType }: UpvoteEntityParams
    * - objectId: Unique identifier for the target entity (16 bytes)
    * - payload: Vote type (0x00 = upvote, 0x01 = downvote, 0x02 = remove vote)
    */
-  return encodeAbiParameters(ACTION_FUNCTION_ABI, [
-    0,
-    1,
-    0,
-    uuidToHex(spaceId),
-    '0x00000000000000000000000000000000',
-    uuidToHex(entityId),
-    PACKED_VOTE_TYPE[voteType],
-  ]);
+  return encodeFunctionData({
+    abi: ACTIONS_CONTRACT_ABI,
+    functionName: 'action',
+    args: [
+      0,
+      1,
+      0,
+      uuidToHex(spaceId),
+      '0x00000000000000000000000000000000',
+      uuidToHex(entityId),
+      PACKED_VOTE_TYPE[voteType],
+    ],
+  });
 }
 
 /**
