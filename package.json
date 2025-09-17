@@ -29,22 +29,22 @@
   },
   "dependencies": {
     "@bufbuild/protobuf": "^1.9.0",
-    "effect": "^3.13.6",
+    "effect": "^3.17.13",
     "fflate": "^0.8.2",
     "fractional-indexing-jittered": "^1.0.0",
-    "image-size": "^2.0.0",
+    "image-size": "^2.0.2",
     "permissionless": "^0.2.35",
-    "uuid": "^11.1.0",
-    "viem": "^2.23.6"
+    "uuid": "^13.0.0",
+    "viem": "^2.37.6"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.4",
     "@bufbuild/buf": "^1.31.0",
     "@bufbuild/protoc-gen-es": "^1.9.0",
-    "@changesets/cli": "^2.29.5",
-    "@types/uuid": "^10.0.0",
-    "typescript": "^5.8.2",
-    "vitest": "^3.0.7"
+    "@changesets/cli": "^2.29.7",
+    "@types/uuid": "^11.0.0",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   },
   "packageManager": "pnpm@10.5.2",
   "pnpm": {
