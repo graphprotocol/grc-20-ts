@@ -48,7 +48,7 @@ function hexToBytes(hex: string): Uint8Array {
 
 export function encode({ name, ops, author, language }: MakeEditProposalParams): Uint8Array {
   return new Edit({
-    // @ts-expect-error - this is a typemissmatch which is fine
+    // @ts-expect-error - this is a type missmatch which is fine
     id: toBytes(generate()),
     name,
     ops: opsToBinary(ops),

@@ -55,7 +55,7 @@ export async function publishEdit(args: PublishEditProposalParams): Promise<Publ
 
   const edit = EditProposal.encode({ name, ops, author });
 
-  // @ts-expect-error - this is a typemissmatch which is fine
+  // @ts-expect-error - this is a type missmatch which is fine
   const blob = new Blob([edit], { type: 'application/octet-stream' });
   const formData = new FormData();
   formData.append('file', blob);
@@ -159,7 +159,7 @@ export async function uploadCSV(csvString: string, network?: 'TESTNET' | 'MAINNE
   const blob = await gzipSync(csvStringBytes);
 
   const formData = new FormData();
-  // @ts-expect-error - this is a typemissmatch which is fine
+  // @ts-expect-error - this is a type missmatch which is fine
   formData.append('file', new Blob([blob], { type: 'text/csv' }));
 
   return await Micro.runPromise(uploadBinary(formData, network));
