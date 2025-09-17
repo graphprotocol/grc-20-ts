@@ -10,7 +10,6 @@ import { Id, isValid } from './id.js';
 export { isValid };
 export type IdBase64 = string & Brand.Brand<'IdBase64'>;
 
-
 export const IdBase64 = Brand.refined<IdBase64>(
   id => isValidBase64(id),
   id => Brand.error(`Expected ${id} to be a valid IdBase64`),
@@ -104,4 +103,3 @@ export function fromBase64(id: IdBase64): Id {
 
   return fromBytes(new Uint8Array(bytes));
 }
-

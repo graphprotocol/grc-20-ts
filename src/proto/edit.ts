@@ -1,6 +1,6 @@
-import type { JsonValue } from "@bufbuild/protobuf";
-import { Id } from '../id.js';
+import type { JsonValue } from '@bufbuild/protobuf';
 import { generate, toBase64, toBytes } from '../id-utils.js';
+import { Id } from '../id.js';
 import type {
   DataType,
   Entity,
@@ -10,7 +10,7 @@ import type {
   UnsetRelationFieldsOp,
   UpdateRelationOp,
   ValueOptions,
-} from "../types.js";
+} from '../types.js';
 import {
   Edit,
   Entity as EntityProto,
@@ -20,7 +20,7 @@ import {
   RelationUpdate,
   UnsetEntityValues,
   UnsetRelationFields,
-} from "./gen/src/proto/ipfs_pb.js";
+} from './gen/src/proto/ipfs_pb.js';
 
 type MakeEditProposalParams = {
   name: string;
@@ -31,12 +31,12 @@ type MakeEditProposalParams = {
 
 function hexToBytes(hex: string): Uint8Array {
   let hexString = hex;
-  if (hexString.startsWith("0x")) {
+  if (hexString.startsWith('0x')) {
     hexString = hexString.slice(2);
   }
 
   if (hex.length % 2 !== 0) {
-    throw new Error("Invalid hex string: must have an even length");
+    throw new Error('Invalid hex string: must have an even length');
   }
 
   const bytes = new Uint8Array(hex.length / 2);
@@ -46,13 +46,9 @@ function hexToBytes(hex: string): Uint8Array {
   return bytes;
 }
 
-export function encode({
-  name,
-  ops,
-  author,
-  language,
-}: MakeEditProposalParams): Uint8Array {
+export function encode({ name, ops, author, language }: MakeEditProposalParams): Uint8Array {
   return new Edit({
+    // @ts-expect-error - this is a typemissmatch which is fine
     id: toBytes(generate()),
     name,
     ops: opsToBinary(ops),
@@ -92,20 +88,14 @@ function convertRelationIdsToBase64(relation: Relation): JsonValue {
   return result;
 }
 
-function convertUnsetEntityValuesToBase64(
-  unsetEntityValues: UnsetEntityValuesOp["unsetEntityValues"]
-): JsonValue {
+function convertUnsetEntityValuesToBase64(unsetEntityValues: UnsetEntityValuesOp['unsetEntityValues']): JsonValue {
   return {
     id: toBase64(unsetEntityValues.id),
-    properties: unsetEntityValues.properties.map((propertyId) =>
-      toBase64(propertyId)
-    ),
+    properties: unsetEntityValues.properties.map(propertyId => toBase64(propertyId)),
   };
 }
 
-function convertUpdateRelationToBase64(
-  relation: UpdateRelationOp["relation"]
-): JsonValue {
+function convertUpdateRelationToBase64(relation: UpdateRelationOp['relation']): JsonValue {
   const result: Record<string, string | boolean> = {
     id: toBase64(relation.id),
   };
@@ -133,7 +123,7 @@ function convertUpdateRelationToBase64(
 }
 
 function convertUnsetRelationFieldsToBase64(
-  unsetRelationFields: UnsetRelationFieldsOp["unsetRelationFields"]
+  unsetRelationFields: UnsetRelationFieldsOp['unsetRelationFields'],
 ): JsonValue {
   const result: Record<string, string | boolean> = {
     id: toBase64(unsetRelationFields.id),
@@ -164,7 +154,7 @@ function convertUnsetRelationFieldsToBase64(
 function convertUpdateEntityToBase64(entity: Entity): JsonValue {
   return {
     id: toBase64(entity.id).toString(),
-    values: entity.values.map((value) => {
+    values: entity.values.map(value => {
       let options: ValueOptions | undefined;
       if (value.options) {
         if (value.options.text) {
@@ -172,9 +162,7 @@ function convertUpdateEntityToBase64(entity: Entity): JsonValue {
             text: {
               ...(value.options.text.language
                 ? {
-                    language: toBase64(
-                      Id(value.options.text.language)
-                    ).toString(),
+                    language: toBase64(Id(value.options.text.language)).toString(),
                   }
                 : null),
             },
@@ -182,9 +170,7 @@ function convertUpdateEntityToBase64(entity: Entity): JsonValue {
         } else if (value.options.number) {
           options = {
             number: {
-              ...(value.options.number.unit
-                ? { unit: toBase64(Id(value.options.number.unit)).toString() }
-                : {}),
+              ...(value.options.number.unit ? { unit: toBase64(Id(value.options.number.unit)).toString() } : {}),
             },
           };
         }
@@ -202,10 +188,7 @@ function convertUpdateEntityToBase64(entity: Entity): JsonValue {
   };
 }
 
-function convertPropertyToBase64(property: {
-  id: Id;
-  dataType: DataType;
-}): JsonValue {
+function convertPropertyToBase64(property: { id: Id; dataType: DataType }): JsonValue {
   return {
     id: toBase64(property.id).toString(),
     dataType: property.dataType,
@@ -213,65 +196,60 @@ function convertPropertyToBase64(property: {
 }
 
 function opsToBinary(ops: Op[]): OpBinary[] {
-  return ops.map((o) => {
+  return ops.map(o => {
     switch (o.type) {
-      case "CREATE_RELATION":
+      case 'CREATE_RELATION':
         return new OpBinary({
           payload: {
-            case: "createRelation",
-            value: RelationProto.fromJson(
-              convertRelationIdsToBase64(o.relation)
-            ),
+            case: 'createRelation',
+            value: RelationProto.fromJson(convertRelationIdsToBase64(o.relation)),
           },
         });
-      case "CREATE_PROPERTY":
+      case 'CREATE_PROPERTY':
         return new OpBinary({
           payload: {
-            case: "createProperty",
+            case: 'createProperty',
             value: Property.fromJson(convertPropertyToBase64(o.property)),
           },
         });
-      case "DELETE_RELATION":
+      case 'DELETE_RELATION':
         return new OpBinary({
           payload: {
-            case: "deleteRelation",
+            case: 'deleteRelation',
             value: toBytes(o.id),
           },
         });
-      case "UPDATE_ENTITY":
+      case 'UPDATE_ENTITY':
         return new OpBinary({
           payload: {
-            case: "updateEntity",
+            case: 'updateEntity',
             value: EntityProto.fromJson(convertUpdateEntityToBase64(o.entity)),
           },
         });
-      case "UNSET_ENTITY_VALUES":
+      case 'UNSET_ENTITY_VALUES':
         return new OpBinary({
           payload: {
-            case: "unsetEntityValues",
-            value: UnsetEntityValues.fromJson(
-              convertUnsetEntityValuesToBase64(o.unsetEntityValues)
-            ),
+            case: 'unsetEntityValues',
+            value: UnsetEntityValues.fromJson(convertUnsetEntityValuesToBase64(o.unsetEntityValues)),
           },
         });
-      case "UPDATE_RELATION":
+      case 'UPDATE_RELATION':
         return new OpBinary({
           payload: {
-            case: "updateRelation",
-            value: RelationUpdate.fromJson(
-              convertUpdateRelationToBase64(o.relation)
-            ),
+            case: 'updateRelation',
+            value: RelationUpdate.fromJson(convertUpdateRelationToBase64(o.relation)),
           },
         });
-      case "UNSET_RELATION_FIELDS":
+      case 'UNSET_RELATION_FIELDS':
         return new OpBinary({
           payload: {
-            case: "unsetRelationFields",
-            value: UnsetRelationFields.fromJson(
-              convertUnsetRelationFieldsToBase64(o.unsetRelationFields)
-            ),
+            case: 'unsetRelationFields',
+            value: UnsetRelationFields.fromJson(convertUnsetRelationFieldsToBase64(o.unsetRelationFields)),
           },
         });
+      default:
+        // @ts-expect-error - this is a fallback for unknown op types
+        throw new Error(`Unknown op type: ${o.type}`);
     }
   });
 }

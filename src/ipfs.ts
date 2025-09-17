@@ -11,8 +11,8 @@ import { imageSize } from 'image-size';
 
 import { Edit, EditProposal } from '../proto.js';
 import { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './graph/constants.js';
-import type { Id } from './id.js';
 import { fromBytes } from './id-utils.js';
+import type { Id } from './id.js';
 import type { Op } from './types.js';
 
 class IpfsUploadError extends Error {
@@ -55,6 +55,7 @@ export async function publishEdit(args: PublishEditProposalParams): Promise<Publ
 
   const edit = EditProposal.encode({ name, ops, author });
 
+  // @ts-expect-error - this is a typemissmatch which is fine
   const blob = new Blob([edit], { type: 'application/octet-stream' });
   const formData = new FormData();
   formData.append('file', blob);
@@ -90,7 +91,7 @@ export async function uploadImage(params: PublishImageParams, network?: 'TESTNET
   let dimensions: { width: number; height: number } | undefined;
   try {
     dimensions = imageSize(buffer);
-  } catch (error) {}
+  } catch (_error) {}
 
   const cid = await Micro.runPromise(uploadFile(formData, network));
 
@@ -158,6 +159,7 @@ export async function uploadCSV(csvString: string, network?: 'TESTNET' | 'MAINNE
   const blob = await gzipSync(csvStringBytes);
 
   const formData = new FormData();
+  // @ts-expect-error - this is a typemissmatch which is fine
   formData.append('file', new Blob([blob], { type: 'text/csv' }));
 
   return await Micro.runPromise(uploadBinary(formData, network));

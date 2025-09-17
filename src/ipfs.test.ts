@@ -4,7 +4,7 @@ import { createEntity } from './graph/create-entity.js';
 import { publishEdit } from './ipfs.js';
 
 it('full flow', async () => {
-  const { id, ops } = createEntity({
+  const { ops } = createEntity({
     name: 'test',
     description: 'test',
     values: [
