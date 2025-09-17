@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.25.0
+
+### Minor Changes
+
+- edb030c: Update to latest plugin repo version contract addresses
+
 ## 0.24.1
 
 ### Patch Changes
