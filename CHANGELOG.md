@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.25.2
+
+### Patch Changes
+
+- 3ab51a4: upgrade dependencies
+
 ## 0.25.1
 
 ### Patch Changes
