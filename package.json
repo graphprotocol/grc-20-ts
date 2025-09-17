@@ -38,7 +38,7 @@
     "viem": "^2.23.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.2.4",
     "@bufbuild/buf": "^1.31.0",
     "@bufbuild/protoc-gen-es": "^1.9.0",
     "@changesets/cli": "^2.29.5",
