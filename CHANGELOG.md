@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.25.1
+
+### Patch Changes
+
+- 9344248: Latest contract ABIs for updated contracts
+
 ## 0.25.0
 
 ### Minor Changes
