@@ -1,5 +1,12 @@
 # @graphprotocol/grc-20
 
+## 0.25.3
+
+### Patch Changes
+
+- 85ecc55: fix uploadImage in webbrowsers by avoiding Buffer to be defined
+- 85ecc55: validate createSpace response to improve the returned type
+
 ## 0.25.2
 
 ### Patch Changes
