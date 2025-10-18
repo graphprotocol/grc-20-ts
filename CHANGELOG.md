@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.25.4
+
+### Patch Changes
+
+- ced965d: add param `network` to Graph.createImage
+
 ## 0.25.3
 
 ### Patch Changes
