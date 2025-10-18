@@ -87,7 +87,7 @@ export async function uploadImage(params: PublishImageParams, network?: 'TESTNET
 
   formData.append('file', blob);
 
-  const buffer = Buffer.from(await blob.arrayBuffer());
+  const buffer = new Uint8Array(await blob.arrayBuffer());
   let dimensions: { width: number; height: number } | undefined;
   try {
     dimensions = imageSize(buffer);

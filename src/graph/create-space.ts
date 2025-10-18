@@ -1,3 +1,5 @@
+import { IdUtils } from '../../index.js';
+import { Id } from '../id.js';
 import type { Op } from '../types.js';
 import { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './constants.js';
 
@@ -51,7 +53,6 @@ type DeployParams = BaseDeployParams &
 export const createSpace = async (params: CreateSpaceParams) => {
   const governanceType = params.governanceType ?? 'PERSONAL';
   const apiHost = params.network === 'TESTNET' ? TESTNET_API_ORIGIN : MAINNET_API_ORIGIN;
-  console.log('apiHost', apiHost);
 
   const formData = new FormData();
   formData.append('name', params.name);
@@ -98,5 +99,8 @@ export const createSpace = async (params: CreateSpaceParams) => {
   });
 
   const jsonResult = await result.json();
-  return { id: jsonResult.spaceId };
+  if (!jsonResult || !jsonResult.spaceId || !IdUtils.isValid(jsonResult.spaceId)) {
+    throw new Error(`Failed to create space: ${JSON.stringify(jsonResult)}`);
+  }
+  return { id: Id(jsonResult.spaceId) };
 };
