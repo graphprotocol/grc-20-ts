@@ -5,8 +5,8 @@ import {
   IMAGE_WIDTH_PROPERTY,
   TYPES_PROPERTY,
 } from '../core/ids/system.js';
-import { Id } from '../id.js';
 import { assertValid, generate } from '../id-utils.js';
+import { Id } from '../id.js';
 import { uploadImage } from '../ipfs.js';
 import type { CreateImageParams, CreateResult, PropertiesParam } from '../types.js';
 import { createEntity } from './create-entity.js';
@@ -40,12 +40,13 @@ export const createImage = async ({
   name,
   description,
   id: providedId,
+  network,
   ...params
 }: CreateImageParams): Promise<CreateResult> => {
   if (providedId) assertValid(providedId, '`id` in `createImage`');
 
   const id = providedId ?? generate();
-  const { cid, dimensions } = await uploadImage(params);
+  const { cid, dimensions } = await uploadImage(params, network);
 
   const values: PropertiesParam = [];
   values.push({

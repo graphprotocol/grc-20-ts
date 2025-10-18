@@ -206,12 +206,14 @@ export type CreateImageParams =
       name?: string;
       description?: string;
       id?: Id | string;
+      network?: 'TESTNET' | 'MAINNET' | undefined;
     }
   | {
       url: string;
       name?: string;
       description?: string;
       id?: Id | string;
+      network?: 'TESTNET' | 'MAINNET' | undefined;
     };
 
 type SafeSmartAccount = SafeSmartAccountImplementation<'0.7'> & {
