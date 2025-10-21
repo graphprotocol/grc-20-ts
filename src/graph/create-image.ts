@@ -8,7 +8,7 @@ import {
 import { assertValid, generate } from '../id-utils.js';
 import { Id } from '../id.js';
 import { uploadImage } from '../ipfs.js';
-import type { CreateImageParams, CreateResult, PropertiesParam } from '../types.js';
+import type { CreateImageParams, CreateImageResult, PropertiesParam } from '../types.js';
 import { createEntity } from './create-entity.js';
 
 /**
@@ -33,7 +33,7 @@ import { createEntity } from './create-entity.js';
  * });
  * ```
  * @param params – {@link CreateImageParams}
- * @returns – {@link CreateResult}
+ * @returns – {@link CreateImageResult}
  * @throws Will throw an IpfsUploadError if the image cannot be uploaded to IPFS
  */
 export const createImage = async ({
@@ -42,7 +42,7 @@ export const createImage = async ({
   id: providedId,
   network,
   ...params
-}: CreateImageParams): Promise<CreateResult> => {
+}: CreateImageParams): Promise<CreateImageResult> => {
   if (providedId) assertValid(providedId, '`id` in `createImage`');
 
   const id = providedId ?? generate();
@@ -86,6 +86,8 @@ export const createImage = async ({
 
   return {
     id: Id(id),
+    cid,
+    dimensions,
     ops,
   };
 };
