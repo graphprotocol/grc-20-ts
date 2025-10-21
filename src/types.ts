@@ -163,6 +163,11 @@ export type CreateResult = {
   ops: Op[];
 };
 
+export type CreateImageResult = CreateResult & {
+  cid: string;
+  dimensions?: { width: number; height: number };
+};
+
 export type UnsetRelationParams = {
   id: Id | string;
   fromSpace?: boolean;

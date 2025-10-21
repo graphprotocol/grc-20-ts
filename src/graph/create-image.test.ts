@@ -41,6 +41,10 @@ describe('createImage', () => {
 
     expect(image).toBeDefined();
     expect(typeof image.id).toBe('string');
+    expect(image.cid).toBe('ipfs://bafkreidgcqofpstvkzylgxbcn4xan6camlgf564sasepyt45sjgvnojxp4');
+    expect(image.dimensions).toBeDefined();
+    expect(image.dimensions?.width).toBe(10);
+    expect(image.dimensions?.height).toBe(7);
     expect(image.ops).toBeDefined();
     expect(image.ops).toHaveLength(2);
     if (image.ops[0]) {
@@ -64,6 +68,10 @@ describe('createImage', () => {
 
     expect(image).toBeDefined();
     expect(typeof image.id).toBe('string');
+    expect(image.cid).toBe('ipfs://bafkreidgcqofpstvkzylgxbcn4xan6camlgf564sasepyt45sjgvnojxp4');
+    expect(image.dimensions).toBeDefined();
+    expect(image.dimensions?.width).toBe(10);
+    expect(image.dimensions?.height).toBe(7);
     expect(image.ops).toBeDefined();
     expect(image.ops).toHaveLength(2);
     if (image.ops[0]) {
@@ -112,6 +120,8 @@ describe('createImage', () => {
     const testImageBlob = new Blob([new Uint8Array([0, 0, 0, 0])], { type: 'image/png' });
     const image = await createImage({ blob: testImageBlob });
     expect(image).toBeDefined();
+    expect(image.cid).toBe('ipfs://bafkreidgcqofpstvkzylgxbcn4xan6camlgf564sasepyt45sjgvnojxp4');
+    expect(image.dimensions).toBeUndefined();
     expect(image.ops).toBeDefined();
     expect(image.ops).toHaveLength(2);
     if (image.ops[0]) {
