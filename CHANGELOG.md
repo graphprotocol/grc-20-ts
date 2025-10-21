@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.25.5
+
+### Patch Changes
+
+- f02a9f7: Graph.createImage now also returns the cid and dimensions
+
 ## 0.25.4
 
 ### Patch Changes
