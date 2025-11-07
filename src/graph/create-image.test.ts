@@ -17,8 +17,6 @@ const ipfsUploadUrl = `${MAINNET_API_ORIGIN}/ipfs/upload-file`;
 describe('createImage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-
-    const originalFetch = global.fetch;
     vi.spyOn(global, 'fetch').mockImplementation(url => {
       if (url.toString() === 'http://localhost:3000/image') {
         return Promise.resolve({
@@ -39,7 +37,6 @@ describe('createImage', () => {
         } as Response);
       }
       return vi.fn() as never;
-      // return the original fetch
     });
   });
 

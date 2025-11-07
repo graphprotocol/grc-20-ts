@@ -190,7 +190,7 @@ function uploadBinary(formData: FormData, network?: 'TESTNET' | 'MAINNET') {
 
 function uploadFile(formData: FormData, network?: 'TESTNET' | 'MAINNET', alternativeGateway?: boolean) {
   return Micro.gen(function* () {
-    let apiUrl = `${network === 'TESTNET' ? TESTNET_API_ORIGIN : MAINNET_API_ORIGIN}/ipfs/upload-file`
+    let apiUrl = `${network === 'TESTNET' ? TESTNET_API_ORIGIN : MAINNET_API_ORIGIN}/ipfs/upload-file`;
     if (alternativeGateway) {
       apiUrl = `${TESTNET_API_ORIGIN}/ipfs/upload-file-alternative-gateway`;
     }
