@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Id } from '../id.js';
 import { SystemIds } from '../system-ids.js';
-import { MAINNET_API_ORIGIN } from './constants.js';
+import { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './constants.js';
 import { createImage } from './create-image.js';
 
 // serialized like this:
@@ -17,6 +17,8 @@ const ipfsUploadUrl = `${MAINNET_API_ORIGIN}/ipfs/upload-file`;
 describe('createImage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+
+    const originalFetch = global.fetch;
     vi.spyOn(global, 'fetch').mockImplementation(url => {
       if (url.toString() === 'http://localhost:3000/image') {
         return Promise.resolve({
@@ -30,7 +32,14 @@ describe('createImage', () => {
           json: () => Promise.resolve({ cid: 'ipfs://bafkreidgcqofpstvkzylgxbcn4xan6camlgf564sasepyt45sjgvnojxp4' }),
         } as Response);
       }
+      if (url.toString() === `${TESTNET_API_ORIGIN}/ipfs/upload-file-alternative-gateway`) {
+        return Promise.resolve({
+          status: 200,
+          json: () => Promise.resolve({ cid: 'ipfs://bafkreidgcqofpstvkzylgxbcn4xan6camlgf564sasepyt45sjgvnojxp4' }),
+        } as Response);
+      }
       return vi.fn() as never;
+      // return the original fetch
     });
   });
 
@@ -59,6 +68,15 @@ describe('createImage', () => {
     if (image.ops[1]) {
       expect(image.ops[1].type).toBe('CREATE_RELATION');
     }
+  });
+
+  it('creates an image on TESTNET from a blob', async () => {
+    const image = await createImage({
+      blob: testImageBlob,
+      network: 'TESTNET',
+    });
+
+    expect(image).toBeDefined();
   });
 
   it('creates an image from a blob', async () => {
