@@ -74,7 +74,7 @@ type PublishImageParams =
       url: string;
     };
 
-export async function uploadImage(params: PublishImageParams, network?: 'TESTNET' | 'MAINNET') {
+export async function uploadImage(params: PublishImageParams, network?: 'TESTNET' | 'MAINNET', alternativeGateway?: boolean) {
   const formData = new FormData();
   let blob: Blob;
   if ('blob' in params) {
@@ -93,7 +93,7 @@ export async function uploadImage(params: PublishImageParams, network?: 'TESTNET
     dimensions = imageSize(buffer);
   } catch (_error) {}
 
-  const cid = await Micro.runPromise(uploadFile(formData, network));
+  const cid = await Micro.runPromise(uploadFile(formData, network, alternativeGateway));
 
   if (dimensions) {
     return {
@@ -188,15 +188,22 @@ function uploadBinary(formData: FormData, network?: 'TESTNET' | 'MAINNET') {
   });
 }
 
-function uploadFile(formData: FormData, network?: 'TESTNET' | 'MAINNET') {
+function uploadFile(formData: FormData, network?: 'TESTNET' | 'MAINNET', alternativeGateway?: boolean) {
   return Micro.gen(function* () {
+    let apiUrl = `${network === 'TESTNET' ? TESTNET_API_ORIGIN : MAINNET_API_ORIGIN}/ipfs/upload-file`;
+    if (alternativeGateway) {
+      apiUrl = `${TESTNET_API_ORIGIN}/ipfs/upload-file-alternative-gateway`;
+    }
+
     const result = yield* Micro.tryPromise({
       try: () =>
-        fetch(`${network === 'TESTNET' ? TESTNET_API_ORIGIN : MAINNET_API_ORIGIN}/ipfs/upload-file`, {
+        fetch(apiUrl, {
           method: 'POST',
           body: formData,
         }),
-      catch: error => new IpfsUploadError(`Could not upload file to IPFS: ${error}`),
+      catch: error => {
+        return new IpfsUploadError(`Could not upload file to IPFS: ${error}`)
+      },
     });
 
     const maybeCid = yield* Micro.tryPromise({
