@@ -1,6 +1,6 @@
 {
   "name": "@graphprotocol/grc-20",
-  "version": "0.25.5",
+  "version": "0.25.6",
   "license": "MIT",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",

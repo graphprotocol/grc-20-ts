@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.25.6
+
+### Patch Changes
+
+- 73ba850: automatically upload images to the alternative ipfs gateway
+
 ## 0.25.5
 
 ### Patch Changes
