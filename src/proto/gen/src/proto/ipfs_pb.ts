@@ -3,8 +3,15 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3 } from "@bufbuild/protobuf";
+import type {
+  BinaryReadOptions,
+  FieldList,
+  JsonReadOptions,
+  JsonValue,
+  PartialMessage,
+  PlainMessage,
+} from '@bufbuild/protobuf';
+import { Message, proto3 } from '@bufbuild/protobuf';
 
 /**
  * @generated from enum grc20.DataType
@@ -41,13 +48,13 @@ export enum DataType {
   RELATION = 5,
 }
 // Retrieve enum metadata with: proto3.getEnumType(DataType)
-proto3.util.setEnumType(DataType, "grc20.DataType", [
-  { no: 0, name: "STRING" },
-  { no: 1, name: "NUMBER" },
-  { no: 2, name: "BOOLEAN" },
-  { no: 3, name: "TIME" },
-  { no: 4, name: "POINT" },
-  { no: 5, name: "RELATION" },
+proto3.util.setEnumType(DataType, 'grc20.DataType', [
+  { no: 0, name: 'STRING' },
+  { no: 1, name: 'NUMBER' },
+  { no: 2, name: 'BOOLEAN' },
+  { no: 3, name: 'TIME' },
+  { no: 4, name: 'POINT' },
+  { no: 5, name: 'RELATION' },
 ]);
 
 /**
@@ -62,7 +69,7 @@ export class Edit extends Message<Edit> {
   /**
    * @generated from field: string name = 2;
    */
-  name = "";
+  name = '';
 
   /**
    * @generated from field: repeated grc20.Op ops = 3;
@@ -85,13 +92,13 @@ export class Edit extends Message<Edit> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.Edit";
+  static readonly typeName = 'grc20.Edit';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "ops", kind: "message", T: Op, repeated: true },
-    { no: 4, name: "authors", kind: "scalar", T: 12 /* ScalarType.BYTES */, repeated: true },
-    { no: 5, name: "language", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 1, name: 'id', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: 'name', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: 'ops', kind: 'message', T: Op, repeated: true },
+    { no: 4, name: 'authors', kind: 'scalar', T: 12 /* ScalarType.BYTES */, repeated: true },
+    { no: 5, name: 'language', kind: 'scalar', T: 12 /* ScalarType.BYTES */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Edit {
@@ -123,7 +130,7 @@ export class ImportEdit extends Message<ImportEdit> {
   /**
    * @generated from field: string name = 2;
    */
-  name = "";
+  name = '';
 
   /**
    * @generated from field: repeated grc20.Op ops = 3;
@@ -143,7 +150,7 @@ export class ImportEdit extends Message<ImportEdit> {
   /**
    * @generated from field: string created_at = 6;
    */
-  createdAt = "";
+  createdAt = '';
 
   /**
    * @generated from field: bytes block_hash = 7;
@@ -153,7 +160,7 @@ export class ImportEdit extends Message<ImportEdit> {
   /**
    * @generated from field: string block_number = 8;
    */
-  blockNumber = "";
+  blockNumber = '';
 
   /**
    * @generated from field: bytes transaction_hash = 9;
@@ -166,17 +173,17 @@ export class ImportEdit extends Message<ImportEdit> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.ImportEdit";
+  static readonly typeName = 'grc20.ImportEdit';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "ops", kind: "message", T: Op, repeated: true },
-    { no: 4, name: "authors", kind: "scalar", T: 12 /* ScalarType.BYTES */, repeated: true },
-    { no: 5, name: "created_by", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 6, name: "created_at", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 7, name: "block_hash", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 8, name: "block_number", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 9, name: "transaction_hash", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+    { no: 1, name: 'id', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: 'name', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: 'ops', kind: 'message', T: Op, repeated: true },
+    { no: 4, name: 'authors', kind: 'scalar', T: 12 /* ScalarType.BYTES */, repeated: true },
+    { no: 5, name: 'created_by', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 6, name: 'created_at', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 7, name: 'block_hash', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 8, name: 'block_number', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 9, name: 'transaction_hash', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ImportEdit {
@@ -191,7 +198,10 @@ export class ImportEdit extends Message<ImportEdit> {
     return new ImportEdit().fromJsonString(jsonString, options);
   }
 
-  static equals(a: ImportEdit | PlainMessage<ImportEdit> | undefined, b: ImportEdit | PlainMessage<ImportEdit> | undefined): boolean {
+  static equals(
+    a: ImportEdit | PlainMessage<ImportEdit> | undefined,
+    b: ImportEdit | PlainMessage<ImportEdit> | undefined,
+  ): boolean {
     return proto3.util.equals(ImportEdit, a, b);
   }
 }
@@ -213,9 +223,9 @@ export class Import extends Message<Import> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.Import";
+  static readonly typeName = 'grc20.Import';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "edits", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 1, name: 'edits', kind: 'scalar', T: 9 /* ScalarType.STRING */, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Import {
@@ -242,30 +252,34 @@ export class File extends Message<File> {
   /**
    * @generated from field: string version = 1;
    */
-  version = "";
+  version = '';
 
   /**
    * @generated from oneof grc20.File.payload
    */
-  payload: {
-    /**
-     * @generated from field: grc20.Edit add_edit = 2;
-     */
-    value: Edit;
-    case: "addEdit";
-  } | {
-    /**
-     * @generated from field: grc20.Import import_space = 3;
-     */
-    value: Import;
-    case: "importSpace";
-  } | {
-    /**
-     * @generated from field: bytes archive_space = 4;
-     */
-    value: Uint8Array;
-    case: "archiveSpace";
-  } | { case: undefined; value?: undefined } = { case: undefined };
+  payload:
+    | {
+        /**
+         * @generated from field: grc20.Edit add_edit = 2;
+         */
+        value: Edit;
+        case: 'addEdit';
+      }
+    | {
+        /**
+         * @generated from field: grc20.Import import_space = 3;
+         */
+        value: Import;
+        case: 'importSpace';
+      }
+    | {
+        /**
+         * @generated from field: bytes archive_space = 4;
+         */
+        value: Uint8Array;
+        case: 'archiveSpace';
+      }
+    | { case: undefined; value?: undefined } = { case: undefined };
 
   constructor(data?: PartialMessage<File>) {
     super();
@@ -273,12 +287,12 @@ export class File extends Message<File> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.File";
+  static readonly typeName = 'grc20.File';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "version", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "add_edit", kind: "message", T: Edit, oneof: "payload" },
-    { no: 3, name: "import_space", kind: "message", T: Import, oneof: "payload" },
-    { no: 4, name: "archive_space", kind: "scalar", T: 12 /* ScalarType.BYTES */, oneof: "payload" },
+    { no: 1, name: 'version', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: 'add_edit', kind: 'message', T: Edit, oneof: 'payload' },
+    { no: 3, name: 'import_space', kind: 'message', T: Import, oneof: 'payload' },
+    { no: 4, name: 'archive_space', kind: 'scalar', T: 12 /* ScalarType.BYTES */, oneof: 'payload' },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): File {
@@ -305,49 +319,57 @@ export class Op extends Message<Op> {
   /**
    * @generated from oneof grc20.Op.payload
    */
-  payload: {
-    /**
-     * @generated from field: grc20.Entity update_entity = 1;
-     */
-    value: Entity;
-    case: "updateEntity";
-  } | {
-    /**
-     * @generated from field: grc20.Relation create_relation = 2;
-     */
-    value: Relation;
-    case: "createRelation";
-  } | {
-    /**
-     * @generated from field: grc20.RelationUpdate update_relation = 3;
-     */
-    value: RelationUpdate;
-    case: "updateRelation";
-  } | {
-    /**
-     * @generated from field: bytes delete_relation = 4;
-     */
-    value: Uint8Array;
-    case: "deleteRelation";
-  } | {
-    /**
-     * @generated from field: grc20.Property create_property = 5;
-     */
-    value: Property;
-    case: "createProperty";
-  } | {
-    /**
-     * @generated from field: grc20.UnsetEntityValues unset_entity_values = 6;
-     */
-    value: UnsetEntityValues;
-    case: "unsetEntityValues";
-  } | {
-    /**
-     * @generated from field: grc20.UnsetRelationFields unset_relation_fields = 7;
-     */
-    value: UnsetRelationFields;
-    case: "unsetRelationFields";
-  } | { case: undefined; value?: undefined } = { case: undefined };
+  payload:
+    | {
+        /**
+         * @generated from field: grc20.Entity update_entity = 1;
+         */
+        value: Entity;
+        case: 'updateEntity';
+      }
+    | {
+        /**
+         * @generated from field: grc20.Relation create_relation = 2;
+         */
+        value: Relation;
+        case: 'createRelation';
+      }
+    | {
+        /**
+         * @generated from field: grc20.RelationUpdate update_relation = 3;
+         */
+        value: RelationUpdate;
+        case: 'updateRelation';
+      }
+    | {
+        /**
+         * @generated from field: bytes delete_relation = 4;
+         */
+        value: Uint8Array;
+        case: 'deleteRelation';
+      }
+    | {
+        /**
+         * @generated from field: grc20.Property create_property = 5;
+         */
+        value: Property;
+        case: 'createProperty';
+      }
+    | {
+        /**
+         * @generated from field: grc20.UnsetEntityValues unset_entity_values = 6;
+         */
+        value: UnsetEntityValues;
+        case: 'unsetEntityValues';
+      }
+    | {
+        /**
+         * @generated from field: grc20.UnsetRelationFields unset_relation_fields = 7;
+         */
+        value: UnsetRelationFields;
+        case: 'unsetRelationFields';
+      }
+    | { case: undefined; value?: undefined } = { case: undefined };
 
   constructor(data?: PartialMessage<Op>) {
     super();
@@ -355,15 +377,15 @@ export class Op extends Message<Op> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.Op";
+  static readonly typeName = 'grc20.Op';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "update_entity", kind: "message", T: Entity, oneof: "payload" },
-    { no: 2, name: "create_relation", kind: "message", T: Relation, oneof: "payload" },
-    { no: 3, name: "update_relation", kind: "message", T: RelationUpdate, oneof: "payload" },
-    { no: 4, name: "delete_relation", kind: "scalar", T: 12 /* ScalarType.BYTES */, oneof: "payload" },
-    { no: 5, name: "create_property", kind: "message", T: Property, oneof: "payload" },
-    { no: 6, name: "unset_entity_values", kind: "message", T: UnsetEntityValues, oneof: "payload" },
-    { no: 7, name: "unset_relation_fields", kind: "message", T: UnsetRelationFields, oneof: "payload" },
+    { no: 1, name: 'update_entity', kind: 'message', T: Entity, oneof: 'payload' },
+    { no: 2, name: 'create_relation', kind: 'message', T: Relation, oneof: 'payload' },
+    { no: 3, name: 'update_relation', kind: 'message', T: RelationUpdate, oneof: 'payload' },
+    { no: 4, name: 'delete_relation', kind: 'scalar', T: 12 /* ScalarType.BYTES */, oneof: 'payload' },
+    { no: 5, name: 'create_property', kind: 'message', T: Property, oneof: 'payload' },
+    { no: 6, name: 'unset_entity_values', kind: 'message', T: UnsetEntityValues, oneof: 'payload' },
+    { no: 7, name: 'unset_relation_fields', kind: 'message', T: UnsetRelationFields, oneof: 'payload' },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Op {
@@ -403,10 +425,10 @@ export class Property extends Message<Property> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.Property";
+  static readonly typeName = 'grc20.Property';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 2, name: "data_type", kind: "enum", T: proto3.getEnumType(DataType) },
+    { no: 1, name: 'id', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: 'data_type', kind: 'enum', T: proto3.getEnumType(DataType) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Property {
@@ -421,7 +443,10 @@ export class Property extends Message<Property> {
     return new Property().fromJsonString(jsonString, options);
   }
 
-  static equals(a: Property | PlainMessage<Property> | undefined, b: Property | PlainMessage<Property> | undefined): boolean {
+  static equals(
+    a: Property | PlainMessage<Property> | undefined,
+    b: Property | PlainMessage<Property> | undefined,
+  ): boolean {
     return proto3.util.equals(Property, a, b);
   }
 }
@@ -446,10 +471,10 @@ export class UnsetEntityValues extends Message<UnsetEntityValues> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.UnsetEntityValues";
+  static readonly typeName = 'grc20.UnsetEntityValues';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 2, name: "properties", kind: "scalar", T: 12 /* ScalarType.BYTES */, repeated: true },
+    { no: 1, name: 'id', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: 'properties', kind: 'scalar', T: 12 /* ScalarType.BYTES */, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UnsetEntityValues {
@@ -464,7 +489,10 @@ export class UnsetEntityValues extends Message<UnsetEntityValues> {
     return new UnsetEntityValues().fromJsonString(jsonString, options);
   }
 
-  static equals(a: UnsetEntityValues | PlainMessage<UnsetEntityValues> | undefined, b: UnsetEntityValues | PlainMessage<UnsetEntityValues> | undefined): boolean {
+  static equals(
+    a: UnsetEntityValues | PlainMessage<UnsetEntityValues> | undefined,
+    b: UnsetEntityValues | PlainMessage<UnsetEntityValues> | undefined,
+  ): boolean {
     return proto3.util.equals(UnsetEntityValues, a, b);
   }
 }
@@ -534,19 +562,19 @@ export class Relation extends Message<Relation> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.Relation";
+  static readonly typeName = 'grc20.Relation';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 2, name: "type", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 3, name: "from_entity", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 4, name: "from_space", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
-    { no: 5, name: "from_version", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
-    { no: 6, name: "to_entity", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 7, name: "to_space", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
-    { no: 8, name: "to_version", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
-    { no: 9, name: "entity", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 10, name: "position", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
-    { no: 11, name: "verified", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 1, name: 'id', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: 'type', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 3, name: 'from_entity', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 4, name: 'from_space', kind: 'scalar', T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 5, name: 'from_version', kind: 'scalar', T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 6, name: 'to_entity', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 7, name: 'to_space', kind: 'scalar', T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 8, name: 'to_version', kind: 'scalar', T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 9, name: 'entity', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 10, name: 'position', kind: 'scalar', T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 11, name: 'verified', kind: 'scalar', T: 8 /* ScalarType.BOOL */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Relation {
@@ -561,7 +589,10 @@ export class Relation extends Message<Relation> {
     return new Relation().fromJsonString(jsonString, options);
   }
 
-  static equals(a: Relation | PlainMessage<Relation> | undefined, b: Relation | PlainMessage<Relation> | undefined): boolean {
+  static equals(
+    a: Relation | PlainMessage<Relation> | undefined,
+    b: Relation | PlainMessage<Relation> | undefined,
+  ): boolean {
     return proto3.util.equals(Relation, a, b);
   }
 }
@@ -611,15 +642,15 @@ export class RelationUpdate extends Message<RelationUpdate> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.RelationUpdate";
+  static readonly typeName = 'grc20.RelationUpdate';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 2, name: "from_space", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
-    { no: 3, name: "from_version", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
-    { no: 4, name: "to_space", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
-    { no: 5, name: "to_version", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
-    { no: 6, name: "position", kind: "scalar", T: 9 /* ScalarType.STRING */, opt: true },
-    { no: 7, name: "verified", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 1, name: 'id', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: 'from_space', kind: 'scalar', T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 3, name: 'from_version', kind: 'scalar', T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 4, name: 'to_space', kind: 'scalar', T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 5, name: 'to_version', kind: 'scalar', T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 6, name: 'position', kind: 'scalar', T: 9 /* ScalarType.STRING */, opt: true },
+    { no: 7, name: 'verified', kind: 'scalar', T: 8 /* ScalarType.BOOL */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): RelationUpdate {
@@ -634,7 +665,10 @@ export class RelationUpdate extends Message<RelationUpdate> {
     return new RelationUpdate().fromJsonString(jsonString, options);
   }
 
-  static equals(a: RelationUpdate | PlainMessage<RelationUpdate> | undefined, b: RelationUpdate | PlainMessage<RelationUpdate> | undefined): boolean {
+  static equals(
+    a: RelationUpdate | PlainMessage<RelationUpdate> | undefined,
+    b: RelationUpdate | PlainMessage<RelationUpdate> | undefined,
+  ): boolean {
     return proto3.util.equals(RelationUpdate, a, b);
   }
 }
@@ -684,15 +718,15 @@ export class UnsetRelationFields extends Message<UnsetRelationFields> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.UnsetRelationFields";
+  static readonly typeName = 'grc20.UnsetRelationFields';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 2, name: "from_space", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
-    { no: 3, name: "from_version", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
-    { no: 4, name: "to_space", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
-    { no: 5, name: "to_version", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
-    { no: 6, name: "position", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
-    { no: 7, name: "verified", kind: "scalar", T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 1, name: 'id', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: 'from_space', kind: 'scalar', T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 3, name: 'from_version', kind: 'scalar', T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 4, name: 'to_space', kind: 'scalar', T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 5, name: 'to_version', kind: 'scalar', T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 6, name: 'position', kind: 'scalar', T: 8 /* ScalarType.BOOL */, opt: true },
+    { no: 7, name: 'verified', kind: 'scalar', T: 8 /* ScalarType.BOOL */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UnsetRelationFields {
@@ -707,7 +741,10 @@ export class UnsetRelationFields extends Message<UnsetRelationFields> {
     return new UnsetRelationFields().fromJsonString(jsonString, options);
   }
 
-  static equals(a: UnsetRelationFields | PlainMessage<UnsetRelationFields> | undefined, b: UnsetRelationFields | PlainMessage<UnsetRelationFields> | undefined): boolean {
+  static equals(
+    a: UnsetRelationFields | PlainMessage<UnsetRelationFields> | undefined,
+    b: UnsetRelationFields | PlainMessage<UnsetRelationFields> | undefined,
+  ): boolean {
     return proto3.util.equals(UnsetRelationFields, a, b);
   }
 }
@@ -732,10 +769,10 @@ export class Entity extends Message<Entity> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.Entity";
+  static readonly typeName = 'grc20.Entity';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 2, name: "values", kind: "message", T: Value, repeated: true },
+    { no: 1, name: 'id', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: 'values', kind: 'message', T: Value, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Entity {
@@ -762,19 +799,22 @@ export class Options extends Message<Options> {
   /**
    * @generated from oneof grc20.Options.value
    */
-  value: {
-    /**
-     * @generated from field: grc20.TextOptions text = 1;
-     */
-    value: TextOptions;
-    case: "text";
-  } | {
-    /**
-     * @generated from field: grc20.NumberOptions number = 2;
-     */
-    value: NumberOptions;
-    case: "number";
-  } | { case: undefined; value?: undefined } = { case: undefined };
+  value:
+    | {
+        /**
+         * @generated from field: grc20.TextOptions text = 1;
+         */
+        value: TextOptions;
+        case: 'text';
+      }
+    | {
+        /**
+         * @generated from field: grc20.NumberOptions number = 2;
+         */
+        value: NumberOptions;
+        case: 'number';
+      }
+    | { case: undefined; value?: undefined } = { case: undefined };
 
   constructor(data?: PartialMessage<Options>) {
     super();
@@ -782,10 +822,10 @@ export class Options extends Message<Options> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.Options";
+  static readonly typeName = 'grc20.Options';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "text", kind: "message", T: TextOptions, oneof: "value" },
-    { no: 2, name: "number", kind: "message", T: NumberOptions, oneof: "value" },
+    { no: 1, name: 'text', kind: 'message', T: TextOptions, oneof: 'value' },
+    { no: 2, name: 'number', kind: 'message', T: NumberOptions, oneof: 'value' },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Options {
@@ -800,7 +840,10 @@ export class Options extends Message<Options> {
     return new Options().fromJsonString(jsonString, options);
   }
 
-  static equals(a: Options | PlainMessage<Options> | undefined, b: Options | PlainMessage<Options> | undefined): boolean {
+  static equals(
+    a: Options | PlainMessage<Options> | undefined,
+    b: Options | PlainMessage<Options> | undefined,
+  ): boolean {
     return proto3.util.equals(Options, a, b);
   }
 }
@@ -817,7 +860,7 @@ export class Value extends Message<Value> {
   /**
    * @generated from field: string value = 2;
    */
-  value = "";
+  value = '';
 
   /**
    * @generated from field: optional grc20.Options options = 3;
@@ -830,11 +873,11 @@ export class Value extends Message<Value> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.Value";
+  static readonly typeName = 'grc20.Value';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "property", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 2, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "options", kind: "message", T: Options, opt: true },
+    { no: 1, name: 'property', kind: 'scalar', T: 12 /* ScalarType.BYTES */ },
+    { no: 2, name: 'value', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: 'options', kind: 'message', T: Options, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Value {
@@ -869,9 +912,9 @@ export class TextOptions extends Message<TextOptions> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.TextOptions";
+  static readonly typeName = 'grc20.TextOptions';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "language", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 1, name: 'language', kind: 'scalar', T: 12 /* ScalarType.BYTES */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): TextOptions {
@@ -886,7 +929,10 @@ export class TextOptions extends Message<TextOptions> {
     return new TextOptions().fromJsonString(jsonString, options);
   }
 
-  static equals(a: TextOptions | PlainMessage<TextOptions> | undefined, b: TextOptions | PlainMessage<TextOptions> | undefined): boolean {
+  static equals(
+    a: TextOptions | PlainMessage<TextOptions> | undefined,
+    b: TextOptions | PlainMessage<TextOptions> | undefined,
+  ): boolean {
     return proto3.util.equals(TextOptions, a, b);
   }
 }
@@ -906,9 +952,9 @@ export class NumberOptions extends Message<NumberOptions> {
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "grc20.NumberOptions";
+  static readonly typeName = 'grc20.NumberOptions';
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "unit", kind: "scalar", T: 12 /* ScalarType.BYTES */, opt: true },
+    { no: 1, name: 'unit', kind: 'scalar', T: 12 /* ScalarType.BYTES */, opt: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): NumberOptions {
@@ -923,8 +969,10 @@ export class NumberOptions extends Message<NumberOptions> {
     return new NumberOptions().fromJsonString(jsonString, options);
   }
 
-  static equals(a: NumberOptions | PlainMessage<NumberOptions> | undefined, b: NumberOptions | PlainMessage<NumberOptions> | undefined): boolean {
+  static equals(
+    a: NumberOptions | PlainMessage<NumberOptions> | undefined,
+    b: NumberOptions | PlainMessage<NumberOptions> | undefined,
+  ): boolean {
     return proto3.util.equals(NumberOptions, a, b);
   }
 }
-

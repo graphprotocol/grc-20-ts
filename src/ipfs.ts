@@ -11,8 +11,8 @@ import { imageSize } from 'image-size';
 
 import { Edit, EditProposal } from '../proto.js';
 import { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './graph/constants.js';
-import { fromBytes } from './id-utils.js';
 import type { Id } from './id.js';
+import { fromBytes } from './id-utils.js';
 import type { Op } from './types.js';
 
 class IpfsUploadError extends Error {
@@ -74,7 +74,11 @@ type PublishImageParams =
       url: string;
     };
 
-export async function uploadImage(params: PublishImageParams, network?: 'TESTNET' | 'MAINNET', alternativeGateway?: boolean) {
+export async function uploadImage(
+  params: PublishImageParams,
+  network?: 'TESTNET' | 'MAINNET',
+  alternativeGateway?: boolean,
+) {
   const formData = new FormData();
   let blob: Blob;
   if ('blob' in params) {
@@ -202,7 +206,7 @@ function uploadFile(formData: FormData, network?: 'TESTNET' | 'MAINNET', alterna
           body: formData,
         }),
       catch: error => {
-        return new IpfsUploadError(`Could not upload file to IPFS: ${error}`)
+        return new IpfsUploadError(`Could not upload file to IPFS: ${error}`);
       },
     });
 

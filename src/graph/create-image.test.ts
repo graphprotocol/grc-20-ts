@@ -82,7 +82,7 @@ describe('createImage', () => {
     }
     if (image.ops[1]) {
       expect(image.ops[1].type).toBe('CREATE_RELATION');
-    } 
+    }
   });
 
   it('creates an image from a blob', async () => {

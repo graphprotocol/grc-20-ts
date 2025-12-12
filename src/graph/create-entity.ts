@@ -1,6 +1,6 @@
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
-import { assertValid, generate } from '../id-utils.js';
 import { Id } from '../id.js';
+import { assertValid, generate } from '../id-utils.js';
 import type { CreateResult, EntityParams, Op, UpdateEntityOp, Value, ValueOptions } from '../types.js';
 import { createRelation } from './create-relation.js';
 
@@ -137,7 +137,7 @@ export const createEntity = ({
     });
   }
   for (const valueEntry of values ?? []) {
-    let options: ValueOptions | undefined = undefined;
+    let options: ValueOptions | undefined;
     if (valueEntry.options) {
       const optionsParam = valueEntry.options;
       switch (optionsParam.type) {

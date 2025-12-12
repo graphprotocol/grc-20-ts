@@ -3,4 +3,4 @@
  *
  * @since 0.0.6
  */
-export * as Position from "./core/position.js";
+export * as Position from './core/position.js';

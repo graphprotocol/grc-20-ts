@@ -38,7 +38,7 @@ export function isValidBase64(id: string): boolean {
     // @ts-expect-error
     const uuid = fromBase64(id);
     return isValid(uuid);
-  } catch (error) {
+  } catch (_error) {
     return false;
   }
 }

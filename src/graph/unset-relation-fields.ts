@@ -1,5 +1,5 @@
-import { assertValid } from '../id-utils.js';
 import { Id } from '../id.js';
+import { assertValid } from '../id-utils.js';
 import type { UnsetRelationFieldsOp, UnsetRelationParams } from '../types.js';
 
 /**

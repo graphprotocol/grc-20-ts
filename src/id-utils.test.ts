@@ -1,7 +1,6 @@
 import { expect, it } from 'vitest';
-
-import { generate, toBase64 } from './id-utils.js';
 import { Id } from './id.js';
+import { generate, toBase64 } from './id-utils.js';
 
 it('should generate valid uuid', () => {
   const id = generate();

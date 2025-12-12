@@ -1,33 +1,26 @@
-import { encodeFunctionData, stringToHex } from "viem";
+import { encodeFunctionData, stringToHex } from 'viem';
 
-import { MainVotingAbi, PersonalSpaceAdminAbi } from "../abis/index.js";
+import { MainVotingAbi, PersonalSpaceAdminAbi } from '../abis/index.js';
 
 type GovernanceTypeCalldataParams = {
-  type: "PUBLIC" | "PERSONAL";
+  type: 'PUBLIC' | 'PERSONAL';
   cid: string;
   spacePluginAddress: string;
 };
 
-export function getCalldataForSpaceGovernanceType(
-  args: GovernanceTypeCalldataParams
-) {
+export function getCalldataForSpaceGovernanceType(args: GovernanceTypeCalldataParams) {
   switch (args.type) {
-    case "PUBLIC":
+    case 'PUBLIC':
       return encodeFunctionData({
-        functionName: "proposeEdits",
+        functionName: 'proposeEdits',
         abi: MainVotingAbi,
-        args: [
-          stringToHex(args.cid),
-          args.cid,
-          "0x",
-          args.spacePluginAddress as `0x${string}`,
-        ],
+        args: [stringToHex(args.cid), args.cid, '0x', args.spacePluginAddress as `0x${string}`],
       });
-    case "PERSONAL":
+    case 'PERSONAL':
       return encodeFunctionData({
-        functionName: "submitEdits",
+        functionName: 'submitEdits',
         abi: PersonalSpaceAdminAbi,
-        args: [args.cid, "0x", args.spacePluginAddress as `0x${string}`],
+        args: [args.cid, '0x', args.spacePluginAddress as `0x${string}`],
       });
   }
 }
