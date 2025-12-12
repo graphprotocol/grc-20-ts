@@ -1,4 +1,4 @@
-import { type SmartAccountClient, createSmartAccountClient } from 'permissionless';
+import { createSmartAccountClient, type SmartAccountClient } from 'permissionless';
 import { toSafeSmartAccount } from 'permissionless/accounts';
 import { createPimlicoClient } from 'permissionless/clients/pimlico';
 import type { Chain, Hex, WalletClient } from 'viem';

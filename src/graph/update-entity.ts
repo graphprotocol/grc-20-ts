@@ -1,6 +1,6 @@
 import { DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
-import { assertValid } from '../id-utils.js';
 import { Id } from '../id.js';
+import { assertValid } from '../id-utils.js';
 import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value, ValueOptions } from '../types.js';
 
 /**
@@ -65,7 +65,7 @@ export const updateEntity = ({ id, name, description, values }: UpdateEntityPara
     });
   }
   for (const valueEntry of values ?? []) {
-    let options: ValueOptions | undefined = undefined;
+    let options: ValueOptions | undefined;
     if (valueEntry.options) {
       const optionsParam = valueEntry.options;
       switch (optionsParam.type) {

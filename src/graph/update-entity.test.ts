@@ -5,7 +5,7 @@ import { updateEntity } from './update-entity.js';
 
 describe('updateEntity', () => {
   const entityId = Id('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1');
-  const coverId = Id('30145d36-d5a5-4244-be59-3d111d879ba5');
+  const _coverId = Id('30145d36-d5a5-4244-be59-3d111d879ba5');
 
   it('updates an entity with name and description', async () => {
     const result = updateEntity({

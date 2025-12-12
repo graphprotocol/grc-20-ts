@@ -1,5 +1,5 @@
-import { assertValid, generate } from '../id-utils.js';
 import { Id } from '../id.js';
+import { assertValid, generate } from '../id-utils.js';
 import type { CreateResult, Op, RelationParams } from '../types.js';
 import { createEntity } from './create-entity.js';
 
@@ -25,8 +25,8 @@ import { createEntity } from './create-entity.js';
  *     { property: propertyId2, value: 'value2' },
  *   ],
  *   entityRelations: { // optional
- *     relationTypeId1: { 
- *       toEntity: entityId3, 
+ *     relationTypeId1: {
+ *       toEntity: entityId3,
  *       type: relationTypeId2,
  *       toSpace: spaceId3,
  *       toVersion: versionId3,

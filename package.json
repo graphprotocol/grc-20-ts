@@ -22,8 +22,8 @@
     "build": "tsc",
     "test": "vitest",
     "generate:protobuf": "npx buf generate",
-    "lint": "biome check --write --unsafe",
-    "format": "biome check --write --unsafe",
+    "lint": "biome check",
+    "lint:fix": "biome check --write --unsafe",
     "deploy": "pnpm clean && pnpm build && pnpm changeset publish",
     "bump": "pnpm changeset version"
   },

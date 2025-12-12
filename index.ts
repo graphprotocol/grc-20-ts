@@ -1,22 +1,3 @@
-export * from './src/types.js';
-
-/**
- * This module provides utility functions for working knowledge graph
- * identifiers in TypeScript.
- */
-export * as IdUtils from './src/id-utils.js';
-
-export { Id } from './src/id.js';
-
-export {
-  getAcceptEditorArguments,
-  getAcceptSubspaceArguments,
-  getCalldataForSpaceGovernanceType,
-  getProcessGeoProposalArguments,
-  getRemoveEditorArguments,
-  getRemoveSubspaceArguments
-} from './src/encodings/index.js';
-
 /**
  * This module provides utility functions for working with knowledge graph
  * images in TypeScript.
@@ -24,14 +5,29 @@ export {
  * @since 0.0.6
  */
 export { Account } from './src/account.js';
-
 export { DataBlock, TextBlock } from './src/blocks.js';
-
-export * as Encoding from './src/encoding.js';
-
+/**
+ * This module provides utility functions for working with base58 ids
+ * in TypeScript.
+ */
+export * as Base58 from './src/core/base58.js';
 export { getChecksumAddress } from './src/core/get-checksum-address.js';
-
+export * as Encoding from './src/encoding.js';
+export {
+  getAcceptEditorArguments,
+  getAcceptSubspaceArguments,
+  getCalldataForSpaceGovernanceType,
+  getProcessGeoProposalArguments,
+  getRemoveEditorArguments,
+  getRemoveSubspaceArguments,
+} from './src/encodings/index.js';
 export * as Graph from './src/graph/index.js';
+export { Id } from './src/id.js';
+/**
+ * This module provides utility functions for working knowledge graph
+ * identifiers in TypeScript.
+ */
+export * as IdUtils from './src/id-utils.js';
 /**
  * This module provides utility functions for interacting with the default
  * IPFS gateway in TypeScript.
@@ -55,9 +51,4 @@ export { getSmartAccountWalletClient, getWalletClient } from './src/smart-wallet
  * Provides ids for commonly used entities across the Knowledge Graph.
  */
 export { ContentIds, NetworkIds, SystemIds } from './src/system-ids.js';
-
-/**
- * This module provides utility functions for working with base58 ids
- * in TypeScript.
- */
-export * as Base58 from './src/core/base58.js';
+export * from './src/types.js';

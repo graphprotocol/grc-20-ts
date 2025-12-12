@@ -2,7 +2,6 @@ import { expect, it } from 'vitest';
 
 import { generate, isValid } from './id-utils.js';
 
-
 it('should validate uuid', () => {
   expect(isValid(generate())).toBe(true);
   expect(isValid(generate())).toBe(true);

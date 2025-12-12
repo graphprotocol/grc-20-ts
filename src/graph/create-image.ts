@@ -5,8 +5,8 @@ import {
   IMAGE_WIDTH_PROPERTY,
   TYPES_PROPERTY,
 } from '../core/ids/system.js';
-import { assertValid, generate } from '../id-utils.js';
 import { Id } from '../id.js';
+import { assertValid, generate } from '../id-utils.js';
 import { uploadImage } from '../ipfs.js';
 import type { CreateImageParams, CreateImageResult, PropertiesParam } from '../types.js';
 import { createEntity } from './create-entity.js';

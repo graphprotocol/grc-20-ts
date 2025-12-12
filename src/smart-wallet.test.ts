@@ -1,5 +1,5 @@
 import { toSafeSmartAccount } from 'permissionless/accounts';
-import { http, createPublicClient } from 'viem';
+import { createPublicClient, http } from 'viem';
 import { entryPoint07Address } from 'viem/account-abstraction';
 import { privateKeyToAccount } from 'viem/accounts';
 import { beforeEach, describe, expect, it, vi } from 'vitest';

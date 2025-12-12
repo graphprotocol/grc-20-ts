@@ -1,12 +1,9 @@
-import { encodeFunctionData, stringToHex } from "viem";
+import { encodeFunctionData, stringToHex } from 'viem';
 
-import { SpaceAbi } from "../abis/index.js";
-import { VoteOption } from "../types.js";
+import { SpaceAbi } from '../abis/index.js';
+import { VoteOption } from '../types.js';
 
-export function getProcessGeoProposalArguments(
-  spacePluginAddress: `0x${string}`,
-  ipfsUri: `ipfs://${string}`
-) {
+export function getProcessGeoProposalArguments(spacePluginAddress: `0x${string}`, ipfsUri: `ipfs://${string}`) {
   return [
     stringToHex(ipfsUri),
     [
@@ -15,8 +12,8 @@ export function getProcessGeoProposalArguments(
         value: BigInt(0),
         data: encodeFunctionData({
           abi: SpaceAbi,
-          functionName: "publishEdits",
-          args: [ipfsUri, "0x"],
+          functionName: 'publishEdits',
+          args: [ipfsUri, '0x'],
         }),
       },
     ],
