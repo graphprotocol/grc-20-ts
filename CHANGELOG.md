@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.25.7
+
+### Patch Changes
+
+- c2b0f58: add new IDs: VIDEO_TYPE, VIDEO_URL_PROPERTY, VIDEO_RENDERABLE_TYPE, VIDEO_BLOCK, RECORDINGS_PROPERTY
+
 ## 0.25.6
 
 ### Patch Changes
