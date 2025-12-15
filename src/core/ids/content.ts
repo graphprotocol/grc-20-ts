@@ -53,6 +53,7 @@ export const CONTINENTS_PROPERTY = Id('1c5b7c0a-d187-425e-885c-2980d9db6b4b');
 export const PERSON_PROPERTY = Id('eb1141ae-ba35-43df-acdd-3329cccd8121');
 export const PROJECT_PROPERTY = Id('e3a96728-2b09-4af7-9af7-86ef1aa7837e');
 export const RELATED_SPACES_PROPERTY = Id('5b722cd3-61d6-494e-8887-1310566437ba');
+export const RECORDINGS_PROPERTY = Id('35c737c3-ce5a-4f89-9c0b-a84538bd1e52');
 
 /**
  * Migration 1
