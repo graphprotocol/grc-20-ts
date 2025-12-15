@@ -37,6 +37,10 @@ export const IMAGE_HEIGHT_PROPERTY = Id('7f6ad043-3e21-4257-a6d4-8bdad36b1d84');
 export const IMAGE_URL_PROPERTY = Id('8a743832-c094-4a62-b665-0c3cc2f9c7bc');
 export const IMAGE_WIDTH_PROPERTY = Id('f7b33e08-b76d-4190-aada-cadaa9f561e1');
 
+export const VIDEO_TYPE = Id('d7a4817c-9795-405b-93e2-12df759c43f8');
+export const VIDEO_URL_PROPERTY = Id('33da2ef5-bd55-4e91-af97-3e082e431a13');
+export const VIDEO_RENDERABLE_TYPE = Id('0fb6bbf0-2204-4db4-9f70-fa82c41570a4');
+
 /** Data blocks */
 // @TODO: data block instead of TABLE_BLOCK
 export const DATA_BLOCK = Id('b8803a86-65de-412b-bb35-7e0c84adf473');
@@ -98,6 +102,7 @@ export const DATA_SOURCE_TYPE_RELATION_TYPE = Id('1f69cc98-80d4-44ab-ad49-3df6a7
 
 export const IMAGE_BLOCK = Id('e3817941-7409-4df1-b519-1f3f1a0721e8');
 export const TEXT_BLOCK = Id('76474f2f-0089-4e77-a041-0b39fb17d0bf');
+export const VIDEO_BLOCK = Id('809bc406-d0f3-4f3c-a8a1-aa265733c6ce');
 
 export const MARKDOWN_CONTENT = Id('e3e363d1-dd29-4ccb-8e6f-f3b76d99bc33');
 
