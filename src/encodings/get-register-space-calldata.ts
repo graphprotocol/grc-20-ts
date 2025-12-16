@@ -13,21 +13,21 @@ import { SpaceRegistryAbi } from '../abis/index.js';
  *
  * @example
  * ```ts
- * import { getRegisterSpaceCalldata } from '@graphprotocol/grc-20';
+ * import { getRegisterSpaceCalldata, TESTNET } from '@graphprotocol/grc-20';
  * import { createWalletClient, http } from 'viem';
  *
  * const calldata = getRegisterSpaceCalldata();
  *
  * // Using viem
  * const hash = await walletClient.sendTransaction({
- *   to: SPACE_REGISTRY_ADDRESS,
+ *   to: TESTNET.SPACE_REGISTRY_ADDRESS,
  *   data: calldata,
  * });
  *
  * // Using wagmi
  * const { sendTransaction } = useSendTransaction();
  * sendTransaction({
- *   to: SPACE_REGISTRY_ADDRESS,
+ *   to: TESTNET.SPACE_REGISTRY_ADDRESS,
  *   data: calldata,
  * });
  * ```

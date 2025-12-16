@@ -154,7 +154,7 @@ type CreateDaoSpaceCalldataParams = {
  *
  * @example
  * ```ts
- * import { getCreateDaoSpaceCalldata } from '@graphprotocol/grc-20';
+ * import { getCreateDaoSpaceCalldata, TESTNET } from '@graphprotocol/grc-20';
  * import { createWalletClient, http } from 'viem';
  *
  * const calldata = getCreateDaoSpaceCalldata({
@@ -170,14 +170,14 @@ type CreateDaoSpaceCalldataParams = {
  *
  * // Using viem
  * const hash = await walletClient.sendTransaction({
- *   to: DAO_SPACE_FACTORY_ADDRESS,
+ *   to: TESTNET.DAO_SPACE_FACTORY_ADDRESS,
  *   data: calldata,
  * });
  *
  * // Using wagmi
  * const { sendTransaction } = useSendTransaction();
  * sendTransaction({
- *   to: DAO_SPACE_FACTORY_ADDRESS,
+ *   to: TESTNET.DAO_SPACE_FACTORY_ADDRESS,
  *   data: calldata,
  * });
  * ```
