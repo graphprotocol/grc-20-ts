@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-  MINIMUM_VOTING_DURATION,
-  MINIMUM_VOTING_DURATION_DAYS,
-  RATIO_BASE,
   daysToSeconds,
   getCreateDaoSpaceCalldata,
+  MINIMUM_VOTING_DURATION,
+  MINIMUM_VOTING_DURATION_DAYS,
   percentageToRatio,
+  RATIO_BASE,
   toContractVotingSettings,
   validateVotingSettingsInput,
 } from './get-create-dao-space-calldata.js';
@@ -86,7 +86,7 @@ describe('validateVotingSettingsInput', () => {
   it('should reject fastPathFlatThreshold above total editors', () => {
     const settings = { ...validSettings, fastPathFlatThreshold: 10 };
     expect(validateVotingSettingsInput(settings, 5)).toBe(
-      'fastPathFlatThreshold must be between 0 and 5 (number of initial editors)'
+      'fastPathFlatThreshold must be between 0 and 5 (number of initial editors)',
     );
   });
 
@@ -98,7 +98,7 @@ describe('validateVotingSettingsInput', () => {
   it('should reject durationInDays below minimum', () => {
     const settings = { ...validSettings, durationInDays: 1 };
     expect(validateVotingSettingsInput(settings, 5)).toBe(
-      `durationInDays must be at least ${MINIMUM_VOTING_DURATION_DAYS} days`
+      `durationInDays must be at least ${MINIMUM_VOTING_DURATION_DAYS} days`,
     );
   });
 });
@@ -144,7 +144,7 @@ describe('getCreateDaoSpaceCalldata', () => {
       votingSettings: { ...validArgs.votingSettings, durationInDays: 1 },
     };
     expect(() => getCreateDaoSpaceCalldata(args)).toThrow(
-      `durationInDays must be at least ${MINIMUM_VOTING_DURATION_DAYS} days`
+      `durationInDays must be at least ${MINIMUM_VOTING_DURATION_DAYS} days`,
     );
   });
 

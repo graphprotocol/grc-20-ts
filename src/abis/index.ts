@@ -1,6 +1,5 @@
 export { abi as DaoAbi } from './dao.js';
 export { abi as DaoSpaceFactoryAbi } from './dao-space-factory.js';
-export { abi as SpaceRegistryAbi } from './space-registry.js';
 export { abi as GovernanceSetupAbi } from './governance-setup.js';
 export { abi as MainVotingAbi } from './main-voting.js';
 export { abi as MemberAccessAbi } from './member-access.js';
@@ -8,4 +7,5 @@ export { abi as PersonalSpaceAdminAbi } from './personal-space-admin.js';
 export { abi as PersonalSpaceAdminSetupAbi } from './personal-space-admin-setup.js';
 export { abi as PluginSetupProcessorAbi } from './plugin-setup-processor.js';
 export { abi as SpaceAbi } from './space.js';
+export { abi as SpaceRegistryAbi } from './space-registry.js';
 export { abi as SpaceSetupAbi } from './space-setup.js';
