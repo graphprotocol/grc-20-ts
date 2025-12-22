@@ -260,3 +260,10 @@ export const CURRENCY_GBP_PROPERTY = Id('95593310-1e7c-43da-a02c-a6f4b630d48a');
 export const CURRENCY_EUR_PROPERTY = Id('6d5a3fed-379c-4889-b60e-d6265a482c93');
 
 export const ROOT_SPACE_ID = Id('08c4f093-7858-4b7c-9b94-b82e448abcff');
+
+/** Ranks */
+export const RANK_TYPE = Id('5c74731d-fabb-4dc8-b5c5-3346521c639a');
+export const RANK_TYPE_PROPERTY = Id('48e01bc8-324e-48c2-a6c9-cab3f49290c6');
+export const RANK_VOTES_RELATION_TYPE = Id('19a4cfff-45f2-4150-abf2-af0f43eb2eec');
+export const VOTE_ORDINAL_VALUE_PROPERTY = Id('49ee1b89-1820-4e75-a1ae-38a2dcaad4a5');
+export const VOTE_WEIGHTED_VALUE_PROPERTY = Id('103701dd-cabe-4a8e-835b-10345327b647');
