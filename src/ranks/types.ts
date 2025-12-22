@@ -4,12 +4,11 @@ import type { CreateResult } from '../types.js';
 export type RankType = 'ORDINAL' | 'WEIGHTED';
 
 /**
- * Vote with ordinal positioning using fractional indexing strings.
- * Used for ordered lists where position matters but not magnitude.
+ * Vote with ordinal positioning.
+ * Position is derived from the array order; fractional indexing is generated internally.
  */
 export type VoteOrdinal = {
   entityId: Id | string;
-  value: string;
 };
 
 /**
