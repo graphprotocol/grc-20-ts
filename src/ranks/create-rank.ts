@@ -52,6 +52,7 @@ import type { CreateRankParams, CreateRankResult, VoteWeighted } from './types.j
  * @param params – {@link CreateRankParams}
  * @returns – {@link CreateRankResult}
  * @throws Will throw an error if any provided ID is invalid
+ * @throws Will throw an error if any entityId is duplicated in votes
  */
 export const createRank = ({
   id: providedId,
@@ -66,6 +67,16 @@ export const createRank = ({
   }
   for (const vote of votes) {
     assertValid(vote.entityId, '`entityId` in `votes` in `createRank`');
+  }
+
+  // Validate no duplicate entity IDs in votes
+  const seenEntityIds = new Set<string>();
+  for (const vote of votes) {
+    const entityId = String(vote.entityId);
+    if (seenEntityIds.has(entityId)) {
+      throw new Error(`Duplicate entityId in votes: "${entityId}". Each entity can only be voted once per rank.`);
+    }
+    seenEntityIds.add(entityId);
   }
 
   const id = providedId ?? generate();
