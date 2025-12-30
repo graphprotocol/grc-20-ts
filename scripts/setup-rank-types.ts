@@ -8,7 +8,7 @@
  * - VOTE_WEIGHTED_VALUE_PROPERTY: A NUMBER property storing numeric score
  * - RANK_TYPE: A Type entity representing a Rank
  *
- * Run with: npx tsx scripts/setup-rank-types.ts
+ * Usage: import { ops } from './scripts/setup-rank-types.js'
  */
 
 import { createProperty } from '../src/graph/create-property.js';
