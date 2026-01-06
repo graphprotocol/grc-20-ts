@@ -89,19 +89,6 @@ export const abi = [
     inputs: [
       {
         indexed: false,
-        internalType: 'address',
-        name: 'newDAOSpaceProxy',
-        type: 'address',
-      },
-    ],
-    name: 'DAOSpaceProxyCreated',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
         internalType: 'uint64',
         name: 'version',
         type: 'uint64',
@@ -194,6 +181,16 @@ export const abi = [
         name: '_initialMembers',
         type: 'address[]',
       },
+      {
+        internalType: 'bytes',
+        name: '_initialEditsContentUri',
+        type: 'bytes',
+      },
+      {
+        internalType: 'bytes',
+        name: '_initialEditsMetadata',
+        type: 'bytes',
+      },
     ],
     name: 'createDAOSpaceProxy',
     outputs: [
@@ -212,7 +209,7 @@ export const abi = [
     outputs: [
       {
         internalType: 'address',
-        name: '',
+        name: '_daoSpaceBeacon',
         type: 'address',
       },
     ],
@@ -230,6 +227,19 @@ export const abi = [
     name: 'initialize',
     outputs: [],
     stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'name',
+    outputs: [
+      {
+        internalType: 'string',
+        name: '_name',
+        type: 'string',
+      },
+    ],
+    stateMutability: 'pure',
     type: 'function',
   },
   {
@@ -271,7 +281,7 @@ export const abi = [
     outputs: [
       {
         internalType: 'contract ISpaceRegistry',
-        name: '',
+        name: '_spaceRegistry',
         type: 'address',
       },
     ],
@@ -289,6 +299,19 @@ export const abi = [
     name: 'transferOwnership',
     outputs: [],
     stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'typeId',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '_type',
+        type: 'bytes32',
+      },
+    ],
+    stateMutability: 'pure',
     type: 'function',
   },
   {
