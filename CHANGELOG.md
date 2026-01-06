@@ -1,5 +1,14 @@
 # @graphprotocol/grc-20
 
+## 0.27.0
+
+### Minor Changes
+
+- 6af598e: - Id.generate() generates UUIDs without dashes.
+  - Id.isValid() and Id assertions continue to accept UUIDs with dashes, but also accept dashless UUIDs.
+  - Id.toBase64() and Id.fromBase64() now return and accept dashless UUIDs.
+  - Id.toBytes() and Id.fromBytes() now return and accept dashless UUIDs.
+
 ## 0.26.0
 
 ### Minor Changes
