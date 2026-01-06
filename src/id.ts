@@ -8,6 +8,18 @@ export const Id = Brand.refined<Id>(
   id => Brand.error(`Expected ${id} to be a valid Id`),
 );
 
+const UUID_DASHLESS_REGEX = /^[0-9a-fA-F]{32}$/;
+
+function dashlessToDashed(id: string): string | null {
+  if (!UUID_DASHLESS_REGEX.test(id)) return null;
+  return `${id.slice(0, 8)}-${id.slice(8, 12)}-${id.slice(12, 16)}-${id.slice(16, 20)}-${id.slice(20)}`;
+}
+
 export function isValid(id: string): boolean {
-  return uuidValidate(id);
+  if (uuidValidate(id)) return true;
+
+  const dashed = dashlessToDashed(id);
+  if (!dashed) return false;
+
+  return uuidValidate(dashed);
 }

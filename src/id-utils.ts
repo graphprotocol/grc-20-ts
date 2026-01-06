@@ -29,7 +29,7 @@ export const IdBase64 = Brand.refined<IdBase64>(
  * @returns v4 UUID
  */
 export function generate(): Id {
-  const uuid = uuidv4();
+  const uuid = uuidv4().replaceAll('-', '');
   return Id(uuid);
 }
 
@@ -49,12 +49,21 @@ export function assertValid(id: string, sourceHint?: string) {
   }
 }
 
-export function toBytes(id: Id): Uint8Array {
-  return uuidParse(id);
+const UUID_DASHLESS_REGEX = /^[0-9a-fA-F]{32}$/;
+
+function normalizeUuidForParse(id: string): string {
+  if (UUID_DASHLESS_REGEX.test(id)) {
+    return `${id.slice(0, 8)}-${id.slice(8, 12)}-${id.slice(12, 16)}-${id.slice(16, 20)}-${id.slice(20)}`;
+  }
+  return id;
+}
+
+export function toBytes(id: Id | string): Uint8Array {
+  return uuidParse(normalizeUuidForParse(id));
 }
 
 export function fromBytes(bytes: Uint8Array): Id {
-  return Id(uuidStringify(bytes));
+  return Id(uuidStringify(bytes).replaceAll('-', ''));
 }
 
 const base64Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -101,5 +110,6 @@ export function fromBase64(id: IdBase64): Id {
     if (c4 !== -1 && c4 !== 64) bytes.push(triple & 0xff);
   }
 
-  return fromBytes(new Uint8Array(bytes));
+  // NOTE: Keep base64 decode stable (historically returned dashed UUIDs).
+  return Id(uuidStringify(new Uint8Array(bytes)));
 }
