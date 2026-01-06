@@ -292,10 +292,7 @@ describe('Edit', () => {
     expect(op.payload?.case).toBe('unsetEntityValues');
     expect(op.payload?.value).toEqual({
       id: toBytes(Id('3af3e22d21694a078681516710b7ecf1')),
-      properties: [
-        toBytes(Id('d4bc2f205e2d415e971eb0b9fbf6b6fc')),
-        toBytes(Id('765564cac7e54c61b1dcc28ab77ec6b7')),
-      ],
+      properties: [toBytes(Id('d4bc2f205e2d415e971eb0b9fbf6b6fc')), toBytes(Id('765564cac7e54c61b1dcc28ab77ec6b7'))],
     });
   });
 
