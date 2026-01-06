@@ -27,7 +27,7 @@ export const IdBase64 = Brand.refined<IdBase64>(
  * console.log(id)
  * ```
  *
- * @returns v4 UUID
+ * @returns dashless v4 UUID (32 hex characters without dashes)
  */
 export function generate(): Id {
   const uuid = uuidv4().replaceAll('-', '');
