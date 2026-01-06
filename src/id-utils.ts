@@ -6,6 +6,7 @@
 import { Brand } from 'effect';
 import { parse as uuidParse, stringify as uuidStringify, v4 as uuidv4 } from 'uuid';
 import { Id, isValid } from './id.js';
+import { normalizeUuidForParse } from './internal/uuid.js';
 
 export { isValid };
 export type IdBase64 = string & Brand.Brand<'IdBase64'>;
@@ -47,15 +48,6 @@ export function assertValid(id: string, sourceHint?: string) {
   if (!isValid(id)) {
     throw new Error(`Invalid id: "${id}"${sourceHint ? ` for ${sourceHint}` : ''}`);
   }
-}
-
-const UUID_DASHLESS_REGEX = /^[0-9a-fA-F]{32}$/;
-
-function normalizeUuidForParse(id: string): string {
-  if (UUID_DASHLESS_REGEX.test(id)) {
-    return `${id.slice(0, 8)}-${id.slice(8, 12)}-${id.slice(12, 16)}-${id.slice(16, 20)}-${id.slice(20)}`;
-  }
-  return id;
 }
 
 export function toBytes(id: Id | string): Uint8Array {
