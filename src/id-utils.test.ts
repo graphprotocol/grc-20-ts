@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import { Id } from './id.js';
-import { fromBytes, generate, toBase64, toBytes } from './id-utils.js';
+import { fromBase64, fromBytes, generate, IdBase64, toBase64, toBytes } from './id-utils.js';
 
 it('should generate valid uuid', () => {
   const id = generate();
@@ -23,4 +23,17 @@ it('should accept dashless UUID for toBytes and return dashless UUID from fromBy
 
   expect(fromBytes(toBytes(dashed))).toBe(dashless);
   expect(fromBytes(toBytes(dashless))).toBe(dashless);
+});
+
+it('should decode base64 to UUID (dashed) and keep base64 stable for dashless UUID input', () => {
+  // Same UUID, two input formats.
+  const dashed = Id('3af3e22d-2169-4a07-8681-516710b7ecf1');
+  const dashless = Id('3af3e22d21694a078681516710b7ecf1');
+
+  // toBase64 should not depend on whether the UUID contains dashes.
+  expect(toBase64(dashed)).toBe('OvPiLSFpSgeGgVFnELfs8Q==');
+  expect(toBase64(dashless)).toBe('OvPiLSFpSgeGgVFnELfs8Q==');
+
+  // fromBase64 should decode to an Id (canonical form is dashless).
+  expect(fromBase64(IdBase64('OvPiLSFpSgeGgVFnELfs8Q=='))).toBe('3af3e22d21694a078681516710b7ecf1');
 });

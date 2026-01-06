@@ -108,7 +108,7 @@ export const MARKDOWN_CONTENT = Id('e3e363d1dd294ccb8e6ff3b76d99bc33');
 
 /**
  * Relations define an entity which represents a relationship between
- * two entities. Modeling this relationship as a from > to means that
+ * two entities. Modeling this relationship as a from -> to means that
  * we can add extra data about the relationship to the entity itself
  * rather than to either of the from or to entities.
  *
@@ -126,7 +126,7 @@ export const RELATION_TYPE_PROPERTY = Id('14611456b4664cab920d2245f59ce828');
  * Relations can be ordered using fractional indexing. By default we
  * add an index to every relation so that ordering can be added to
  * any relation at any point without having to add indexes to relations
- * postcreation.
+ * post-creation.
  */
 export const RELATION_INDEX = Id('ede47e6930b044998ea4aafbda449609');
 

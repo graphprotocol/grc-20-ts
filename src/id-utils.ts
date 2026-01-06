@@ -110,6 +110,5 @@ export function fromBase64(id: IdBase64): Id {
     if (c4 !== -1 && c4 !== 64) bytes.push(triple & 0xff);
   }
 
-  // NOTE: Keep base64 decode stable (historically returned dashed UUIDs).
-  return Id(uuidStringify(new Uint8Array(bytes)));
+  return fromBytes(new Uint8Array(bytes));
 }
