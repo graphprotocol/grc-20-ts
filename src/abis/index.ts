@@ -1,4 +1,5 @@
 export { abi as DaoAbi } from './dao.js';
+export { abi as DaoSpaceAbi } from './dao-space.js';
 export { abi as DaoSpaceFactoryAbi } from './dao-space-factory.js';
 export { abi as GovernanceSetupAbi } from './governance-setup.js';
 export { abi as MainVotingAbi } from './main-voting.js';
