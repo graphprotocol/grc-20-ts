@@ -25,7 +25,7 @@ it('should accept dashless UUID for toBytes and return dashless UUID from fromBy
   expect(fromBytes(toBytes(dashless))).toBe(dashless);
 });
 
-it('should decode base64 to UUID (dashed) and keep base64 stable for dashless UUID input', () => {
+it('should decode base64 to dashless UUID and keep base64 stable for dashless UUID input', () => {
   // Same UUID, two input formats.
   const dashed = Id('3af3e22d-2169-4a07-8681-516710b7ecf1');
   const dashless = Id('3af3e22d21694a078681516710b7ecf1');
