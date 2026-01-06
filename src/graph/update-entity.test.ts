@@ -4,8 +4,8 @@ import { Id } from '../id.js';
 import { updateEntity } from './update-entity.js';
 
 describe('updateEntity', () => {
-  const entityId = Id('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1');
-  const _coverId = Id('30145d36-d5a5-4244-be59-3d111d879ba5');
+  const entityId = Id('b1dc6e5c63e143bab3d4755b251a4ea1');
+  const _coverId = Id('30145d36d5a54244be593d111d879ba5');
 
   it('updates an entity with name and description', async () => {
     const result = updateEntity({
@@ -61,7 +61,7 @@ describe('updateEntity', () => {
   });
 
   it('updates an entity with custom values', async () => {
-    const customPropertyId = Id('fa269fd3-de98-49cf-90c4-4235d905a67c');
+    const customPropertyId = Id('fa269fd3de9849cf90c44235d905a67c');
     const result = updateEntity({
       id: entityId,
       values: [{ property: customPropertyId, value: 'updated custom value' }],

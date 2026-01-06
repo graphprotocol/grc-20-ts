@@ -6,6 +6,7 @@
 import { Brand } from 'effect';
 import { parse as uuidParse, stringify as uuidStringify, v4 as uuidv4 } from 'uuid';
 import { Id, isValid } from './id.js';
+import { normalizeUuidForParse } from './internal/uuid.js';
 
 export { isValid };
 export type IdBase64 = string & Brand.Brand<'IdBase64'>;
@@ -26,10 +27,10 @@ export const IdBase64 = Brand.refined<IdBase64>(
  * console.log(id)
  * ```
  *
- * @returns v4 UUID
+ * @returns dashless v4 UUID (32 hex characters without dashes)
  */
 export function generate(): Id {
-  const uuid = uuidv4();
+  const uuid = uuidv4().replaceAll('-', '');
   return Id(uuid);
 }
 
@@ -49,12 +50,12 @@ export function assertValid(id: string, sourceHint?: string) {
   }
 }
 
-export function toBytes(id: Id): Uint8Array {
-  return uuidParse(id);
+export function toBytes(id: Id | string): Uint8Array {
+  return uuidParse(normalizeUuidForParse(id));
 }
 
 export function fromBytes(bytes: Uint8Array): Id {
-  return Id(uuidStringify(bytes));
+  return Id(uuidStringify(bytes).replaceAll('-', ''));
 }
 
 const base64Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';

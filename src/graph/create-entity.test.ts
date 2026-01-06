@@ -6,7 +6,7 @@ import { createEntity } from './create-entity.js';
 import { serializeNumber } from './serialize.js';
 
 describe('createEntity', () => {
-  const coverId = Id('30145d36-d5a5-4244-be59-3d111d879ba5');
+  const coverId = Id('30145d36d5a54244be593d111d879ba5');
 
   it('creates a basic entity without properties', () => {
     const entity = createEntity({});
@@ -120,7 +120,7 @@ describe('createEntity', () => {
   });
 
   it('creates an entity with custom values', () => {
-    const customPropertyId = Id('fa269fd3-de98-49cf-90c4-4235d905a67c');
+    const customPropertyId = Id('fa269fd3de9849cf90c44235d905a67c');
     const entity = createEntity({
       values: [{ property: customPropertyId, value: 'custom value' }],
     });
@@ -147,9 +147,9 @@ describe('createEntity', () => {
     const entity = createEntity({
       values: [
         {
-          property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+          property: '295c8bc61ae342cbb2a65b61080906ff',
           value: 'test',
-          options: { type: 'text', language: Id('0a4e9810-f78f-429e-a4ce-b1904a43251d') },
+          options: { type: 'text', language: Id('0a4e9810f78f429ea4ceb1904a43251d') },
         },
       ],
     });
@@ -164,11 +164,11 @@ describe('createEntity', () => {
         id: entity.id,
         values: [
           {
-            property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+            property: '295c8bc61ae342cbb2a65b61080906ff',
             value: 'test',
             options: {
               text: {
-                language: '0a4e9810-f78f-429e-a4ce-b1904a43251d',
+                language: '0a4e9810f78f429ea4ceb1904a43251d',
               },
             },
           },
@@ -181,14 +181,14 @@ describe('createEntity', () => {
     const entity = createEntity({
       values: [
         {
-          property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+          property: '295c8bc61ae342cbb2a65b61080906ff',
           value: 'test',
-          options: { type: 'text', language: Id('0a4e9810-f78f-429e-a4ce-b1904a43251d') },
+          options: { type: 'text', language: Id('0a4e9810f78f429ea4ceb1904a43251d') },
         },
         {
-          property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+          property: '295c8bc61ae342cbb2a65b61080906ff',
           value: 'prueba',
-          options: { type: 'text', language: Id('dad6e52a-5e94-4e55-9411-cfe3a3c3ea64') },
+          options: { type: 'text', language: Id('dad6e52a5e944e559411cfe3a3c3ea64') },
         },
       ],
     });
@@ -203,20 +203,20 @@ describe('createEntity', () => {
         id: entity.id,
         values: [
           {
-            property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+            property: '295c8bc61ae342cbb2a65b61080906ff',
             value: 'test',
             options: {
               text: {
-                language: '0a4e9810-f78f-429e-a4ce-b1904a43251d',
+                language: '0a4e9810f78f429ea4ceb1904a43251d',
               },
             },
           },
           {
-            property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+            property: '295c8bc61ae342cbb2a65b61080906ff',
             value: 'prueba',
             options: {
               text: {
-                language: 'dad6e52a-5e94-4e55-9411-cfe3a3c3ea64',
+                language: 'dad6e52a5e944e559411cfe3a3c3ea64',
               },
             },
           },
@@ -229,7 +229,7 @@ describe('createEntity', () => {
     const entity = createEntity({
       values: [
         {
-          property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+          property: '295c8bc61ae342cbb2a65b61080906ff',
           value: serializeNumber(42),
         },
       ],
@@ -245,7 +245,7 @@ describe('createEntity', () => {
         id: entity.id,
         values: [
           {
-            property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+            property: '295c8bc61ae342cbb2a65b61080906ff',
             value: '42',
           },
         ],
@@ -257,11 +257,11 @@ describe('createEntity', () => {
     const entity = createEntity({
       values: [
         {
-          property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+          property: '295c8bc61ae342cbb2a65b61080906ff',
           value: serializeNumber(42),
           options: {
             type: 'number',
-            unit: '016c9b1c-d8a8-4e4d-9e84-4e40878bb235',
+            unit: '016c9b1cd8a84e4d9e844e40878bb235',
           },
         },
       ],
@@ -277,11 +277,11 @@ describe('createEntity', () => {
         id: entity.id,
         values: [
           {
-            property: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
+            property: '295c8bc61ae342cbb2a65b61080906ff',
             value: '42',
             options: {
               number: {
-                unit: '016c9b1c-d8a8-4e4d-9e84-4e40878bb235',
+                unit: '016c9b1cd8a84e4d9e844e40878bb235',
               },
             },
           },
@@ -291,12 +291,12 @@ describe('createEntity', () => {
   });
 
   it('creates an entity with relations', () => {
-    const providedId = Id('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1');
+    const providedId = Id('b1dc6e5c63e143bab3d4755b251a4ea1');
     const entity = createEntity({
       id: providedId,
       relations: {
-        '295c8bc6-1ae3-42cb-b2a6-5b61080906ff': {
-          toEntity: 'd8fd9b48-e090-430d-b52c-6b33d897d0f3',
+        '295c8bc61ae342cbb2a65b61080906ff': {
+          toEntity: 'd8fd9b48e090430db52c6b33d897d0f3',
         },
       },
     });
@@ -311,8 +311,8 @@ describe('createEntity', () => {
       type: 'CREATE_RELATION',
       relation: {
         fromEntity: entity.id,
-        type: '295c8bc6-1ae3-42cb-b2a6-5b61080906ff',
-        toEntity: 'd8fd9b48-e090-430d-b52c-6b33d897d0f3',
+        type: '295c8bc61ae342cbb2a65b61080906ff',
+        toEntity: 'd8fd9b48e090430db52c6b33d897d0f3',
       },
     });
   });

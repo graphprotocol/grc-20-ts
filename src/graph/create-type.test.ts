@@ -106,12 +106,12 @@ describe('createType', () => {
 
   it('creates a type with a provided id', async () => {
     const type = createType({
-      id: Id('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1'),
+      id: Id('b1dc6e5c63e143bab3d4755b251a4ea1'),
       name: 'Article',
     });
 
     expect(type).toBeDefined();
-    expect(type.id).toBe('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1');
+    expect(type.id).toBe('b1dc6e5c63e143bab3d4755b251a4ea1');
   });
 
   it('throws an error if the provided id is invalid', () => {

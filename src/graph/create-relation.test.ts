@@ -10,13 +10,13 @@ const isCreateRelationOp = (op: Op): op is CreateRelationOp => {
 };
 
 describe('createRelation', () => {
-  const fromEntityId = Id('30145d36-d5a5-4244-be59-3d111d879ba5');
-  const toEntityId = Id('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1');
-  const coverId = Id('fa269fd3-de98-49cf-90c4-4235d905a67c');
-  const testSpaceId = Id('c1dc6e5c-63e1-43ba-b3d4-755b251a4ea2');
-  const fromSpaceId = Id('d1dc6e5c-63e1-43ba-b3d4-755b251a4ea3');
-  const fromVersionId = Id('e1dc6e5c-63e1-43ba-b3d4-755b251a4ea4');
-  const toVersionId = Id('f1dc6e5c-63e1-43ba-b3d4-755b251a4ea5');
+  const fromEntityId = Id('30145d36d5a54244be593d111d879ba5');
+  const toEntityId = Id('b1dc6e5c63e143bab3d4755b251a4ea1');
+  const coverId = Id('fa269fd3de9849cf90c44235d905a67c');
+  const testSpaceId = Id('c1dc6e5c63e143bab3d4755b251a4ea2');
+  const fromSpaceId = Id('d1dc6e5c63e143bab3d4755b251a4ea3');
+  const fromVersionId = Id('e1dc6e5c63e143bab3d4755b251a4ea4');
+  const toVersionId = Id('f1dc6e5c63e143bab3d4755b251a4ea5');
 
   it('creates a basic relation without additional properties', async () => {
     const relation = createRelation({
@@ -121,7 +121,7 @@ describe('createRelation', () => {
   });
 
   it('creates a relation with a provided id', async () => {
-    const providedId = Id('c1dc6e5c-63e1-43ba-b3d4-755b251a4ea1');
+    const providedId = Id('c1dc6e5c63e143bab3d4755b251a4ea1');
     const relation = createRelation({
       id: providedId,
       fromEntity: fromEntityId,
@@ -326,7 +326,7 @@ describe('createRelation', () => {
   });
 
   it('creates a relation with entityValues', () => {
-    const customPropertyId = Id('fa269fd3-de98-49cf-90c4-4235d905a67c');
+    const customPropertyId = Id('fa269fd3de9849cf90c44235d905a67c');
     const relation = createRelation({
       fromEntity: fromEntityId,
       toEntity: toEntityId,
@@ -362,8 +362,8 @@ describe('createRelation', () => {
   });
 
   it('creates a relation with entityValues that have options', () => {
-    const customPropertyId = Id('fa269fd3-de98-49cf-90c4-4235d905a67c');
-    const languageId = Id('0a4e9810-f78f-429e-a4ce-b1904a43251d');
+    const customPropertyId = Id('fa269fd3de9849cf90c44235d905a67c');
+    const languageId = Id('0a4e9810f78f429ea4ceb1904a43251d');
     const relation = createRelation({
       fromEntity: fromEntityId,
       toEntity: toEntityId,
