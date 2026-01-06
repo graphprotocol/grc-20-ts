@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.28.0
+
+### Minor Changes
+
+- c8243aa: Add DAOSpace ABI and update contract ABIs/addresses for ZC16
+
 ## 0.27.0
 
 ### Minor Changes
