@@ -1,22 +1,26 @@
-import { encodeFunctionData } from 'viem';
+import { encodeFunctionData, keccak256, toBytes, toHex } from 'viem';
 
 import { SpaceRegistryAbi } from '../abis/index.js';
 
+const PERSONAL_SPACE_TYPE = keccak256(toBytes('EOA_SPACE'));
+const PERSONAL_SPACE_VERSION = '1.0.0';
+
 /**
- * Get the calldata for registering a space ID.
+ * Get the calldata for creating a personal space.
  *
  * This function encodes the `registerSpaceId` function call for the Space Registry contract.
- * It is called by a space contract to register itself with the Space Registry.
- * The space ID is deterministically derived from the caller's address and nonce.
+ * It registers the caller's address as a personal space with a deterministically derived space ID.
+ *
+ * For creating DAO spaces, use the DAO Space Factory instead via `getCreateDaoSpaceCalldata`.
  *
  * @returns Encoded calldata for the transaction
  *
  * @example
  * ```ts
- * import { getRegisterSpaceCalldata, TESTNET } from '@graphprotocol/grc-20';
+ * import { getCreatePersonalSpaceCalldata, TESTNET } from '@graphprotocol/grc-20';
  * import { createWalletClient, http } from 'viem';
  *
- * const calldata = getRegisterSpaceCalldata();
+ * const calldata = getCreatePersonalSpaceCalldata();
  *
  * // Using viem
  * const hash = await walletClient.sendTransaction({
@@ -32,9 +36,10 @@ import { SpaceRegistryAbi } from '../abis/index.js';
  * });
  * ```
  */
-export function getRegisterSpaceCalldata(): `0x${string}` {
+export function getCreatePersonalSpaceCalldata(): `0x${string}` {
   return encodeFunctionData({
     abi: SpaceRegistryAbi,
     functionName: 'registerSpaceId',
+    args: [PERSONAL_SPACE_TYPE, toHex(PERSONAL_SPACE_VERSION)],
   });
 }
