@@ -8,11 +8,11 @@ const isUpdateRelationOp = (op: Op): op is UpdateRelationOp => {
 };
 
 describe('updateRelation', () => {
-  const relationId = Id('30145d36-d5a5-4244-be59-3d111d879ba5');
-  const fromSpaceId = Id('c1dc6e5c-63e1-43ba-b3d4-755b251a4ea2');
-  const toSpaceId = Id('d1dc6e5c-63e1-43ba-b3d4-755b251a4ea3');
-  const fromVersionId = Id('e1dc6e5c-63e1-43ba-b3d4-755b251a4ea4');
-  const toVersionId = Id('f1dc6e5c-63e1-43ba-b3d4-755b251a4ea5');
+  const relationId = Id('30145d36d5a54244be593d111d879ba5');
+  const fromSpaceId = Id('c1dc6e5c63e143bab3d4755b251a4ea2');
+  const toSpaceId = Id('d1dc6e5c63e143bab3d4755b251a4ea3');
+  const fromVersionId = Id('e1dc6e5c63e143bab3d4755b251a4ea4');
+  const toVersionId = Id('f1dc6e5c63e143bab3d4755b251a4ea5');
 
   it('updates a relation with only position', () => {
     const result = updateRelation({

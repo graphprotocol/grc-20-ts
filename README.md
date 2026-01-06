@@ -149,7 +149,7 @@ const { id: textEntityId, ops: createTextEntityOps } = Graph.createEntity({
       value: 'Hello',
       options: {
         type: 'text',
-        language: Id('dad6e52a-5e94-4e55-9411-cfe3a3c3ea64'),
+        language: Id('dad6e52a5e944e559411cfe3a3c3ea64'),
       },
     },
     {
@@ -157,7 +157,7 @@ const { id: textEntityId, ops: createTextEntityOps } = Graph.createEntity({
       value: Graph.serializeNumber(42),
       options: {
         type: 'number',
-        unit: Id('016c9b1c-d8a8-4e4d-9e84-4e40878bb235'),
+        unit: Id('016c9b1cd8a84e4d9e844e40878bb235'),
       },
     },
   ],

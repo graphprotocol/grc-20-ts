@@ -4,7 +4,7 @@ import { unsetRelationFields } from './unset-relation-fields.js';
 
 describe('unsetRelationFields', () => {
   it('should create an unset relation operation with valid parameters', () => {
-    const id = Id('5cade575-7ecd-41ae-8348-1b22ffc2f94e');
+    const id = Id('5cade5757ecd41ae83481b22ffc2f94e');
     const fromSpace = true;
     const fromVersion = true;
     const toSpace = true;
@@ -42,7 +42,7 @@ describe('unsetRelationFields', () => {
   });
 
   it('should handle optional parameters', () => {
-    const id = Id('5cade575-7ecd-41ae-8348-1b22ffc2f94e');
+    const id = Id('5cade5757ecd41ae83481b22ffc2f94e');
     const fromSpace = true;
     const toSpace = true;
     const position = true;

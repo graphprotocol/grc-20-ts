@@ -5,7 +5,7 @@ import { make } from './data.js';
 
 it('should generate ops for a data block entity', () => {
   const ops = make({
-    fromId: '5871e8f7-b719-4897-9c4d-cf7c518d32ef',
+    fromId: '5871e8f7b71948979c4dcf7c518d32ef',
     sourceType: 'QUERY',
     position: 'test-position',
   });
@@ -27,7 +27,7 @@ it('should generate ops for a data block entity', () => {
   expect(blockRelationOp?.type).toBe('CREATE_RELATION');
   if (blockRelationOp?.type === 'CREATE_RELATION') {
     expect(blockRelationOp?.relation.type).toBe(SystemIds.BLOCKS);
-    expect(blockRelationOp?.relation.fromEntity).toBe(Id('5871e8f7-b719-4897-9c4d-cf7c518d32ef'));
+    expect(blockRelationOp?.relation.fromEntity).toBe(Id('5871e8f7b71948979c4dcf7c518d32ef'));
   }
 
   expect(ops.length).toBe(3);
@@ -35,7 +35,7 @@ it('should generate ops for a data block entity', () => {
 
 it('should generate ops for a data block entity with a name', () => {
   const ops = make({
-    fromId: '5871e8f7-b719-4897-9c4d-cf7c518d32ef',
+    fromId: '5871e8f7b71948979c4dcf7c518d32ef',
     sourceType: 'QUERY',
     position: 'test-position',
     name: 'test-name',
@@ -58,7 +58,7 @@ it('should generate ops for a data block entity with a name', () => {
   expect(blockRelationOp?.type).toBe('CREATE_RELATION');
   if (blockRelationOp?.type === 'CREATE_RELATION') {
     expect(blockRelationOp?.relation.type).toBe(SystemIds.BLOCKS);
-    expect(blockRelationOp?.relation.fromEntity).toBe(Id('5871e8f7-b719-4897-9c4d-cf7c518d32ef'));
+    expect(blockRelationOp?.relation.fromEntity).toBe(Id('5871e8f7b71948979c4dcf7c518d32ef'));
   }
 
   expect(blockNameOp?.type).toBe('UPDATE_ENTITY');

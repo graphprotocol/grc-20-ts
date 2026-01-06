@@ -159,11 +159,11 @@ describe('createImage', () => {
   it('creates an image with a provided id', async () => {
     const image = await createImage({
       url: 'http://localhost:3000/image',
-      id: Id('8698adc1-6661-45a3-bea0-482ef419797f'),
+      id: Id('8698adc1666145a3bea0482ef419797f'),
     });
 
     expect(image).toBeDefined();
-    expect(image.id).toBe('8698adc1-6661-45a3-bea0-482ef419797f');
+    expect(image.id).toBe('8698adc1666145a3bea0482ef419797f');
   });
 
   it('throws an error if the provided id is invalid', async () => {

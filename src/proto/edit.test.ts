@@ -12,14 +12,14 @@ describe('Edit', () => {
         {
           type: 'UPDATE_ENTITY',
           entity: {
-            id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
+            id: Id('3af3e22d21694a078681516710b7ecf1'),
             values: [
               {
-                property: Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc'),
+                property: Id('d4bc2f205e2d415e971eb0b9fbf6b6fc'),
                 value: 'test value',
                 options: {
                   text: {
-                    language: Id('a6104fe0-d695-4f93-92fa-0a1afc552bc5'),
+                    language: Id('a6104fe0d6954f9392fa0a1afc552bc5'),
                   },
                 },
               },
@@ -37,16 +37,16 @@ describe('Edit', () => {
     if (!op) throw new Error('Expected op to be defined');
     expect(op.payload?.case).toBe('updateEntity');
     expect(op.payload?.value).toEqual({
-      id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      id: toBytes(Id('3af3e22d21694a078681516710b7ecf1')),
       values: [
         {
-          property: toBytes(Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc')),
+          property: toBytes(Id('d4bc2f205e2d415e971eb0b9fbf6b6fc')),
           value: 'test value',
           options: {
             value: {
               case: 'text',
               value: {
-                language: toBytes(Id('a6104fe0-d695-4f93-92fa-0a1afc552bc5')),
+                language: toBytes(Id('a6104fe0d6954f9392fa0a1afc552bc5')),
               },
             },
           },
@@ -62,14 +62,14 @@ describe('Edit', () => {
         {
           type: 'UPDATE_ENTITY',
           entity: {
-            id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
+            id: Id('3af3e22d21694a078681516710b7ecf1'),
             values: [
               {
-                property: Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc'),
+                property: Id('d4bc2f205e2d415e971eb0b9fbf6b6fc'),
                 value: 'test value',
                 options: {
                   number: {
-                    unit: Id('a6104fe0-d695-4f93-92fa-0a1afc552bc5'),
+                    unit: Id('a6104fe0d6954f9392fa0a1afc552bc5'),
                   },
                 },
               },
@@ -87,16 +87,16 @@ describe('Edit', () => {
     if (!op) throw new Error('Expected op to be defined');
     expect(op.payload?.case).toBe('updateEntity');
     expect(op.payload?.value).toEqual({
-      id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      id: toBytes(Id('3af3e22d21694a078681516710b7ecf1')),
       values: [
         {
-          property: toBytes(Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc')),
+          property: toBytes(Id('d4bc2f205e2d415e971eb0b9fbf6b6fc')),
           value: 'test value',
           options: {
             value: {
               case: 'number',
               value: {
-                unit: toBytes(Id('a6104fe0-d695-4f93-92fa-0a1afc552bc5')),
+                unit: toBytes(Id('a6104fe0d6954f9392fa0a1afc552bc5')),
               },
             },
           },
@@ -112,7 +112,7 @@ describe('Edit', () => {
         {
           type: 'CREATE_PROPERTY',
           property: {
-            id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
+            id: Id('3af3e22d21694a078681516710b7ecf1'),
             dataType: 'POINT',
           },
         },
@@ -127,7 +127,7 @@ describe('Edit', () => {
     if (!op) throw new Error('Expected op to be defined');
     expect(op.payload?.case).toBe('createProperty');
     expect(op.payload?.value).toEqual({
-      id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      id: toBytes(Id('3af3e22d21694a078681516710b7ecf1')),
       dataType: 4,
     });
   });
@@ -139,7 +139,7 @@ describe('Edit', () => {
         {
           type: 'CREATE_PROPERTY',
           property: {
-            id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
+            id: Id('3af3e22d21694a078681516710b7ecf1'),
             dataType: 'RELATION',
           },
         },
@@ -154,7 +154,7 @@ describe('Edit', () => {
     if (!op) throw new Error('Expected op to be defined');
     expect(op.payload?.case).toBe('createProperty');
     expect(op.payload?.value).toEqual({
-      id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      id: toBytes(Id('3af3e22d21694a078681516710b7ecf1')),
       dataType: 5,
     });
   });
@@ -166,7 +166,7 @@ describe('Edit', () => {
         {
           type: 'CREATE_PROPERTY',
           property: {
-            id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
+            id: Id('3af3e22d21694a078681516710b7ecf1'),
             dataType: 'STRING',
           },
         },
@@ -181,7 +181,7 @@ describe('Edit', () => {
     if (!op) throw new Error('Expected op to be defined');
     expect(op.payload?.case).toBe('createProperty');
     expect(op.payload?.value).toEqual({
-      id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      id: toBytes(Id('3af3e22d21694a078681516710b7ecf1')),
       dataType: 0,
     });
   });
@@ -193,11 +193,11 @@ describe('Edit', () => {
         {
           type: 'CREATE_RELATION',
           relation: {
-            id: Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7'),
-            type: Id('cf518eaf-ef74-4aad-bc87-fe09c2631fcd'),
-            fromEntity: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
-            toEntity: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
-            entity: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
+            id: Id('765564cac7e54c61b1dcc28ab77ec6b7'),
+            type: Id('cf518eafef744aadbc87fe09c2631fcd'),
+            fromEntity: Id('3af3e22d21694a078681516710b7ecf1'),
+            toEntity: Id('3af3e22d21694a078681516710b7ecf1'),
+            entity: Id('3af3e22d21694a078681516710b7ecf1'),
             position: 'test-position',
           },
         },
@@ -212,11 +212,11 @@ describe('Edit', () => {
     if (!op) throw new Error('Expected op to be defined');
     expect(op.payload?.case).toBe('createRelation');
     expect(op.payload?.value).toEqual({
-      id: toBytes(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
-      type: toBytes(Id('cf518eaf-ef74-4aad-bc87-fe09c2631fcd')),
-      fromEntity: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
-      toEntity: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
-      entity: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      id: toBytes(Id('765564cac7e54c61b1dcc28ab77ec6b7')),
+      type: toBytes(Id('cf518eafef744aadbc87fe09c2631fcd')),
+      fromEntity: toBytes(Id('3af3e22d21694a078681516710b7ecf1')),
+      toEntity: toBytes(Id('3af3e22d21694a078681516710b7ecf1')),
+      entity: toBytes(Id('3af3e22d21694a078681516710b7ecf1')),
       position: 'test-position',
     });
   });
@@ -227,7 +227,7 @@ describe('Edit', () => {
       ops: [
         {
           type: 'DELETE_RELATION',
-          id: Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7'),
+          id: Id('765564cac7e54c61b1dcc28ab77ec6b7'),
         },
       ],
       author: '0x000000000000000000000000000000000000',
@@ -239,7 +239,7 @@ describe('Edit', () => {
     const op = result.ops[0];
     if (!op) throw new Error('Expected op to be defined');
     expect(op.payload?.case).toBe('deleteRelation');
-    expect(op.payload?.value).toEqual(toBytes(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')));
+    expect(op.payload?.value).toEqual(toBytes(Id('765564cac7e54c61b1dcc28ab77ec6b7')));
   });
 
   it('encodes and decodes Edit with UPDATE_RELATION ops correctly', () => {
@@ -249,7 +249,7 @@ describe('Edit', () => {
         {
           type: 'UPDATE_RELATION',
           relation: {
-            id: Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7'),
+            id: Id('765564cac7e54c61b1dcc28ab77ec6b7'),
             position: 'new-position',
           },
         },
@@ -264,7 +264,7 @@ describe('Edit', () => {
     if (!op) throw new Error('Expected op to be defined');
     expect(op.payload?.case).toBe('updateRelation');
     expect(op.payload?.value).toEqual({
-      id: toBytes(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+      id: toBytes(Id('765564cac7e54c61b1dcc28ab77ec6b7')),
       position: 'new-position',
     });
   });
@@ -276,8 +276,8 @@ describe('Edit', () => {
         {
           type: 'UNSET_ENTITY_VALUES',
           unsetEntityValues: {
-            id: Id('3af3e22d-2169-4a07-8681-516710b7ecf1'),
-            properties: [Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc'), Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')],
+            id: Id('3af3e22d21694a078681516710b7ecf1'),
+            properties: [Id('d4bc2f205e2d415e971eb0b9fbf6b6fc'), Id('765564cac7e54c61b1dcc28ab77ec6b7')],
           },
         },
       ],
@@ -291,10 +291,10 @@ describe('Edit', () => {
     if (!op) throw new Error('Expected op to be defined');
     expect(op.payload?.case).toBe('unsetEntityValues');
     expect(op.payload?.value).toEqual({
-      id: toBytes(Id('3af3e22d-2169-4a07-8681-516710b7ecf1')),
+      id: toBytes(Id('3af3e22d21694a078681516710b7ecf1')),
       properties: [
-        toBytes(Id('d4bc2f20-5e2d-415e-971e-b0b9fbf6b6fc')),
-        toBytes(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+        toBytes(Id('d4bc2f205e2d415e971eb0b9fbf6b6fc')),
+        toBytes(Id('765564cac7e54c61b1dcc28ab77ec6b7')),
       ],
     });
   });
@@ -306,7 +306,7 @@ describe('Edit', () => {
         {
           type: 'UNSET_RELATION_FIELDS',
           unsetRelationFields: {
-            id: Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7'),
+            id: Id('765564cac7e54c61b1dcc28ab77ec6b7'),
             fromSpace: true,
             fromVersion: false,
             toSpace: true,
@@ -326,7 +326,7 @@ describe('Edit', () => {
     if (!op) throw new Error('Expected op to be defined');
     expect(op.payload?.case).toBe('unsetRelationFields');
     expect(op.payload?.value).toEqual({
-      id: toBytes(Id('765564ca-c7e5-4c61-b1dc-c28ab77ec6b7')),
+      id: toBytes(Id('765564cac7e54c61b1dcc28ab77ec6b7')),
       fromSpace: true,
       fromVersion: false,
       toSpace: true,
