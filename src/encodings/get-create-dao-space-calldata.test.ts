@@ -72,7 +72,9 @@ describe('validateIpfsUri', () => {
   });
 
   it('should reject URI without ipfs:// prefix', () => {
-    expect(validateIpfsUri('QmP6aJhM3SgoRSPUccBQK9VMHNqqezixG1Qvjy2xPWvPh5')).toBe('IPFS URI must start with "ipfs://"');
+    expect(validateIpfsUri('QmP6aJhM3SgoRSPUccBQK9VMHNqqezixG1Qvjy2xPWvPh5')).toBe(
+      'IPFS URI must start with "ipfs://"',
+    );
   });
 
   it('should reject empty CID', () => {
