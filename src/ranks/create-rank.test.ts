@@ -254,6 +254,29 @@ describe('createRank', () => {
         }),
       ).toThrow('Invalid id: "invalid-entity-id" for `entityId` in `votes` in `createRank`');
     });
+
+    it('throws an error if duplicate entity IDs are in votes', () => {
+      expect(() =>
+        createRank({
+          name: 'My Rank',
+          rankType: 'ORDINAL',
+          votes: [{ entityId: movie1Id }, { entityId: movie2Id }, { entityId: movie1Id }],
+        }),
+      ).toThrow(`Duplicate entityId in votes: "${movie1Id}". Each entity can only be voted once per rank.`);
+    });
+
+    it('throws an error for duplicate entity IDs in weighted ranks', () => {
+      expect(() =>
+        createRank({
+          name: 'My Scores',
+          rankType: 'WEIGHTED',
+          votes: [
+            { entityId: movie1Id, value: 5 },
+            { entityId: movie1Id, value: 3 },
+          ],
+        }),
+      ).toThrow(`Duplicate entityId in votes: "${movie1Id}". Each entity can only be voted once per rank.`);
+    });
   });
 
   describe('empty votes', () => {

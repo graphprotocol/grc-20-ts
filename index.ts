@@ -24,6 +24,11 @@ export {
 export * as Graph from './src/graph/index.js';
 export { Id } from './src/id.js';
 /**
+ * This module provides utility functions for working with ranks in the Knowledge Graph.
+ * Ranks allow ordering or scoring entities within a collection.
+ */
+export * as Rank from './src/ranks/index.js';
+/**
  * This module provides utility functions for working knowledge graph
  * identifiers in TypeScript.
  */
