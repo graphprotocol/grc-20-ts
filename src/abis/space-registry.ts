@@ -1,92 +1,280 @@
 export const abi = [
-  { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
-  { inputs: [{ internalType: 'address', name: 'target', type: 'address' }], name: 'AddressEmptyCode', type: 'error' },
   {
-    inputs: [{ internalType: 'address', name: 'implementation', type: 'address' }],
+    inputs: [],
+    stateMutability: 'nonpayable',
+    type: 'constructor',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'target',
+        type: 'address',
+      },
+    ],
+    name: 'AddressEmptyCode',
+    type: 'error',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'implementation',
+        type: 'address',
+      },
+    ],
     name: 'ERC1967InvalidImplementation',
     type: 'error',
   },
-  { inputs: [], name: 'ERC1967NonPayable', type: 'error' },
-  { inputs: [], name: 'FailedCall', type: 'error' },
-  { inputs: [], name: 'InvalidCaller', type: 'error' },
-  { inputs: [], name: 'InvalidInitialization', type: 'error' },
-  { inputs: [], name: 'NotInitializing', type: 'error' },
-  { inputs: [{ internalType: 'address', name: 'owner', type: 'address' }], name: 'OwnableInvalidOwner', type: 'error' },
   {
-    inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
+    inputs: [],
+    name: 'ERC1967NonPayable',
+    type: 'error',
+  },
+  {
+    inputs: [],
+    name: 'FailedCall',
+    type: 'error',
+  },
+  {
+    inputs: [],
+    name: 'InvalidCaller',
+    type: 'error',
+  },
+  {
+    inputs: [],
+    name: 'InvalidInitialization',
+    type: 'error',
+  },
+  {
+    inputs: [],
+    name: 'NotInitializing',
+    type: 'error',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'owner',
+        type: 'address',
+      },
+    ],
+    name: 'OwnableInvalidOwner',
+    type: 'error',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address',
+      },
+    ],
     name: 'OwnableUnauthorizedAccount',
     type: 'error',
   },
-  { inputs: [], name: 'SpaceAlreadyRegistered', type: 'error' },
-  { inputs: [], name: 'SpaceNotRegistered', type: 'error' },
-  { inputs: [], name: 'UUPSUnauthorizedCallContext', type: 'error' },
   {
-    inputs: [{ internalType: 'bytes32', name: 'slot', type: 'bytes32' }],
+    inputs: [],
+    name: 'SpaceAlreadyRegistered',
+    type: 'error',
+  },
+  {
+    inputs: [],
+    name: 'SpaceNotRegistered',
+    type: 'error',
+  },
+  {
+    inputs: [],
+    name: 'UUPSUnauthorizedCallContext',
+    type: 'error',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'slot',
+        type: 'bytes32',
+      },
+    ],
     name: 'UUPSUnsupportedProxiableUUID',
     type: 'error',
   },
   {
     anonymous: true,
     inputs: [
-      { indexed: true, internalType: 'bytes16', name: 'fromId', type: 'bytes16' },
-      { indexed: true, internalType: 'bytes16', name: 'toId', type: 'bytes16' },
-      { indexed: true, internalType: 'bytes32', name: 'action', type: 'bytes32' },
-      { indexed: true, internalType: 'bytes32', name: 'topic', type: 'bytes32' },
-      { indexed: false, internalType: 'bytes', name: 'data', type: 'bytes' },
+      {
+        indexed: true,
+        internalType: 'bytes16',
+        name: 'fromSpaceId',
+        type: 'bytes16',
+      },
+      {
+        indexed: true,
+        internalType: 'bytes16',
+        name: 'toSpaceId',
+        type: 'bytes16',
+      },
+      {
+        indexed: true,
+        internalType: 'bytes32',
+        name: 'action',
+        type: 'bytes32',
+      },
+      {
+        indexed: true,
+        internalType: 'bytes32',
+        name: 'topic',
+        type: 'bytes32',
+      },
+      {
+        indexed: false,
+        internalType: 'bytes',
+        name: 'data',
+        type: 'bytes',
+      },
     ],
     name: 'Action',
     type: 'event',
   },
   {
     anonymous: false,
-    inputs: [{ indexed: false, internalType: 'uint64', name: 'version', type: 'uint64' }],
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'uint64',
+        name: 'version',
+        type: 'uint64',
+      },
+    ],
     name: 'Initialized',
     type: 'event',
   },
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: 'address', name: 'previousOwner', type: 'address' },
-      { indexed: true, internalType: 'address', name: 'newOwner', type: 'address' },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'previousOwner',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
     ],
     name: 'OwnershipTransferred',
     type: 'event',
   },
   {
     anonymous: false,
-    inputs: [{ indexed: true, internalType: 'address', name: 'implementation', type: 'address' }],
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'implementation',
+        type: 'address',
+      },
+    ],
     name: 'Upgraded',
     type: 'event',
   },
   {
     inputs: [],
     name: 'UPGRADE_INTERFACE_VERSION',
-    outputs: [{ internalType: 'string', name: '', type: 'string' }],
+    outputs: [
+      {
+        internalType: 'string',
+        name: '',
+        type: 'string',
+      },
+    ],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'bytes16', name: '_spaceId', type: 'bytes16' }],
+    inputs: [
+      {
+        internalType: 'bytes16',
+        name: '_spaceId',
+        type: 'bytes16',
+      },
+      {
+        internalType: 'bytes32',
+        name: '_type',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes',
+        name: '_version',
+        type: 'bytes',
+      },
+    ],
     name: 'acceptSpaceMigration',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'address', name: '_account', type: 'address' }],
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_account',
+        type: 'address',
+      },
+    ],
     name: 'addressToSpaceId',
-    outputs: [{ internalType: 'bytes16', name: '_spaceId', type: 'bytes16' }],
+    outputs: [
+      {
+        internalType: 'bytes16',
+        name: '_spaceId',
+        type: 'bytes16',
+      },
+    ],
     stateMutability: 'view',
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'clearSpaceId',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     inputs: [
-      { internalType: 'address', name: '_from', type: 'address' },
-      { internalType: 'address', name: '_to', type: 'address' },
-      { internalType: 'bytes32', name: '_action', type: 'bytes32' },
-      { internalType: 'bytes32', name: '_topic', type: 'bytes32' },
-      { internalType: 'bytes', name: '_data', type: 'bytes' },
-      { internalType: 'bytes', name: '_signature', type: 'bytes' },
+      {
+        internalType: 'address',
+        name: '_fromSpace',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: '_toSpace',
+        type: 'address',
+      },
+      {
+        internalType: 'bytes32',
+        name: '_action',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: '_topic',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes',
+        name: '_data',
+        type: 'bytes',
+      },
+      {
+        internalType: 'bytes',
+        name: '_signature',
+        type: 'bytes',
+      },
     ],
     name: 'enter',
     outputs: [],
@@ -95,16 +283,36 @@ export const abi = [
   },
   {
     inputs: [
-      { internalType: 'address', name: '_account', type: 'address' },
-      { internalType: 'uint256', name: '_nonce', type: 'uint256' },
+      {
+        internalType: 'address',
+        name: '_account',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: '_nonce',
+        type: 'uint256',
+      },
     ],
     name: 'generateSpaceId',
-    outputs: [{ internalType: 'bytes16', name: '_spaceId', type: 'bytes16' }],
+    outputs: [
+      {
+        internalType: 'bytes16',
+        name: '_spaceId',
+        type: 'bytes16',
+      },
+    ],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'address', name: '_owner', type: 'address' }],
+    inputs: [
+      {
+        internalType: 'bytes',
+        name: '_initializerData',
+        type: 'bytes',
+      },
+    ],
     name: 'initialize',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -112,20 +320,57 @@ export const abi = [
   },
   {
     inputs: [],
+    name: 'name',
+    outputs: [
+      {
+        internalType: 'string',
+        name: '_name',
+        type: 'string',
+      },
+    ],
+    stateMutability: 'pure',
+    type: 'function',
+  },
+  {
+    inputs: [],
     name: 'owner',
-    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'bytes32', name: '_action', type: 'bytes32' }],
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: '_action',
+        type: 'bytes32',
+      },
+    ],
     name: 'permissionlessActions',
-    outputs: [{ internalType: 'bool', name: '_isPermissionless', type: 'bool' }],
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '_isPermissionless',
+        type: 'bool',
+      },
+    ],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'address', name: '_newAccount', type: 'address' }],
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_newAccount',
+        type: 'address',
+      },
+    ],
     name: 'proposeSpaceMigration',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -134,16 +379,53 @@ export const abi = [
   {
     inputs: [],
     name: 'proxiableUUID',
-    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
+    ],
     stateMutability: 'view',
     type: 'function',
   },
-  { inputs: [], name: 'registerSpaceId', outputs: [], stateMutability: 'nonpayable', type: 'function' },
-  { inputs: [], name: 'renounceOwnership', outputs: [], stateMutability: 'nonpayable', type: 'function' },
   {
     inputs: [
-      { internalType: 'bytes32', name: '_action', type: 'bytes32' },
-      { internalType: 'bool', name: '_set', type: 'bool' },
+      {
+        internalType: 'bytes32',
+        name: '_type',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes',
+        name: '_version',
+        type: 'bytes',
+      },
+    ],
+    name: 'registerSpaceId',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: '_action',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bool',
+        name: '_isPermissionless',
+        type: 'bool',
+      },
     ],
     name: 'setPermissionlessAction',
     outputs: [],
@@ -151,30 +433,81 @@ export const abi = [
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'bytes16', name: '_spaceId', type: 'bytes16' }],
+    inputs: [
+      {
+        internalType: 'bytes16',
+        name: '_spaceId',
+        type: 'bytes16',
+      },
+    ],
     name: 'spaceIdToAddress',
-    outputs: [{ internalType: 'address', name: '_account', type: 'address' }],
+    outputs: [
+      {
+        internalType: 'address',
+        name: '_account',
+        type: 'address',
+      },
+    ],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'bytes16', name: '_spaceId', type: 'bytes16' }],
+    inputs: [
+      {
+        internalType: 'bytes16',
+        name: '_spaceId',
+        type: 'bytes16',
+      },
+    ],
     name: 'spaceIdToProposedAddress',
-    outputs: [{ internalType: 'address', name: '_account', type: 'address' }],
+    outputs: [
+      {
+        internalType: 'address',
+        name: '_account',
+        type: 'address',
+      },
+    ],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'address', name: 'newOwner', type: 'address' }],
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
+    ],
     name: 'transferOwnership',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'typeId',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '_type',
+        type: 'bytes32',
+      },
+    ],
+    stateMutability: 'pure',
+    type: 'function',
+  },
+  {
     inputs: [
-      { internalType: 'address', name: 'newImplementation', type: 'address' },
-      { internalType: 'bytes', name: 'data', type: 'bytes' },
+      {
+        internalType: 'address',
+        name: 'newImplementation',
+        type: 'address',
+      },
+      {
+        internalType: 'bytes',
+        name: 'data',
+        type: 'bytes',
+      },
     ],
     name: 'upgradeToAndCall',
     outputs: [],
@@ -184,7 +517,13 @@ export const abi = [
   {
     inputs: [],
     name: 'version',
-    outputs: [{ internalType: 'string', name: '_version', type: 'string' }],
+    outputs: [
+      {
+        internalType: 'string',
+        name: '_version',
+        type: 'string',
+      },
+    ],
     stateMutability: 'pure',
     type: 'function',
   },

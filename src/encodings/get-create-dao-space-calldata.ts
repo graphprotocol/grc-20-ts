@@ -1,4 +1,4 @@
-import { encodeFunctionData } from 'viem';
+import { encodeFunctionData, toHex } from 'viem';
 
 import { DaoSpaceFactoryAbi } from '../abis/index.js';
 import { getChecksumAddress } from '../core/get-checksum-address.js';
@@ -100,6 +100,33 @@ export function toContractVotingSettings(input: VotingSettingsInput): VotingSett
 }
 
 /**
+ * Validate an IPFS URI format.
+ *
+ * @param uri - The URI to validate
+ * @returns Error message if invalid, null if valid
+ */
+export function validateIpfsUri(uri: string): string | null {
+  if (!uri.startsWith('ipfs://')) {
+    return 'IPFS URI must start with "ipfs://"';
+  }
+
+  const cid = uri.slice(7); // Remove 'ipfs://' prefix
+  if (cid.length === 0) {
+    return 'IPFS URI must contain a CID after "ipfs://"';
+  }
+
+  // CIDv0 starts with Qm (46 chars), CIDv1 starts with bafy (59 chars for base32)
+  const isValidCidV0 = /^Qm[1-9A-HJ-NP-Za-km-z]{44}$/.test(cid);
+  const isValidCidV1 = /^b[a-z2-7]{58,}$/.test(cid);
+
+  if (!isValidCidV0 && !isValidCidV1) {
+    return 'IPFS URI contains an invalid CID format';
+  }
+
+  return null;
+}
+
+/**
  * Validate voting settings input.
  *
  * @param settings - The voting settings to validate
@@ -140,6 +167,8 @@ type CreateDaoSpaceCalldataParams = {
   initialEditors: string[];
   /** Addresses of initial members (can be empty) */
   initialMembers: string[];
+  /** Initial edits content URI, e.g. "ipfs://Qm..." (optional, defaults to empty) */
+  initialEditsContentUri?: string;
 };
 
 /**
@@ -197,6 +226,15 @@ export function getCreateDaoSpaceCalldata(args: CreateDaoSpaceCalldataParams): `
 
   const contractVotingSettings = toContractVotingSettings(args.votingSettings);
 
+  let initialEditsContentUri: `0x${string}` = '0x';
+  if (args.initialEditsContentUri) {
+    const ipfsError = validateIpfsUri(args.initialEditsContentUri);
+    if (ipfsError) {
+      throw new Error(ipfsError);
+    }
+    initialEditsContentUri = toHex(args.initialEditsContentUri);
+  }
+
   return encodeFunctionData({
     abi: DaoSpaceFactoryAbi,
     functionName: 'createDAOSpaceProxy',
@@ -209,6 +247,8 @@ export function getCreateDaoSpaceCalldata(args: CreateDaoSpaceCalldataParams): `
       },
       initialEditors,
       initialMembers,
+      initialEditsContentUri,
+      '0x',
     ],
   });
 }
