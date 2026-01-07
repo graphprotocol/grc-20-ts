@@ -5,7 +5,7 @@ import { make } from './text.js';
 
 it('should generate ops for a text block entity', () => {
   const ops = make({
-    fromId: '5871e8f7-b719-4897-9c4d-cf7c518d32ef',
+    fromId: '5871e8f7b71948979c4dcf7c518d32ef',
     text: 'test-text',
     position: 'test-position',
   });
@@ -27,7 +27,7 @@ it('should generate ops for a text block entity', () => {
   expect(blockRelationOp?.type).toBe('CREATE_RELATION');
   if (blockRelationOp?.type === 'CREATE_RELATION') {
     expect(blockRelationOp?.relation.type).toBe(SystemIds.BLOCKS);
-    expect(blockRelationOp?.relation.fromEntity).toBe(Id('5871e8f7-b719-4897-9c4d-cf7c518d32ef'));
+    expect(blockRelationOp?.relation.fromEntity).toBe(Id('5871e8f7b71948979c4dcf7c518d32ef'));
   }
 
   expect(ops.length).toBe(3);

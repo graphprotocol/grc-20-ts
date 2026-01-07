@@ -71,13 +71,13 @@ describe('createProperty', () => {
 
   it('creates a property with a provided id', async () => {
     const property = createProperty({
-      id: Id('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1'),
+      id: Id('b1dc6e5c63e143bab3d4755b251a4ea1'),
       name: 'Price',
       dataType: 'NUMBER',
     });
 
     expect(property).toBeDefined();
-    expect(property.id).toBe('b1dc6e5c-63e1-43ba-b3d4-755b251a4ea1');
+    expect(property.id).toBe('b1dc6e5c63e143bab3d4755b251a4ea1');
   });
 
   it('throws an error if the provided id is invalid', async () => {

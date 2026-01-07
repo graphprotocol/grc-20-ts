@@ -17,9 +17,12 @@ export {
   getAcceptEditorArguments,
   getAcceptSubspaceArguments,
   getCalldataForSpaceGovernanceType,
+  getCreateDaoSpaceCalldata,
+  getCreatePersonalSpaceCalldata,
   getProcessGeoProposalArguments,
   getRemoveEditorArguments,
   getRemoveSubspaceArguments,
+  validateIpfsUri,
 } from './src/encodings/index.js';
 export * as Graph from './src/graph/index.js';
 export { Id } from './src/id.js';

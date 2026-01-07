@@ -8,6 +8,7 @@ import {
   percentageToRatio,
   RATIO_BASE,
   toContractVotingSettings,
+  validateIpfsUri,
   validateVotingSettingsInput,
 } from './get-create-dao-space-calldata.js';
 
@@ -58,6 +59,34 @@ describe('toContractVotingSettings', () => {
     expect(result.fastPathFlatThreshold).toBe(BigInt(3));
     expect(result.quorum).toBe(BigInt(2));
     expect(result.duration).toBe(daysToSeconds(7));
+  });
+});
+
+describe('validateIpfsUri', () => {
+  it('should return null for valid CIDv0', () => {
+    expect(validateIpfsUri('ipfs://QmP6aJhM3SgoRSPUccBQK9VMHNqqezixG1Qvjy2xPWvPh5')).toBeNull();
+  });
+
+  it('should return null for valid CIDv1', () => {
+    expect(validateIpfsUri('ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi')).toBeNull();
+  });
+
+  it('should reject URI without ipfs:// prefix', () => {
+    expect(validateIpfsUri('QmP6aJhM3SgoRSPUccBQK9VMHNqqezixG1Qvjy2xPWvPh5')).toBe(
+      'IPFS URI must start with "ipfs://"',
+    );
+  });
+
+  it('should reject empty CID', () => {
+    expect(validateIpfsUri('ipfs://')).toBe('IPFS URI must contain a CID after "ipfs://"');
+  });
+
+  it('should reject invalid CID format', () => {
+    expect(validateIpfsUri('ipfs://invalid')).toBe('IPFS URI contains an invalid CID format');
+  });
+
+  it('should reject http URLs', () => {
+    expect(validateIpfsUri('https://example.com/file')).toBe('IPFS URI must start with "ipfs://"');
   });
 });
 
@@ -159,5 +188,52 @@ describe('getCreateDaoSpaceCalldata', () => {
     // Should not throw with lowercase addresses - uses validArgs which has 3 editors
     const calldata = getCreateDaoSpaceCalldata(validArgs);
     expect(calldata).toBeTypeOf('string');
+  });
+
+  it('should generate calldata without initialEditsContentUri', () => {
+    const calldata = getCreateDaoSpaceCalldata(validArgs);
+    expect(calldata).toBeTypeOf('string');
+    expect(calldata.startsWith('0x')).toBe(true);
+  });
+
+  it('should generate calldata with initialEditsContentUri', () => {
+    const args = {
+      ...validArgs,
+      initialEditsContentUri: 'ipfs://QmP6aJhM3SgoRSPUccBQK9VMHNqqezixG1Qvjy2xPWvPh5',
+    };
+    const calldata = getCreateDaoSpaceCalldata(args);
+    expect(calldata).toBeTypeOf('string');
+    expect(calldata.startsWith('0x')).toBe(true);
+    // Calldata with URI should be longer than without
+    const calldataWithoutUri = getCreateDaoSpaceCalldata(validArgs);
+    expect(calldata.length).toBeGreaterThan(calldataWithoutUri.length);
+  });
+
+  it('should generate different calldata for different URIs', () => {
+    const calldata1 = getCreateDaoSpaceCalldata({
+      ...validArgs,
+      initialEditsContentUri: 'ipfs://QmP6aJhM3SgoRSPUccBQK9VMHNqqezixG1Qvjy2xPWvPh5',
+    });
+    const calldata2 = getCreateDaoSpaceCalldata({
+      ...validArgs,
+      initialEditsContentUri: 'ipfs://QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG',
+    });
+    expect(calldata1).not.toBe(calldata2);
+  });
+
+  it('should throw for invalid IPFS URI', () => {
+    const args = {
+      ...validArgs,
+      initialEditsContentUri: 'https://example.com/file',
+    };
+    expect(() => getCreateDaoSpaceCalldata(args)).toThrow('IPFS URI must start with "ipfs://"');
+  });
+
+  it('should throw for invalid CID format', () => {
+    const args = {
+      ...validArgs,
+      initialEditsContentUri: 'ipfs://invalid-cid',
+    };
+    expect(() => getCreateDaoSpaceCalldata(args)).toThrow('IPFS URI contains an invalid CID format');
   });
 });
