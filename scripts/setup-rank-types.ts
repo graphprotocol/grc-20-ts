@@ -11,8 +11,6 @@
  * Usage: import { ops } from './scripts/setup-rank-types.js'
  */
 
-import { createProperty } from '../src/graph/create-property.js';
-import { createType } from '../src/graph/create-type.js';
 import {
   RANK_TYPE,
   RANK_TYPE_PROPERTY,
@@ -20,6 +18,8 @@ import {
   VOTE_ORDINAL_VALUE_PROPERTY,
   VOTE_WEIGHTED_VALUE_PROPERTY,
 } from '../src/core/ids/system.js';
+import { createProperty } from '../src/graph/create-property.js';
+import { createType } from '../src/graph/create-type.js';
 import type { Op } from '../src/types.js';
 
 const generateRankTypeOps = (): Op[] => {

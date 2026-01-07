@@ -9,9 +9,9 @@ import {
   VOTE_ORDINAL_VALUE_PROPERTY,
   VOTE_WEIGHTED_VALUE_PROPERTY,
 } from '../core/ids/system.js';
+import { serializeNumber } from '../graph/serialize.js';
 import { Id } from '../id.js';
 import { assertValid, generate } from '../id-utils.js';
-import { serializeNumber } from '../graph/serialize.js';
 import type { Op, Value } from '../types.js';
 import type { CreateRankParams, CreateRankResult, VoteWeighted } from './types.js';
 
@@ -124,8 +124,7 @@ export const createRank = ({
   });
 
   // Generate fractional indices for ordinal ranks
-  const fractionalIndices =
-    rankType === 'ORDINAL' ? generateNJitteredKeysBetween(null, null, votes.length) : [];
+  const fractionalIndices = rankType === 'ORDINAL' ? generateNJitteredKeysBetween(null, null, votes.length) : [];
 
   // Create votes
   votes.forEach((vote, i) => {
@@ -169,4 +168,3 @@ export const createRank = ({
 
   return { id: Id(id), ops, voteIds };
 };
-

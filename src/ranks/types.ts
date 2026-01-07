@@ -33,4 +33,3 @@ export type CreateRankParams = {
 export type CreateRankResult = CreateResult & {
   voteIds: Id[]; // IDs of created vote entities for reference
 };
-
