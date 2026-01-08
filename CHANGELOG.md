@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.29.0
+
+### Minor Changes
+
+- 880b9d8: Add Rank module supporting ordinal and weighted ranks creation
+
 ## 0.28.0
 
 ### Minor Changes
