@@ -246,14 +246,14 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'address',
-        name: '_fromSpace',
-        type: 'address',
+        internalType: 'bytes16',
+        name: '_fromSpaceId',
+        type: 'bytes16',
       },
       {
-        internalType: 'address',
-        name: '_toSpace',
-        type: 'address',
+        internalType: 'bytes16',
+        name: '_toSpaceId',
+        type: 'bytes16',
       },
       {
         internalType: 'bytes32',
@@ -403,7 +403,13 @@ export const abi = [
       },
     ],
     name: 'registerSpaceId',
-    outputs: [],
+    outputs: [
+      {
+        internalType: 'bytes16',
+        name: '_spaceId',
+        type: 'bytes16',
+      },
+    ],
     stateMutability: 'nonpayable',
     type: 'function',
   },

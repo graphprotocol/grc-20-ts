@@ -140,12 +140,12 @@ describe('getCreateDaoSpaceCalldata', () => {
       quorum: 1,
       durationInDays: 7,
     },
-    initialEditors: [
-      '0x1234567890123456789012345678901234567890',
-      '0x2234567890123456789012345678901234567890',
-      '0x3234567890123456789012345678901234567890',
+    initialEditorSpaceIds: [
+      '0x12345678901234567890123456789012' as `0x${string}`,
+      '0x22345678901234567890123456789012' as `0x${string}`,
+      '0x32345678901234567890123456789012' as `0x${string}`,
     ],
-    initialMembers: ['0xabcdefabcdefabcdefabcdefabcdefabcdefabcd'],
+    initialMemberSpaceIds: ['0xabcdefabcdefabcdefabcdefabcdefab' as `0x${string}`],
   };
 
   it('should generate valid calldata', () => {
@@ -155,8 +155,8 @@ describe('getCreateDaoSpaceCalldata', () => {
   });
 
   it('should throw if no initial editors provided', () => {
-    const args = { ...validArgs, initialEditors: [] };
-    expect(() => getCreateDaoSpaceCalldata(args)).toThrow('At least one initial editor is required');
+    const args = { ...validArgs, initialEditorSpaceIds: [] as `0x${string}`[] };
+    expect(() => getCreateDaoSpaceCalldata(args)).toThrow('At least one initial editor space ID is required');
   });
 
   it('should throw if voting settings are invalid', () => {
@@ -178,14 +178,13 @@ describe('getCreateDaoSpaceCalldata', () => {
   });
 
   it('should accept empty initial members', () => {
-    const args = { ...validArgs, initialMembers: [] };
+    const args = { ...validArgs, initialMemberSpaceIds: [] as `0x${string}`[] };
     const calldata = getCreateDaoSpaceCalldata(args);
     expect(calldata).toBeTypeOf('string');
     expect(calldata.startsWith('0x')).toBe(true);
   });
 
-  it('should checksum addresses', () => {
-    // Should not throw with lowercase addresses - uses validArgs which has 3 editors
+  it('should accept space IDs', () => {
     const calldata = getCreateDaoSpaceCalldata(validArgs);
     expect(calldata).toBeTypeOf('string');
   });

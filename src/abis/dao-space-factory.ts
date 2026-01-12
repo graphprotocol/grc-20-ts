@@ -172,14 +172,14 @@ export const abi = [
         type: 'tuple',
       },
       {
-        internalType: 'address[]',
+        internalType: 'bytes16[]',
         name: '_initialEditors',
-        type: 'address[]',
+        type: 'bytes16[]',
       },
       {
-        internalType: 'address[]',
+        internalType: 'bytes16[]',
         name: '_initialMembers',
-        type: 'address[]',
+        type: 'bytes16[]',
       },
       {
         internalType: 'bytes',
@@ -189,6 +189,16 @@ export const abi = [
       {
         internalType: 'bytes',
         name: '_initialEditsMetadata',
+        type: 'bytes',
+      },
+      {
+        internalType: 'bytes16',
+        name: '_initialTopicId',
+        type: 'bytes16',
+      },
+      {
+        internalType: 'bytes',
+        name: '_initialTopicData',
         type: 'bytes',
       },
     ],

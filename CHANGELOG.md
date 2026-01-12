@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.30.0
+
+### Minor Changes
+
+- 54a7b48: Update contracts and ABIs
+
 ## 0.29.0
 
 ### Minor Changes

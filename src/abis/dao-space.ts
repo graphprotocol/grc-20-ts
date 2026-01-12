@@ -31,11 +31,6 @@ export const abi = [
   },
   {
     inputs: [],
-    name: 'InvalidAddressForRole',
-    type: 'error',
-  },
-  {
-    inputs: [],
     name: 'InvalidCaller',
     type: 'error',
   },
@@ -61,17 +56,17 @@ export const abi = [
   },
   {
     inputs: [],
+    name: 'InvalidSpaceIdForRole',
+    type: 'error',
+  },
+  {
+    inputs: [],
     name: 'NotInitializing',
     type: 'error',
   },
   {
     inputs: [],
     name: 'OneActionForFastPath',
-    type: 'error',
-  },
-  {
-    inputs: [],
-    name: 'SpaceNotRegistered',
     type: 'error',
   },
   {
@@ -205,9 +200,9 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'address',
-        name: '_newEditor',
-        type: 'address',
+        internalType: 'bytes16',
+        name: '_newEditorSpaceId',
+        type: 'bytes16',
       },
     ],
     name: 'addEditor',
@@ -218,9 +213,9 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'address',
-        name: '_newMember',
-        type: 'address',
+        internalType: 'bytes16',
+        name: '_newMemberSpaceId',
+        type: 'bytes16',
       },
     ],
     name: 'addMember',
@@ -291,9 +286,9 @@ export const abi = [
         type: 'bool',
       },
       {
-        internalType: 'address',
+        internalType: 'bytes16',
         name: '_creator',
-        type: 'address',
+        type: 'bytes16',
       },
       {
         components: [
@@ -331,17 +326,17 @@ export const abi = [
         components: [
           {
             internalType: 'uint256',
-            name: 'abstain',
-            type: 'uint256',
-          },
-          {
-            internalType: 'uint256',
             name: 'yes',
             type: 'uint256',
           },
           {
             internalType: 'uint256',
             name: 'no',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'abstain',
             type: 'uint256',
           },
         ],
@@ -383,9 +378,9 @@ export const abi = [
         type: 'bytes16',
       },
       {
-        internalType: 'address',
-        name: '_account',
-        type: 'address',
+        internalType: 'bytes16',
+        name: '_voterSpaceId',
+        type: 'bytes16',
       },
     ],
     name: 'getLatestProposalVote',
@@ -420,9 +415,9 @@ export const abi = [
         type: 'bool',
       },
       {
-        internalType: 'address',
+        internalType: 'bytes16',
         name: '_creator',
-        type: 'address',
+        type: 'bytes16',
       },
       {
         components: [
@@ -460,17 +455,17 @@ export const abi = [
         components: [
           {
             internalType: 'uint256',
-            name: 'abstain',
-            type: 'uint256',
-          },
-          {
-            internalType: 'uint256',
             name: 'yes',
             type: 'uint256',
           },
           {
             internalType: 'uint256',
             name: 'no',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'abstain',
             type: 'uint256',
           },
         ],
@@ -517,9 +512,9 @@ export const abi = [
         type: 'uint8',
       },
       {
-        internalType: 'address',
-        name: '_account',
-        type: 'address',
+        internalType: 'bytes16',
+        name: '_voterSpaceId',
+        type: 'bytes16',
       },
     ],
     name: 'getProposalVote',
@@ -541,9 +536,9 @@ export const abi = [
         type: 'bytes32',
       },
       {
-        internalType: 'address',
-        name: '_account',
-        type: 'address',
+        internalType: 'bytes16',
+        name: '_spaceId',
+        type: 'bytes16',
       },
     ],
     name: 'hasRole',
@@ -670,9 +665,9 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'address',
-        name: '_oldEditor',
-        type: 'address',
+        internalType: 'bytes16',
+        name: '_oldEditorSpaceId',
+        type: 'bytes16',
       },
     ],
     name: 'removeEditor',
@@ -683,9 +678,9 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'address',
-        name: '_oldMember',
-        type: 'address',
+        internalType: 'bytes16',
+        name: '_oldMemberSpaceId',
+        type: 'bytes16',
       },
     ],
     name: 'removeMember',
@@ -753,9 +748,9 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'address',
-        name: '_space',
-        type: 'address',
+        internalType: 'bytes16',
+        name: '_spaceId',
+        type: 'bytes16',
       },
     ],
     name: 'unrestrictSpace',
@@ -801,9 +796,9 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'address',
+        internalType: 'bytes16',
         name: '',
-        type: 'address',
+        type: 'bytes16',
       },
       {
         internalType: 'bytes32',
@@ -882,9 +877,9 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'address',
-        name: '_fromSpace',
-        type: 'address',
+        internalType: 'bytes16',
+        name: '_fromSpaceId',
+        type: 'bytes16',
       },
       {
         internalType: 'bytes32',
