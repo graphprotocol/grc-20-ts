@@ -1,7 +1,6 @@
 import { encodeFunctionData, toHex } from 'viem';
 
 import { DaoSpaceFactoryAbi } from '../abis/index.js';
-import { getChecksumAddress } from '../core/get-checksum-address.js';
 
 // Contract constants from DAOSpace.sol
 /**
@@ -163,12 +162,14 @@ export function validateVotingSettingsInput(settings: VotingSettingsInput, total
 type CreateDaoSpaceCalldataParams = {
   /** Voting settings for the DAO space */
   votingSettings: VotingSettingsInput;
-  /** Addresses of initial editors (at least one required) */
-  initialEditors: string[];
-  /** Addresses of initial members (can be empty) */
-  initialMembers: string[];
-  /** Initial edits content URI, e.g. "ipfs://Qm..." (optional, defaults to empty) */
+  /** Space IDs of initial editors (at least one required). Must be bytes16 hex strings without dashes. */
+  initialEditorSpaceIds: `0x${string}`[];
+  /** Space IDs of initial members (can be empty). Must be bytes16 hex strings without dashes. */
+  initialMemberSpaceIds: `0x${string}`[];
+  /** Initial edits content URI, e.g. "ipfs://Qm..." (optional) */
   initialEditsContentUri?: string;
+  /** Initial topic ID as UUID string (optional - if provided, declares a topic on creation) */
+  initialTopicId?: string;
 };
 
 /**
@@ -193,8 +194,8 @@ type CreateDaoSpaceCalldataParams = {
  *     quorum: 2,                        // minimum 2 editors must vote
  *     durationInDays: 7,                // 7 day voting period
  *   },
- *   initialEditors: ['0x1234...', '0x5678...'],
- *   initialMembers: ['0xabcd...'],
+ *   initialEditorSpaceIds: ['0x01234567890abcdef01234567890abcd', '0x56789abcdef01234567890abcdef0123'],
+ *   initialMemberSpaceIds: ['0xabcdef01234567890abcdef012345678'],
  * });
  *
  * // Using viem
@@ -212,14 +213,14 @@ type CreateDaoSpaceCalldataParams = {
  * ```
  */
 export function getCreateDaoSpaceCalldata(args: CreateDaoSpaceCalldataParams): `0x${string}` {
-  const initialEditors = args.initialEditors.map(getChecksumAddress);
-  const initialMembers = args.initialMembers.map(getChecksumAddress);
+  const initialEditorSpaceIds = args.initialEditorSpaceIds;
+  const initialMemberSpaceIds = args.initialMemberSpaceIds;
 
-  if (initialEditors.length === 0) {
-    throw new Error('At least one initial editor is required');
+  if (initialEditorSpaceIds.length === 0) {
+    throw new Error('At least one initial editor space ID is required');
   }
 
-  const validationError = validateVotingSettingsInput(args.votingSettings, initialEditors.length);
+  const validationError = validateVotingSettingsInput(args.votingSettings, initialEditorSpaceIds.length);
   if (validationError) {
     throw new Error(validationError);
   }
@@ -235,6 +236,13 @@ export function getCreateDaoSpaceCalldata(args: CreateDaoSpaceCalldataParams): `
     initialEditsContentUri = toHex(args.initialEditsContentUri);
   }
 
+  // Convert UUID to bytes16 hex if provided
+  let initialTopicId: `0x${string}` = '0x00000000000000000000000000000000';
+  if (args.initialTopicId) {
+    // Remove dashes from UUID and add 0x prefix
+    initialTopicId = `0x${args.initialTopicId.replace(/-/g, '')}`;
+  }
+
   return encodeFunctionData({
     abi: DaoSpaceFactoryAbi,
     functionName: 'createDAOSpaceProxy',
@@ -245,10 +253,12 @@ export function getCreateDaoSpaceCalldata(args: CreateDaoSpaceCalldataParams): `
         quorum: contractVotingSettings.quorum,
         duration: contractVotingSettings.duration,
       },
-      initialEditors,
-      initialMembers,
+      initialEditorSpaceIds,
+      initialMemberSpaceIds,
       initialEditsContentUri,
-      '0x',
+      '0x', // initialEditsMetadata
+      initialTopicId,
+      '0x', // initialTopicData
     ],
   });
 }
