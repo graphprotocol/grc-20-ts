@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.31.0
+
+### Minor Changes
+
+- fix: wrong dao factory address
+
 ## 0.30.0
 
 ### Minor Changes
