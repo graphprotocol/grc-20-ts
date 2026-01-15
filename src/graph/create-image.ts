@@ -46,7 +46,7 @@ export const createImage = async ({
   if (providedId) assertValid(providedId, '`id` in `createImage`');
 
   const id = providedId ?? generate();
-  const { cid, dimensions } = await uploadImage(params, network, network === 'TESTNET');
+  const { cid, dimensions } = await uploadImage(params, network, network === 'TESTNET' || network === 'TESTNET_V2');
 
   const values: PropertiesParam = [];
   values.push({

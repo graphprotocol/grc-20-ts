@@ -211,14 +211,14 @@ export type CreateImageParams =
       name?: string;
       description?: string;
       id?: Id | string;
-      network?: 'TESTNET' | 'MAINNET' | undefined;
+      network?: 'TESTNET' | 'TESTNET_V2' | 'MAINNET' | undefined;
     }
   | {
       url: string;
       name?: string;
       description?: string;
       id?: Id | string;
-      network?: 'TESTNET' | 'MAINNET' | undefined;
+      network?: 'TESTNET' | 'TESTNET_V2' | 'MAINNET' | undefined;
     };
 
 type SafeSmartAccount = SafeSmartAccountImplementation<'0.7'> & {

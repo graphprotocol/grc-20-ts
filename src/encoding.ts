@@ -1,5 +1,5 @@
 import { Micro } from 'effect';
-import { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './graph/constants.js';
+import { getApiOrigin, type Network } from './graph/constants.js';
 
 class GetEditCalldataError extends Error {
   readonly _tag = 'GetEditCalldataError';
@@ -8,20 +8,17 @@ class GetEditCalldataError extends Error {
 type GetEditCalldataParams = {
   spaceId: string;
   cid: string;
-  network?: 'TESTNET' | 'MAINNET';
+  network?: Network;
 };
 
 export async function getEditCalldata(params: GetEditCalldataParams) {
   const getCalldata = Micro.gen(function* () {
     const result = yield* Micro.tryPromise({
       try: () =>
-        fetch(
-          `${params.network === 'TESTNET' ? TESTNET_API_ORIGIN : MAINNET_API_ORIGIN}/space/${params.spaceId}/edit/calldata`,
-          {
-            method: 'POST',
-            body: JSON.stringify({ cid: params.cid }),
-          },
-        ),
+        fetch(`${getApiOrigin(params.network)}/space/${params.spaceId}/edit/calldata`, {
+          method: 'POST',
+          body: JSON.stringify({ cid: params.cid }),
+        }),
       catch: error => new GetEditCalldataError(`Could not get edit calldata from space ${params.spaceId}: ${error}`),
     });
 
