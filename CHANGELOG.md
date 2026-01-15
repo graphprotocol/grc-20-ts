@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.31.1
+
+### Patch Changes
+
+- 91f6fc3: add new network option TESTNET_V2
+
 ## 0.31.0
 
 ### Minor Changes
