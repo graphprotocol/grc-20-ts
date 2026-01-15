@@ -1,12 +1,12 @@
 import { IdUtils } from '../../index.js';
 import { Id } from '../id.js';
 import type { Op } from '../types.js';
-import { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './constants.js';
+import { getApiOrigin, type Network } from './constants.js';
 
 type CreateSpaceParams = {
   editorAddress: string;
   name: string;
-  network?: 'TESTNET' | 'MAINNET';
+  network?: Network;
   ops?: Op[];
   spaceEntityId?: string;
 
@@ -52,7 +52,7 @@ type DeployParams = BaseDeployParams &
  */
 export const createSpace = async (params: CreateSpaceParams) => {
   const governanceType = params.governanceType ?? 'PERSONAL';
-  const apiHost = params.network === 'TESTNET' ? TESTNET_API_ORIGIN : MAINNET_API_ORIGIN;
+  const apiHost = getApiOrigin(params.network);
 
   const formData = new FormData();
   formData.append('name', params.name);

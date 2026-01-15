@@ -276,6 +276,7 @@ import { Graph } from '@graphprotocol/grc-20';
 const spaceId = 'space-id';
 const cid = 'ipfs://hash';
 
+// IMPORTANT: this is outdated when working with the new contracts
 // This returns the correct contract address and calldata depending on the space id
 // You can also use Graph.MAINNET_API_ORIGIN for mainnet (currently not working)
 const result = await fetch(`${Graph.TESTNET_API_ORIGIN}/space/${spaceId}/edit/calldata`, {
@@ -358,6 +359,7 @@ import { Graph } from '@graphprotocol/grc-20';
 const editorAddress = '0x000000000000000000000000000000000000';
 const spaceName = 'Example-Name';
 
+// IMPORTANT: this is outdated when working with the new contracts
 const spaceId = await Graph.createSpace({
   initialEditorAddress, 
   spaceName, 
@@ -385,6 +387,7 @@ console.log('addressPrivateKey', addressPrivateKey);
 console.log('address', address);
 // console.log('smartAccountWalletClient', smartAccountWalletClient);
 
+// IMPORTANT: this is outdated when working with the new contracts
 const space = await Graph.createSpace({
   editorAddress: address,
   name: 'test',
@@ -408,6 +411,7 @@ const { cid } = await Ipfs.publishEdit({
 
 console.log('cid', cid);
 
+// IMPORTANT: this is outdated when working with the new contracts
 const result = await fetch(`${Graph.TESTNET_API_ORIGIN}/space/${spaceId}/edit/calldata`, {
   method: 'POST',
   body: JSON.stringify({ cid }),

@@ -10,7 +10,7 @@ import { gzipSync } from 'fflate';
 import { imageSize } from 'image-size';
 
 import { Edit, EditProposal } from '../proto.js';
-import { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './graph/constants.js';
+import { getApiOrigin, type Network } from './graph/constants.js';
 import type { Id } from './id.js';
 import { fromBytes } from './id-utils.js';
 import type { Op } from './types.js';
@@ -23,7 +23,7 @@ type PublishEditProposalParams = {
   name: string;
   ops: Op[];
   author: `0x${string}`;
-  network?: 'TESTNET' | 'MAINNET';
+  network?: Network;
 };
 
 type PublishEditResult = {
@@ -74,11 +74,7 @@ type PublishImageParams =
       url: string;
     };
 
-export async function uploadImage(
-  params: PublishImageParams,
-  network?: 'TESTNET' | 'MAINNET',
-  alternativeGateway?: boolean,
-) {
+export async function uploadImage(params: PublishImageParams, network?: Network, alternativeGateway?: boolean) {
   const formData = new FormData();
   let blob: Blob;
   if ('blob' in params) {
@@ -157,7 +153,7 @@ export async function uploadImage(
  * @param csvString The CSV to upload as a string
  * @returns IPFS CID representing the uploaded file prefixed with `ipfs://`
  */
-export async function uploadCSV(csvString: string, network?: 'TESTNET' | 'MAINNET'): Promise<`ipfs://${string}`> {
+export async function uploadCSV(csvString: string, network?: Network): Promise<`ipfs://${string}`> {
   const encoder = new TextEncoder();
   const csvStringBytes = encoder.encode(csvString);
   const blob = await gzipSync(csvStringBytes);
@@ -169,11 +165,11 @@ export async function uploadCSV(csvString: string, network?: 'TESTNET' | 'MAINNE
   return await Micro.runPromise(uploadBinary(formData, network));
 }
 
-function uploadBinary(formData: FormData, network?: 'TESTNET' | 'MAINNET') {
+function uploadBinary(formData: FormData, network?: Network) {
   return Micro.gen(function* () {
     const result = yield* Micro.tryPromise({
       try: () =>
-        fetch(`${network === 'TESTNET' ? TESTNET_API_ORIGIN : MAINNET_API_ORIGIN}/ipfs/upload-edit`, {
+        fetch(`${getApiOrigin(network)}/ipfs/upload-edit`, {
           method: 'POST',
           body: formData,
         }),
@@ -192,11 +188,11 @@ function uploadBinary(formData: FormData, network?: 'TESTNET' | 'MAINNET') {
   });
 }
 
-function uploadFile(formData: FormData, network?: 'TESTNET' | 'MAINNET', alternativeGateway?: boolean) {
+function uploadFile(formData: FormData, network?: Network, alternativeGateway?: boolean) {
   return Micro.gen(function* () {
-    let apiUrl = `${network === 'TESTNET' ? TESTNET_API_ORIGIN : MAINNET_API_ORIGIN}/ipfs/upload-file`;
+    let apiUrl = `${getApiOrigin(network)}/ipfs/upload-file`;
     if (alternativeGateway) {
-      apiUrl = `${TESTNET_API_ORIGIN}/ipfs/upload-file-alternative-gateway`;
+      apiUrl = `${getApiOrigin('TESTNET')}/ipfs/upload-file-alternative-gateway`;
     }
 
     const result = yield* Micro.tryPromise({

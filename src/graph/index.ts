@@ -1,4 +1,10 @@
-export { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './constants.js';
+export {
+  getApiOrigin,
+  MAINNET_API_ORIGIN,
+  type Network,
+  TESTNET_API_ORIGIN,
+  TESTNET_V2_API_ORIGIN,
+} from './constants.js';
 export * from './create-entity.js';
 export * from './create-image.js';
 export * from './create-property.js';
