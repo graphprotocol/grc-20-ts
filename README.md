@@ -61,7 +61,7 @@ import { Graph } from '@graphprotocol/grc-20';
 // create a property
 const propertyResult = Graph.createProperty({
   name: 'name of the property',
-  dataType: 'TEXT', // TEXT | NUMBER | TIME | POINT | CHECKBOX | RELATION,
+  dataType: 'STRING', // STRING | NUMBER | TIME | POINT | BOOLEAN | RELATION,
 });
 
 // create a type
@@ -85,91 +85,92 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
   values: [
     {
       property: propertyId,
-      value: 'value of the property'
+      type: 'text',
+      value: 'value of the property',
     }
   ],
   relations: {
     // relation property
-    [propertyId]: {
+    [relationPropertyId]: {
       toEntity: 'id of the entity',
       id: 'id of the relation', // optional
       position: positionString, // optional
-      values: [
-        {
-          property: propertyId,
-          value: 'value of the property'
-        }
-      ],
     },
   },
 });
 ```
 
-#### Serializing values
+#### Typed values
 
-All values are serialized to a string. The SDK provides helper functions for serializing values to the correct string format.
+Values are passed as typed objects with a `type` field that determines the value format:
 
 ```ts
-import { Graph } from '@graphprotocol/grc-20';
+import { Graph, Id } from '@graphprotocol/grc-20';
 
 const { id: personId, ops: createPersonOps } = Graph.createEntity({
   values: [
-    {
-      property: someNumberPropertyId,
-      value: Graph.serializeNumber(42),
-    },
-    {
-      property: someCheckboxPropertyId,
-      value: Graph.serializeBoolean(true),
-    },
-    {
-      property: someDatePropertyId,
-      value: Graph.serializeDate(new Date()),
-    },
-    {
-      property: somePointPropertyId,
-      value: Graph.serializePoint([1, 2]),
-    },
-  ]
-});
-```
-
-#### Options for values
-
-Some values have options that can be set.
-
-- Text values can be set to a specific `language`.
-- Number values can be set to a specific `unit`.
-
-```ts
-const { id: textEntityId, ops: createTextEntityOps } = Graph.createEntity({
-  values: [
+    // Text value (with optional language)
     {
       property: someTextPropertyId,
+      type: 'text',
       value: 'Hello',
-      options: {
-        type: 'text',
-        language: Id('dad6e52a5e944e559411cfe3a3c3ea64'),
-      },
+      language: Id('dad6e52a5e944e559411cfe3a3c3ea64'), // optional
     },
+    // Number value (with optional unit)
     {
       property: someNumberPropertyId,
-      value: Graph.serializeNumber(42),
-      options: {
-        type: 'number',
-        unit: Id('016c9b1cd8a84e4d9e844e40878bb235'),
-      },
+      type: 'float64',
+      value: 42.5,
+      unit: Id('016c9b1cd8a84e4d9e844e40878bb235'), // optional
     },
-  ],
+    // Boolean value
+    {
+      property: someBooleanPropertyId,
+      type: 'bool',
+      value: true,
+    },
+    // Point value (with optional altitude)
+    {
+      property: somePointPropertyId,
+      type: 'point',
+      lon: -122.4194,
+      lat: 37.7749,
+      alt: 10.5, // optional
+    },
+    // Date value (ISO 8601 format: YYYY-MM-DD)
+    {
+      property: someDatePropertyId,
+      type: 'date',
+      value: '2024-01-15',
+    },
+    // Time value (ISO 8601 format with timezone)
+    {
+      property: someTimePropertyId,
+      type: 'time',
+      value: '14:30:00Z',
+    },
+    // Datetime value (ISO 8601 combined format)
+    {
+      property: someDatetimePropertyId,
+      type: 'datetime',
+      value: '2024-01-15T14:30:00Z',
+    },
+    // Schedule value (iCalendar RRULE format)
+    {
+      property: someSchedulePropertyId,
+      type: 'schedule',
+      value: 'FREQ=WEEKLY;BYDAY=MO,WE,FR',
+    },
+  ]
 });
 ```
 
 #### Example Flow
 
 ```ts
-import { Graph } from '@graphprotocol/grc-20';
+import { Graph, type GrcOp } from '@graphprotocol/grc-20';
 
-const ops: Array<Op> = [];
+const ops: Array<GrcOp> = [];
 
 // create an age property
 const { id: agePropertyId, ops: createAgePropertyOps } = Graph.createProperty({
@@ -209,6 +210,7 @@ const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity({
   values: [
     {
       property: WEBSITE_PROPERTY,
+      type: 'text',
       value: 'https://example.com',
     },
   ],
@@ -229,13 +231,15 @@ const { id: personId, ops: createPersonOps } = Graph.createEntity({
   values: [
     {
       property: agePropertyId,
-      value: serializeNumber(42),
-    },
-    {
-      property: likesPropertyId,
-      value: restaurantId,
+      type: 'float64',
+      value: 42,
     },
   ],
+  relations: {
+    [likesPropertyId]: {
+      toEntity: restaurantId,
+    },
+  },
 });
 ops.push(...createPersonOps);
 ```
@@ -253,68 +257,73 @@ We've abstracted the IPFS publishing and binary encoding into a single API.
 ```ts
 import { Ipfs } from '@graphprotocol/grc-20';
 
-const { cid } = await Ipfs.publishEdit({
+const { cid, editId } = await Ipfs.publishEdit({
   name: 'Edit name',
   ops: ops,
-  author: '0x000000000000000000000000000000000000', 
-  network: 'TESTNET', // optional, defaults to MAINNET
+  author: '0x000000000000000000000000000000000000',
+  network: 'TESTNET_V2', // MAINNET | TESTNET | TESTNET_V2 | TESTNET_V3 (defaults to MAINNET)
 })
 ```
 
-### Publishing an edit onchain using your wallet
+### Publishing an edit onchain using SpaceRegistry
 
-Once you've uploaded the binary encoded Edit to IPFS and have correctly formed `ipfs://hash`, you can write this to a space.
-
-The calldata used to write the edit onchain depends on the governance structure of the space. Currently The Graph supports two governance modes, one with voting and one without. The API exposes metadata about each space, its governance structure, and what smart contracts exist for it.
-
-We expose an API for fetching the appropriate calldata for the correct contract addresses for each space.
+Once you've uploaded the binary encoded Edit to IPFS and have correctly formed `ipfs://hash`, you can write this to a space using the SpaceRegistry contract.
 
 ```ts
-import { Graph } from '@graphprotocol/grc-20';
+import { createPublicClient, encodeAbiParameters, encodeFunctionData, type Hex, http, keccak256, toHex } from 'viem';
+import { SpaceRegistryAbi, getWalletClient } from '@graphprotocol/grc-20';
 
-// You'll need to know your space id and have an IPFS hash ahead of time
-const spaceId = 'space-id';
+// Contract addresses for testnet
+const SPACE_REGISTRY_ADDRESS = '0xB01683b2f0d38d43fcD4D9aAB980166988924132' as const;
+const EDITS_PUBLISHED = keccak256(toHex('GOVERNANCE.EDITS_PUBLISHED'));
+
+// You'll need your space ID in hex format (bytes16) and an IPFS CID
+const spaceIdHex = '0x...' as Hex; // bytes16 space ID
 const cid = 'ipfs://hash';
 
-// IMPORTANT: this is outdated when working with the new contracts
-// This returns the correct contract address and calldata depending on the space id
-// You can also use Graph.MAINNET_API_ORIGIN for mainnet (currently not working)
-const result = await fetch(`${Graph.TESTNET_API_ORIGIN}/space/${spaceId}/edit/calldata`, {
-  method: "POST",
-  body: JSON.stringify({ cid }),
+const walletClient = await getWalletClient({
+  privateKey: addressPrivateKey,
 });
 
-const { to, data } = await result.json();
+// Encode the CID as a single string
+const enterData = encodeAbiParameters([{ type: 'string' }], [cid]);
+
+const calldata = encodeFunctionData({
+  abi: SpaceRegistryAbi,
+  functionName: 'enter',
+  args: [
+    spaceIdHex, // fromSpaceId (bytes16)
+    spaceIdHex, // toSpaceId (bytes16)
+    EDITS_PUBLISHED, // action
+    '0x0000000000000000000000000000000000000000000000000000000000000000' as Hex, // topic
+    enterData, // data
+    '0x' as Hex, // signature (empty for direct calls)
+  ],
+});
 
 const txResult = await walletClient.sendTransaction({
-  to: to,
+  account: walletClient.account,
+  to: SPACE_REGISTRY_ADDRESS,
   value: 0n,
-  data: data,
+  data: calldata,
 });
 ```
 
-### Publishing an edit onchain using your wallet
+### Getting a wallet client
 
 ```ts
 import { privateKeyToAccount } from 'viem/accounts';
 import { getWalletClient } from "@graphprotocol/grc-20";
 
+// IMPORTANT: Be careful with your private key. Don't commit it to version control.
+// You can get your private key using https://www.geobrowser.io/export-wallet
 const addressPrivateKey = '0xTODO';
 const { address } = privateKeyToAccount(addressPrivateKey);
 
 // Take the address and enter it in Faucet to get some testnet ETH https://faucet.conduit.xyz/geo-test-zc16z3tcvf
 
-const smartAccountWalletClient = await getWalletClient({
+const walletClient = await getWalletClient({
   privateKey: addressPrivateKey,
-});
-
-// publish an edit to IPFS
-// get the calldata for the edit
-
-const txResult = await smartAccountWalletClient.sendTransaction({
-  to: to,
-  value: 0n,
-  data: data,
 });
 ```
 
@@ -336,103 +345,184 @@ const smartAccountWalletClient = await getSmartAccountWalletClient({
   privateKey,
   // rpcUrl, // optional
 });
-
-// publish an edit to IPFS
-// get the calldata for the edit
-
-const txResult = await smartAccountWalletClient.sendTransaction({
-  to: to,
-  value: 0n,
-  data: data,
-});
 ```
 
-### Deploying a space
+### Creating a personal space
 
-You can deploy spaces programmatically using the API. Currently there are two types of governance modes for spaces: one with voting and one without. They're called PUBLIC or PERSONAL spaces respectively. The API only supports deploying the PERSONAL governance mode currently.
-
-The API supports deploying to both testnet and mainnet. By default it will deploy to mainnet.
+You can create personal spaces using the SpaceRegistry contract. Personal spaces are owned by a single address and don't require voting for governance.
 
 ```ts
-import { Graph } from '@graphprotocol/grc-20';
-// needs to be a valid address
-const editorAddress = '0x000000000000000000000000000000000000';
-const spaceName = 'Example-Name';
+import { createPublicClient, encodeAbiParameters, encodeFunctionData, type Hex, http, keccak256, toHex } from 'viem';
+import { SpaceRegistryAbi, getWalletClient } from '@graphprotocol/grc-20';
 
-// IMPORTANT: this is outdated when working with the new contracts
-const spaceId = await Graph.createSpace({
-  initialEditorAddress, 
-  spaceName, 
-  // Optionally specify TESTNET or MAINNET. Defaults to MAINNET
-  network: 'TESTNET',
+const SPACE_REGISTRY_ADDRESS = '0xB01683b2f0d38d43fcD4D9aAB980166988924132' as const;
+const EMPTY_SPACE_ID = '0x00000000000000000000000000000000' as Hex;
+
+const walletClient = await getWalletClient({
+  privateKey: addressPrivateKey,
 });
+
+const account = walletClient.account;
+const rpcUrl = walletClient.chain?.rpcUrls?.default?.http?.[0];
+
+const publicClient = createPublicClient({
+  transport: http(rpcUrl),
+});
+
+// Check if a personal space already exists for this address
+let spaceIdHex = await publicClient.readContract({
+  address: SPACE_REGISTRY_ADDRESS,
+  abi: SpaceRegistryAbi,
+  functionName: 'addressToSpaceId',
+  args: [account.address],
+}) as Hex;
+
+// Create a personal space if one doesn't exist
+if (spaceIdHex.toLowerCase() === EMPTY_SPACE_ID.toLowerCase()) {
+  const createSpaceTxHash = await walletClient.sendTransaction({
+    account: walletClient.account,
+    to: SPACE_REGISTRY_ADDRESS,
+    value: 0n,
+    data: encodeFunctionData({
+      abi: SpaceRegistryAbi,
+      functionName: 'registerSpaceId',
+      args: [
+        keccak256(toHex('EOA_SPACE')), // _type
+        encodeAbiParameters([{ type: 'string' }], ['1.0.0']), // _version
+      ],
+    }),
+  });
+
+  await publicClient.waitForTransactionReceipt({ hash: createSpaceTxHash });
+
+  // Re-fetch the space ID after creation
+  spaceIdHex = await publicClient.readContract({
+    address: SPACE_REGISTRY_ADDRESS,
+    abi: SpaceRegistryAbi,
+    functionName: 'addressToSpaceId',
+    args: [account.address],
+  }) as Hex;
+}
+
+// Convert bytes16 hex to UUID string (without dashes)
+const spaceId = spaceIdHex.slice(2, 34).toLowerCase();
 ```
 
 ## Full Publishing Flow
 
-```ts
-import { privateKeyToAccount } from 'viem/accounts';
-import { Graph, Ipfs, getWalletClient } from "@graphprotocol/grc-20";
+This example shows the complete flow for creating a personal space and publishing an edit on testnet.
 
-const addressPrivateKey = '0xTODO';
+```ts
+import { createPublicClient, encodeAbiParameters, encodeFunctionData, type Hex, http, keccak256, toHex } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { Graph, Ipfs, SpaceRegistryAbi, getWalletClient } from '@graphprotocol/grc-20';
+
+// Contract addresses for testnet
+const SPACE_REGISTRY_ADDRESS = '0xB01683b2f0d38d43fcD4D9aAB980166988924132' as const;
+const EMPTY_SPACE_ID = '0x00000000000000000000000000000000' as Hex;
+const EDITS_PUBLISHED = keccak256(toHex('GOVERNANCE.EDITS_PUBLISHED'));
+
+// IMPORTANT: Be careful with your private key. Don't commit it to version control.
+// You can get your private key using https://www.geobrowser.io/export-wallet
+const addressPrivateKey = '0xTODO' as `0x${string}`;
 const { address } = privateKeyToAccount(addressPrivateKey);
 
 // Take the address and enter it in Faucet to get some testnet ETH https://faucet.conduit.xyz/geo-test-zc16z3tcvf
 
-const smartAccountWalletClient = await getWalletClient({
+// Get wallet client for testnet
+const walletClient = await getWalletClient({
   privateKey: addressPrivateKey,
 });
 
-console.log('addressPrivateKey', addressPrivateKey);
-console.log('address', address);
-// console.log('smartAccountWalletClient', smartAccountWalletClient);
+const account = walletClient.account;
+const rpcUrl = walletClient.chain?.rpcUrls?.default?.http?.[0];
 
-// IMPORTANT: this is outdated when working with the new contracts
-const space = await Graph.createSpace({
-  editorAddress: address,
-  name: 'test',
-  network: 'TESTNET',
+const publicClient = createPublicClient({
+  transport: http(rpcUrl),
 });
 
-console.log('space', space);
-const spaceId = space.id;
+// Check if a personal space already exists for this address
+let spaceIdHex = await publicClient.readContract({
+  address: SPACE_REGISTRY_ADDRESS,
+  abi: SpaceRegistryAbi,
+  functionName: 'addressToSpaceId',
+  args: [account.address],
+}) as Hex;
 
-const { ops, id } = await Graph.createEntity({
-  name: 'test name',
-  description: 'test description',
+// Create a personal space if one doesn't exist
+if (spaceIdHex.toLowerCase() === EMPTY_SPACE_ID.toLowerCase()) {
+  console.log('Creating personal space...');
+
+  const createSpaceTxHash = await walletClient.sendTransaction({
+    account: walletClient.account,
+    to: SPACE_REGISTRY_ADDRESS,
+    value: 0n,
+    data: encodeFunctionData({
+      abi: SpaceRegistryAbi,
+      functionName: 'registerSpaceId',
+      args: [
+        keccak256(toHex('EOA_SPACE')), // _type
+        encodeAbiParameters([{ type: 'string' }], ['1.0.0']), // _version
+      ],
+    }),
+  });
+
+  await publicClient.waitForTransactionReceipt({ hash: createSpaceTxHash });
+
+  // Re-fetch the space ID after creation
+  spaceIdHex = await publicClient.readContract({
+    address: SPACE_REGISTRY_ADDRESS,
+    abi: SpaceRegistryAbi,
+    functionName: 'addressToSpaceId',
+    args: [account.address],
+  }) as Hex;
+}
+
+// Convert bytes16 hex to UUID string (without dashes)
+const spaceId = spaceIdHex.slice(2, 34).toLowerCase();
+console.log('spaceId', spaceId);
+
+// Create an entity with some data
+const { ops, id: entityId } = Graph.createEntity({
+  name: 'Test Entity',
+  description: 'Created via SDK',
 });
-console.log('entity id', id);
+console.log('entityId', entityId);
 
-const { cid } = await Ipfs.publishEdit({
-  name: 'Edit name',
+// Publish the edit to IPFS
+const { cid, editId } = await Ipfs.publishEdit({
+  name: 'Test Edit',
   ops,
-  author: address,
+  author: account.address,
+  network: 'TESTNET_V2',
 });
-
 console.log('cid', cid);
+console.log('editId', editId);
 
-// IMPORTANT: this is outdated when working with the new contracts
-const result = await fetch(`${Graph.TESTNET_API_ORIGIN}/space/${spaceId}/edit/calldata`, {
-  method: 'POST',
-  body: JSON.stringify({ cid }),
+// Publish edit on-chain via SpaceRegistry.enter(...)
+const enterData = encodeAbiParameters([{ type: 'string' }], [cid]);
+
+const calldata = encodeFunctionData({
+  abi: SpaceRegistryAbi,
+  functionName: 'enter',
+  args: [
+    spaceIdHex, // fromSpaceId (bytes16)
+    spaceIdHex, // toSpaceId (bytes16)
+    EDITS_PUBLISHED, // action
+    '0x0000000000000000000000000000000000000000000000000000000000000000' as Hex, // topic
+    enterData, // data
+    '0x' as Hex, // signature (empty for direct calls)
+  ],
 });
 
-console.log('edit result', result);
-
-const editResultJson = await result.json();
-console.log('editResultJson', editResultJson);
-const { to, data } = editResultJson;
-
-console.log('to', to);
-console.log('data', data);
-
-const txResult = await smartAccountWalletClient.sendTransaction({
-  // @ts-expect-error - TODO: fix the types error
-  account: smartAccountWalletClient.account,
-  to: to,
+const publishTxHash = await walletClient.sendTransaction({
+  account: walletClient.account,
+  to: SPACE_REGISTRY_ADDRESS,
   value: 0n,
-  data: data,
+  data: calldata,
 });
+console.log('publishTxHash', publishTxHash);
 
-console.log('txResult', txResult);
-  ```
+const publishReceipt = await publicClient.waitForTransactionReceipt({ hash: publishTxHash });
+console.log('Successfully published edit to space', spaceId);
+```
