@@ -1,6 +1,7 @@
+import { type Op as GrcOp, createRelation as grcCreateRelation } from '@geoprotocol/grc-20';
 import { Id } from '../id.js';
-import { assertValid, generate } from '../id-utils.js';
-import type { CreateResult, Op, RelationParams } from '../types.js';
+import { assertValid, generate, toGrcId } from '../id-utils.js';
+import type { CreateResult, RelationParams } from '../types.js';
 import { createEntity } from './create-entity.js';
 
 /**
@@ -90,23 +91,22 @@ export const createRelation = ({
   const id = providedId ?? generate();
   const entityId = providedEntityId ?? generate();
 
-  const ops: Array<Op> = [];
+  const ops: Array<GrcOp> = [];
 
-  ops.push({
-    type: 'CREATE_RELATION',
-    relation: {
-      id: Id(id),
-      entity: Id(entityId),
-      fromEntity: Id(fromEntity),
-      fromSpace: fromSpace ? Id(fromSpace) : undefined,
-      fromVersion: fromVersion ? Id(fromVersion) : undefined,
-      position,
-      toEntity: Id(toEntity),
-      toSpace: toSpace ? Id(toSpace) : undefined,
-      toVersion: toVersion ? Id(toVersion) : undefined,
-      type: Id(type),
-    },
-  });
+  ops.push(
+    grcCreateRelation({
+      id: toGrcId(id),
+      entity: toGrcId(entityId),
+      from: toGrcId(fromEntity),
+      to: toGrcId(toEntity),
+      relationType: toGrcId(type),
+      ...(fromSpace ? { fromSpace: toGrcId(fromSpace) } : {}),
+      ...(fromVersion ? { fromVersion: toGrcId(fromVersion) } : {}),
+      ...(toSpace ? { toSpace: toGrcId(toSpace) } : {}),
+      ...(toVersion ? { toVersion: toGrcId(toVersion) } : {}),
+      ...(position !== undefined ? { position } : {}),
+    }),
+  );
 
   if (entityName || entityDescription || entityCover || entityValues || entityRelations || entityTypes) {
     const { ops: entityOps } = createEntity({

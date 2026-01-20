@@ -11,11 +11,7 @@ import {
   type Edit as GrcEdit,
   type Id as GrcId,
   type Op as GrcOp,
-  type PropertyValue as GrcPropertyValue,
-  languages,
-  parseId,
   randomId,
-  type UnsetRelationField,
 } from '@geoprotocol/grc-20';
 import { Micro } from 'effect';
 import { gzipSync } from 'fflate';
@@ -23,8 +19,7 @@ import { imageSize } from 'image-size';
 
 import { getApiOrigin, type Network } from './graph/constants.js';
 import type { Id } from './id.js';
-import { fromBytes, toBytes } from './id-utils.js';
-import type { Op, Value } from './types.js';
+import { fromBytes } from './id-utils.js';
 
 class IpfsUploadError extends Error {
   readonly _tag = 'IpfsUploadError';
@@ -38,172 +33,9 @@ function hexToGrcId(hex: `0x${string}`): GrcId {
   return derivedUuidFromString(hex);
 }
 
-/**
- * Converts a local string Id to a GRC-20 Id (Uint8Array).
- */
-function toGrcId(id: Id | string): GrcId {
-  // Try to parse as a UUID string first
-  const parsed = parseId(id);
-  if (parsed) {
-    return parsed;
-  }
-  // Fallback: use the toBytes helper
-  return toBytes(id as Id) as GrcId;
-}
-
-/**
- * Converts a local Value to a GRC-20 Value.
- */
-function convertValue(value: Value): GrcPropertyValue {
-  const property = toGrcId(value.property);
-
-  switch (value.type) {
-    case 'bool':
-      return { property, value: { type: 'bool', value: value.value } };
-    case 'float64':
-      return {
-        property,
-        value: {
-          type: 'float64',
-          value: value.value,
-          ...(value.unit ? { unit: toGrcId(value.unit) } : {}),
-        },
-      };
-    case 'text':
-      return {
-        property,
-        value: {
-          type: 'text',
-          value: value.value,
-          ...(value.language ? { language: toGrcId(value.language) } : { language: languages.english() }),
-        },
-      };
-    case 'point':
-      return {
-        property,
-        value: {
-          type: 'point',
-          lon: value.lon,
-          lat: value.lat,
-          ...(value.alt !== undefined ? { alt: value.alt } : {}),
-        },
-      };
-    case 'date':
-      return { property, value: { type: 'date', value: value.value } };
-    case 'time':
-      return { property, value: { type: 'time', value: value.value } };
-    case 'datetime':
-      return { property, value: { type: 'datetime', value: value.value } };
-    case 'schedule':
-      return { property, value: { type: 'schedule', value: value.value } };
-    default:
-      throw new Error(`Unsupported value type: ${(value as Value).type}`);
-  }
-}
-
-/**
- * Converts local Op[] to GRC-20 Op[].
- */
-function convertOps(ops: Op[]): GrcOp[] {
-  const grcOps: GrcOp[] = [];
-
-  for (const op of ops) {
-    switch (op.type) {
-      case 'UPDATE_ENTITY': {
-        // UPDATE_ENTITY maps to createEntity (which acts as upsert)
-        grcOps.push({
-          type: 'createEntity',
-          id: toGrcId(op.entity.id),
-          values: op.entity.values.map(convertValue),
-        });
-        break;
-      }
-      case 'CREATE_RELATION': {
-        const rel = op.relation;
-        grcOps.push({
-          type: 'createRelation',
-          id: toGrcId(rel.id),
-          relationType: toGrcId(rel.type),
-          from: toGrcId(rel.fromEntity),
-          to: toGrcId(rel.toEntity),
-          ...(rel.fromSpace ? { fromSpace: toGrcId(rel.fromSpace) } : {}),
-          ...(rel.fromVersion ? { fromVersion: toGrcId(rel.fromVersion) } : {}),
-          ...(rel.toSpace ? { toSpace: toGrcId(rel.toSpace) } : {}),
-          ...(rel.toVersion ? { toVersion: toGrcId(rel.toVersion) } : {}),
-          ...(rel.entity ? { entity: toGrcId(rel.entity) } : {}),
-          ...(rel.position ? { position: rel.position } : {}),
-        });
-        break;
-      }
-      case 'DELETE_RELATION': {
-        grcOps.push({
-          type: 'deleteRelation',
-          id: toGrcId(op.id),
-        });
-        break;
-      }
-      case 'UPDATE_RELATION': {
-        const rel = op.relation;
-        grcOps.push({
-          type: 'updateRelation',
-          id: toGrcId(rel.id),
-          ...(rel.fromSpace ? { fromSpace: toGrcId(rel.fromSpace) } : {}),
-          ...(rel.fromVersion ? { fromVersion: toGrcId(rel.fromVersion) } : {}),
-          ...(rel.toSpace ? { toSpace: toGrcId(rel.toSpace) } : {}),
-          ...(rel.toVersion ? { toVersion: toGrcId(rel.toVersion) } : {}),
-          ...(rel.position ? { position: rel.position } : {}),
-          unset: [],
-        });
-        break;
-      }
-      case 'CREATE_PROPERTY': {
-        // Properties are not separate ops in GRC-20 v2 - they're part of the dictionary
-        // Skip this op type as properties are handled implicitly
-        break;
-      }
-      case 'UNSET_ENTITY_VALUES': {
-        const unset = op.unsetEntityValues;
-        grcOps.push({
-          type: 'updateEntity',
-          id: toGrcId(unset.id),
-          set: [],
-          unset: unset.properties.map(propId => ({
-            property: toGrcId(propId),
-            language: { type: 'all' as const },
-          })),
-        });
-        break;
-      }
-      case 'UNSET_RELATION_FIELDS': {
-        const unset = op.unsetRelationFields;
-        const unsetFields: UnsetRelationField[] = [];
-        if (unset.fromSpace) unsetFields.push('fromSpace');
-        if (unset.fromVersion) unsetFields.push('fromVersion');
-        if (unset.toSpace) unsetFields.push('toSpace');
-        if (unset.toVersion) unsetFields.push('toVersion');
-        if (unset.position) unsetFields.push('position');
-
-        grcOps.push({
-          type: 'updateRelation',
-          id: toGrcId(unset.id),
-          unset: unsetFields,
-        });
-        break;
-      }
-      default: {
-        // Type assertion to get the type for error message
-        const exhaustiveCheck: never = op;
-        throw new Error(`Unknown op type: ${(exhaustiveCheck as Op).type}`);
-      }
-    }
-  }
-
-  return grcOps;
-}
-
 type PublishEditProposalParams = {
   name: string;
-  ops: Op[];
+  ops: GrcOp[];
   author: `0x${string}`;
   network?: Network;
 };
@@ -244,7 +76,7 @@ export async function publishEdit(args: PublishEditProposalParams): Promise<Publ
     name,
     authors: [hexToGrcId(author)],
     createdAt: BigInt(Date.now()) * 1000n, // Convert to microseconds
-    ops: convertOps(ops),
+    ops,
   };
 
   // Encode to binary format

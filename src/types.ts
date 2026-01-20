@@ -1,8 +1,11 @@
+import type { Op as GrcOp } from '@geoprotocol/grc-20';
 import type { SafeSmartAccountImplementation } from 'permissionless/accounts';
 import type { SmartAccountClient } from 'permissionless/clients';
 import type { Address, Chain, HttpTransport } from 'viem';
 import type { SmartAccountImplementation } from 'viem/account-abstraction';
 import type { Id } from './id.js';
+
+export type { GrcOp };
 
 export type ValueDataType = 'STRING' | 'NUMBER' | 'BOOLEAN' | 'TIME' | 'POINT';
 
@@ -30,87 +33,6 @@ export type TypedValue =
   | { type: 'datetime'; value: string }
   /** iCalendar RRULE format for recurring events, e.g., "FREQ=WEEKLY;BYDAY=MO,WE,FR" */
   | { type: 'schedule'; value: string };
-
-// Internal Value type used in ops (property + typed value)
-// Flattened structure: property + TypedValue fields directly
-export type Value = { property: Id } & TypedValue;
-
-export type Entity = {
-  id: Id;
-  values: Array<Value>;
-};
-
-export type Relation = {
-  id: Id;
-  type: Id;
-  fromEntity: Id;
-  fromSpace?: Id;
-  fromVersion?: Id;
-  toEntity: Id;
-  toSpace?: Id;
-  toVersion?: Id;
-  entity: Id;
-  position?: string;
-};
-
-export type Property = {
-  id: Id;
-  dataType: DataType;
-};
-
-export type UpdateEntityOp = {
-  type: 'UPDATE_ENTITY';
-  entity: Entity;
-};
-
-export type CreatePropertyOp = {
-  type: 'CREATE_PROPERTY';
-  property: Property;
-};
-
-export type UnsetEntityValuesOp = {
-  type: 'UNSET_ENTITY_VALUES';
-  unsetEntityValues: {
-    id: Id;
-    properties: Id[];
-  };
-};
-
-export type CreateRelationOp = {
-  type: 'CREATE_RELATION';
-  relation: Relation;
-};
-
-export type DeleteRelationOp = {
-  type: 'DELETE_RELATION';
-  id: Id;
-};
-
-export type UpdateRelationOp = {
-  type: 'UPDATE_RELATION';
-  relation: Pick<Relation, 'id' | 'position' | 'fromSpace' | 'toSpace' | 'fromVersion' | 'toVersion'>;
-};
-
-export type UnsetRelationFieldsOp = {
-  type: 'UNSET_RELATION_FIELDS';
-  unsetRelationFields: {
-    id: Id;
-    fromSpace?: boolean;
-    fromVersion?: boolean;
-    toSpace?: boolean;
-    toVersion?: boolean;
-    position?: boolean;
-  };
-};
-
-export type Op =
-  | UpdateEntityOp
-  | CreateRelationOp
-  | DeleteRelationOp
-  | UpdateRelationOp
-  | CreatePropertyOp
-  | UnsetEntityValuesOp
-  | UnsetRelationFieldsOp;
 
 // ValueParams now directly accepts a TypedValue
 export type ValueParams = {
@@ -171,7 +93,7 @@ export type UpdateRelationParams = {
 
 export type CreateResult = {
   id: Id;
-  ops: Op[];
+  ops: GrcOp[];
 };
 
 export type CreateImageResult = CreateResult & {

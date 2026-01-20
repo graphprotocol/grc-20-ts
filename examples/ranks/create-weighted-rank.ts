@@ -38,9 +38,9 @@ console.log('Vote entity IDs:', weightedRankResult.voteIds);
 // The ops array contains all the operations needed to create this rank:
 console.log('\nOperations breakdown:');
 for (const op of weightedRankResult.ops) {
-  if (op.type === 'UPDATE_ENTITY') {
-    console.log(`  - UPDATE_ENTITY: ${op.entity.id}`);
-  } else if (op.type === 'CREATE_RELATION') {
-    console.log(`  - CREATE_RELATION: ${op.relation.fromEntity} -> ${op.relation.toEntity}`);
+  if (op.type === 'createEntity') {
+    console.log(`  - createEntity`);
+  } else if (op.type === 'createRelation') {
+    console.log(`  - createRelation`);
   }
 }

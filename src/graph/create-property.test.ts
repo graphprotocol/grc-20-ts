@@ -13,10 +13,10 @@ describe('createProperty', () => {
     expect(property).toBeDefined();
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
-    expect(property.ops.length).toBe(3);
-    expect(property.ops[0]?.type).toBe('CREATE_PROPERTY');
-    expect(property.ops[1]?.type).toBe('UPDATE_ENTITY');
-    expect(property.ops[2]?.type).toBe('CREATE_RELATION');
+    // 1 createEntity + 1 createRelation (type)
+    expect(property.ops.length).toBe(2);
+    expect(property.ops[0]?.type).toBe('createEntity');
+    expect(property.ops[1]?.type).toBe('createRelation');
   });
 
   it('creates a NUMBER property', async () => {
@@ -29,10 +29,10 @@ describe('createProperty', () => {
     expect(property).toBeDefined();
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
-    expect(property.ops.length).toBe(3);
-    expect(property.ops[0]?.type).toBe('CREATE_PROPERTY');
-    expect(property.ops[1]?.type).toBe('UPDATE_ENTITY');
-    expect(property.ops[2]?.type).toBe('CREATE_RELATION');
+    // 1 createEntity + 1 createRelation (type)
+    expect(property.ops.length).toBe(2);
+    expect(property.ops[0]?.type).toBe('createEntity');
+    expect(property.ops[1]?.type).toBe('createRelation');
   });
 
   it('creates a RELATION property', async () => {
@@ -44,10 +44,10 @@ describe('createProperty', () => {
     expect(property).toBeDefined();
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
-    expect(property.ops.length).toBe(3);
-    expect(property.ops[0]?.type).toBe('CREATE_PROPERTY');
-    expect(property.ops[1]?.type).toBe('UPDATE_ENTITY');
-    expect(property.ops[2]?.type).toBe('CREATE_RELATION');
+    // 1 createEntity + 1 createRelation (type)
+    expect(property.ops.length).toBe(2);
+    expect(property.ops[0]?.type).toBe('createEntity');
+    expect(property.ops[1]?.type).toBe('createRelation');
   });
 
   it('creates a RELATION property with properties and relation value types', async () => {
@@ -61,12 +61,12 @@ describe('createProperty', () => {
     expect(property).toBeDefined();
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
-    expect(property.ops.length).toBe(5);
-    expect(property.ops[0]?.type).toBe('CREATE_PROPERTY');
-    expect(property.ops[1]?.type).toBe('UPDATE_ENTITY');
-    expect(property.ops[2]?.type).toBe('CREATE_RELATION');
-    expect(property.ops[3]?.type).toBe('CREATE_RELATION');
-    expect(property.ops[4]?.type).toBe('CREATE_RELATION');
+    // 1 createEntity + 1 createRelation (type) + 1 createRelation (property) + 1 createRelation (value type)
+    expect(property.ops.length).toBe(4);
+    expect(property.ops[0]?.type).toBe('createEntity');
+    expect(property.ops[1]?.type).toBe('createRelation');
+    expect(property.ops[2]?.type).toBe('createRelation');
+    expect(property.ops[3]?.type).toBe('createRelation');
   });
 
   it('creates a property with a provided id', async () => {

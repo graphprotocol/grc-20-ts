@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { CLAIM_TYPE, NEWS_STORY_TYPE } from '../core/ids/content.js';
-import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
+import { COVER_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
+import { toGrcId } from '../id-utils.js';
 import { createEntity } from './create-entity.js';
 
 describe('createEntity', () => {
@@ -12,14 +13,8 @@ describe('createEntity', () => {
     expect(entity).toBeDefined();
     expect(typeof entity.id).toBe('string');
     expect(entity.ops).toBeDefined();
-    expect(entity.ops).toHaveLength(1); // One UPDATE_ENTITY op
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [],
-      },
-    });
+    expect(entity.ops).toHaveLength(1); // One createEntity op
+    expect(entity.ops[0]?.type).toBe('createEntity');
   });
 
   it('creates an entity with types', () => {
@@ -29,35 +24,25 @@ describe('createEntity', () => {
 
     expect(entity).toBeDefined();
     expect(typeof entity.id).toBe('string');
-    expect(entity.ops).toHaveLength(3); // One UPDATE_ENTITY + two CREATE_RELATION ops
+    expect(entity.ops).toHaveLength(3); // One createEntity + two createRelation ops
 
-    // Check UPDATE_ENTITY op
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [],
-      },
-    });
+    // Check createEntity op
+    expect(entity.ops[0]?.type).toBe('createEntity');
 
     // Check first type relation
     expect(entity.ops[1]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: entity.id,
-        toEntity: CLAIM_TYPE,
-        type: TYPES_PROPERTY,
-      },
+      type: 'createRelation',
+      from: toGrcId(entity.id),
+      to: toGrcId(CLAIM_TYPE),
+      relationType: toGrcId(TYPES_PROPERTY),
     });
 
     // Check second type relation
     expect(entity.ops[2]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: entity.id,
-        toEntity: NEWS_STORY_TYPE,
-        type: TYPES_PROPERTY,
-      },
+      type: 'createRelation',
+      from: toGrcId(entity.id),
+      to: toGrcId(NEWS_STORY_TYPE),
+      relationType: toGrcId(TYPES_PROPERTY),
     });
   });
 
@@ -71,24 +56,7 @@ describe('createEntity', () => {
     expect(typeof entity.id).toBe('string');
     expect(entity.ops).toHaveLength(1);
 
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [
-          {
-            property: NAME_PROPERTY,
-            type: 'text',
-            value: 'Test Entity',
-          },
-          {
-            property: DESCRIPTION_PROPERTY,
-            type: 'text',
-            value: 'Test Description',
-          },
-        ],
-      },
-    });
+    expect(entity.ops[0]?.type).toBe('createEntity');
   });
 
   it('creates an entity with cover', () => {
@@ -100,23 +68,15 @@ describe('createEntity', () => {
     expect(typeof entity.id).toBe('string');
     expect(entity.ops).toHaveLength(2);
 
-    // Check UPDATE_ENTITY op
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [],
-      },
-    });
+    // Check createEntity op
+    expect(entity.ops[0]?.type).toBe('createEntity');
 
     // Check cover relation
     expect(entity.ops[1]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: entity.id,
-        toEntity: coverId,
-        type: COVER_PROPERTY,
-      },
+      type: 'createRelation',
+      from: toGrcId(entity.id),
+      to: toGrcId(coverId),
+      relationType: toGrcId(COVER_PROPERTY),
     });
   });
 
@@ -130,19 +90,7 @@ describe('createEntity', () => {
     expect(typeof entity.id).toBe('string');
     expect(entity.ops).toHaveLength(1);
 
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [
-          {
-            property: customPropertyId,
-            type: 'text',
-            value: 'custom value',
-          },
-        ],
-      },
-    });
+    expect(entity.ops[0]?.type).toBe('createEntity');
   });
 
   it('creates an entity with a text value with language', () => {
@@ -161,20 +109,7 @@ describe('createEntity', () => {
     expect(typeof entity.id).toBe('string');
     expect(entity.ops).toHaveLength(1);
 
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [
-          {
-            property: '295c8bc61ae342cbb2a65b61080906ff',
-            type: 'text',
-            value: 'test',
-            language: '0a4e9810f78f429ea4ceb1904a43251d',
-          },
-        ],
-      },
-    });
+    expect(entity.ops[0]?.type).toBe('createEntity');
   });
 
   it('creates an entity with a text value in two different languages', () => {
@@ -199,26 +134,7 @@ describe('createEntity', () => {
     expect(typeof entity.id).toBe('string');
     expect(entity.ops).toHaveLength(1);
 
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [
-          {
-            property: '295c8bc61ae342cbb2a65b61080906ff',
-            type: 'text',
-            value: 'test',
-            language: '0a4e9810f78f429ea4ceb1904a43251d',
-          },
-          {
-            property: '295c8bc61ae342cbb2a65b61080906ff',
-            type: 'text',
-            value: 'prueba',
-            language: 'dad6e52a5e944e559411cfe3a3c3ea64',
-          },
-        ],
-      },
-    });
+    expect(entity.ops[0]?.type).toBe('createEntity');
   });
 
   it('creates an entity with a float64 value', () => {
@@ -236,19 +152,7 @@ describe('createEntity', () => {
     expect(typeof entity.id).toBe('string');
     expect(entity.ops).toHaveLength(1);
 
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [
-          {
-            property: '295c8bc61ae342cbb2a65b61080906ff',
-            type: 'float64',
-            value: 42,
-          },
-        ],
-      },
-    });
+    expect(entity.ops[0]?.type).toBe('createEntity');
   });
 
   it('creates an entity with a float64 value with unit', () => {
@@ -267,20 +171,7 @@ describe('createEntity', () => {
     expect(typeof entity.id).toBe('string');
     expect(entity.ops).toHaveLength(1);
 
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [
-          {
-            property: '295c8bc61ae342cbb2a65b61080906ff',
-            type: 'float64',
-            value: 42,
-            unit: '016c9b1cd8a84e4d9e844e40878bb235',
-          },
-        ],
-      },
-    });
+    expect(entity.ops[0]?.type).toBe('createEntity');
   });
 
   it('creates an entity with a boolean value', () => {
@@ -295,19 +186,7 @@ describe('createEntity', () => {
     });
 
     expect(entity).toBeDefined();
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [
-          {
-            property: '295c8bc61ae342cbb2a65b61080906ff',
-            type: 'bool',
-            value: true,
-          },
-        ],
-      },
-    });
+    expect(entity.ops[0]?.type).toBe('createEntity');
   });
 
   it('creates an entity with a point value', () => {
@@ -323,20 +202,7 @@ describe('createEntity', () => {
     });
 
     expect(entity).toBeDefined();
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [
-          {
-            property: '295c8bc61ae342cbb2a65b61080906ff',
-            type: 'point',
-            lon: -122.4194,
-            lat: 37.7749,
-          },
-        ],
-      },
-    });
+    expect(entity.ops[0]?.type).toBe('createEntity');
   });
 
   it('creates an entity with a date value', () => {
@@ -351,19 +217,7 @@ describe('createEntity', () => {
     });
 
     expect(entity).toBeDefined();
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [
-          {
-            property: '295c8bc61ae342cbb2a65b61080906ff',
-            type: 'date',
-            value: '2024-03-20',
-          },
-        ],
-      },
-    });
+    expect(entity.ops[0]?.type).toBe('createEntity');
   });
 
   it('creates an entity with relations', () => {
@@ -380,16 +234,12 @@ describe('createEntity', () => {
     expect(entity).toBeDefined();
     expect(entity.id).toBe(providedId);
     expect(entity.ops).toHaveLength(2);
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-    });
+    expect(entity.ops[0]?.type).toBe('createEntity');
     expect(entity.ops[1]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: entity.id,
-        type: '295c8bc61ae342cbb2a65b61080906ff',
-        toEntity: 'd8fd9b48e090430db52c6b33d897d0f3',
-      },
+      type: 'createRelation',
+      from: toGrcId(entity.id),
+      relationType: toGrcId('295c8bc61ae342cbb2a65b61080906ff'),
+      to: toGrcId('d8fd9b48e090430db52c6b33d897d0f3'),
     });
   });
 

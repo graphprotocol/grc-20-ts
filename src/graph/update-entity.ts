@@ -1,7 +1,13 @@
+import {
+  type Op as GrcOp,
+  type PropertyValue as GrcPropertyValue,
+  createEntity as grcCreateEntity,
+  languages,
+} from '@geoprotocol/grc-20';
 import { DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
-import { assertValid } from '../id-utils.js';
-import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value } from '../types.js';
+import { assertValid, toGrcId } from '../id-utils.js';
+import type { CreateResult, UpdateEntityParams } from '../types.js';
 
 /**
  * Updates an entity with the given name, description, cover and properties.
@@ -39,78 +45,98 @@ export const updateEntity = ({ id, name, description, values }: UpdateEntityPara
       assertValid(valueEntry.unit, '`unit` in `values` in `updateEntity`');
     }
   }
-  const ops: Array<Op> = [];
 
-  const newValues: Array<Value> = [];
+  const newValues: Array<GrcPropertyValue> = [];
   if (name) {
     newValues.push({
-      property: NAME_PROPERTY,
-      type: 'text',
-      value: name,
+      property: toGrcId(NAME_PROPERTY),
+      value: {
+        type: 'text',
+        value: name,
+        language: languages.english(),
+      },
     });
   }
   if (description) {
     newValues.push({
-      property: DESCRIPTION_PROPERTY,
-      type: 'text',
-      value: description,
+      property: toGrcId(DESCRIPTION_PROPERTY),
+      value: {
+        type: 'text',
+        value: description,
+        language: languages.english(),
+      },
     });
   }
   for (const valueEntry of values ?? []) {
-    // Build normalized Value based on the type
-    const normalizedProperty = Id(valueEntry.property);
+    const property = toGrcId(valueEntry.property);
 
     if (valueEntry.type === 'text') {
       newValues.push({
-        property: normalizedProperty,
-        type: 'text',
-        value: valueEntry.value,
-        language: valueEntry.language ? Id(valueEntry.language) : undefined,
+        property,
+        value: {
+          type: 'text',
+          value: valueEntry.value,
+          language: valueEntry.language ? toGrcId(valueEntry.language) : languages.english(),
+        },
       });
     } else if (valueEntry.type === 'float64') {
       newValues.push({
-        property: normalizedProperty,
-        type: 'float64',
-        value: valueEntry.value,
-        unit: valueEntry.unit ? Id(valueEntry.unit) : undefined,
+        property,
+        value: {
+          type: 'float64',
+          value: valueEntry.value,
+          ...(valueEntry.unit ? { unit: toGrcId(valueEntry.unit) } : {}),
+        },
       });
     } else if (valueEntry.type === 'bool') {
       newValues.push({
-        property: normalizedProperty,
-        type: 'bool',
-        value: valueEntry.value,
+        property,
+        value: {
+          type: 'bool',
+          value: valueEntry.value,
+        },
       });
     } else if (valueEntry.type === 'point') {
       newValues.push({
-        property: normalizedProperty,
-        type: 'point',
-        lon: valueEntry.lon,
-        lat: valueEntry.lat,
-        alt: valueEntry.alt,
+        property,
+        value: {
+          type: 'point',
+          lon: valueEntry.lon,
+          lat: valueEntry.lat,
+          ...(valueEntry.alt !== undefined ? { alt: valueEntry.alt } : {}),
+        },
       });
     } else if (valueEntry.type === 'date') {
       newValues.push({
-        property: normalizedProperty,
-        type: 'date',
-        value: valueEntry.value,
+        property,
+        value: {
+          type: 'date',
+          value: valueEntry.value,
+        },
       });
     } else if (valueEntry.type === 'time') {
       newValues.push({
-        property: normalizedProperty,
-        type: 'time',
-        value: valueEntry.value,
+        property,
+        value: {
+          type: 'time',
+          value: valueEntry.value,
+        },
       });
     } else if (valueEntry.type === 'datetime') {
       newValues.push({
-        property: normalizedProperty,
-        type: 'datetime',
-        value: valueEntry.value,
+        property,
+        value: {
+          type: 'datetime',
+          value: valueEntry.value,
+        },
       });
     } else if (valueEntry.type === 'schedule') {
       newValues.push({
-        property: normalizedProperty,
-        type: 'schedule',
-        value: valueEntry.value,
+        property,
+        value: {
+          type: 'schedule',
+          value: valueEntry.value,
+        },
       });
     } else {
       // Exhaustive check - this will cause a TypeScript error if a new type is added
@@ -120,14 +146,10 @@ export const updateEntity = ({ id, name, description, values }: UpdateEntityPara
     }
   }
 
-  const op: UpdateEntityOp = {
-    type: 'UPDATE_ENTITY',
-    entity: {
-      id: Id(id),
-      values: newValues,
-    },
-  };
-  ops.push(op);
+  const op: GrcOp = grcCreateEntity({
+    id: toGrcId(id),
+    values: newValues,
+  });
 
-  return { id: Id(id), ops };
+  return { id: Id(id), ops: [op] };
 };

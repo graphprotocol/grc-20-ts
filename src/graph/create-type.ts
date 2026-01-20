@@ -1,6 +1,7 @@
+import { type Op as GrcOp, createRelation as grcCreateRelation } from '@geoprotocol/grc-20';
 import { PROPERTIES, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
-import { assertValid, generate } from '../id-utils.js';
+import { assertValid, generate, toGrcId } from '../id-utils.js';
 import type { CreateResult, CreateTypeParams } from '../types.js';
 import { createEntity } from './create-entity.js';
 
@@ -47,31 +48,29 @@ export const createType = ({
 
   // set property "Types" to "Type"
   assertValid(id);
-  ops.push({
-    type: 'CREATE_RELATION',
-    relation: {
-      id: generate(),
-      entity: generate(),
-      fromEntity: Id(id),
-      toEntity: SCHEMA_TYPE,
-      type: TYPES_PROPERTY,
-    },
-  });
+  (ops as GrcOp[]).push(
+    grcCreateRelation({
+      id: toGrcId(generate()),
+      entity: toGrcId(generate()),
+      from: toGrcId(id),
+      to: toGrcId(SCHEMA_TYPE),
+      relationType: toGrcId(TYPES_PROPERTY),
+    }),
+  );
 
   if (properties) {
     for (const propertyId of properties) {
       assertValid(propertyId, '`propertyId` in `createType`');
       // Set Properties on the Type
-      ops.push({
-        type: 'CREATE_RELATION',
-        relation: {
-          id: generate(),
-          entity: generate(),
-          fromEntity: Id(id),
-          toEntity: Id(propertyId),
-          type: PROPERTIES,
-        },
-      });
+      (ops as GrcOp[]).push(
+        grcCreateRelation({
+          id: toGrcId(generate()),
+          entity: toGrcId(generate()),
+          from: toGrcId(id),
+          to: toGrcId(propertyId),
+          relationType: toGrcId(PROPERTIES),
+        }),
+      );
     }
   }
 

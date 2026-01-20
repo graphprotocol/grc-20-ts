@@ -1,3 +1,4 @@
+import { createRelation as grcCreateRelation } from '@geoprotocol/grc-20';
 import {
   IMAGE_HEIGHT_PROPERTY,
   IMAGE_TYPE,
@@ -6,7 +7,7 @@ import {
   TYPES_PROPERTY,
 } from '../core/ids/system.js';
 import { Id } from '../id.js';
-import { assertValid, generate } from '../id-utils.js';
+import { assertValid, generate, toGrcId } from '../id-utils.js';
 import { uploadImage } from '../ipfs.js';
 import type { CreateImageParams, CreateImageResult, PropertiesParam } from '../types.js';
 import { createEntity } from './create-entity.js';
@@ -76,16 +77,15 @@ export const createImage = async ({
     values,
   });
 
-  ops.push({
-    type: 'CREATE_RELATION',
-    relation: {
-      id: generate(),
-      entity: generate(),
-      fromEntity: Id(id),
-      toEntity: IMAGE_TYPE,
-      type: TYPES_PROPERTY,
-    },
-  });
+  ops.push(
+    grcCreateRelation({
+      id: toGrcId(generate()),
+      entity: toGrcId(generate()),
+      from: toGrcId(id),
+      to: toGrcId(IMAGE_TYPE),
+      relationType: toGrcId(TYPES_PROPERTY),
+    }),
+  );
 
   return {
     id: Id(id),

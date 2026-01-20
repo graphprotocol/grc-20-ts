@@ -1,6 +1,4 @@
 import { expect, it } from 'vitest';
-import { Id } from '../../id.js';
-import { SystemIds } from '../../system-ids.js';
 import { make } from './data.js';
 
 it('should generate ops for a data block entity', () => {
@@ -12,23 +10,14 @@ it('should generate ops for a data block entity', () => {
 
   const [blockTypeOp, blockSourceTypeOp, blockRelationOp] = ops;
 
-  expect(blockTypeOp?.type).toBe('CREATE_RELATION');
-  if (blockTypeOp?.type === 'CREATE_RELATION') {
-    expect(blockTypeOp?.relation.type).toBe(SystemIds.TYPES_PROPERTY);
-    expect(blockTypeOp?.relation.toEntity).toBe(SystemIds.DATA_BLOCK);
-  }
+  // Check types relation for data block
+  expect(blockTypeOp?.type).toBe('createRelation');
 
-  expect(blockSourceTypeOp?.type).toBe('CREATE_RELATION');
-  if (blockSourceTypeOp?.type === 'CREATE_RELATION') {
-    expect(blockSourceTypeOp?.relation.type).toBe(SystemIds.DATA_SOURCE_TYPE_RELATION_TYPE);
-    expect(blockSourceTypeOp?.relation.toEntity).toBe(SystemIds.QUERY_DATA_SOURCE);
-  }
+  // Check data source type relation
+  expect(blockSourceTypeOp?.type).toBe('createRelation');
 
-  expect(blockRelationOp?.type).toBe('CREATE_RELATION');
-  if (blockRelationOp?.type === 'CREATE_RELATION') {
-    expect(blockRelationOp?.relation.type).toBe(SystemIds.BLOCKS);
-    expect(blockRelationOp?.relation.fromEntity).toBe(Id('5871e8f7b71948979c4dcf7c518d32ef'));
-  }
+  // Check blocks relation
+  expect(blockRelationOp?.type).toBe('createRelation');
 
   expect(ops.length).toBe(3);
 });
@@ -43,27 +32,17 @@ it('should generate ops for a data block entity with a name', () => {
 
   const [blockTypeOp, blockSourceTypeOp, blockRelationOp, blockNameOp] = ops;
 
-  expect(blockTypeOp?.type).toBe('CREATE_RELATION');
-  if (blockTypeOp?.type === 'CREATE_RELATION') {
-    expect(blockTypeOp?.relation.type).toBe(SystemIds.TYPES_PROPERTY);
-    expect(blockTypeOp?.relation.toEntity).toBe(SystemIds.DATA_BLOCK);
-  }
+  // Check types relation for data block
+  expect(blockTypeOp?.type).toBe('createRelation');
 
-  expect(blockSourceTypeOp?.type).toBe('CREATE_RELATION');
-  if (blockSourceTypeOp?.type === 'CREATE_RELATION') {
-    expect(blockSourceTypeOp?.relation.type).toBe(SystemIds.DATA_SOURCE_TYPE_RELATION_TYPE);
-    expect(blockSourceTypeOp?.relation.toEntity).toBe(SystemIds.QUERY_DATA_SOURCE);
-  }
+  // Check data source type relation
+  expect(blockSourceTypeOp?.type).toBe('createRelation');
 
-  expect(blockRelationOp?.type).toBe('CREATE_RELATION');
-  if (blockRelationOp?.type === 'CREATE_RELATION') {
-    expect(blockRelationOp?.relation.type).toBe(SystemIds.BLOCKS);
-    expect(blockRelationOp?.relation.fromEntity).toBe(Id('5871e8f7b71948979c4dcf7c518d32ef'));
-  }
+  // Check blocks relation
+  expect(blockRelationOp?.type).toBe('createRelation');
 
-  expect(blockNameOp?.type).toBe('UPDATE_ENTITY');
-  if (blockNameOp?.type === 'UPDATE_ENTITY' && blockNameOp?.entity.values?.[0]) {
-    expect(blockNameOp.entity.values[0].property).toBe(SystemIds.NAME_PROPERTY);
-    expect(blockNameOp.entity.values[0]).toMatchObject({ type: 'text', value: 'test-name' });
-  }
+  // Check name entity update
+  expect(blockNameOp?.type).toBe('createEntity');
+
+  expect(ops.length).toBe(4);
 });

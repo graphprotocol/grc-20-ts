@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import { DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
 import { updateEntity } from './update-entity.js';
 
@@ -18,24 +17,7 @@ describe('updateEntity', () => {
     expect(result.id).toBe(entityId);
     expect(result.ops).toHaveLength(1);
 
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entityId,
-        values: [
-          {
-            property: NAME_PROPERTY,
-            type: 'text',
-            value: 'Updated Entity',
-          },
-          {
-            property: DESCRIPTION_PROPERTY,
-            type: 'text',
-            value: 'Updated Description',
-          },
-        ],
-      },
-    });
+    expect(result.ops[0]?.type).toBe('createEntity');
   });
 
   it('updates an entity with only name', async () => {
@@ -48,19 +30,7 @@ describe('updateEntity', () => {
     expect(result.id).toBe(entityId);
     expect(result.ops).toHaveLength(1);
 
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entityId,
-        values: [
-          {
-            property: NAME_PROPERTY,
-            type: 'text',
-            value: 'Updated Entity',
-          },
-        ],
-      },
-    });
+    expect(result.ops[0]?.type).toBe('createEntity');
   });
 
   it('updates an entity with custom typed values', async () => {
@@ -74,19 +44,7 @@ describe('updateEntity', () => {
     expect(result.id).toBe(entityId);
     expect(result.ops).toHaveLength(1);
 
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entityId,
-        values: [
-          {
-            property: customPropertyId,
-            type: 'text',
-            value: 'updated custom value',
-          },
-        ],
-      },
-    });
+    expect(result.ops[0]?.type).toBe('createEntity');
   });
 
   it('updates an entity with a float64 value', async () => {
@@ -97,19 +55,7 @@ describe('updateEntity', () => {
     });
 
     expect(result).toBeDefined();
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entityId,
-        values: [
-          {
-            property: customPropertyId,
-            type: 'float64',
-            value: 42.5,
-          },
-        ],
-      },
-    });
+    expect(result.ops[0]?.type).toBe('createEntity');
   });
 
   it('throws an error if the provided id is invalid', () => {

@@ -5,12 +5,12 @@
  * @since 0.0.6
  */
 
+import type { Op as GrcOp } from '@geoprotocol/grc-20';
 import { createRelation } from '../../graph/create-relation.js';
 import { updateEntity } from '../../graph/update-entity.js';
 import { Id } from '../../id.js';
 import { generate } from '../../id-utils.js';
 import { SystemIds } from '../../system-ids.js';
-import type { Op } from '../../types.js';
 import { BLOCKS, DATA_BLOCK, DATA_SOURCE_TYPE_RELATION_TYPE, NAME_PROPERTY, TYPES_PROPERTY } from '../ids/system.js';
 
 type DataBlockSourceType = 'QUERY' | 'COLLECTION' | 'GEO';
@@ -48,12 +48,12 @@ type DataBlockParams = {
  * ```
  *
  * @param param args {@link TextBlockParams}
- * @returns ops – The ops for the Data Block entity: {@link Op}[]
+ * @returns ops – The ops for the Data Block entity: {@link GrcOp}[]
  */
-export function make({ fromId, sourceType, position, name }: DataBlockParams): Op[] {
+export function make({ fromId, sourceType, position, name }: DataBlockParams): GrcOp[] {
   const newBlockId = generate();
 
-  const ops: Op[] = [];
+  const ops: GrcOp[] = [];
   const { ops: dataBlockTypeOps } = createRelation({
     fromEntity: newBlockId,
     type: TYPES_PROPERTY,

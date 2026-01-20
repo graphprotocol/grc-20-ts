@@ -1,6 +1,7 @@
+import { deleteRelation as grcDeleteRelation } from '@geoprotocol/grc-20';
 import { Id } from '../id.js';
-import { assertValid } from '../id-utils.js';
-import type { CreateResult, DeleteRelationOp, DeleteRelationParams } from '../types.js';
+import { assertValid, toGrcId } from '../id-utils.js';
+import type { CreateResult, DeleteRelationParams } from '../types.js';
 
 /**
  * Deletes a relation.
@@ -15,10 +16,6 @@ import type { CreateResult, DeleteRelationOp, DeleteRelationParams } from '../ty
  */
 export const deleteRelation = ({ id }: DeleteRelationParams): CreateResult => {
   assertValid(id, '`id` in `deleteRelation`');
-  const op: DeleteRelationOp = {
-    type: 'DELETE_RELATION',
-    id: Id(id),
-  };
 
-  return { id: Id(id), ops: [op] };
+  return { id: Id(id), ops: [grcDeleteRelation(toGrcId(id))] };
 };

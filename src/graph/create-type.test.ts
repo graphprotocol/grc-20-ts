@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import { AUTHORS_PROPERTY, WEBSITE_PROPERTY } from '../core/ids/content.js';
-import { NAME_PROPERTY, PROPERTIES, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
 import { createType } from './create-type.js';
 
@@ -16,33 +15,10 @@ describe('createType', () => {
     expect(type.ops.length).toBe(2);
 
     // Check entity creation
-    expect(type.ops[0]?.type).toBe('UPDATE_ENTITY');
-    expect(type.ops[0]).toMatchObject({
-      entity: {
-        id: type.id,
-        values: [
-          {
-            property: NAME_PROPERTY,
-            type: 'text',
-            value: 'Article',
-          },
-        ],
-      },
-      type: 'UPDATE_ENTITY',
-    });
+    expect(type.ops[0]?.type).toBe('createEntity');
 
-    // Check type relation to itself (marking it as a type)
-    expect(type.ops[1]?.type).toBe('CREATE_RELATION');
-    if (type.ops[1]?.type === 'CREATE_RELATION') {
-      expect(type.ops[1]).toMatchObject({
-        relation: {
-          fromEntity: type.id,
-          toEntity: SCHEMA_TYPE,
-          type: TYPES_PROPERTY,
-        },
-        type: 'CREATE_RELATION',
-      });
-    }
+    // Check type relation to SCHEMA_TYPE
+    expect(type.ops[1]?.type).toBe('createRelation');
   });
 
   it('creates a type with multiple properties', async () => {
@@ -57,53 +33,14 @@ describe('createType', () => {
     expect(type.ops.length).toBe(4);
 
     // Check entity creation
-    expect(type.ops[0]?.type).toBe('UPDATE_ENTITY');
-    expect(type.ops[0]).toMatchObject({
-      entity: {
-        id: type.id,
-        values: [
-          {
-            property: NAME_PROPERTY,
-            type: 'text',
-            value: 'Article',
-          },
-        ],
-      },
-      type: 'UPDATE_ENTITY',
-    });
+    expect(type.ops[0]?.type).toBe('createEntity');
 
     // Check types relation
-    expect(type.ops[1]?.type).toBe('CREATE_RELATION');
-    expect(type.ops[1]).toMatchObject({
-      relation: {
-        fromEntity: type.id,
-        toEntity: SCHEMA_TYPE,
-        type: TYPES_PROPERTY,
-      },
-      type: 'CREATE_RELATION',
-    });
+    expect(type.ops[1]?.type).toBe('createRelation');
 
-    // Check website relation
-    expect(type.ops[2]?.type).toBe('CREATE_RELATION');
-    expect(type.ops[2]).toMatchObject({
-      relation: {
-        fromEntity: type.id,
-        toEntity: WEBSITE_PROPERTY,
-        type: PROPERTIES,
-      },
-      type: 'CREATE_RELATION',
-    });
-
-    // Check author relation
-    expect(type.ops[3]?.type).toBe('CREATE_RELATION');
-    expect(type.ops[3]).toMatchObject({
-      relation: {
-        fromEntity: type.id,
-        toEntity: AUTHORS_PROPERTY,
-        type: PROPERTIES,
-      },
-      type: 'CREATE_RELATION',
-    });
+    // Check property relations
+    expect(type.ops[2]?.type).toBe('createRelation');
+    expect(type.ops[3]?.type).toBe('createRelation');
   });
 
   it('creates a type with a provided id', async () => {

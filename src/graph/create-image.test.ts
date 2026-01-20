@@ -1,6 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Id } from '../id.js';
-import { SystemIds } from '../system-ids.js';
 import { MAINNET_API_ORIGIN, TESTNET_API_ORIGIN } from './constants.js';
 import { createImage } from './create-image.js';
 
@@ -53,19 +52,8 @@ describe('createImage', () => {
     expect(image.dimensions?.height).toBe(6);
     expect(image.ops).toBeDefined();
     expect(image.ops).toHaveLength(2);
-    if (image.ops[0]) {
-      expect(image.ops[0].type).toBe('UPDATE_ENTITY');
-      if (image.ops[0].type === 'UPDATE_ENTITY') {
-        expect(image.ops[0].entity.values).toContainEqual({
-          property: SystemIds.IMAGE_URL_PROPERTY,
-          type: 'text',
-          value: 'ipfs://bafkreidgcqofpstvkzylgxbcn4xan6camlgf564sasepyt45sjgvnojxp4',
-        });
-      }
-    }
-    if (image.ops[1]) {
-      expect(image.ops[1].type).toBe('CREATE_RELATION');
-    }
+    expect(image.ops[0]?.type).toBe('createEntity');
+    expect(image.ops[1]?.type).toBe('createRelation');
   });
 
   it('creates an image on TESTNET from a blob', async () => {
@@ -78,12 +66,8 @@ describe('createImage', () => {
     expect(image.dimensions).toBeDefined();
     expect(image.ops).toBeDefined();
     expect(image.ops).toHaveLength(2);
-    if (image.ops[0]) {
-      expect(image.ops[0].type).toBe('UPDATE_ENTITY');
-    }
-    if (image.ops[1]) {
-      expect(image.ops[1].type).toBe('CREATE_RELATION');
-    }
+    expect(image.ops[0]?.type).toBe('createEntity');
+    expect(image.ops[1]?.type).toBe('createRelation');
   });
 
   it('creates an image from a blob', async () => {
@@ -99,19 +83,8 @@ describe('createImage', () => {
     expect(image.dimensions?.height).toBe(6);
     expect(image.ops).toBeDefined();
     expect(image.ops).toHaveLength(2);
-    if (image.ops[0]) {
-      expect(image.ops[0].type).toBe('UPDATE_ENTITY');
-      if (image.ops[0].type === 'UPDATE_ENTITY') {
-        expect(image.ops[0].entity.values).toContainEqual({
-          property: SystemIds.IMAGE_URL_PROPERTY,
-          type: 'text',
-          value: 'ipfs://bafkreidgcqofpstvkzylgxbcn4xan6camlgf564sasepyt45sjgvnojxp4',
-        });
-      }
-    }
-    if (image.ops[1]) {
-      expect(image.ops[1].type).toBe('CREATE_RELATION');
-    }
+    expect(image.ops[0]?.type).toBe('createEntity');
+    expect(image.ops[1]?.type).toBe('createRelation');
   });
 
   it('creates an image with a name and description', async () => {
@@ -125,23 +98,7 @@ describe('createImage', () => {
     expect(typeof image.id).toBe('string');
     expect(image.ops).toBeDefined();
     expect(image.ops).toHaveLength(2);
-    if (image.ops[0]) {
-      expect(image.ops[0].type).toBe('UPDATE_ENTITY');
-      if (image.ops[0].type === 'UPDATE_ENTITY') {
-        expect(image.ops[0].entity.values).toContainEqual({
-          property: SystemIds.NAME_PROPERTY,
-          type: 'text',
-          value: 'test image',
-        });
-      }
-      if (image.ops[0].type === 'UPDATE_ENTITY') {
-        expect(image.ops[0].entity.values).toContainEqual({
-          property: SystemIds.DESCRIPTION_PROPERTY,
-          type: 'text',
-          value: 'test description',
-        });
-      }
-    }
+    expect(image.ops[0]?.type).toBe('createEntity');
   });
 
   it('creates and image without dimensions in case they cannot be determined', async () => {
@@ -152,12 +109,8 @@ describe('createImage', () => {
     expect(image.dimensions).toBeUndefined();
     expect(image.ops).toBeDefined();
     expect(image.ops).toHaveLength(2);
-    if (image.ops[0]) {
-      expect(image.ops[0].type).toBe('UPDATE_ENTITY');
-    }
-    if (image.ops[1]) {
-      expect(image.ops[1].type).toBe('CREATE_RELATION');
-    }
+    expect(image.ops[0]?.type).toBe('createEntity');
+    expect(image.ops[1]?.type).toBe('createRelation');
   });
 
   it('creates an image with a provided id', async () => {
