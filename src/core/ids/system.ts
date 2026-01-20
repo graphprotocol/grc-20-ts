@@ -17,10 +17,22 @@ export const BLOCKS = Id('beaba5cba67741a8b35377030613fc70');
 
 /** Value types */
 
+export const BOOLEAN = Id('7aa4792eeacd41868272fa7fc18298ac');
+export const INTEGER = Id('149fd752d9d04f80820d1d942eea7841');
+export const FLOAT64 = Id('9b597aaec31c46c88565a370da0c2a65');
+export const DECIMAL = Id('a3288c22a0564f6fb409fbcccb2c118c');
+export const TEXT = Id('9edb6fcce4544aa5861139d7f024c010');
+export const BYTES = Id('66b433247667496899b48a89bd1de22b');
+export const DATE = Id('e661d10292794449a22367dbae1be05a');
+export const TIME = Id('ad75102b03c04d59903813ede9482742');
+export const DATETIME = Id('167664f668f840e1976b20bd16ed8d47');
+export const SCHEDULE = Id('caf4dd12ba4844b99171aff6c1313b50');
+export const POINT = Id('df250d17e364413d97792ddaae841e34');
+export const EMBEDDING = Id('f732849378ba4577a33fac5f1c964f18');
+export const RELATION = Id('4b6d9fc1fbfe474c861c83398e1b50d9');
+
 export const URL = Id('283127c96142468492ed90b0ebc7f29a');
 export const IMAGE = Id('f3f790c4c74e4d23a0a91e8ef84e30d9');
-
-export const RELATION = Id('4b6d9fc1fbfe474c861c83398e1b50d9');
 
 export const SPACE_TYPE = Id('362c1dbddc6444bba3c4652f38a642d7');
 
