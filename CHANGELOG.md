@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.32.2
+
+### Patch Changes
+
+- 87b4032: fix Graph.createProperty to work with the new grc-20 spec. It accepts the new data types
+
 ## 0.32.1
 
 ### Patch Changes
