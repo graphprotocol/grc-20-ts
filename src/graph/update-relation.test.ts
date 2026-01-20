@@ -32,11 +32,10 @@ describe('updateRelation', () => {
     });
   });
 
-  it('updates a relation with position and verified', () => {
+  it('updates a relation with position', () => {
     const result = updateRelation({
       id: relationId,
       position: '2',
-      verified: true,
     });
 
     expect(result).toBeDefined();
@@ -47,7 +46,6 @@ describe('updateRelation', () => {
       relation: {
         id: relationId,
         position: '2',
-        verified: true,
       },
     });
   });
@@ -100,7 +98,6 @@ describe('updateRelation', () => {
       toSpace: toSpaceId,
       fromVersion: fromVersionId,
       toVersion: toVersionId,
-      verified: false,
     });
 
     expect(result).toBeDefined();
@@ -115,25 +112,6 @@ describe('updateRelation', () => {
         toSpace: toSpaceId,
         fromVersion: fromVersionId,
         toVersion: toVersionId,
-        verified: false,
-      },
-    });
-  });
-
-  it('updates a relation with only verified field', () => {
-    const result = updateRelation({
-      id: relationId,
-      verified: true,
-    });
-
-    expect(result).toBeDefined();
-    expect(result.id).toBe(relationId);
-    expect(result.ops).toHaveLength(1);
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_RELATION',
-      relation: {
-        id: relationId,
-        verified: true,
       },
     });
   });
@@ -263,7 +241,6 @@ describe('updateRelation', () => {
       toSpace: undefined,
       fromVersion: undefined,
       toVersion: undefined,
-      verified: undefined,
     });
 
     expect(result).toBeDefined();
@@ -278,7 +255,6 @@ describe('updateRelation', () => {
         toSpace: undefined,
         fromVersion: undefined,
         toVersion: undefined,
-        verified: undefined,
       },
     });
   });
@@ -287,7 +263,6 @@ describe('updateRelation', () => {
     const result = updateRelation({
       id: relationId,
       position: 'test-position',
-      verified: true,
     });
 
     expect(result.ops).toHaveLength(1);
@@ -297,7 +272,6 @@ describe('updateRelation', () => {
     if (op && isUpdateRelationOp(op)) {
       expect(op.relation.id).toBe(relationId);
       expect(op.relation.position).toBe('test-position');
-      expect(op.relation.verified).toBe(true);
     } else {
       throw new Error('Expected op to be defined and of type UPDATE_RELATION');
     }

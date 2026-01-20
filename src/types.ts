@@ -51,7 +51,6 @@ export type Relation = {
   toVersion?: Id;
   entity: Id;
   position?: string;
-  verified?: boolean;
 };
 
 export type Property = {
@@ -89,7 +88,7 @@ export type DeleteRelationOp = {
 
 export type UpdateRelationOp = {
   type: 'UPDATE_RELATION';
-  relation: Pick<Relation, 'id' | 'position' | 'fromSpace' | 'toSpace' | 'fromVersion' | 'toVersion' | 'verified'>;
+  relation: Pick<Relation, 'id' | 'position' | 'fromSpace' | 'toSpace' | 'fromVersion' | 'toVersion'>;
 };
 
 export type UnsetRelationFieldsOp = {
@@ -101,7 +100,6 @@ export type UnsetRelationFieldsOp = {
     toSpace?: boolean;
     toVersion?: boolean;
     position?: boolean;
-    verified?: boolean;
   };
 };
 
@@ -158,7 +156,6 @@ export type RelationParams = {
   fromSpace?: Id | string;
   fromVersion?: Id | string;
   toVersion?: Id | string;
-  verified?: boolean;
   position?: string | undefined;
   type: Id | string; // relation type id
 } & RelationEntityParams;
@@ -166,7 +163,6 @@ export type RelationParams = {
 export type UpdateRelationParams = {
   id: Id | string;
   position?: string | undefined;
-  verified?: boolean;
   fromSpace?: Id | string;
   fromVersion?: Id | string;
   toVersion?: Id | string;
@@ -190,7 +186,6 @@ export type UnsetRelationParams = {
   toSpace?: boolean;
   toVersion?: boolean;
   position?: boolean;
-  verified?: boolean;
 };
 
 export type UnsetEntityValuesParams = {

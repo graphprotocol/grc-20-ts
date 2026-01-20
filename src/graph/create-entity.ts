@@ -31,7 +31,6 @@ import { createRelation } from './create-relation.js';
  *       fromSpace: 'id of the from space', // optional
  *       fromVersion: 'id of the from version', // optional
  *       toVersion: 'id of the to version', // optional
- *       verified: true, // optional
  *       position: positionString, // optional
  *       entityId: 'id of the relation entity', // optional and will be generated if not provided
  *       entityName: 'name of the relation entity', // optional
@@ -241,7 +240,6 @@ export const createEntity = ({
         toSpace: relation.toSpace,
         fromVersion: relation.fromVersion,
         toVersion: relation.toVersion,
-        verified: relation.verified,
         entityId: relationEntityId,
         entityName: relation.entityName,
         entityDescription: relation.entityDescription,

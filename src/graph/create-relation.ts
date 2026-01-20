@@ -17,7 +17,6 @@ import { createEntity } from './create-entity.js';
  *   toSpace: spaceId2, // optional
  *   fromVersion: versionId1, // optional
  *   toVersion: versionId2, // optional
- *   verified: true, // optional
  *   position: 'position of the relation', // optional
  *   entityId: entityId3, // optional and will be generated if not provided
  *   entityValues: [ // optional
@@ -31,7 +30,6 @@ import { createEntity } from './create-entity.js';
  *       toSpace: spaceId3,
  *       toVersion: versionId3,
  *       position: 'position of the relation',
- *       verified: true,
  *     },
  *   },
  *   entityTypes: [typeId1, typeId2], // optional
@@ -53,7 +51,6 @@ export const createRelation = ({
   toSpace,
   fromVersion,
   toVersion,
-  verified,
   type,
   entityId: providedEntityId,
   entityName,
@@ -107,7 +104,6 @@ export const createRelation = ({
       toEntity: Id(toEntity),
       toSpace: toSpace ? Id(toSpace) : undefined,
       toVersion: toVersion ? Id(toVersion) : undefined,
-      verified,
       type: Id(type),
     },
   });

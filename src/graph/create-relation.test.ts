@@ -62,7 +62,7 @@ describe('createRelation', () => {
     });
   });
 
-  it('creates a relation with fromSpace, fromVersion, toVersion, and verified', async () => {
+  it('creates a relation with fromSpace, fromVersion, and toVersion', async () => {
     const relation = createRelation({
       fromEntity: fromEntityId,
       toEntity: toEntityId,
@@ -70,7 +70,6 @@ describe('createRelation', () => {
       fromSpace: fromSpaceId,
       fromVersion: fromVersionId,
       toVersion: toVersionId,
-      verified: true,
     });
 
     expect(relation).toBeDefined();
@@ -84,7 +83,6 @@ describe('createRelation', () => {
         fromSpace: fromSpaceId,
         fromVersion: fromVersionId,
         toVersion: toVersionId,
-        verified: true,
       },
     });
   });
@@ -99,7 +97,6 @@ describe('createRelation', () => {
       toSpace: testSpaceId,
       fromVersion: fromVersionId,
       toVersion: toVersionId,
-      verified: false,
     });
 
     expect(relation).toBeDefined();
@@ -115,7 +112,6 @@ describe('createRelation', () => {
         toSpace: testSpaceId,
         fromVersion: fromVersionId,
         toVersion: toVersionId,
-        verified: false,
       },
     });
   });

@@ -8,6 +8,7 @@ Update encoding to use @geoprotocol/grc-20 package
 - Removed `unsetEntityValues` function
 - Removed `unsetRelationFields` function
 - Removed `serialize` utility
+- Removed `verified` field from relations (no longer supported in GRC-20 v2 format)
 
 **New Features:**
 - Added `TESTNET_V3` network support pointing to `https://testnet-api-staging.geobrowser.io`

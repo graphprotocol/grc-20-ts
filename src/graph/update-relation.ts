@@ -14,7 +14,6 @@ import type { CreateResult, Op, UpdateRelationParams } from '../types.js';
  *   toSpace: 'id of the to space', // optional
  *   fromVersion: 'id of the from version', // optional
  *   toVersion: 'id of the to version', // optional
- *   verified: true, // optional
  * });
  * ```
  * @param params – {@link UpdateRelationParams}
@@ -28,7 +27,6 @@ export const updateRelation = ({
   toSpace,
   fromVersion,
   toVersion,
-  verified,
 }: UpdateRelationParams): CreateResult => {
   assertValid(id, '`id` in `updateRelation`');
   if (fromSpace) assertValid(fromSpace, '`fromSpace` in `updateRelation`');
@@ -47,7 +45,6 @@ export const updateRelation = ({
       toSpace: toSpace ? Id(toSpace) : undefined,
       fromVersion: fromVersion ? Id(fromVersion) : undefined,
       toVersion: toVersion ? Id(toVersion) : undefined,
-      verified,
     },
   });
 
