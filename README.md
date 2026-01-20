@@ -61,7 +61,7 @@ import { Graph } from '@graphprotocol/grc-20';
 // create a property
 const propertyResult = Graph.createProperty({
   name: 'name of the property',
-  dataType: 'TEXT', // BOOLEAN | INTEGER | FLOAT64 | DECIMAL | TEXT | BYTES | DATE | TIME | DATETIME | SCHEDULE | POINT | EMBEDDING | RELATION
+  dataType: 'TEXT', // BOOLEAN | INT64 | FLOAT64 | DECIMAL | TEXT | BYTES | DATE | TIME | DATETIME | SCHEDULE | POINT | EMBEDDING | RELATION
 });
 
 // create a type
@@ -174,7 +174,7 @@ const ops: Array<GrcOp> = [];
 
 // create an age property
 const { id: agePropertyId, ops: createAgePropertyOps } = Graph.createProperty({
-  dataType: 'INTEGER',
+  dataType: 'INT64',
   name: 'Age',
 });
 ops.push(...createAgePropertyOps);

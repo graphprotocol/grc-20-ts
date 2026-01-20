@@ -9,7 +9,7 @@ export type { GrcOp };
 
 export type ValueDataType =
   | 'BOOLEAN'
-  | 'INTEGER'
+  | 'INT64'
   | 'FLOAT64'
   | 'DECIMAL'
   | 'TEXT'
