@@ -1,7 +1,15 @@
 import type { CreateEntity, CreateRelation } from '@geoprotocol/grc-20';
 import { describe, expect, it } from 'vitest';
 import { JOB_TYPE, ROLES_PROPERTY } from '../core/ids/content.js';
-import { NAME_PROPERTY, PROPERTY, RELATION_VALUE_RELATIONSHIP_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
+import {
+  DATA_TYPE,
+  FLOAT64,
+  NAME_PROPERTY,
+  PROPERTY,
+  RELATION_VALUE_RELATIONSHIP_TYPE,
+  TEXT,
+  TYPES_PROPERTY,
+} from '../core/ids/system.js';
 import { Id } from '../id.js';
 import { toGrcId } from '../id-utils.js';
 import { createProperty } from './create-property.js';
@@ -11,13 +19,13 @@ describe('createProperty', () => {
     const property = createProperty({
       name: 'Disclaimer',
       description: 'This is a disclaimer',
-      dataType: 'STRING',
+      dataType: 'TEXT',
     });
     expect(property).toBeDefined();
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
-    // 1 createEntity + 1 createRelation (type)
-    expect(property.ops.length).toBe(2);
+    // 1 createEntity + 1 createRelation (type) + 1 createRelation (data type)
+    expect(property.ops.length).toBe(3);
 
     // Check entity creation
     const entityOp = property.ops[0] as CreateEntity;
@@ -41,20 +49,27 @@ describe('createProperty', () => {
     expect(typeRelOp.from).toEqual(toGrcId(property.id));
     expect(typeRelOp.to).toEqual(toGrcId(PROPERTY));
     expect(typeRelOp.relationType).toEqual(toGrcId(TYPES_PROPERTY));
+
+    // Check data type relation to TEXT
+    const dataTypeRelOp = property.ops[2] as CreateRelation;
+    expect(dataTypeRelOp.type).toBe('createRelation');
+    expect(dataTypeRelOp.from).toEqual(toGrcId(property.id));
+    expect(dataTypeRelOp.to).toEqual(toGrcId(TEXT));
+    expect(dataTypeRelOp.relationType).toEqual(toGrcId(DATA_TYPE));
   });
 
-  it('creates a NUMBER property', async () => {
+  it('creates a FLOAT64 property', async () => {
     const property = createProperty({
       name: 'Price',
       description: 'The price of the product',
-      dataType: 'NUMBER',
+      dataType: 'FLOAT64',
     });
 
     expect(property).toBeDefined();
     expect(typeof property.id).toBe('string');
     expect(property.ops).toBeDefined();
-    // 1 createEntity + 1 createRelation (type)
-    expect(property.ops.length).toBe(2);
+    // 1 createEntity + 1 createRelation (type) + 1 createRelation (data type)
+    expect(property.ops.length).toBe(3);
 
     // Check entity creation
     const entityOp = property.ops[0] as CreateEntity;
@@ -67,6 +82,13 @@ describe('createProperty', () => {
     expect(typeRelOp.from).toEqual(toGrcId(property.id));
     expect(typeRelOp.to).toEqual(toGrcId(PROPERTY));
     expect(typeRelOp.relationType).toEqual(toGrcId(TYPES_PROPERTY));
+
+    // Check data type relation to FLOAT64
+    const dataTypeRelOp = property.ops[2] as CreateRelation;
+    expect(dataTypeRelOp.type).toBe('createRelation');
+    expect(dataTypeRelOp.from).toEqual(toGrcId(property.id));
+    expect(dataTypeRelOp.to).toEqual(toGrcId(FLOAT64));
+    expect(dataTypeRelOp.relationType).toEqual(toGrcId(DATA_TYPE));
   });
 
   it('creates a RELATION property', async () => {
@@ -140,7 +162,7 @@ describe('createProperty', () => {
     const property = createProperty({
       id: providedId,
       name: 'Price',
-      dataType: 'NUMBER',
+      dataType: 'FLOAT64',
     });
 
     expect(property).toBeDefined();
@@ -187,7 +209,8 @@ describe('createProperty', () => {
     });
 
     expect(property).toBeDefined();
-    expect(property.ops.length).toBe(2);
+    // 1 createEntity + 1 createRelation (type) + 1 createRelation (data type)
+    expect(property.ops.length).toBe(3);
 
     const entityOp = property.ops[0] as CreateEntity;
     expect(entityOp.type).toBe('createEntity');
@@ -204,7 +227,8 @@ describe('createProperty', () => {
     });
 
     expect(property).toBeDefined();
-    expect(property.ops.length).toBe(2);
+    // 1 createEntity + 1 createRelation (type) + 1 createRelation (data type)
+    expect(property.ops.length).toBe(3);
 
     const typeRelOp = property.ops[1] as CreateRelation;
     expect(typeRelOp.type).toBe('createRelation');
@@ -218,7 +242,8 @@ describe('createProperty', () => {
     });
 
     expect(property).toBeDefined();
-    expect(property.ops.length).toBe(2);
+    // 1 createEntity + 1 createRelation (type) + 1 createRelation (data type)
+    expect(property.ops.length).toBe(3);
 
     const typeRelOp = property.ops[1] as CreateRelation;
     expect(typeRelOp.type).toBe('createRelation');

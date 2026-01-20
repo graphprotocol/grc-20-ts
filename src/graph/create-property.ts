@@ -1,10 +1,42 @@
 import { type Op as GrcOp, createRelation as grcCreateRelation } from '@geoprotocol/grc-20';
-import { PROPERTY, RELATION_VALUE_RELATIONSHIP_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
+import {
+  BOOLEAN,
+  BYTES,
+  DATA_TYPE,
+  DATE,
+  DATETIME,
+  DECIMAL,
+  EMBEDDING,
+  FLOAT64,
+  INT64,
+  POINT,
+  PROPERTY,
+  RELATION_VALUE_RELATIONSHIP_TYPE,
+  SCHEDULE,
+  TEXT,
+  TIME,
+  TYPES_PROPERTY,
+} from '../core/ids/system.js';
 import { Id } from '../id.js';
 import { assertValid, generate, toGrcId } from '../id-utils.js';
-import type { CreatePropertyParams, CreateResult } from '../types.js';
+import type { CreatePropertyParams, CreateResult, ValueDataType } from '../types.js';
 import { createEntity } from './create-entity.js';
 import { createRelation } from './create-relation.js';
+
+const VALUE_DATA_TYPE_TO_ID: Record<ValueDataType, Id> = {
+  BOOLEAN,
+  INT64,
+  FLOAT64,
+  DECIMAL,
+  TEXT,
+  BYTES,
+  DATE,
+  TIME,
+  DATETIME,
+  SCHEDULE,
+  POINT,
+  EMBEDDING,
+};
 
 /**
  * Creates a property with the given name, description, cover, and dataType.
@@ -90,6 +122,15 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
         ops.push(...relationOps);
       }
     }
+  } else {
+    // add the data type relation for value types
+    const dataTypeId = VALUE_DATA_TYPE_TO_ID[params.dataType];
+    const { ops: relationOps } = createRelation({
+      fromEntity: entityId,
+      toEntity: dataTypeId,
+      type: DATA_TYPE,
+    });
+    ops.push(...relationOps);
   }
 
   return { id: Id(entityId), ops };

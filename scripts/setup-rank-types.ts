@@ -2,10 +2,10 @@
  * Setup script for Rank types in the knowledge graph.
  *
  * This script generates the Ops needed to create the Rank schema types:
- * - RANK_TYPE_PROPERTY: A STRING property storing ORDINAL/WEIGHTED
+ * - RANK_TYPE_PROPERTY: A TEXT property storing ORDINAL/WEIGHTED
  * - RANK_VOTES_RELATION_TYPE: A RELATION property linking rank to voted entities
- * - VOTE_ORDINAL_VALUE_PROPERTY: A STRING property storing fractional indexing position
- * - VOTE_WEIGHTED_VALUE_PROPERTY: A NUMBER property storing numeric score
+ * - VOTE_ORDINAL_VALUE_PROPERTY: A TEXT property storing fractional indexing position
+ * - VOTE_WEIGHTED_VALUE_PROPERTY: A FLOAT64 property storing numeric score
  * - RANK_TYPE: A Type entity representing a Rank
  *
  * Usage: import { ops } from './scripts/setup-rank-types.js'
@@ -25,12 +25,12 @@ import { createType } from '../src/graph/create-type.js';
 const generateRankTypeOps = (): GrcOp[] => {
   const ops: GrcOp[] = [];
 
-  // 1. Create RANK_TYPE_PROPERTY - A STRING property storing ORDINAL/WEIGHTED
+  // 1. Create RANK_TYPE_PROPERTY - A TEXT property storing ORDINAL/WEIGHTED
   const rankTypeProperty = createProperty({
     id: RANK_TYPE_PROPERTY,
     name: 'Rank Type',
     description: 'The type of rank: ORDINAL (ordered list) or WEIGHTED (scored values)',
-    dataType: 'STRING',
+    dataType: 'TEXT',
   });
   ops.push(...rankTypeProperty.ops);
 
@@ -43,21 +43,21 @@ const generateRankTypeOps = (): GrcOp[] => {
   });
   ops.push(...rankVotesRelationType.ops);
 
-  // 3. Create VOTE_ORDINAL_VALUE_PROPERTY - A STRING property for fractional indexing
+  // 3. Create VOTE_ORDINAL_VALUE_PROPERTY - A TEXT property for fractional indexing
   const voteOrdinalValueProperty = createProperty({
     id: VOTE_ORDINAL_VALUE_PROPERTY,
     name: 'Vote Ordinal Value',
     description: 'Fractional indexing string for ordered rank positions',
-    dataType: 'STRING',
+    dataType: 'TEXT',
   });
   ops.push(...voteOrdinalValueProperty.ops);
 
-  // 4. Create VOTE_WEIGHTED_VALUE_PROPERTY - A NUMBER property for numeric scores
+  // 4. Create VOTE_WEIGHTED_VALUE_PROPERTY - A FLOAT64 property for numeric scores
   const voteWeightedValueProperty = createProperty({
     id: VOTE_WEIGHTED_VALUE_PROPERTY,
     name: 'Vote Weighted Value',
     description: 'Numeric score for weighted rank values',
-    dataType: 'NUMBER',
+    dataType: 'FLOAT64',
   });
   ops.push(...voteWeightedValueProperty.ops);
 
