@@ -47,6 +47,7 @@ export function make({ fromId, text, position }: TextBlockParams): Op[] {
     values: [
       {
         property: MARKDOWN_CONTENT,
+        type: 'text',
         value: text,
       },
     ],

@@ -43,10 +43,12 @@ export function make(address: string): MakeAccountReturnType {
     values: [
       {
         property: ADDRESS_PROPERTY,
+        type: 'text',
         value: checkedAddress,
       },
       {
         property: NAME_PROPERTY,
+        type: 'text',
         value: checkedAddress,
       },
     ],

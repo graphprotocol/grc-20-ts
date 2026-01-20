@@ -8,16 +8,20 @@ export type ValueDataType = 'STRING' | 'NUMBER' | 'BOOLEAN' | 'TIME' | 'POINT';
 
 export type DataType = ValueDataType | 'RELATION';
 
-export type ValueOptions = {
-  text?: { language?: string | Id };
-  number?: { unit?: string | Id };
-};
+// New typed value types for GRC-20 v2 binary format
+export type TypedValue =
+  | { type: 'bool'; value: boolean }
+  | { type: 'float64'; value: number; unit?: Id | string }
+  | { type: 'text'; value: string; language?: Id | string }
+  | { type: 'point'; lon: number; lat: number; alt?: number }
+  | { type: 'date'; value: string }
+  | { type: 'time'; value: string }
+  | { type: 'datetime'; value: string }
+  | { type: 'schedule'; value: string };
 
-export type Value = {
-  property: Id;
-  value: string;
-  options?: ValueOptions | undefined;
-};
+// Internal Value type used in ops (property + typed value)
+// Flattened structure: property + TypedValue fields directly
+export type Value = { property: Id } & TypedValue;
 
 export type Entity = {
   id: Id;
@@ -98,13 +102,9 @@ export type Op =
   | UnsetEntityValuesOp
   | UnsetRelationFieldsOp;
 
-export type ValueOptionsParams =
-  | { type: 'number'; unit?: string | Id | undefined }
-  | { type: 'text'; language?: string | Id | undefined };
-
+// ValueParams now directly accepts a TypedValue
 export type ValueParams = {
-  value: string;
-  options?: ValueOptionsParams | undefined;
+  value: TypedValue;
 };
 
 export type DefaultProperties = {
@@ -114,7 +114,10 @@ export type DefaultProperties = {
   cover?: Id | string;
 };
 
-export type PropertiesParam = Array<{ property: Id | string } & ValueParams>;
+// Flattened structure: property + TypedValue fields directly
+export type PropertyValueParam = { property: Id | string } & TypedValue;
+
+export type PropertiesParam = Array<PropertyValueParam>;
 
 export type EntityRelationParams = Omit<RelationParams, 'fromEntity' | 'type'>;
 

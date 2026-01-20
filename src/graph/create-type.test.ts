@@ -23,6 +23,7 @@ describe('createType', () => {
         values: [
           {
             property: NAME_PROPERTY,
+            type: 'text',
             value: 'Article',
           },
         ],
@@ -63,6 +64,7 @@ describe('createType', () => {
         values: [
           {
             property: NAME_PROPERTY,
+            type: 'text',
             value: 'Article',
           },
         ],

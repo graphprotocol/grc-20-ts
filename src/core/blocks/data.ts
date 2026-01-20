@@ -82,6 +82,7 @@ export function make({ fromId, sourceType, position, name }: DataBlockParams): O
       values: [
         {
           property: NAME_PROPERTY,
+          type: 'text',
           value: name,
         },
       ],

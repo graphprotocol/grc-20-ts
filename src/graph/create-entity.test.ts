@@ -3,7 +3,6 @@ import { CLAIM_TYPE, NEWS_STORY_TYPE } from '../core/ids/content.js';
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
 import { createEntity } from './create-entity.js';
-import { serializeNumber } from './serialize.js';
 
 describe('createEntity', () => {
   const coverId = Id('30145d36d5a54244be593d111d879ba5');
@@ -79,10 +78,12 @@ describe('createEntity', () => {
         values: [
           {
             property: NAME_PROPERTY,
+            type: 'text',
             value: 'Test Entity',
           },
           {
             property: DESCRIPTION_PROPERTY,
+            type: 'text',
             value: 'Test Description',
           },
         ],
@@ -119,10 +120,10 @@ describe('createEntity', () => {
     });
   });
 
-  it('creates an entity with custom values', () => {
+  it('creates an entity with custom text values', () => {
     const customPropertyId = Id('fa269fd3de9849cf90c44235d905a67c');
     const entity = createEntity({
-      values: [{ property: customPropertyId, value: 'custom value' }],
+      values: [{ property: customPropertyId, type: 'text', value: 'custom value' }],
     });
 
     expect(entity).toBeDefined();
@@ -136,6 +137,7 @@ describe('createEntity', () => {
         values: [
           {
             property: customPropertyId,
+            type: 'text',
             value: 'custom value',
           },
         ],
@@ -143,13 +145,14 @@ describe('createEntity', () => {
     });
   });
 
-  it('creates an entity with a text value with options', () => {
+  it('creates an entity with a text value with language', () => {
     const entity = createEntity({
       values: [
         {
           property: '295c8bc61ae342cbb2a65b61080906ff',
+          type: 'text',
           value: 'test',
-          options: { type: 'text', language: Id('0a4e9810f78f429ea4ceb1904a43251d') },
+          language: Id('0a4e9810f78f429ea4ceb1904a43251d'),
         },
       ],
     });
@@ -165,12 +168,9 @@ describe('createEntity', () => {
         values: [
           {
             property: '295c8bc61ae342cbb2a65b61080906ff',
+            type: 'text',
             value: 'test',
-            options: {
-              text: {
-                language: '0a4e9810f78f429ea4ceb1904a43251d',
-              },
-            },
+            language: '0a4e9810f78f429ea4ceb1904a43251d',
           },
         ],
       },
@@ -182,13 +182,15 @@ describe('createEntity', () => {
       values: [
         {
           property: '295c8bc61ae342cbb2a65b61080906ff',
+          type: 'text',
           value: 'test',
-          options: { type: 'text', language: Id('0a4e9810f78f429ea4ceb1904a43251d') },
+          language: Id('0a4e9810f78f429ea4ceb1904a43251d'),
         },
         {
           property: '295c8bc61ae342cbb2a65b61080906ff',
+          type: 'text',
           value: 'prueba',
-          options: { type: 'text', language: Id('dad6e52a5e944e559411cfe3a3c3ea64') },
+          language: Id('dad6e52a5e944e559411cfe3a3c3ea64'),
         },
       ],
     });
@@ -204,33 +206,28 @@ describe('createEntity', () => {
         values: [
           {
             property: '295c8bc61ae342cbb2a65b61080906ff',
+            type: 'text',
             value: 'test',
-            options: {
-              text: {
-                language: '0a4e9810f78f429ea4ceb1904a43251d',
-              },
-            },
+            language: '0a4e9810f78f429ea4ceb1904a43251d',
           },
           {
             property: '295c8bc61ae342cbb2a65b61080906ff',
+            type: 'text',
             value: 'prueba',
-            options: {
-              text: {
-                language: 'dad6e52a5e944e559411cfe3a3c3ea64',
-              },
-            },
+            language: 'dad6e52a5e944e559411cfe3a3c3ea64',
           },
         ],
       },
     });
   });
 
-  it('creates an entity with a number value', () => {
+  it('creates an entity with a float64 value', () => {
     const entity = createEntity({
       values: [
         {
           property: '295c8bc61ae342cbb2a65b61080906ff',
-          value: serializeNumber(42),
+          type: 'float64',
+          value: 42,
         },
       ],
     });
@@ -246,31 +243,58 @@ describe('createEntity', () => {
         values: [
           {
             property: '295c8bc61ae342cbb2a65b61080906ff',
-            value: '42',
+            type: 'float64',
+            value: 42,
           },
         ],
       },
     });
   });
 
-  it('creates an entity with a number value with options', () => {
+  it('creates an entity with a float64 value with unit', () => {
     const entity = createEntity({
       values: [
         {
           property: '295c8bc61ae342cbb2a65b61080906ff',
-          value: serializeNumber(42),
-          options: {
-            type: 'number',
+          type: 'float64',
+          value: 42,
+          unit: '016c9b1cd8a84e4d9e844e40878bb235',
+        },
+      ],
+    });
+
+    expect(entity).toBeDefined();
+    expect(typeof entity.id).toBe('string');
+    expect(entity.ops).toHaveLength(1);
+
+    expect(entity.ops[0]).toMatchObject({
+      type: 'UPDATE_ENTITY',
+      entity: {
+        id: entity.id,
+        values: [
+          {
+            property: '295c8bc61ae342cbb2a65b61080906ff',
+            type: 'float64',
+            value: 42,
             unit: '016c9b1cd8a84e4d9e844e40878bb235',
           },
+        ],
+      },
+    });
+  });
+
+  it('creates an entity with a boolean value', () => {
+    const entity = createEntity({
+      values: [
+        {
+          property: '295c8bc61ae342cbb2a65b61080906ff',
+          type: 'bool',
+          value: true,
         },
       ],
     });
 
     expect(entity).toBeDefined();
-    expect(typeof entity.id).toBe('string');
-    expect(entity.ops).toHaveLength(1);
-
     expect(entity.ops[0]).toMatchObject({
       type: 'UPDATE_ENTITY',
       entity: {
@@ -278,12 +302,64 @@ describe('createEntity', () => {
         values: [
           {
             property: '295c8bc61ae342cbb2a65b61080906ff',
-            value: '42',
-            options: {
-              number: {
-                unit: '016c9b1cd8a84e4d9e844e40878bb235',
-              },
-            },
+            type: 'bool',
+            value: true,
+          },
+        ],
+      },
+    });
+  });
+
+  it('creates an entity with a point value', () => {
+    const entity = createEntity({
+      values: [
+        {
+          property: '295c8bc61ae342cbb2a65b61080906ff',
+          type: 'point',
+          lon: -122.4194,
+          lat: 37.7749,
+        },
+      ],
+    });
+
+    expect(entity).toBeDefined();
+    expect(entity.ops[0]).toMatchObject({
+      type: 'UPDATE_ENTITY',
+      entity: {
+        id: entity.id,
+        values: [
+          {
+            property: '295c8bc61ae342cbb2a65b61080906ff',
+            type: 'point',
+            lon: -122.4194,
+            lat: 37.7749,
+          },
+        ],
+      },
+    });
+  });
+
+  it('creates an entity with a date value', () => {
+    const entity = createEntity({
+      values: [
+        {
+          property: '295c8bc61ae342cbb2a65b61080906ff',
+          type: 'date',
+          value: '2024-03-20',
+        },
+      ],
+    });
+
+    expect(entity).toBeDefined();
+    expect(entity.ops[0]).toMatchObject({
+      type: 'UPDATE_ENTITY',
+      entity: {
+        id: entity.id,
+        values: [
+          {
+            property: '295c8bc61ae342cbb2a65b61080906ff',
+            type: 'date',
+            value: '2024-03-20',
           },
         ],
       },
@@ -313,45 +389,6 @@ describe('createEntity', () => {
         fromEntity: entity.id,
         type: '295c8bc61ae342cbb2a65b61080906ff',
         toEntity: 'd8fd9b48e090430db52c6b33d897d0f3',
-      },
-    });
-  });
-
-  it('creates an entity with types', () => {
-    const entity = createEntity({
-      types: [CLAIM_TYPE, NEWS_STORY_TYPE],
-    });
-
-    expect(entity).toBeDefined();
-    expect(typeof entity.id).toBe('string');
-    expect(entity.ops).toHaveLength(3); // One UPDATE_ENTITY + two CREATE_RELATION ops
-
-    // Check UPDATE_ENTITY op
-    expect(entity.ops[0]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: entity.id,
-        values: [],
-      },
-    });
-
-    // Check first type relation
-    expect(entity.ops[1]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: entity.id,
-        toEntity: CLAIM_TYPE,
-        type: TYPES_PROPERTY,
-      },
-    });
-
-    // Check second type relation
-    expect(entity.ops[2]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: entity.id,
-        toEntity: NEWS_STORY_TYPE,
-        type: TYPES_PROPERTY,
       },
     });
   });

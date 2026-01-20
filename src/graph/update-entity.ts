@@ -1,7 +1,7 @@
 import { DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
 import { assertValid } from '../id-utils.js';
-import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value, ValueOptions } from '../types.js';
+import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value } from '../types.js';
 
 /**
  * Updates an entity with the given name, description, cover and properties.
@@ -29,24 +29,14 @@ import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value, Value
  */
 export const updateEntity = ({ id, name, description, values }: UpdateEntityParams): CreateResult => {
   assertValid(id, '`id` in `updateEntity`');
-  for (const { property, options } of values ?? []) {
-    assertValid(property, '`values` in `updateEntity`');
-    if (options) {
-      switch (options.type) {
-        case 'text':
-          if (options.language) {
-            assertValid(options.language, '`language` in `options` in `values` in `createEntity`');
-          }
-          break;
-        case 'number':
-          if (options.unit) {
-            assertValid(options.unit, '`unit` in `options` in `values` in `createEntity`');
-          }
-          break;
-        default:
-          // @ts-expect-error - we only support text and number options
-          throw new Error(`Invalid option type: ${options.type}`);
-      }
+  for (const valueEntry of values ?? []) {
+    assertValid(valueEntry.property, '`values` in `updateEntity`');
+    // Validate IDs in typed values
+    if (valueEntry.type === 'text' && valueEntry.language) {
+      assertValid(valueEntry.language, '`language` in `values` in `updateEntity`');
+    }
+    if (valueEntry.type === 'float64' && valueEntry.unit) {
+      assertValid(valueEntry.unit, '`unit` in `values` in `updateEntity`');
     }
   }
   const ops: Array<Op> = [];
@@ -55,41 +45,74 @@ export const updateEntity = ({ id, name, description, values }: UpdateEntityPara
   if (name) {
     newValues.push({
       property: NAME_PROPERTY,
+      type: 'text',
       value: name,
     });
   }
   if (description) {
     newValues.push({
       property: DESCRIPTION_PROPERTY,
+      type: 'text',
       value: description,
     });
   }
   for (const valueEntry of values ?? []) {
-    let options: ValueOptions | undefined;
-    if (valueEntry.options) {
-      const optionsParam = valueEntry.options;
-      switch (optionsParam.type) {
-        case 'text':
-          options = {
-            text: {
-              language: optionsParam.language,
-            },
-          };
-          break;
-        case 'number':
-          options = {
-            number: {
-              unit: optionsParam.unit,
-            },
-          };
-          break;
-      }
+    // Build normalized Value based on the type
+    const normalizedProperty = Id(valueEntry.property);
+
+    if (valueEntry.type === 'text') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'text',
+        value: valueEntry.value,
+        language: valueEntry.language ? Id(valueEntry.language) : undefined,
+      });
+    } else if (valueEntry.type === 'float64') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'float64',
+        value: valueEntry.value,
+        unit: valueEntry.unit ? Id(valueEntry.unit) : undefined,
+      });
+    } else if (valueEntry.type === 'bool') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'bool',
+        value: valueEntry.value,
+      });
+    } else if (valueEntry.type === 'point') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'point',
+        lon: valueEntry.lon,
+        lat: valueEntry.lat,
+        alt: valueEntry.alt,
+      });
+    } else if (valueEntry.type === 'date') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'date',
+        value: valueEntry.value,
+      });
+    } else if (valueEntry.type === 'time') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'time',
+        value: valueEntry.value,
+      });
+    } else if (valueEntry.type === 'datetime') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'datetime',
+        value: valueEntry.value,
+      });
+    } else if (valueEntry.type === 'schedule') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'schedule',
+        value: valueEntry.value,
+      });
     }
-    newValues.push({
-      property: Id(valueEntry.property),
-      value: valueEntry.value,
-      options,
-    });
   }
 
   const op: UpdateEntityOp = {

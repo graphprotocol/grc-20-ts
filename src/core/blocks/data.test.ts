@@ -64,6 +64,6 @@ it('should generate ops for a data block entity with a name', () => {
   expect(blockNameOp?.type).toBe('UPDATE_ENTITY');
   if (blockNameOp?.type === 'UPDATE_ENTITY' && blockNameOp?.entity.values?.[0]) {
     expect(blockNameOp.entity.values[0].property).toBe(SystemIds.NAME_PROPERTY);
-    expect(blockNameOp.entity.values[0].value).toBe('test-name');
+    expect(blockNameOp.entity.values[0]).toMatchObject({ type: 'text', value: 'test-name' });
   }
 });

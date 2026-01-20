@@ -51,18 +51,21 @@ export const createImage = async ({
   const values: PropertiesParam = [];
   values.push({
     property: IMAGE_URL_PROPERTY,
+    type: 'text',
     value: cid,
   });
   if (dimensions?.height) {
     values.push({
       property: IMAGE_HEIGHT_PROPERTY,
-      value: dimensions.height.toString(),
+      type: 'float64',
+      value: dimensions.height,
     });
   }
   if (dimensions?.width) {
     values.push({
       property: IMAGE_WIDTH_PROPERTY,
-      value: dimensions.width.toString(),
+      type: 'float64',
+      value: dimensions.width,
     });
   }
 

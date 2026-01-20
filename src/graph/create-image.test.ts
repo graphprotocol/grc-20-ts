@@ -58,6 +58,7 @@ describe('createImage', () => {
       if (image.ops[0].type === 'UPDATE_ENTITY') {
         expect(image.ops[0].entity.values).toContainEqual({
           property: SystemIds.IMAGE_URL_PROPERTY,
+          type: 'text',
           value: 'ipfs://bafkreidgcqofpstvkzylgxbcn4xan6camlgf564sasepyt45sjgvnojxp4',
         });
       }
@@ -103,6 +104,7 @@ describe('createImage', () => {
       if (image.ops[0].type === 'UPDATE_ENTITY') {
         expect(image.ops[0].entity.values).toContainEqual({
           property: SystemIds.IMAGE_URL_PROPERTY,
+          type: 'text',
           value: 'ipfs://bafkreidgcqofpstvkzylgxbcn4xan6camlgf564sasepyt45sjgvnojxp4',
         });
       }
@@ -128,12 +130,14 @@ describe('createImage', () => {
       if (image.ops[0].type === 'UPDATE_ENTITY') {
         expect(image.ops[0].entity.values).toContainEqual({
           property: SystemIds.NAME_PROPERTY,
+          type: 'text',
           value: 'test image',
         });
       }
       if (image.ops[0].type === 'UPDATE_ENTITY') {
         expect(image.ops[0].entity.values).toContainEqual({
           property: SystemIds.DESCRIPTION_PROPERTY,
+          type: 'text',
           value: 'test description',
         });
       }

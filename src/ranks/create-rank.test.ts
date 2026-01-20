@@ -10,6 +10,7 @@ import {
   VOTE_WEIGHTED_VALUE_PROPERTY,
 } from '../core/ids/system.js';
 import { Id, isValid } from '../id.js';
+import type { UpdateEntityOp } from '../types.js';
 import { createRank } from './create-rank.js';
 
 describe('createRank', () => {
@@ -39,8 +40,8 @@ describe('createRank', () => {
         entity: {
           id: rank.id,
           values: expect.arrayContaining([
-            { property: NAME_PROPERTY, value: 'My Favorite Movie' },
-            { property: RANK_TYPE_PROPERTY, value: 'ORDINAL' },
+            { property: NAME_PROPERTY, type: 'text', value: 'My Favorite Movie' },
+            { property: RANK_TYPE_PROPERTY, type: 'text', value: 'ORDINAL' },
           ]),
         },
       });
@@ -73,6 +74,7 @@ describe('createRank', () => {
           values: [
             {
               property: VOTE_ORDINAL_VALUE_PROPERTY,
+              type: 'text',
               value: expect.any(String), // fractional index
             },
           ],
@@ -92,9 +94,13 @@ describe('createRank', () => {
       expect(rank.ops).toHaveLength(8);
 
       // Verify fractional indices are in ascending order
-      const ordinalValue1 = (rank.ops[3] as { entity: { values: { value: string }[] } }).entity.values[0]?.value;
-      const ordinalValue2 = (rank.ops[5] as { entity: { values: { value: string }[] } }).entity.values[0]?.value;
-      const ordinalValue3 = (rank.ops[7] as { entity: { values: { value: string }[] } }).entity.values[0]?.value;
+      const op3 = rank.ops[3] as UpdateEntityOp;
+      const op5 = rank.ops[5] as UpdateEntityOp;
+      const op7 = rank.ops[7] as UpdateEntityOp;
+
+      const ordinalValue1 = (op3.entity.values[0] as { type: 'text'; value: string }).value;
+      const ordinalValue2 = (op5.entity.values[0] as { type: 'text'; value: string }).value;
+      const ordinalValue3 = (op7.entity.values[0] as { type: 'text'; value: string }).value;
 
       expect(ordinalValue1 && ordinalValue2 && ordinalValue1 < ordinalValue2).toBe(true);
       expect(ordinalValue2 && ordinalValue3 && ordinalValue2 < ordinalValue3).toBe(true);
@@ -113,9 +119,9 @@ describe('createRank', () => {
         entity: {
           id: rank.id,
           values: expect.arrayContaining([
-            { property: NAME_PROPERTY, value: 'My Movies' },
-            { property: RANK_TYPE_PROPERTY, value: 'ORDINAL' },
-            { property: DESCRIPTION_PROPERTY, value: 'A ranked list of my favorite movies' },
+            { property: NAME_PROPERTY, type: 'text', value: 'My Movies' },
+            { property: RANK_TYPE_PROPERTY, type: 'text', value: 'ORDINAL' },
+            { property: DESCRIPTION_PROPERTY, type: 'text', value: 'A ranked list of my favorite movies' },
           ]),
         },
       });
@@ -138,11 +144,13 @@ describe('createRank', () => {
       expect(rank.ops[0]).toMatchObject({
         type: 'UPDATE_ENTITY',
         entity: {
-          values: expect.arrayContaining([{ property: RANK_TYPE_PROPERTY, value: 'WEIGHTED' }]),
+          values: expect.arrayContaining([
+            { property: RANK_TYPE_PROPERTY, type: 'text', value: 'WEIGHTED' },
+          ]),
         },
       });
 
-      // Check vote entity with weighted value (serialized as string)
+      // Check vote entity with weighted value (now typed as float64)
       expect(rank.ops[3]).toMatchObject({
         type: 'UPDATE_ENTITY',
         entity: {
@@ -150,7 +158,8 @@ describe('createRank', () => {
           values: [
             {
               property: VOTE_WEIGHTED_VALUE_PROPERTY,
-              value: '4.5', // serialized number
+              type: 'float64',
+              value: 4.5,
             },
           ],
         },
@@ -175,19 +184,19 @@ describe('createRank', () => {
       expect(rank.ops[3]).toMatchObject({
         type: 'UPDATE_ENTITY',
         entity: {
-          values: [{ property: VOTE_WEIGHTED_VALUE_PROPERTY, value: '9.2' }],
+          values: [{ property: VOTE_WEIGHTED_VALUE_PROPERTY, type: 'float64', value: 9.2 }],
         },
       });
       expect(rank.ops[5]).toMatchObject({
         type: 'UPDATE_ENTITY',
         entity: {
-          values: [{ property: VOTE_WEIGHTED_VALUE_PROPERTY, value: '8.5' }],
+          values: [{ property: VOTE_WEIGHTED_VALUE_PROPERTY, type: 'float64', value: 8.5 }],
         },
       });
       expect(rank.ops[7]).toMatchObject({
         type: 'UPDATE_ENTITY',
         entity: {
-          values: [{ property: VOTE_WEIGHTED_VALUE_PROPERTY, value: '7.8' }],
+          values: [{ property: VOTE_WEIGHTED_VALUE_PROPERTY, type: 'float64', value: 7.8 }],
         },
       });
     });
@@ -202,7 +211,7 @@ describe('createRank', () => {
       expect(rank.ops[3]).toMatchObject({
         type: 'UPDATE_ENTITY',
         entity: {
-          values: [{ property: VOTE_WEIGHTED_VALUE_PROPERTY, value: '5' }],
+          values: [{ property: VOTE_WEIGHTED_VALUE_PROPERTY, type: 'float64', value: 5 }],
         },
       });
     });

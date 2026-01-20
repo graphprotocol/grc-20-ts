@@ -21,7 +21,7 @@ it('should generate ops for a text block entity', () => {
   expect(blockMarkdownTextOp?.type).toBe('UPDATE_ENTITY');
   if (blockMarkdownTextOp?.type === 'UPDATE_ENTITY' && blockMarkdownTextOp?.entity.values?.[0]) {
     expect(blockMarkdownTextOp.entity.values[0].property).toBe(SystemIds.MARKDOWN_CONTENT);
-    expect(blockMarkdownTextOp.entity.values[0].value).toBe('test-text');
+    expect(blockMarkdownTextOp.entity.values[0]).toMatchObject({ type: 'text', value: 'test-text' });
   }
 
   expect(blockRelationOp?.type).toBe('CREATE_RELATION');

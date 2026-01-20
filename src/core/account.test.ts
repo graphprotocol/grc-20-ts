@@ -12,13 +12,13 @@ it('should generate ops for an account entity', () => {
   expect(entityOp?.type).toBe('UPDATE_ENTITY');
   if (entityOp?.type === 'UPDATE_ENTITY' && entityOp?.entity.values?.[0]) {
     expect(entityOp.entity.values[0].property).toBe(SystemIds.ADDRESS_PROPERTY);
-    expect(entityOp.entity.values[0].value).toBe(ZERO_ADDRESS);
+    expect(entityOp.entity.values[0]).toMatchObject({ type: 'text', value: ZERO_ADDRESS });
     expect(entityOp.entity.id).toBe(Id(accountId));
   }
 
   if (entityOp?.type === 'UPDATE_ENTITY' && entityOp?.entity.values?.[1]) {
     expect(entityOp.entity.values[1].property).toBe(SystemIds.NAME_PROPERTY);
-    expect(entityOp.entity.values[1].value).toBe(ZERO_ADDRESS);
+    expect(entityOp.entity.values[1]).toMatchObject({ type: 'text', value: ZERO_ADDRESS });
     expect(entityOp.entity.id).toBe(Id(accountId));
   }
 

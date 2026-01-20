@@ -9,7 +9,6 @@ import {
   VOTE_ORDINAL_VALUE_PROPERTY,
   VOTE_WEIGHTED_VALUE_PROPERTY,
 } from '../core/ids/system.js';
-import { serializeNumber } from '../graph/serialize.js';
 import { Id } from '../id.js';
 import { assertValid, generate } from '../id-utils.js';
 import type { Op, Value } from '../types.js';
@@ -87,10 +86,12 @@ export const createRank = ({
   const rankValues: Value[] = [
     {
       property: NAME_PROPERTY,
+      type: 'text',
       value: name,
     },
     {
       property: RANK_TYPE_PROPERTY,
+      type: 'text',
       value: rankType,
     },
   ];
@@ -98,6 +99,7 @@ export const createRank = ({
   if (description) {
     rankValues.push({
       property: DESCRIPTION_PROPERTY,
+      type: 'text',
       value: description,
     });
   }
@@ -150,11 +152,13 @@ export const createRank = ({
       rankType === 'ORDINAL'
         ? {
             property: VOTE_ORDINAL_VALUE_PROPERTY,
+            type: 'text',
             value: fractionalIndices[i] as string,
           }
         : {
             property: VOTE_WEIGHTED_VALUE_PROPERTY,
-            value: serializeNumber((vote as VoteWeighted).value),
+            type: 'float64',
+            value: (vote as VoteWeighted).value,
           };
 
     ops.push({

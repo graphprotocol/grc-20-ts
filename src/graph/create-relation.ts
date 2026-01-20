@@ -75,23 +75,12 @@ export const createRelation = ({
   if (entityCover) assertValid(entityCover, '`entityCover` in `createRelation`');
   for (const valueEntry of entityValues ?? []) {
     assertValid(valueEntry.property, '`entityValues` in `createRelation`');
-    if (valueEntry.options) {
-      const optionsParam = valueEntry.options;
-      switch (optionsParam.type) {
-        case 'text':
-          if (optionsParam.language) {
-            assertValid(optionsParam.language, '`language` in `options` in `entityValues` in `createRelation`');
-          }
-          break;
-        case 'number':
-          if (optionsParam.unit) {
-            assertValid(optionsParam.unit, '`unit` in `options` in `entityValues` in `createRelation`');
-          }
-          break;
-        default:
-          // @ts-expect-error - we only support text and number options
-          throw new Error(`Invalid option type: ${optionsParam.type}`);
-      }
+    // Validate IDs in typed values
+    if (valueEntry.type === 'text' && valueEntry.language) {
+      assertValid(valueEntry.language, '`language` in `entityValues` in `createRelation`');
+    }
+    if (valueEntry.type === 'float64' && valueEntry.unit) {
+      assertValid(valueEntry.unit, '`unit` in `entityValues` in `createRelation`');
     }
   }
   for (const [key] of Object.entries(entityRelations ?? {})) {

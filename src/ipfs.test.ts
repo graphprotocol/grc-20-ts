@@ -10,6 +10,7 @@ it('full flow', async () => {
     values: [
       {
         property: WEBSITE_PROPERTY,
+        type: 'text',
         value: 'test',
       },
     ],

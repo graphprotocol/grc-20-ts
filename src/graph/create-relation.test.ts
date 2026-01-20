@@ -176,10 +176,12 @@ describe('createRelation', () => {
         values: [
           {
             property: NAME_PROPERTY,
+            type: 'text',
             value: 'Test Entity',
           },
           {
             property: DESCRIPTION_PROPERTY,
+            type: 'text',
             value: 'Test Description',
           },
         ],
@@ -331,7 +333,7 @@ describe('createRelation', () => {
       fromEntity: fromEntityId,
       toEntity: toEntityId,
       type: NAME_PROPERTY,
-      entityValues: [{ property: customPropertyId, value: 'custom value' }],
+      entityValues: [{ property: customPropertyId, type: 'text', value: 'custom value' }],
     });
 
     expect(relation).toBeDefined();
@@ -354,6 +356,7 @@ describe('createRelation', () => {
         values: [
           {
             property: customPropertyId,
+            type: 'text',
             value: 'custom value',
           },
         ],
@@ -361,7 +364,7 @@ describe('createRelation', () => {
     });
   });
 
-  it('creates a relation with entityValues that have options', () => {
+  it('creates a relation with entityValues that have language', () => {
     const customPropertyId = Id('fa269fd3de9849cf90c44235d905a67c');
     const languageId = Id('0a4e9810f78f429ea4ceb1904a43251d');
     const relation = createRelation({
@@ -371,8 +374,9 @@ describe('createRelation', () => {
       entityValues: [
         {
           property: customPropertyId,
+          type: 'text',
           value: 'test',
-          options: { type: 'text', language: languageId },
+          language: languageId,
         },
       ],
     });
@@ -397,12 +401,9 @@ describe('createRelation', () => {
         values: [
           {
             property: customPropertyId,
+            type: 'text',
             value: 'test',
-            options: {
-              text: {
-                language: languageId,
-              },
-            },
+            language: languageId,
           },
         ],
       },
@@ -415,7 +416,7 @@ describe('createRelation', () => {
         fromEntity: fromEntityId,
         toEntity: toEntityId,
         type: NAME_PROPERTY,
-        entityValues: [{ property: 'invalid', value: 'test' }],
+        entityValues: [{ property: 'invalid', type: 'text', value: 'test' }],
       }),
     ).toThrow('Invalid id: "invalid" for `entityValues` in `createRelation`');
   });

@@ -9,11 +9,12 @@ import { Micro } from 'effect';
 import { gzipSync } from 'fflate';
 import { imageSize } from 'image-size';
 
-import { Edit, EditProposal } from '../proto.js';
+import { encodeEdit, type EncodeOptions, type Edit as GrcEdit, randomId, formatId } from '@geoprotocol/grc-20';
 import { getApiOrigin, type Network } from './graph/constants.js';
 import type { Id } from './id.js';
 import { fromBytes } from './id-utils.js';
 import type { Op } from './types.js';
+import { convertOps, hexToGrcId } from './codec/convert.js';
 
 class IpfsUploadError extends Error {
   readonly _tag = 'IpfsUploadError';
@@ -34,7 +35,7 @@ type PublishEditResult = {
 };
 
 /**
- * Generates correct protobuf encoding for an Edit and uploads it to IPFS.
+ * Generates correct GRC-20 v2 binary encoding for an Edit and uploads it to IPFS.
  *
  * @example
  * ```ts
@@ -53,17 +54,33 @@ type PublishEditResult = {
 export async function publishEdit(args: PublishEditProposalParams): Promise<PublishEditResult> {
   const { name, ops, author, network = 'MAINNET' } = args;
 
-  const edit = EditProposal.encode({ name, ops, author });
+  // Generate a new edit ID
+  const editId = randomId();
 
-  // @ts-expect-error - this is a type missmatch which is fine
-  const blob = new Blob([edit], { type: 'application/octet-stream' });
+  // Build the GRC-20 v2 Edit structure
+  const grcEdit: GrcEdit = {
+    id: editId,
+    name,
+    authors: [hexToGrcId(author)],
+    createdAt: BigInt(Date.now()) * 1000n, // Convert to microseconds
+    ops: convertOps(ops),
+  };
+
+  // Encode to binary format
+  const binary = encodeEdit(grcEdit);
+
+  // Create a copy to ensure we have a regular ArrayBuffer for Blob compatibility
+  const binaryArray = new Uint8Array(binary);
+  const blob = new Blob([binaryArray], { type: 'application/octet-stream' });
   const formData = new FormData();
   formData.append('file', blob);
 
   const cid = await Micro.runPromise(uploadBinary(formData, network));
-  const result = Edit.fromBinary(edit);
 
-  return { cid, editId: fromBytes(result.id) };
+  // Convert the GrcId back to a grc-20-ts Id string
+  const editIdString = fromBytes(editId);
+
+  return { cid, editId: editIdString };
 }
 
 type PublishImageParams =

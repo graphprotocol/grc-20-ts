@@ -1,7 +1,7 @@
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
 import { assertValid, generate } from '../id-utils.js';
-import type { CreateResult, EntityParams, Op, UpdateEntityOp, Value, ValueOptions } from '../types.js';
+import type { CreateResult, EntityParams, Op, PropertyValueParam, UpdateEntityOp, Value } from '../types.js';
 import { createRelation } from './create-relation.js';
 
 /**
@@ -69,51 +69,38 @@ export const createEntity = ({
   if (cover) assertValid(cover, '`cover` in `createEntity`');
   for (const valueEntry of values ?? []) {
     assertValid(valueEntry.property, '`values` in `createEntity`');
-    if (valueEntry.options) {
-      const optionsParam = valueEntry.options;
-      switch (optionsParam.type) {
-        case 'text':
-          if (optionsParam.language) {
-            assertValid(optionsParam.language, '`language` in `options` in `values` in `createEntity`');
-          }
-          break;
-        case 'number':
-          if (optionsParam.unit) {
-            assertValid(optionsParam.unit, '`unit` in `options` in `values` in `createEntity`');
-          }
-          break;
-        default:
-          // @ts-expect-error - we only support text and number options
-          throw new Error(`Invalid option type: ${optionsParam.type}`);
-      }
+    // Validate IDs in typed values
+    if (valueEntry.type === 'text' && valueEntry.language) {
+      assertValid(valueEntry.language, '`language` in `values` in `createEntity`');
     }
-    // we only assert Ids one level deep for a better experience here, but multiple levels deep are
-    // asserted since we use createRelation and createEntity internally
-    for (const [key, relationEntry] of Object.entries(relations ?? {})) {
-      assertValid(key, '`relations` in `createEntity`');
-      if (Array.isArray(relationEntry)) {
-        for (const relation of relationEntry) {
-          assertValid(relation.toEntity, '`toEntity` in `relations` in `createEntity`');
-          if (relation.toSpace) assertValid(relation.toSpace, '`toSpace` in `relations` in `createEntity`');
-          if (relation.fromSpace) assertValid(relation.fromSpace, '`fromSpace` in `relations` in `createEntity`');
-          if (relation.fromVersion) assertValid(relation.fromVersion, '`fromVersion` in `relations` in `createEntity`');
-          if (relation.toVersion) assertValid(relation.toVersion, '`toVersion` in `relations` in `createEntity`');
-          if (relation.entityId) assertValid(relation.entityId, '`entityId` in `relations` in `createEntity`');
-          if (relation.entityCover) assertValid(relation.entityCover, '`entityCover` in `relations` in `createEntity`');
-        }
-      } else {
-        assertValid(relationEntry.toEntity, '`toEntity` in `relations` in `createEntity`');
-        if (relationEntry.toSpace) assertValid(relationEntry.toSpace, '`toSpace` in `relations` in `createEntity`');
-        if (relationEntry.fromSpace)
-          assertValid(relationEntry.fromSpace, '`fromSpace` in `relations` in `createEntity`');
-        if (relationEntry.fromVersion)
-          assertValid(relationEntry.fromVersion, '`fromVersion` in `relations` in `createEntity`');
-        if (relationEntry.toVersion)
-          assertValid(relationEntry.toVersion, '`toVersion` in `relations` in `createEntity`');
-        if (relationEntry.entityId) assertValid(relationEntry.entityId, '`entityId` in `relations` in `createEntity`');
-        if (relationEntry.entityCover)
-          assertValid(relationEntry.entityCover, '`entityCover` in `relations` in `createEntity`');
+    if (valueEntry.type === 'float64' && valueEntry.unit) {
+      assertValid(valueEntry.unit, '`unit` in `values` in `createEntity`');
+    }
+  }
+  // we only assert Ids one level deep for a better experience here, but multiple levels deep are
+  // asserted since we use createRelation and createEntity internally
+  for (const [key, relationEntry] of Object.entries(relations ?? {})) {
+    assertValid(key, '`relations` in `createEntity`');
+    if (Array.isArray(relationEntry)) {
+      for (const relation of relationEntry) {
+        assertValid(relation.toEntity, '`toEntity` in `relations` in `createEntity`');
+        if (relation.toSpace) assertValid(relation.toSpace, '`toSpace` in `relations` in `createEntity`');
+        if (relation.fromSpace) assertValid(relation.fromSpace, '`fromSpace` in `relations` in `createEntity`');
+        if (relation.fromVersion) assertValid(relation.fromVersion, '`fromVersion` in `relations` in `createEntity`');
+        if (relation.toVersion) assertValid(relation.toVersion, '`toVersion` in `relations` in `createEntity`');
+        if (relation.entityId) assertValid(relation.entityId, '`entityId` in `relations` in `createEntity`');
+        if (relation.entityCover) assertValid(relation.entityCover, '`entityCover` in `relations` in `createEntity`');
       }
+    } else {
+      assertValid(relationEntry.toEntity, '`toEntity` in `relations` in `createEntity`');
+      if (relationEntry.toSpace) assertValid(relationEntry.toSpace, '`toSpace` in `relations` in `createEntity`');
+      if (relationEntry.fromSpace) assertValid(relationEntry.fromSpace, '`fromSpace` in `relations` in `createEntity`');
+      if (relationEntry.fromVersion)
+        assertValid(relationEntry.fromVersion, '`fromVersion` in `relations` in `createEntity`');
+      if (relationEntry.toVersion) assertValid(relationEntry.toVersion, '`toVersion` in `relations` in `createEntity`');
+      if (relationEntry.entityId) assertValid(relationEntry.entityId, '`entityId` in `relations` in `createEntity`');
+      if (relationEntry.entityCover)
+        assertValid(relationEntry.entityCover, '`entityCover` in `relations` in `createEntity`');
     }
   }
   for (const typeId of types ?? []) {
@@ -127,42 +114,74 @@ export const createEntity = ({
   if (name) {
     newValues.push({
       property: NAME_PROPERTY,
+      type: 'text',
       value: name,
     });
   }
   if (description) {
     newValues.push({
       property: DESCRIPTION_PROPERTY,
+      type: 'text',
       value: description,
     });
   }
   for (const valueEntry of values ?? []) {
-    let options: ValueOptions | undefined;
-    if (valueEntry.options) {
-      const optionsParam = valueEntry.options;
-      switch (optionsParam.type) {
-        case 'text':
-          options = {
-            text: {
-              language: optionsParam.language,
-            },
-          };
-          break;
-        case 'number':
-          options = {
-            number: {
-              unit: optionsParam.unit,
-            },
-          };
-          break;
-      }
-    }
+    // Build normalized Value based on the type
+    const normalizedProperty = Id(valueEntry.property);
 
-    newValues.push({
-      property: Id(valueEntry.property),
-      value: valueEntry.value,
-      options,
-    });
+    if (valueEntry.type === 'text') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'text',
+        value: valueEntry.value,
+        language: valueEntry.language ? Id(valueEntry.language) : undefined,
+      });
+    } else if (valueEntry.type === 'float64') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'float64',
+        value: valueEntry.value,
+        unit: valueEntry.unit ? Id(valueEntry.unit) : undefined,
+      });
+    } else if (valueEntry.type === 'bool') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'bool',
+        value: valueEntry.value,
+      });
+    } else if (valueEntry.type === 'point') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'point',
+        lon: valueEntry.lon,
+        lat: valueEntry.lat,
+        alt: valueEntry.alt,
+      });
+    } else if (valueEntry.type === 'date') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'date',
+        value: valueEntry.value,
+      });
+    } else if (valueEntry.type === 'time') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'time',
+        value: valueEntry.value,
+      });
+    } else if (valueEntry.type === 'datetime') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'datetime',
+        value: valueEntry.value,
+      });
+    } else if (valueEntry.type === 'schedule') {
+      newValues.push({
+        property: normalizedProperty,
+        type: 'schedule',
+        value: valueEntry.value,
+      });
+    }
   }
 
   const op: UpdateEntityOp = {

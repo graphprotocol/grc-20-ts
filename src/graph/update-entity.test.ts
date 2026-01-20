@@ -25,10 +25,12 @@ describe('updateEntity', () => {
         values: [
           {
             property: NAME_PROPERTY,
+            type: 'text',
             value: 'Updated Entity',
           },
           {
             property: DESCRIPTION_PROPERTY,
+            type: 'text',
             value: 'Updated Description',
           },
         ],
@@ -53,6 +55,7 @@ describe('updateEntity', () => {
         values: [
           {
             property: NAME_PROPERTY,
+            type: 'text',
             value: 'Updated Entity',
           },
         ],
@@ -60,11 +63,11 @@ describe('updateEntity', () => {
     });
   });
 
-  it('updates an entity with custom values', async () => {
+  it('updates an entity with custom typed values', async () => {
     const customPropertyId = Id('fa269fd3de9849cf90c44235d905a67c');
     const result = updateEntity({
       id: entityId,
-      values: [{ property: customPropertyId, value: 'updated custom value' }],
+      values: [{ property: customPropertyId, type: 'text', value: 'updated custom value' }],
     });
 
     expect(result).toBeDefined();
@@ -78,7 +81,31 @@ describe('updateEntity', () => {
         values: [
           {
             property: customPropertyId,
+            type: 'text',
             value: 'updated custom value',
+          },
+        ],
+      },
+    });
+  });
+
+  it('updates an entity with a float64 value', async () => {
+    const customPropertyId = Id('fa269fd3de9849cf90c44235d905a67c');
+    const result = updateEntity({
+      id: entityId,
+      values: [{ property: customPropertyId, type: 'float64', value: 42.5 }],
+    });
+
+    expect(result).toBeDefined();
+    expect(result.ops[0]).toMatchObject({
+      type: 'UPDATE_ENTITY',
+      entity: {
+        id: entityId,
+        values: [
+          {
+            property: customPropertyId,
+            type: 'float64',
+            value: 42.5,
           },
         ],
       },
