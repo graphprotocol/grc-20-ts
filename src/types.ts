@@ -7,7 +7,19 @@ import type { Id } from './id.js';
 
 export type { GrcOp };
 
-export type ValueDataType = 'STRING' | 'NUMBER' | 'BOOLEAN' | 'TIME' | 'POINT';
+export type ValueDataType =
+  | 'BOOLEAN'
+  | 'INTEGER'
+  | 'FLOAT64'
+  | 'DECIMAL'
+  | 'TEXT'
+  | 'BYTES'
+  | 'DATE'
+  | 'TIME'
+  | 'DATETIME'
+  | 'SCHEDULE'
+  | 'POINT'
+  | 'EMBEDDING';
 
 export type DataType = ValueDataType | 'RELATION';
 

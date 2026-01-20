@@ -15,8 +15,7 @@ export const TABS_PROPERTY = Id('4d9cba1c4766469881cd3273891a018b');
 
 export const BLOCKS = Id('beaba5cba67741a8b35377030613fc70');
 
-/** Value types */
-
+/** Data types */
 export const BOOLEAN = Id('7aa4792eeacd41868272fa7fc18298ac');
 export const INTEGER = Id('149fd752d9d04f80820d1d942eea7841');
 export const FLOAT64 = Id('9b597aaec31c46c88565a370da0c2a65');
@@ -30,6 +29,8 @@ export const SCHEDULE = Id('caf4dd12ba4844b99171aff6c1313b50');
 export const POINT = Id('df250d17e364413d97792ddaae841e34');
 export const EMBEDDING = Id('f732849378ba4577a33fac5f1c964f18');
 export const RELATION = Id('4b6d9fc1fbfe474c861c83398e1b50d9');
+
+export const DATA_TYPE = Id('6d29d57849bb4959baf72cc696b1671a');
 
 export const URL = Id('283127c96142468492ed90b0ebc7f29a');
 export const IMAGE = Id('f3f790c4c74e4d23a0a91e8ef84e30d9');
