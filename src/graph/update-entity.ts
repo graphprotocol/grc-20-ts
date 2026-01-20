@@ -1,7 +1,13 @@
+import {
+  type Op as GrcOp,
+  type PropertyValue as GrcPropertyValue,
+  createEntity as grcCreateEntity,
+  languages,
+} from '@geoprotocol/grc-20';
 import { DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
-import { assertValid } from '../id-utils.js';
-import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value, ValueOptions } from '../types.js';
+import { assertValid, toGrcId } from '../id-utils.js';
+import type { CreateResult, UpdateEntityParams } from '../types.js';
 
 /**
  * Updates an entity with the given name, description, cover and properties.
@@ -29,77 +35,121 @@ import type { CreateResult, Op, UpdateEntityOp, UpdateEntityParams, Value, Value
  */
 export const updateEntity = ({ id, name, description, values }: UpdateEntityParams): CreateResult => {
   assertValid(id, '`id` in `updateEntity`');
-  for (const { property, options } of values ?? []) {
-    assertValid(property, '`values` in `updateEntity`');
-    if (options) {
-      switch (options.type) {
-        case 'text':
-          if (options.language) {
-            assertValid(options.language, '`language` in `options` in `values` in `createEntity`');
-          }
-          break;
-        case 'number':
-          if (options.unit) {
-            assertValid(options.unit, '`unit` in `options` in `values` in `createEntity`');
-          }
-          break;
-        default:
-          // @ts-expect-error - we only support text and number options
-          throw new Error(`Invalid option type: ${options.type}`);
-      }
+  for (const valueEntry of values ?? []) {
+    assertValid(valueEntry.property, '`values` in `updateEntity`');
+    // Validate IDs in typed values
+    if (valueEntry.type === 'text' && valueEntry.language) {
+      assertValid(valueEntry.language, '`language` in `values` in `updateEntity`');
+    }
+    if (valueEntry.type === 'float64' && valueEntry.unit) {
+      assertValid(valueEntry.unit, '`unit` in `values` in `updateEntity`');
     }
   }
-  const ops: Array<Op> = [];
 
-  const newValues: Array<Value> = [];
+  const newValues: Array<GrcPropertyValue> = [];
   if (name) {
     newValues.push({
-      property: NAME_PROPERTY,
-      value: name,
+      property: toGrcId(NAME_PROPERTY),
+      value: {
+        type: 'text',
+        value: name,
+        language: languages.english(),
+      },
     });
   }
   if (description) {
     newValues.push({
-      property: DESCRIPTION_PROPERTY,
-      value: description,
+      property: toGrcId(DESCRIPTION_PROPERTY),
+      value: {
+        type: 'text',
+        value: description,
+        language: languages.english(),
+      },
     });
   }
   for (const valueEntry of values ?? []) {
-    let options: ValueOptions | undefined;
-    if (valueEntry.options) {
-      const optionsParam = valueEntry.options;
-      switch (optionsParam.type) {
-        case 'text':
-          options = {
-            text: {
-              language: optionsParam.language,
-            },
-          };
-          break;
-        case 'number':
-          options = {
-            number: {
-              unit: optionsParam.unit,
-            },
-          };
-          break;
-      }
+    const property = toGrcId(valueEntry.property);
+
+    if (valueEntry.type === 'text') {
+      newValues.push({
+        property,
+        value: {
+          type: 'text',
+          value: valueEntry.value,
+          language: valueEntry.language ? toGrcId(valueEntry.language) : languages.english(),
+        },
+      });
+    } else if (valueEntry.type === 'float64') {
+      newValues.push({
+        property,
+        value: {
+          type: 'float64',
+          value: valueEntry.value,
+          ...(valueEntry.unit ? { unit: toGrcId(valueEntry.unit) } : {}),
+        },
+      });
+    } else if (valueEntry.type === 'bool') {
+      newValues.push({
+        property,
+        value: {
+          type: 'bool',
+          value: valueEntry.value,
+        },
+      });
+    } else if (valueEntry.type === 'point') {
+      newValues.push({
+        property,
+        value: {
+          type: 'point',
+          lon: valueEntry.lon,
+          lat: valueEntry.lat,
+          ...(valueEntry.alt !== undefined ? { alt: valueEntry.alt } : {}),
+        },
+      });
+    } else if (valueEntry.type === 'date') {
+      newValues.push({
+        property,
+        value: {
+          type: 'date',
+          value: valueEntry.value,
+        },
+      });
+    } else if (valueEntry.type === 'time') {
+      newValues.push({
+        property,
+        value: {
+          type: 'time',
+          value: valueEntry.value,
+        },
+      });
+    } else if (valueEntry.type === 'datetime') {
+      newValues.push({
+        property,
+        value: {
+          type: 'datetime',
+          value: valueEntry.value,
+        },
+      });
+    } else if (valueEntry.type === 'schedule') {
+      newValues.push({
+        property,
+        value: {
+          type: 'schedule',
+          value: valueEntry.value,
+        },
+      });
+    } else {
+      // Exhaustive check - this will cause a TypeScript error if a new type is added
+      // to TypedValue but not handled here
+      const exhaustiveCheck: never = valueEntry;
+      throw new Error(`Unsupported value type: ${(exhaustiveCheck as { type: string }).type}`);
     }
-    newValues.push({
-      property: Id(valueEntry.property),
-      value: valueEntry.value,
-      options,
-    });
   }
 
-  const op: UpdateEntityOp = {
-    type: 'UPDATE_ENTITY',
-    entity: {
-      id: Id(id),
-      values: newValues,
-    },
-  };
-  ops.push(op);
+  const op: GrcOp = grcCreateEntity({
+    id: toGrcId(id),
+    values: newValues,
+  });
 
-  return { id: Id(id), ops };
+  return { id: Id(id), ops: [op] };
 };

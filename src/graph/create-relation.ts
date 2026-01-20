@@ -1,6 +1,7 @@
+import { type Op as GrcOp, createRelation as grcCreateRelation } from '@geoprotocol/grc-20';
 import { Id } from '../id.js';
-import { assertValid, generate } from '../id-utils.js';
-import type { CreateResult, Op, RelationParams } from '../types.js';
+import { assertValid, generate, toGrcId } from '../id-utils.js';
+import type { CreateResult, RelationParams } from '../types.js';
 import { createEntity } from './create-entity.js';
 
 /**
@@ -17,7 +18,6 @@ import { createEntity } from './create-entity.js';
  *   toSpace: spaceId2, // optional
  *   fromVersion: versionId1, // optional
  *   toVersion: versionId2, // optional
- *   verified: true, // optional
  *   position: 'position of the relation', // optional
  *   entityId: entityId3, // optional and will be generated if not provided
  *   entityValues: [ // optional
@@ -31,7 +31,6 @@ import { createEntity } from './create-entity.js';
  *       toSpace: spaceId3,
  *       toVersion: versionId3,
  *       position: 'position of the relation',
- *       verified: true,
  *     },
  *   },
  *   entityTypes: [typeId1, typeId2], // optional
@@ -53,7 +52,6 @@ export const createRelation = ({
   toSpace,
   fromVersion,
   toVersion,
-  verified,
   type,
   entityId: providedEntityId,
   entityName,
@@ -75,23 +73,12 @@ export const createRelation = ({
   if (entityCover) assertValid(entityCover, '`entityCover` in `createRelation`');
   for (const valueEntry of entityValues ?? []) {
     assertValid(valueEntry.property, '`entityValues` in `createRelation`');
-    if (valueEntry.options) {
-      const optionsParam = valueEntry.options;
-      switch (optionsParam.type) {
-        case 'text':
-          if (optionsParam.language) {
-            assertValid(optionsParam.language, '`language` in `options` in `entityValues` in `createRelation`');
-          }
-          break;
-        case 'number':
-          if (optionsParam.unit) {
-            assertValid(optionsParam.unit, '`unit` in `options` in `entityValues` in `createRelation`');
-          }
-          break;
-        default:
-          // @ts-expect-error - we only support text and number options
-          throw new Error(`Invalid option type: ${optionsParam.type}`);
-      }
+    // Validate IDs in typed values
+    if (valueEntry.type === 'text' && valueEntry.language) {
+      assertValid(valueEntry.language, '`language` in `entityValues` in `createRelation`');
+    }
+    if (valueEntry.type === 'float64' && valueEntry.unit) {
+      assertValid(valueEntry.unit, '`unit` in `entityValues` in `createRelation`');
     }
   }
   for (const [key] of Object.entries(entityRelations ?? {})) {
@@ -104,24 +91,22 @@ export const createRelation = ({
   const id = providedId ?? generate();
   const entityId = providedEntityId ?? generate();
 
-  const ops: Array<Op> = [];
+  const ops: Array<GrcOp> = [];
 
-  ops.push({
-    type: 'CREATE_RELATION',
-    relation: {
-      id: Id(id),
-      entity: Id(entityId),
-      fromEntity: Id(fromEntity),
-      fromSpace: fromSpace ? Id(fromSpace) : undefined,
-      fromVersion: fromVersion ? Id(fromVersion) : undefined,
-      position,
-      toEntity: Id(toEntity),
-      toSpace: toSpace ? Id(toSpace) : undefined,
-      toVersion: toVersion ? Id(toVersion) : undefined,
-      verified,
-      type: Id(type),
-    },
-  });
+  ops.push(
+    grcCreateRelation({
+      id: toGrcId(id),
+      entity: toGrcId(entityId),
+      from: toGrcId(fromEntity),
+      to: toGrcId(toEntity),
+      relationType: toGrcId(type),
+      ...(fromSpace ? { fromSpace: toGrcId(fromSpace) } : {}),
+      ...(fromVersion ? { fromVersion: toGrcId(fromVersion) } : {}),
+      ...(toSpace ? { toSpace: toGrcId(toSpace) } : {}),
+      ...(toVersion ? { toVersion: toGrcId(toVersion) } : {}),
+      ...(position !== undefined ? { position } : {}),
+    }),
+  );
 
   if (entityName || entityDescription || entityCover || entityValues || entityRelations || entityTypes) {
     const { ops: entityOps } = createEntity({

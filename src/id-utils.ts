@@ -3,12 +3,14 @@
  * identifiers in TypeScript.
  */
 
+import { type Id as GrcId, parseId } from '@geoprotocol/grc-20';
 import { Brand } from 'effect';
 import { parse as uuidParse, stringify as uuidStringify, v4 as uuidv4 } from 'uuid';
 import { Id, isValid } from './id.js';
 import { normalizeUuidForParse } from './internal/uuid.js';
 
 export { isValid };
+export type { GrcId };
 export type IdBase64 = string & Brand.Brand<'IdBase64'>;
 
 export const IdBase64 = Brand.refined<IdBase64>(
@@ -56,6 +58,19 @@ export function toBytes(id: Id | string): Uint8Array {
 
 export function fromBytes(bytes: Uint8Array): Id {
   return Id(uuidStringify(bytes).replaceAll('-', ''));
+}
+
+/**
+ * Converts a local string Id to a GRC-20 Id (Uint8Array).
+ */
+export function toGrcId(id: Id | string): GrcId {
+  // Try to parse as a UUID string first
+  const parsed = parseId(id);
+  if (parsed) {
+    return parsed;
+  }
+  // Fallback: use the toBytes helper
+  return toBytes(id as Id) as GrcId;
 }
 
 const base64Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';

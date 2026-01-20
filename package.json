@@ -21,14 +21,13 @@
     "clean": "rm -rf dist",
     "build": "tsc",
     "test": "vitest",
-    "generate:protobuf": "npx buf generate",
     "lint": "biome check",
     "lint:fix": "biome check --write --unsafe",
     "deploy": "pnpm clean && pnpm build && pnpm changeset publish",
     "bump": "pnpm changeset version"
   },
   "dependencies": {
-    "@bufbuild/protobuf": "^1.9.0",
+    "@geoprotocol/grc-20": "^0.1.7",
     "effect": "^3.17.13",
     "fflate": "^0.8.2",
     "fractional-indexing-jittered": "^1.0.0",
@@ -39,8 +38,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.4",
-    "@bufbuild/buf": "^1.31.0",
-    "@bufbuild/protoc-gen-es": "^1.9.0",
     "@changesets/cli": "^2.29.7",
     "@types/uuid": "^11.0.0",
     "typescript": "^5.9.2",

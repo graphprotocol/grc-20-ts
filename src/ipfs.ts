@@ -5,23 +5,37 @@
  * @since 0.1.1
  */
 
+import {
+  derivedUuidFromString,
+  encodeEdit,
+  type Edit as GrcEdit,
+  type Id as GrcId,
+  type Op as GrcOp,
+  randomId,
+} from '@geoprotocol/grc-20';
 import { Micro } from 'effect';
 import { gzipSync } from 'fflate';
 import { imageSize } from 'image-size';
 
-import { Edit, EditProposal } from '../proto.js';
 import { getApiOrigin, type Network } from './graph/constants.js';
 import type { Id } from './id.js';
 import { fromBytes } from './id-utils.js';
-import type { Op } from './types.js';
 
 class IpfsUploadError extends Error {
   readonly _tag = 'IpfsUploadError';
 }
 
+/**
+ * Converts a hex string (like an ethereum address) to a GRC-20 Id.
+ * Uses derived UUID since ethereum addresses (20 bytes) don't fit directly into UUIDs (16 bytes).
+ */
+function hexToGrcId(hex: `0x${string}`): GrcId {
+  return derivedUuidFromString(hex);
+}
+
 type PublishEditProposalParams = {
   name: string;
-  ops: Op[];
+  ops: GrcOp[];
   author: `0x${string}`;
   network?: Network;
 };
@@ -34,7 +48,7 @@ type PublishEditResult = {
 };
 
 /**
- * Generates correct protobuf encoding for an Edit and uploads it to IPFS.
+ * Generates correct GRC-20 v2 binary encoding for an Edit and uploads it to IPFS.
  *
  * @example
  * ```ts
@@ -53,17 +67,33 @@ type PublishEditResult = {
 export async function publishEdit(args: PublishEditProposalParams): Promise<PublishEditResult> {
   const { name, ops, author, network = 'MAINNET' } = args;
 
-  const edit = EditProposal.encode({ name, ops, author });
+  // Generate a new edit ID
+  const editId = randomId();
 
-  // @ts-expect-error - this is a type missmatch which is fine
-  const blob = new Blob([edit], { type: 'application/octet-stream' });
+  // Build the GRC-20 v2 Edit structure
+  const grcEdit: GrcEdit = {
+    id: editId,
+    name,
+    authors: [hexToGrcId(author)],
+    createdAt: BigInt(Date.now()) * 1000n, // Convert to microseconds
+    ops,
+  };
+
+  // Encode to binary format
+  const binary = encodeEdit(grcEdit);
+
+  // Create a copy to ensure we have a regular ArrayBuffer for Blob compatibility
+  const binaryArray = new Uint8Array(binary);
+  const blob = new Blob([binaryArray], { type: 'application/octet-stream' });
   const formData = new FormData();
   formData.append('file', blob);
 
   const cid = await Micro.runPromise(uploadBinary(formData, network));
-  const result = Edit.fromBinary(edit);
 
-  return { cid, editId: fromBytes(result.id) };
+  // Convert the GrcId back to a grc-20-ts Id string
+  const editIdString = fromBytes(editId);
+
+  return { cid, editId: editIdString };
 }
 
 type PublishImageParams =

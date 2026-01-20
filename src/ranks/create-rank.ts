@@ -1,3 +1,10 @@
+import {
+  type Op as GrcOp,
+  type PropertyValue as GrcPropertyValue,
+  createEntity as grcCreateEntity,
+  createRelation as grcCreateRelation,
+  languages,
+} from '@geoprotocol/grc-20';
 import { generateNJitteredKeysBetween } from 'fractional-indexing-jittered';
 import {
   DESCRIPTION_PROPERTY,
@@ -9,10 +16,8 @@ import {
   VOTE_ORDINAL_VALUE_PROPERTY,
   VOTE_WEIGHTED_VALUE_PROPERTY,
 } from '../core/ids/system.js';
-import { serializeNumber } from '../graph/serialize.js';
 import { Id } from '../id.js';
-import { assertValid, generate } from '../id-utils.js';
-import type { Op, Value } from '../types.js';
+import { assertValid, generate, toGrcId } from '../id-utils.js';
 import type { CreateRankParams, CreateRankResult, VoteWeighted } from './types.js';
 
 /**
@@ -80,48 +85,58 @@ export const createRank = ({
   }
 
   const id = providedId ?? generate();
-  const ops: Op[] = [];
+  const ops: GrcOp[] = [];
   const voteIds: Id[] = [];
 
   // Create rank entity values
-  const rankValues: Value[] = [
+  const rankValues: GrcPropertyValue[] = [
     {
-      property: NAME_PROPERTY,
-      value: name,
+      property: toGrcId(NAME_PROPERTY),
+      value: {
+        type: 'text',
+        value: name,
+        language: languages.english(),
+      },
     },
     {
-      property: RANK_TYPE_PROPERTY,
-      value: rankType,
+      property: toGrcId(RANK_TYPE_PROPERTY),
+      value: {
+        type: 'text',
+        value: rankType,
+        language: languages.english(),
+      },
     },
   ];
 
   if (description) {
     rankValues.push({
-      property: DESCRIPTION_PROPERTY,
-      value: description,
+      property: toGrcId(DESCRIPTION_PROPERTY),
+      value: {
+        type: 'text',
+        value: description,
+        language: languages.english(),
+      },
     });
   }
 
-  // Create UPDATE_ENTITY op for the rank
-  ops.push({
-    type: 'UPDATE_ENTITY',
-    entity: {
-      id: Id(id),
+  // Create createEntity op for the rank
+  ops.push(
+    grcCreateEntity({
+      id: toGrcId(id),
       values: rankValues,
-    },
-  });
+    }),
+  );
 
   // Create relation linking rank to RANK_TYPE (type relation)
-  ops.push({
-    type: 'CREATE_RELATION',
-    relation: {
-      id: generate(),
-      entity: generate(),
-      fromEntity: Id(id),
-      toEntity: RANK_TYPE,
-      type: TYPES_PROPERTY,
-    },
-  });
+  ops.push(
+    grcCreateRelation({
+      id: toGrcId(generate()),
+      entity: toGrcId(generate()),
+      from: toGrcId(id),
+      to: toGrcId(RANK_TYPE),
+      relationType: toGrcId(TYPES_PROPERTY),
+    }),
+  );
 
   // Generate fractional indices for ordinal ranks
   const fractionalIndices = rankType === 'ORDINAL' ? generateNJitteredKeysBetween(null, null, votes.length) : [];
@@ -134,36 +149,41 @@ export const createRank = ({
     voteIds.push(voteEntityId);
 
     // Create relation from rank to voted entity
-    ops.push({
-      type: 'CREATE_RELATION',
-      relation: {
-        id: relationId,
-        entity: voteEntityId,
-        fromEntity: Id(id),
-        toEntity: Id(vote.entityId),
-        type: RANK_VOTES_RELATION_TYPE,
-      },
-    });
+    ops.push(
+      grcCreateRelation({
+        id: toGrcId(relationId),
+        entity: toGrcId(voteEntityId),
+        from: toGrcId(id),
+        to: toGrcId(vote.entityId),
+        relationType: toGrcId(RANK_VOTES_RELATION_TYPE),
+      }),
+    );
 
     // Create vote entity with the appropriate value property
-    const voteValue: Value =
+    const voteValue: GrcPropertyValue =
       rankType === 'ORDINAL'
         ? {
-            property: VOTE_ORDINAL_VALUE_PROPERTY,
-            value: fractionalIndices[i] as string,
+            property: toGrcId(VOTE_ORDINAL_VALUE_PROPERTY),
+            value: {
+              type: 'text',
+              value: fractionalIndices[i] as string,
+              language: languages.english(),
+            },
           }
         : {
-            property: VOTE_WEIGHTED_VALUE_PROPERTY,
-            value: serializeNumber((vote as VoteWeighted).value),
+            property: toGrcId(VOTE_WEIGHTED_VALUE_PROPERTY),
+            value: {
+              type: 'float64',
+              value: (vote as VoteWeighted).value,
+            },
           };
 
-    ops.push({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        id: voteEntityId,
+    ops.push(
+      grcCreateEntity({
+        id: toGrcId(voteEntityId),
         values: [voteValue],
-      },
-    });
+      }),
+    );
   });
 
   return { id: Id(id), ops, voteIds };

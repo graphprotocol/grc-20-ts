@@ -1,7 +1,8 @@
+import { type Op as GrcOp, createRelation as grcCreateRelation } from '@geoprotocol/grc-20';
 import { PROPERTY, RELATION_VALUE_RELATIONSHIP_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
-import { assertValid, generate } from '../id-utils.js';
-import type { CreatePropertyParams, CreateResult, Op } from '../types.js';
+import { assertValid, generate, toGrcId } from '../id-utils.js';
+import type { CreatePropertyParams, CreateResult } from '../types.js';
 import { createEntity } from './create-entity.js';
 import { createRelation } from './create-relation.js';
 
@@ -42,16 +43,9 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
   }
   const entityId = id ?? generate();
 
-  const ops: Array<Op> = [];
-  // add "Property" as "Types property"
-  ops.push({
-    type: 'CREATE_PROPERTY',
-    property: {
-      id: Id(entityId),
-      dataType: params.dataType,
-    },
-  });
+  const ops: Array<GrcOp> = [];
 
+  // Create the property entity
   const { ops: entityOps } = createEntity({
     id: entityId,
     name,
@@ -61,16 +55,15 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
   ops.push(...entityOps);
 
   // add "Property" as "Types property"
-  ops.push({
-    type: 'CREATE_RELATION',
-    relation: {
-      id: generate(),
-      entity: generate(),
-      fromEntity: Id(entityId),
-      toEntity: PROPERTY,
-      type: TYPES_PROPERTY,
-    },
-  });
+  ops.push(
+    grcCreateRelation({
+      id: toGrcId(generate()),
+      entity: toGrcId(generate()),
+      from: toGrcId(entityId),
+      to: toGrcId(PROPERTY),
+      relationType: toGrcId(TYPES_PROPERTY),
+    }),
+  );
 
   if (params.dataType === 'RELATION') {
     // add the provided properties to property "Properties"

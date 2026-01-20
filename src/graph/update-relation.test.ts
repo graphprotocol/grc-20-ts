@@ -1,10 +1,11 @@
+import type { Op as GrcOp, UpdateRelation } from '@geoprotocol/grc-20';
 import { describe, expect, it } from 'vitest';
 import { Id } from '../id.js';
-import type { Op, UpdateRelationOp } from '../types.js';
+import { toGrcId } from '../id-utils.js';
 import { updateRelation } from './update-relation.js';
 
-const isUpdateRelationOp = (op: Op): op is UpdateRelationOp => {
-  return op.type === 'UPDATE_RELATION';
+const isUpdateRelationOp = (op: GrcOp): op is UpdateRelation => {
+  return op.type === 'updateRelation';
 };
 
 describe('updateRelation', () => {
@@ -23,33 +24,29 @@ describe('updateRelation', () => {
     expect(result).toBeDefined();
     expect(result.id).toBe(relationId);
     expect(result.ops).toHaveLength(1);
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_RELATION',
-      relation: {
-        id: relationId,
-        position: '1',
-      },
-    });
+
+    const op = result.ops[0] as UpdateRelation;
+    expect(op.type).toBe('updateRelation');
+    expect(isUpdateRelationOp(op)).toBe(true);
+    expect(op.id).toEqual(toGrcId(relationId));
+    expect(op.position).toBe('1');
+    expect(op.unset).toEqual([]);
   });
 
-  it('updates a relation with position and verified', () => {
+  it('updates a relation with position', () => {
     const result = updateRelation({
       id: relationId,
       position: '2',
-      verified: true,
     });
 
     expect(result).toBeDefined();
     expect(result.id).toBe(relationId);
     expect(result.ops).toHaveLength(1);
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_RELATION',
-      relation: {
-        id: relationId,
-        position: '2',
-        verified: true,
-      },
-    });
+
+    const op = result.ops[0] as UpdateRelation;
+    expect(op.type).toBe('updateRelation');
+    expect(op.id).toEqual(toGrcId(relationId));
+    expect(op.position).toBe('2');
   });
 
   it('updates a relation with fromSpace and toSpace', () => {
@@ -62,14 +59,12 @@ describe('updateRelation', () => {
     expect(result).toBeDefined();
     expect(result.id).toBe(relationId);
     expect(result.ops).toHaveLength(1);
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_RELATION',
-      relation: {
-        id: relationId,
-        fromSpace: fromSpaceId,
-        toSpace: toSpaceId,
-      },
-    });
+
+    const op = result.ops[0] as UpdateRelation;
+    expect(op.type).toBe('updateRelation');
+    expect(op.id).toEqual(toGrcId(relationId));
+    expect(op.fromSpace).toEqual(toGrcId(fromSpaceId));
+    expect(op.toSpace).toEqual(toGrcId(toSpaceId));
   });
 
   it('updates a relation with fromVersion and toVersion', () => {
@@ -82,14 +77,12 @@ describe('updateRelation', () => {
     expect(result).toBeDefined();
     expect(result.id).toBe(relationId);
     expect(result.ops).toHaveLength(1);
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_RELATION',
-      relation: {
-        id: relationId,
-        fromVersion: fromVersionId,
-        toVersion: toVersionId,
-      },
-    });
+
+    const op = result.ops[0] as UpdateRelation;
+    expect(op.type).toBe('updateRelation');
+    expect(op.id).toEqual(toGrcId(relationId));
+    expect(op.fromVersion).toEqual(toGrcId(fromVersionId));
+    expect(op.toVersion).toEqual(toGrcId(toVersionId));
   });
 
   it('updates a relation with all optional fields', () => {
@@ -100,42 +93,20 @@ describe('updateRelation', () => {
       toSpace: toSpaceId,
       fromVersion: fromVersionId,
       toVersion: toVersionId,
-      verified: false,
     });
 
     expect(result).toBeDefined();
     expect(result.id).toBe(relationId);
     expect(result.ops).toHaveLength(1);
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_RELATION',
-      relation: {
-        id: relationId,
-        position: '3',
-        fromSpace: fromSpaceId,
-        toSpace: toSpaceId,
-        fromVersion: fromVersionId,
-        toVersion: toVersionId,
-        verified: false,
-      },
-    });
-  });
 
-  it('updates a relation with only verified field', () => {
-    const result = updateRelation({
-      id: relationId,
-      verified: true,
-    });
-
-    expect(result).toBeDefined();
-    expect(result.id).toBe(relationId);
-    expect(result.ops).toHaveLength(1);
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_RELATION',
-      relation: {
-        id: relationId,
-        verified: true,
-      },
-    });
+    const op = result.ops[0] as UpdateRelation;
+    expect(op.type).toBe('updateRelation');
+    expect(op.id).toEqual(toGrcId(relationId));
+    expect(op.position).toBe('3');
+    expect(op.fromSpace).toEqual(toGrcId(fromSpaceId));
+    expect(op.toSpace).toEqual(toGrcId(toSpaceId));
+    expect(op.fromVersion).toEqual(toGrcId(fromVersionId));
+    expect(op.toVersion).toEqual(toGrcId(toVersionId));
   });
 
   it('updates a relation with only fromSpace', () => {
@@ -147,13 +118,15 @@ describe('updateRelation', () => {
     expect(result).toBeDefined();
     expect(result.id).toBe(relationId);
     expect(result.ops).toHaveLength(1);
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_RELATION',
-      relation: {
-        id: relationId,
-        fromSpace: fromSpaceId,
-      },
-    });
+
+    const op = result.ops[0] as UpdateRelation;
+    expect(op.type).toBe('updateRelation');
+    expect(op.id).toEqual(toGrcId(relationId));
+    expect(op.fromSpace).toEqual(toGrcId(fromSpaceId));
+    expect(op.toSpace).toBeUndefined();
+    expect(op.fromVersion).toBeUndefined();
+    expect(op.toVersion).toBeUndefined();
+    expect(op.position).toBeUndefined();
   });
 
   it('updates a relation with only toSpace', () => {
@@ -165,13 +138,12 @@ describe('updateRelation', () => {
     expect(result).toBeDefined();
     expect(result.id).toBe(relationId);
     expect(result.ops).toHaveLength(1);
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_RELATION',
-      relation: {
-        id: relationId,
-        toSpace: toSpaceId,
-      },
-    });
+
+    const op = result.ops[0] as UpdateRelation;
+    expect(op.type).toBe('updateRelation');
+    expect(op.id).toEqual(toGrcId(relationId));
+    expect(op.toSpace).toEqual(toGrcId(toSpaceId));
+    expect(op.fromSpace).toBeUndefined();
   });
 
   it('updates a relation with only fromVersion', () => {
@@ -183,13 +155,12 @@ describe('updateRelation', () => {
     expect(result).toBeDefined();
     expect(result.id).toBe(relationId);
     expect(result.ops).toHaveLength(1);
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_RELATION',
-      relation: {
-        id: relationId,
-        fromVersion: fromVersionId,
-      },
-    });
+
+    const op = result.ops[0] as UpdateRelation;
+    expect(op.type).toBe('updateRelation');
+    expect(op.id).toEqual(toGrcId(relationId));
+    expect(op.fromVersion).toEqual(toGrcId(fromVersionId));
+    expect(op.toVersion).toBeUndefined();
   });
 
   it('updates a relation with only toVersion', () => {
@@ -201,13 +172,12 @@ describe('updateRelation', () => {
     expect(result).toBeDefined();
     expect(result.id).toBe(relationId);
     expect(result.ops).toHaveLength(1);
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_RELATION',
-      relation: {
-        id: relationId,
-        toVersion: toVersionId,
-      },
-    });
+
+    const op = result.ops[0] as UpdateRelation;
+    expect(op.type).toBe('updateRelation');
+    expect(op.id).toEqual(toGrcId(relationId));
+    expect(op.toVersion).toEqual(toGrcId(toVersionId));
+    expect(op.fromVersion).toBeUndefined();
   });
 
   it('throws an error if the relation id is invalid', () => {
@@ -263,43 +233,49 @@ describe('updateRelation', () => {
       toSpace: undefined,
       fromVersion: undefined,
       toVersion: undefined,
-      verified: undefined,
     });
 
     expect(result).toBeDefined();
     expect(result.id).toBe(relationId);
     expect(result.ops).toHaveLength(1);
-    expect(result.ops[0]).toMatchObject({
-      type: 'UPDATE_RELATION',
-      relation: {
-        id: relationId,
-        position: undefined,
-        fromSpace: undefined,
-        toSpace: undefined,
-        fromVersion: undefined,
-        toVersion: undefined,
-        verified: undefined,
-      },
-    });
+
+    const op = result.ops[0] as UpdateRelation;
+    expect(op.type).toBe('updateRelation');
+    expect(op.id).toEqual(toGrcId(relationId));
+    expect(op.position).toBeUndefined();
+    expect(op.fromSpace).toBeUndefined();
+    expect(op.toSpace).toBeUndefined();
+    expect(op.fromVersion).toBeUndefined();
+    expect(op.toVersion).toBeUndefined();
+    expect(op.unset).toEqual([]);
   });
 
   it('validates the op structure correctly', () => {
     const result = updateRelation({
       id: relationId,
       position: 'test-position',
-      verified: true,
     });
 
     expect(result.ops).toHaveLength(1);
     const op = result.ops[0];
     expect(op).toBeDefined();
+    expect(op?.type).toBe('updateRelation');
 
     if (op && isUpdateRelationOp(op)) {
-      expect(op.relation.id).toBe(relationId);
-      expect(op.relation.position).toBe('test-position');
-      expect(op.relation.verified).toBe(true);
+      expect(op.id).toEqual(toGrcId(relationId));
+      expect(op.position).toBe('test-position');
     } else {
-      throw new Error('Expected op to be defined and of type UPDATE_RELATION');
+      throw new Error('Expected op to be defined and of type updateRelation');
     }
+  });
+
+  it('creates an updateRelation op with empty unset array by default', () => {
+    const result = updateRelation({
+      id: relationId,
+      position: 'a',
+    });
+
+    const op = result.ops[0] as UpdateRelation;
+    expect(op.unset).toEqual([]);
   });
 });

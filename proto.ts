@@ -1,10 +1,6 @@
 /**
- * This module provides utility functions for working with the GRC-20 Edit
- * protobuf in TypeScript.
+ * This module provides encoding utilities for GRC-20 Edits.
+ *
+ * Note: As of this version, the encoding has migrated from protobuf to GRC-20 v2 binary format.
  */
-export * as EditProposal from './src/proto/edit.js';
-/**
- * This module provides utility functions for working with GRC-20 protobufs
- * in TypeScript.
- */
-export * from './src/proto/gen/src/proto/ipfs_pb.js';
+export { decodeEdit, type Edit, type EncodeOptions, encodeEdit } from '@geoprotocol/grc-20';

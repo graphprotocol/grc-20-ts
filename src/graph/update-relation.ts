@@ -1,6 +1,7 @@
+import { updateRelation as grcUpdateRelation } from '@geoprotocol/grc-20';
 import { Id } from '../id.js';
-import { assertValid } from '../id-utils.js';
-import type { CreateResult, Op, UpdateRelationParams } from '../types.js';
+import { assertValid, toGrcId } from '../id-utils.js';
+import type { CreateResult, UpdateRelationParams } from '../types.js';
 
 /**
  * Updates a relation.
@@ -14,7 +15,6 @@ import type { CreateResult, Op, UpdateRelationParams } from '../types.js';
  *   toSpace: 'id of the to space', // optional
  *   fromVersion: 'id of the from version', // optional
  *   toVersion: 'id of the to version', // optional
- *   verified: true, // optional
  * });
  * ```
  * @param params – {@link UpdateRelationParams}
@@ -28,7 +28,6 @@ export const updateRelation = ({
   toSpace,
   fromVersion,
   toVersion,
-  verified,
 }: UpdateRelationParams): CreateResult => {
   assertValid(id, '`id` in `updateRelation`');
   if (fromSpace) assertValid(fromSpace, '`fromSpace` in `updateRelation`');
@@ -36,20 +35,15 @@ export const updateRelation = ({
   if (fromVersion) assertValid(fromVersion, '`fromVersion` in `updateRelation`');
   if (toVersion) assertValid(toVersion, '`toVersion` in `updateRelation`');
 
-  const ops: Array<Op> = [];
-
-  ops.push({
-    type: 'UPDATE_RELATION',
-    relation: {
-      id: Id(id),
-      position,
-      fromSpace: fromSpace ? Id(fromSpace) : undefined,
-      toSpace: toSpace ? Id(toSpace) : undefined,
-      fromVersion: fromVersion ? Id(fromVersion) : undefined,
-      toVersion: toVersion ? Id(toVersion) : undefined,
-      verified,
-    },
+  const op = grcUpdateRelation({
+    id: toGrcId(id),
+    ...(position !== undefined ? { position } : {}),
+    ...(fromSpace ? { fromSpace: toGrcId(fromSpace) } : {}),
+    ...(toSpace ? { toSpace: toGrcId(toSpace) } : {}),
+    ...(fromVersion ? { fromVersion: toGrcId(fromVersion) } : {}),
+    ...(toVersion ? { toVersion: toGrcId(toVersion) } : {}),
+    unset: [],
   });
 
-  return { id: Id(id), ops };
+  return { id: Id(id), ops: [op] };
 };

@@ -1,12 +1,17 @@
+import type { CreateEntity, CreateRelation, Op as GrcOp } from '@geoprotocol/grc-20';
 import { describe, expect, it } from 'vitest';
 import { CLAIM_TYPE, NEWS_STORY_TYPE } from '../core/ids/content.js';
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
-import type { CreateRelationOp, Op } from '../types.js';
+import { toGrcId } from '../id-utils.js';
 import { createRelation } from './create-relation.js';
 
-const isCreateRelationOp = (op: Op): op is CreateRelationOp => {
-  return op.type === 'CREATE_RELATION';
+const isCreateRelationOp = (op: GrcOp): op is CreateRelation => {
+  return op.type === 'createRelation';
+};
+
+const isCreateEntityOp = (op: GrcOp): op is CreateEntity => {
+  return op.type === 'createEntity';
 };
 
 describe('createRelation', () => {
@@ -28,15 +33,15 @@ describe('createRelation', () => {
     expect(relation).toBeDefined();
     expect(typeof relation.id).toBe('string');
     expect(relation.ops).toBeDefined();
-    expect(relation.ops).toHaveLength(1); // One CREATE_RELATION op
-    expect(relation.ops[0]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: fromEntityId,
-        toEntity: toEntityId,
-        type: NAME_PROPERTY,
-      },
-    });
+    expect(relation.ops).toHaveLength(1); // One createRelation op
+
+    const relOp = relation.ops[0] as CreateRelation;
+    expect(relOp.type).toBe('createRelation');
+    expect(isCreateRelationOp(relOp)).toBe(true);
+    expect(relOp.id).toEqual(toGrcId(relation.id));
+    expect(relOp.from).toEqual(toGrcId(fromEntityId));
+    expect(relOp.to).toEqual(toGrcId(toEntityId));
+    expect(relOp.relationType).toEqual(toGrcId(NAME_PROPERTY));
   });
 
   it('creates a relation with position and toSpace', async () => {
@@ -50,19 +55,17 @@ describe('createRelation', () => {
 
     expect(relation).toBeDefined();
     expect(relation.ops).toHaveLength(1);
-    expect(relation.ops[0]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: fromEntityId,
-        toEntity: toEntityId,
-        type: NAME_PROPERTY,
-        position: '1',
-        toSpace: testSpaceId,
-      },
-    });
+
+    const relOp = relation.ops[0] as CreateRelation;
+    expect(relOp.type).toBe('createRelation');
+    expect(relOp.from).toEqual(toGrcId(fromEntityId));
+    expect(relOp.to).toEqual(toGrcId(toEntityId));
+    expect(relOp.relationType).toEqual(toGrcId(NAME_PROPERTY));
+    expect(relOp.position).toBe('1');
+    expect(relOp.toSpace).toEqual(toGrcId(testSpaceId));
   });
 
-  it('creates a relation with fromSpace, fromVersion, toVersion, and verified', async () => {
+  it('creates a relation with fromSpace, fromVersion, and toVersion', async () => {
     const relation = createRelation({
       fromEntity: fromEntityId,
       toEntity: toEntityId,
@@ -70,23 +73,19 @@ describe('createRelation', () => {
       fromSpace: fromSpaceId,
       fromVersion: fromVersionId,
       toVersion: toVersionId,
-      verified: true,
     });
 
     expect(relation).toBeDefined();
     expect(relation.ops).toHaveLength(1);
-    expect(relation.ops[0]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: fromEntityId,
-        toEntity: toEntityId,
-        type: NAME_PROPERTY,
-        fromSpace: fromSpaceId,
-        fromVersion: fromVersionId,
-        toVersion: toVersionId,
-        verified: true,
-      },
-    });
+
+    const relOp = relation.ops[0] as CreateRelation;
+    expect(relOp.type).toBe('createRelation');
+    expect(relOp.from).toEqual(toGrcId(fromEntityId));
+    expect(relOp.to).toEqual(toGrcId(toEntityId));
+    expect(relOp.relationType).toEqual(toGrcId(NAME_PROPERTY));
+    expect(relOp.fromSpace).toEqual(toGrcId(fromSpaceId));
+    expect(relOp.fromVersion).toEqual(toGrcId(fromVersionId));
+    expect(relOp.toVersion).toEqual(toGrcId(toVersionId));
   });
 
   it('creates a relation with all optional fields', async () => {
@@ -99,25 +98,22 @@ describe('createRelation', () => {
       toSpace: testSpaceId,
       fromVersion: fromVersionId,
       toVersion: toVersionId,
-      verified: false,
     });
 
     expect(relation).toBeDefined();
     expect(relation.ops).toHaveLength(1);
-    expect(relation.ops[0]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: fromEntityId,
-        toEntity: toEntityId,
-        type: NAME_PROPERTY,
-        position: '1',
-        fromSpace: fromSpaceId,
-        toSpace: testSpaceId,
-        fromVersion: fromVersionId,
-        toVersion: toVersionId,
-        verified: false,
-      },
-    });
+
+    const relOp = relation.ops[0] as CreateRelation;
+    expect(relOp.type).toBe('createRelation');
+    expect(relOp.id).toEqual(toGrcId(relation.id));
+    expect(relOp.from).toEqual(toGrcId(fromEntityId));
+    expect(relOp.to).toEqual(toGrcId(toEntityId));
+    expect(relOp.relationType).toEqual(toGrcId(NAME_PROPERTY));
+    expect(relOp.position).toBe('1');
+    expect(relOp.fromSpace).toEqual(toGrcId(fromSpaceId));
+    expect(relOp.toSpace).toEqual(toGrcId(testSpaceId));
+    expect(relOp.fromVersion).toEqual(toGrcId(fromVersionId));
+    expect(relOp.toVersion).toEqual(toGrcId(toVersionId));
   });
 
   it('creates a relation with a provided id', async () => {
@@ -132,15 +128,13 @@ describe('createRelation', () => {
     expect(relation).toBeDefined();
     expect(relation.id).toBe(providedId);
     expect(relation.ops).toHaveLength(1);
-    expect(relation.ops[0]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        id: providedId,
-        fromEntity: fromEntityId,
-        toEntity: toEntityId,
-        type: NAME_PROPERTY,
-      },
-    });
+
+    const relOp = relation.ops[0] as CreateRelation;
+    expect(relOp.type).toBe('createRelation');
+    expect(relOp.id).toEqual(toGrcId(providedId));
+    expect(relOp.from).toEqual(toGrcId(fromEntityId));
+    expect(relOp.to).toEqual(toGrcId(toEntityId));
+    expect(relOp.relationType).toEqual(toGrcId(NAME_PROPERTY));
   });
 
   it('creates a relation with an entity that has name and description', async () => {
@@ -153,38 +147,41 @@ describe('createRelation', () => {
     });
 
     expect(relation).toBeDefined();
-    expect(relation.ops).toHaveLength(2); // CREATE_RELATION + UPDATE_ENTITY
+    expect(relation.ops).toHaveLength(2); // createRelation + createEntity
 
-    // Check CREATE_RELATION op
-    expect(relation.ops[0]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: fromEntityId,
-        toEntity: toEntityId,
-        type: NAME_PROPERTY,
-      },
+    // Check createRelation op
+    const relOp = relation.ops[0] as CreateRelation;
+    expect(relOp.type).toBe('createRelation');
+    expect(relOp.from).toEqual(toGrcId(fromEntityId));
+    expect(relOp.to).toEqual(toGrcId(toEntityId));
+    expect(relOp.relationType).toEqual(toGrcId(NAME_PROPERTY));
+
+    // Check createEntity op
+    const entityOp = relation.ops[1] as CreateEntity;
+    expect(entityOp.type).toBe('createEntity');
+    expect(isCreateEntityOp(entityOp)).toBe(true);
+
+    // Verify name value
+    const nameValue = entityOp.values.find(v => {
+      const propBytes = v.property;
+      return propBytes.every((b, i) => b === toGrcId(NAME_PROPERTY)[i]);
     });
-
-    // Check UPDATE_ENTITY op
-    const createRelationOp = relation.ops[0];
-    if (!createRelationOp || !isCreateRelationOp(createRelationOp)) {
-      throw new Error('Expected first op to be CREATE_RELATION');
+    expect(nameValue).toBeDefined();
+    expect(nameValue?.value.type).toBe('text');
+    if (nameValue?.value.type === 'text') {
+      expect(nameValue.value.value).toBe('Test Entity');
     }
-    expect(relation.ops[1]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        values: [
-          {
-            property: NAME_PROPERTY,
-            value: 'Test Entity',
-          },
-          {
-            property: DESCRIPTION_PROPERTY,
-            value: 'Test Description',
-          },
-        ],
-      },
+
+    // Verify description value
+    const descValue = entityOp.values.find(v => {
+      const propBytes = v.property;
+      return propBytes.every((b, i) => b === toGrcId(DESCRIPTION_PROPERTY)[i]);
     });
+    expect(descValue).toBeDefined();
+    expect(descValue?.value.type).toBe('text');
+    if (descValue?.value.type === 'text') {
+      expect(descValue.value.value).toBe('Test Description');
+    }
   });
 
   it('creates a relation with an entity that has types', async () => {
@@ -196,46 +193,28 @@ describe('createRelation', () => {
     });
 
     expect(relation).toBeDefined();
-    expect(relation.ops).toHaveLength(4); // CREATE_RELATION + UPDATE_ENTITY + two type relations
+    expect(relation.ops).toHaveLength(4); // createRelation + createEntity + two type relations
 
-    // Check CREATE_RELATION op
-    expect(relation.ops[0]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: fromEntityId,
-        toEntity: toEntityId,
-        type: NAME_PROPERTY,
-      },
-    });
+    // Check createRelation op
+    const relOp = relation.ops[0] as CreateRelation;
+    expect(relOp.type).toBe('createRelation');
+    expect(relOp.from).toEqual(toGrcId(fromEntityId));
+    expect(relOp.to).toEqual(toGrcId(toEntityId));
 
-    // Check UPDATE_ENTITY op
-    const createRelationOp = relation.ops[0];
-    if (!createRelationOp || !isCreateRelationOp(createRelationOp)) {
-      throw new Error('Expected first op to be CREATE_RELATION');
-    }
-    expect(relation.ops[1]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        values: [],
-      },
-    });
+    // Check createEntity op
+    const entityOp = relation.ops[1] as CreateEntity;
+    expect(entityOp.type).toBe('createEntity');
 
     // Check type relations
-    expect(relation.ops[2]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        toEntity: CLAIM_TYPE,
-        type: TYPES_PROPERTY,
-      },
-    });
+    const typeRel1 = relation.ops[2] as CreateRelation;
+    expect(typeRel1.type).toBe('createRelation');
+    expect(typeRel1.to).toEqual(toGrcId(CLAIM_TYPE));
+    expect(typeRel1.relationType).toEqual(toGrcId(TYPES_PROPERTY));
 
-    expect(relation.ops[3]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        toEntity: NEWS_STORY_TYPE,
-        type: TYPES_PROPERTY,
-      },
-    });
+    const typeRel2 = relation.ops[3] as CreateRelation;
+    expect(typeRel2.type).toBe('createRelation');
+    expect(typeRel2.to).toEqual(toGrcId(NEWS_STORY_TYPE));
+    expect(typeRel2.relationType).toEqual(toGrcId(TYPES_PROPERTY));
   });
 
   it('creates a relation with an entity that has a cover', async () => {
@@ -247,38 +226,23 @@ describe('createRelation', () => {
     });
 
     expect(relation).toBeDefined();
-    expect(relation.ops).toHaveLength(3); // CREATE_RELATION + UPDATE_ENTITY + cover relation
+    expect(relation.ops).toHaveLength(3); // createRelation + createEntity + cover relation
 
-    // Check CREATE_RELATION op
-    expect(relation.ops[0]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: fromEntityId,
-        toEntity: toEntityId,
-        type: NAME_PROPERTY,
-      },
-    });
+    // Check createRelation op
+    const relOp = relation.ops[0] as CreateRelation;
+    expect(relOp.type).toBe('createRelation');
+    expect(relOp.from).toEqual(toGrcId(fromEntityId));
+    expect(relOp.to).toEqual(toGrcId(toEntityId));
 
-    // Check UPDATE_ENTITY op with cover relation
-    const createRelationOp = relation.ops[0];
-    if (!createRelationOp || !isCreateRelationOp(createRelationOp)) {
-      throw new Error('Expected first op to be CREATE_RELATION');
-    }
-    expect(relation.ops[1]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        values: [],
-      },
-    });
+    // Check createEntity op
+    const entityOp = relation.ops[1] as CreateEntity;
+    expect(entityOp.type).toBe('createEntity');
 
     // Check cover relation
-    expect(relation.ops[2]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        toEntity: coverId,
-        type: COVER_PROPERTY,
-      },
-    });
+    const coverRel = relation.ops[2] as CreateRelation;
+    expect(coverRel.type).toBe('createRelation');
+    expect(coverRel.to).toEqual(toGrcId(coverId));
+    expect(coverRel.relationType).toEqual(toGrcId(COVER_PROPERTY));
   });
 
   it('throws an error if the provided id is invalid', () => {
@@ -331,37 +295,34 @@ describe('createRelation', () => {
       fromEntity: fromEntityId,
       toEntity: toEntityId,
       type: NAME_PROPERTY,
-      entityValues: [{ property: customPropertyId, value: 'custom value' }],
+      entityValues: [{ property: customPropertyId, type: 'text', value: 'custom value' }],
     });
 
     expect(relation).toBeDefined();
-    expect(relation.ops).toHaveLength(2); // CREATE_RELATION + UPDATE_ENTITY
+    expect(relation.ops).toHaveLength(2); // createRelation + createEntity
 
-    // Check CREATE_RELATION op
-    expect(relation.ops[0]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: fromEntityId,
-        toEntity: toEntityId,
-        type: NAME_PROPERTY,
-      },
-    });
+    // Check createRelation op
+    const relOp = relation.ops[0] as CreateRelation;
+    expect(relOp.type).toBe('createRelation');
+    expect(relOp.from).toEqual(toGrcId(fromEntityId));
+    expect(relOp.to).toEqual(toGrcId(toEntityId));
 
-    // Check UPDATE_ENTITY op
-    expect(relation.ops[1]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        values: [
-          {
-            property: customPropertyId,
-            value: 'custom value',
-          },
-        ],
-      },
+    // Check createEntity op with custom value
+    const entityOp = relation.ops[1] as CreateEntity;
+    expect(entityOp.type).toBe('createEntity');
+
+    const customValue = entityOp.values.find(v => {
+      const propBytes = v.property;
+      return propBytes.every((b, i) => b === toGrcId(customPropertyId)[i]);
     });
+    expect(customValue).toBeDefined();
+    expect(customValue?.value.type).toBe('text');
+    if (customValue?.value.type === 'text') {
+      expect(customValue.value.value).toBe('custom value');
+    }
   });
 
-  it('creates a relation with entityValues that have options', () => {
+  it('creates a relation with entityValues that have language', () => {
     const customPropertyId = Id('fa269fd3de9849cf90c44235d905a67c');
     const languageId = Id('0a4e9810f78f429ea4ceb1904a43251d');
     const relation = createRelation({
@@ -371,42 +332,30 @@ describe('createRelation', () => {
       entityValues: [
         {
           property: customPropertyId,
+          type: 'text',
           value: 'test',
-          options: { type: 'text', language: languageId },
+          language: languageId,
         },
       ],
     });
 
     expect(relation).toBeDefined();
-    expect(relation.ops).toHaveLength(2); // CREATE_RELATION + UPDATE_ENTITY
+    expect(relation.ops).toHaveLength(2); // createRelation + createEntity
 
-    // Check CREATE_RELATION op
-    expect(relation.ops[0]).toMatchObject({
-      type: 'CREATE_RELATION',
-      relation: {
-        fromEntity: fromEntityId,
-        toEntity: toEntityId,
-        type: NAME_PROPERTY,
-      },
-    });
+    // Check createRelation op
+    const relOp = relation.ops[0] as CreateRelation;
+    expect(relOp.type).toBe('createRelation');
 
-    // Check UPDATE_ENTITY op
-    expect(relation.ops[1]).toMatchObject({
-      type: 'UPDATE_ENTITY',
-      entity: {
-        values: [
-          {
-            property: customPropertyId,
-            value: 'test',
-            options: {
-              text: {
-                language: languageId,
-              },
-            },
-          },
-        ],
-      },
-    });
+    // Check createEntity op
+    const entityOp = relation.ops[1] as CreateEntity;
+    expect(entityOp.type).toBe('createEntity');
+
+    const textValue = entityOp.values[0];
+    expect(textValue?.value.type).toBe('text');
+    if (textValue?.value.type === 'text') {
+      expect(textValue.value.value).toBe('test');
+      expect(textValue.value.language).toEqual(toGrcId(languageId));
+    }
   });
 
   it('throws an error if entityValues property is invalid', () => {
@@ -415,8 +364,66 @@ describe('createRelation', () => {
         fromEntity: fromEntityId,
         toEntity: toEntityId,
         type: NAME_PROPERTY,
-        entityValues: [{ property: 'invalid', value: 'test' }],
+        entityValues: [{ property: 'invalid', type: 'text', value: 'test' }],
       }),
     ).toThrow('Invalid id: "invalid" for `entityValues` in `createRelation`');
+  });
+
+  it('throws an error if toSpace is invalid', () => {
+    expect(() =>
+      createRelation({
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
+        toSpace: 'invalid',
+      }),
+    ).toThrow('Invalid id: "invalid" for `toSpace` in `createRelation`');
+  });
+
+  it('throws an error if entityCover is invalid', () => {
+    expect(() =>
+      createRelation({
+        fromEntity: fromEntityId,
+        toEntity: toEntityId,
+        type: NAME_PROPERTY,
+        entityCover: 'invalid',
+      }),
+    ).toThrow('Invalid id: "invalid" for `entityCover` in `createRelation`');
+  });
+
+  it('creates a relation with entityRelations (nested relations)', () => {
+    const outerRelationType = Id('295c8bc61ae342cbb2a65b61080906ff');
+    const innerToEntityId = Id('a1dc6e5c63e143bab3d4755b251a4ea6');
+    const relation = createRelation({
+      fromEntity: fromEntityId,
+      toEntity: toEntityId,
+      type: NAME_PROPERTY,
+      entityRelations: {
+        [outerRelationType]: {
+          toEntity: innerToEntityId,
+        },
+      },
+    });
+
+    expect(relation).toBeDefined();
+    // 1 createRelation (main) + 1 createEntity (main entity) + 1 createRelation (nested)
+    expect(relation.ops).toHaveLength(3);
+
+    // Check main createRelation op
+    const mainRelOp = relation.ops[0] as CreateRelation;
+    expect(mainRelOp.type).toBe('createRelation');
+    expect(mainRelOp.from).toEqual(toGrcId(fromEntityId));
+    expect(mainRelOp.to).toEqual(toGrcId(toEntityId));
+    expect(mainRelOp.relationType).toEqual(toGrcId(NAME_PROPERTY));
+
+    // Check main createEntity op
+    const entityOp = relation.ops[1] as CreateEntity;
+    expect(entityOp.type).toBe('createEntity');
+
+    // Check nested createRelation op
+    const nestedRelOp = relation.ops[2] as CreateRelation;
+    expect(nestedRelOp.type).toBe('createRelation');
+    expect(nestedRelOp.to).toEqual(toGrcId(innerToEntityId));
+    expect(nestedRelOp.relationType).toEqual(toGrcId(outerRelationType));
   });
 });

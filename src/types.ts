@@ -1,110 +1,42 @@
+import type { Op as GrcOp } from '@geoprotocol/grc-20';
 import type { SafeSmartAccountImplementation } from 'permissionless/accounts';
 import type { SmartAccountClient } from 'permissionless/clients';
 import type { Address, Chain, HttpTransport } from 'viem';
 import type { SmartAccountImplementation } from 'viem/account-abstraction';
 import type { Id } from './id.js';
 
+export type { GrcOp };
+
 export type ValueDataType = 'STRING' | 'NUMBER' | 'BOOLEAN' | 'TIME' | 'POINT';
 
 export type DataType = ValueDataType | 'RELATION';
 
-export type ValueOptions = {
-  text?: { language?: string | Id };
-  number?: { unit?: string | Id };
-};
+/**
+ * Typed value types for GRC-20 v2 binary format.
+ *
+ * Date/time formats:
+ * - `date`: ISO 8601 date format (YYYY-MM-DD), e.g., "2024-01-15"
+ * - `time`: ISO 8601 time format with timezone (HH:MM:SSZ or HH:MM:SS+HH:MM), e.g., "14:30:00Z"
+ * - `datetime`: ISO 8601 combined date and time with timezone, e.g., "2024-01-15T14:30:00Z"
+ * - `schedule`: iCalendar RRULE format for recurring events, e.g., "FREQ=WEEKLY;BYDAY=MO,WE,FR"
+ */
+export type TypedValue =
+  | { type: 'bool'; value: boolean }
+  | { type: 'float64'; value: number; unit?: Id | string }
+  | { type: 'text'; value: string; language?: Id | string }
+  | { type: 'point'; lon: number; lat: number; alt?: number }
+  /** ISO 8601 date format (YYYY-MM-DD), e.g., "2024-01-15" */
+  | { type: 'date'; value: string }
+  /** ISO 8601 time format with timezone (HH:MM:SSZ or HH:MM:SS+HH:MM), e.g., "14:30:00Z" */
+  | { type: 'time'; value: string }
+  /** ISO 8601 combined date and time, e.g., "2024-01-15T14:30:00Z" */
+  | { type: 'datetime'; value: string }
+  /** iCalendar RRULE format for recurring events, e.g., "FREQ=WEEKLY;BYDAY=MO,WE,FR" */
+  | { type: 'schedule'; value: string };
 
-export type Value = {
-  property: Id;
-  value: string;
-  options?: ValueOptions | undefined;
-};
-
-export type Entity = {
-  id: Id;
-  values: Array<Value>;
-};
-
-export type Relation = {
-  id: Id;
-  type: Id;
-  fromEntity: Id;
-  fromSpace?: Id;
-  fromVersion?: Id;
-  toEntity: Id;
-  toSpace?: Id;
-  toVersion?: Id;
-  entity: Id;
-  position?: string;
-  verified?: boolean;
-};
-
-export type Property = {
-  id: Id;
-  dataType: DataType;
-};
-
-export type UpdateEntityOp = {
-  type: 'UPDATE_ENTITY';
-  entity: Entity;
-};
-
-export type CreatePropertyOp = {
-  type: 'CREATE_PROPERTY';
-  property: Property;
-};
-
-export type UnsetEntityValuesOp = {
-  type: 'UNSET_ENTITY_VALUES';
-  unsetEntityValues: {
-    id: Id;
-    properties: Id[];
-  };
-};
-
-export type CreateRelationOp = {
-  type: 'CREATE_RELATION';
-  relation: Relation;
-};
-
-export type DeleteRelationOp = {
-  type: 'DELETE_RELATION';
-  id: Id;
-};
-
-export type UpdateRelationOp = {
-  type: 'UPDATE_RELATION';
-  relation: Pick<Relation, 'id' | 'position' | 'fromSpace' | 'toSpace' | 'fromVersion' | 'toVersion' | 'verified'>;
-};
-
-export type UnsetRelationFieldsOp = {
-  type: 'UNSET_RELATION_FIELDS';
-  unsetRelationFields: {
-    id: Id;
-    fromSpace?: boolean;
-    fromVersion?: boolean;
-    toSpace?: boolean;
-    toVersion?: boolean;
-    position?: boolean;
-    verified?: boolean;
-  };
-};
-
-export type Op =
-  | UpdateEntityOp
-  | CreateRelationOp
-  | DeleteRelationOp
-  | UpdateRelationOp
-  | CreatePropertyOp
-  | UnsetEntityValuesOp
-  | UnsetRelationFieldsOp;
-
-export type ValueOptionsParams =
-  | { type: 'number'; unit?: string | Id | undefined }
-  | { type: 'text'; language?: string | Id | undefined };
-
+// ValueParams now directly accepts a TypedValue
 export type ValueParams = {
-  value: string;
-  options?: ValueOptionsParams | undefined;
+  value: TypedValue;
 };
 
 export type DefaultProperties = {
@@ -114,7 +46,10 @@ export type DefaultProperties = {
   cover?: Id | string;
 };
 
-export type PropertiesParam = Array<{ property: Id | string } & ValueParams>;
+// Flattened structure: property + TypedValue fields directly
+export type PropertyValueParam = { property: Id | string } & TypedValue;
+
+export type PropertiesParam = Array<PropertyValueParam>;
 
 export type EntityRelationParams = Omit<RelationParams, 'fromEntity' | 'type'>;
 
@@ -143,7 +78,6 @@ export type RelationParams = {
   fromSpace?: Id | string;
   fromVersion?: Id | string;
   toVersion?: Id | string;
-  verified?: boolean;
   position?: string | undefined;
   type: Id | string; // relation type id
 } & RelationEntityParams;
@@ -151,7 +85,6 @@ export type RelationParams = {
 export type UpdateRelationParams = {
   id: Id | string;
   position?: string | undefined;
-  verified?: boolean;
   fromSpace?: Id | string;
   fromVersion?: Id | string;
   toVersion?: Id | string;
@@ -160,7 +93,7 @@ export type UpdateRelationParams = {
 
 export type CreateResult = {
   id: Id;
-  ops: Op[];
+  ops: GrcOp[];
 };
 
 export type CreateImageResult = CreateResult & {
@@ -175,7 +108,6 @@ export type UnsetRelationParams = {
   toSpace?: boolean;
   toVersion?: boolean;
   position?: boolean;
-  verified?: boolean;
 };
 
 export type UnsetEntityValuesParams = {
@@ -211,14 +143,14 @@ export type CreateImageParams =
       name?: string;
       description?: string;
       id?: Id | string;
-      network?: 'TESTNET' | 'TESTNET_V2' | 'MAINNET' | undefined;
+      network?: 'TESTNET' | 'TESTNET_V2' | 'TESTNET_V3' | 'MAINNET' | undefined;
     }
   | {
       url: string;
       name?: string;
       description?: string;
       id?: Id | string;
-      network?: 'TESTNET' | 'TESTNET_V2' | 'MAINNET' | undefined;
+      network?: 'TESTNET' | 'TESTNET_V2' | 'TESTNET_V3' | 'MAINNET' | undefined;
     };
 
 type SafeSmartAccount = SafeSmartAccountImplementation<'0.7'> & {
