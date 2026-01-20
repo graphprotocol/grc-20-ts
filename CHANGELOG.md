@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.32.1
+
+### Patch Changes
+
+- Fix library build
+
 ## 0.32.0
 
 ### Minor Changes
