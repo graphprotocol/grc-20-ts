@@ -181,6 +181,11 @@ export const createEntity = ({
         type: 'schedule',
         value: valueEntry.value,
       });
+    } else {
+      // Exhaustive check - this will cause a TypeScript error if a new type is added
+      // to TypedValue but not handled here
+      const exhaustiveCheck: never = valueEntry;
+      throw new Error(`Unsupported value type: ${(exhaustiveCheck as { type: string }).type}`);
     }
   }
 

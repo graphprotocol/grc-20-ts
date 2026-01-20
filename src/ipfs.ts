@@ -120,6 +120,10 @@ function convertOps(ops: Op[]): GrcOp[] {
       }
       case 'CREATE_RELATION': {
         const rel = op.relation;
+        // Note: 'verified' field is not supported by GRC-20 v2 CreateRelation type
+        if (rel.verified !== undefined) {
+          console.warn("Warning: 'verified' field is not supported by GRC-20 v2 format and will be ignored");
+        }
         grcOps.push({
           type: 'createRelation',
           id: toGrcId(rel.id),
@@ -144,6 +148,10 @@ function convertOps(ops: Op[]): GrcOp[] {
       }
       case 'UPDATE_RELATION': {
         const rel = op.relation;
+        // Note: 'verified' field is not supported by GRC-20 v2 UpdateRelation type
+        if (rel.verified !== undefined) {
+          console.warn("Warning: 'verified' field is not supported by GRC-20 v2 format and will be ignored");
+        }
         grcOps.push({
           type: 'updateRelation',
           id: toGrcId(rel.id),
@@ -182,6 +190,10 @@ function convertOps(ops: Op[]): GrcOp[] {
         if (unset.toSpace) unsetFields.push('toSpace');
         if (unset.toVersion) unsetFields.push('toVersion');
         if (unset.position) unsetFields.push('position');
+        // Note: 'verified' is not supported by the GRC-20 v2 UnsetRelationField type
+        if (unset.verified) {
+          throw new Error("Unsetting 'verified' field is not supported by GRC-20 v2 format");
+        }
 
         grcOps.push({
           type: 'updateRelation',

@@ -8,15 +8,27 @@ export type ValueDataType = 'STRING' | 'NUMBER' | 'BOOLEAN' | 'TIME' | 'POINT';
 
 export type DataType = ValueDataType | 'RELATION';
 
-// New typed value types for GRC-20 v2 binary format
+/**
+ * Typed value types for GRC-20 v2 binary format.
+ *
+ * Date/time formats:
+ * - `date`: ISO 8601 date format (YYYY-MM-DD), e.g., "2024-01-15"
+ * - `time`: ISO 8601 time format with timezone (HH:MM:SSZ or HH:MM:SS+HH:MM), e.g., "14:30:00Z"
+ * - `datetime`: ISO 8601 combined date and time with timezone, e.g., "2024-01-15T14:30:00Z"
+ * - `schedule`: iCalendar RRULE format for recurring events, e.g., "FREQ=WEEKLY;BYDAY=MO,WE,FR"
+ */
 export type TypedValue =
   | { type: 'bool'; value: boolean }
   | { type: 'float64'; value: number; unit?: Id | string }
   | { type: 'text'; value: string; language?: Id | string }
   | { type: 'point'; lon: number; lat: number; alt?: number }
+  /** ISO 8601 date format (YYYY-MM-DD), e.g., "2024-01-15" */
   | { type: 'date'; value: string }
+  /** ISO 8601 time format with timezone (HH:MM:SSZ or HH:MM:SS+HH:MM), e.g., "14:30:00Z" */
   | { type: 'time'; value: string }
+  /** ISO 8601 combined date and time, e.g., "2024-01-15T14:30:00Z" */
   | { type: 'datetime'; value: string }
+  /** iCalendar RRULE format for recurring events, e.g., "FREQ=WEEKLY;BYDAY=MO,WE,FR" */
   | { type: 'schedule'; value: string };
 
 // Internal Value type used in ops (property + typed value)
@@ -214,14 +226,14 @@ export type CreateImageParams =
       name?: string;
       description?: string;
       id?: Id | string;
-      network?: 'TESTNET' | 'TESTNET_V2' | 'MAINNET' | undefined;
+      network?: 'TESTNET' | 'TESTNET_V2' | 'TESTNET_V3' | 'MAINNET' | undefined;
     }
   | {
       url: string;
       name?: string;
       description?: string;
       id?: Id | string;
-      network?: 'TESTNET' | 'TESTNET_V2' | 'MAINNET' | undefined;
+      network?: 'TESTNET' | 'TESTNET_V2' | 'TESTNET_V3' | 'MAINNET' | undefined;
     };
 
 type SafeSmartAccount = SafeSmartAccountImplementation<'0.7'> & {
