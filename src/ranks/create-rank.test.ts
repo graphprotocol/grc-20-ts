@@ -79,7 +79,8 @@ describe('createRank', () => {
       // Check vote entity with ordinal value
       const voteEntityOp = rank.ops[3] as CreateEntity;
       expect(voteEntityOp.type).toBe('createEntity');
-      expect(voteEntityOp.id).toEqual(toGrcId(rank.voteIds[0]));
+      // biome-ignore lint/style/noNonNullAssertion: test file - we verified voteIds has 1 element
+      expect(voteEntityOp.id).toEqual(toGrcId(rank.voteIds[0]!));
 
       // Verify ordinal value property
       const ordinalValue = voteEntityOp.values.find(v => {
@@ -386,14 +387,16 @@ describe('createRank', () => {
       expect(voteRel1.from).toEqual(toGrcId(rank.id));
       expect(voteRel1.to).toEqual(toGrcId(movie1Id));
       expect(voteRel1.relationType).toEqual(toGrcId(RANK_VOTES_RELATION_TYPE));
-      expect(voteRel1.entity).toEqual(toGrcId(rank.voteIds[0]));
+      // biome-ignore lint/style/noNonNullAssertion: test file - we verified voteIds has 2 elements
+      expect(voteRel1.entity).toEqual(toGrcId(rank.voteIds[0]!));
 
       // Verify second vote relation
       expect(voteRel2.type).toBe('createRelation');
       expect(voteRel2.from).toEqual(toGrcId(rank.id));
       expect(voteRel2.to).toEqual(toGrcId(movie2Id));
       expect(voteRel2.relationType).toEqual(toGrcId(RANK_VOTES_RELATION_TYPE));
-      expect(voteRel2.entity).toEqual(toGrcId(rank.voteIds[1]));
+      // biome-ignore lint/style/noNonNullAssertion: test file - we verified voteIds has 2 elements
+      expect(voteRel2.entity).toEqual(toGrcId(rank.voteIds[1]!));
     });
   });
 });
