@@ -144,9 +144,7 @@ describe('createRank', () => {
       expect(rank.ops[0]).toMatchObject({
         type: 'UPDATE_ENTITY',
         entity: {
-          values: expect.arrayContaining([
-            { property: RANK_TYPE_PROPERTY, type: 'text', value: 'WEIGHTED' },
-          ]),
+          values: expect.arrayContaining([{ property: RANK_TYPE_PROPERTY, type: 'text', value: 'WEIGHTED' }]),
         },
       });
 
