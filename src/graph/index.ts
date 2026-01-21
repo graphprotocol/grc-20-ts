@@ -12,6 +12,7 @@ export * from './create-property.js';
 export * from './create-relation.js';
 export * from './create-space.js';
 export * from './create-type.js';
+export * from './delete-entity.js';
 export * from './delete-relation.js';
 export * from './update-entity.js';
 export * from './update-relation.js';
