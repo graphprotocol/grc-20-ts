@@ -4,7 +4,7 @@ import {
   formatId,
   type Edit as GrcEdit,
   type Id as GrcId,
-  type Op as GrcOp,
+  type Op,
   parseId,
 } from '@geoprotocol/grc-20';
 import { describe, expect, it } from 'vitest';
@@ -55,7 +55,7 @@ describe('GRC-20 v2 Encoding', () => {
       expect(decoded.ops.length).toBe(1);
       expect(decoded.ops[0]?.type).toBe('createEntity');
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'createEntity' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'createEntity' }>;
       expect(formatId(op.id)).toBe('3af3e22d21694a078681516710b7ecf1');
       expect(op.values.length).toBe(1);
       expect(op.values[0]?.value.type).toBe('text');
@@ -100,7 +100,7 @@ describe('GRC-20 v2 Encoding', () => {
       expect(decoded.name).toBe('test');
       expect(decoded.ops.length).toBe(1);
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'createEntity' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'createEntity' }>;
       expect(op.values[0]?.value.type).toBe('float64');
       if (op.values[0]?.value.type === 'float64') {
         expect(op.values[0].value.value).toBe(42.5);
@@ -138,7 +138,7 @@ describe('GRC-20 v2 Encoding', () => {
       const binary = encodeEdit(edit);
       const decoded = decodeEdit(binary);
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'createEntity' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'createEntity' }>;
       expect(op.values[0]?.value.type).toBe('bool');
       if (op.values[0]?.value.type === 'bool') {
         expect(op.values[0].value.value).toBe(true);
@@ -178,7 +178,7 @@ describe('GRC-20 v2 Encoding', () => {
       const binary = encodeEdit(edit);
       const decoded = decodeEdit(binary);
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'createEntity' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'createEntity' }>;
       expect(op.values[0]?.value.type).toBe('point');
       if (op.values[0]?.value.type === 'point') {
         expect(op.values[0].value.lon).toBeCloseTo(-122.4194, 4);
@@ -218,7 +218,7 @@ describe('GRC-20 v2 Encoding', () => {
       const binary = encodeEdit(edit);
       const decoded = decodeEdit(binary);
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'createEntity' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'createEntity' }>;
       expect(op.values[0]?.value.type).toBe('date');
       if (op.values[0]?.value.type === 'date') {
         expect(op.values[0].value.value).toBe('2024-01-15');
@@ -256,7 +256,7 @@ describe('GRC-20 v2 Encoding', () => {
       const binary = encodeEdit(edit);
       const decoded = decodeEdit(binary);
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'createEntity' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'createEntity' }>;
       expect(op.values[0]?.value.type).toBe('time');
       if (op.values[0]?.value.type === 'time') {
         expect(op.values[0].value.value).toBe('14:30:00Z');
@@ -294,7 +294,7 @@ describe('GRC-20 v2 Encoding', () => {
       const binary = encodeEdit(edit);
       const decoded = decodeEdit(binary);
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'createEntity' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'createEntity' }>;
       expect(op.values[0]?.value.type).toBe('datetime');
       if (op.values[0]?.value.type === 'datetime') {
         expect(op.values[0].value.value).toBe('2024-01-15T14:30:00Z');
@@ -332,7 +332,7 @@ describe('GRC-20 v2 Encoding', () => {
       const binary = encodeEdit(edit);
       const decoded = decodeEdit(binary);
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'createEntity' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'createEntity' }>;
       expect(op.values[0]?.value.type).toBe('schedule');
       if (op.values[0]?.value.type === 'schedule') {
         expect(op.values[0].value.value).toBe('FREQ=WEEKLY;BYDAY=MO,WE,FR');
@@ -375,7 +375,7 @@ describe('GRC-20 v2 Encoding', () => {
       expect(decoded.ops.length).toBe(1);
       expect(decoded.ops[0]?.type).toBe('createRelation');
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'createRelation' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'createRelation' }>;
       expect(formatId(op.id)).toBe('765564cac7e54c61b1dcc28ab77ec6b7');
       expect(formatId(op.relationType)).toBe('cf518eafef744aadbc87fe09c2631fcd');
       expect(formatId(op.from)).toBe('3af3e22d21694a078681516710b7ecf1');
@@ -414,7 +414,7 @@ describe('GRC-20 v2 Encoding', () => {
       const binary = encodeEdit(edit);
       const decoded = decodeEdit(binary);
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'createRelation' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'createRelation' }>;
       expect(op.fromSpace).toBeDefined();
       expect(op.toSpace).toBeDefined();
       if (op.fromSpace) expect(formatId(op.fromSpace)).toBe('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
@@ -445,7 +445,7 @@ describe('GRC-20 v2 Encoding', () => {
       expect(decoded.ops.length).toBe(1);
       expect(decoded.ops[0]?.type).toBe('deleteRelation');
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'deleteRelation' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'deleteRelation' }>;
       expect(formatId(op.id)).toBe('765564cac7e54c61b1dcc28ab77ec6b7');
     });
 
@@ -475,7 +475,7 @@ describe('GRC-20 v2 Encoding', () => {
       expect(decoded.ops.length).toBe(1);
       expect(decoded.ops[0]?.type).toBe('updateRelation');
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'updateRelation' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'updateRelation' }>;
       expect(formatId(op.id)).toBe('765564cac7e54c61b1dcc28ab77ec6b7');
       expect(op.position).toBe('new-position');
     });
@@ -502,7 +502,7 @@ describe('GRC-20 v2 Encoding', () => {
       const binary = encodeEdit(edit);
       const decoded = decodeEdit(binary);
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'updateRelation' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'updateRelation' }>;
       expect(op.unset).toContain('fromSpace');
       expect(op.unset).toContain('toSpace');
       expect(op.unset).toContain('position');
@@ -551,7 +551,7 @@ describe('GRC-20 v2 Encoding', () => {
       expect(decoded.ops.length).toBe(1);
       expect(decoded.ops[0]?.type).toBe('updateEntity');
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'updateEntity' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'updateEntity' }>;
       expect(formatId(op.id)).toBe('3af3e22d21694a078681516710b7ecf1');
       expect(op.set.length).toBe(1);
       expect(op.unset.length).toBe(1);
@@ -581,7 +581,7 @@ describe('GRC-20 v2 Encoding', () => {
       expect(decoded.ops.length).toBe(1);
       expect(decoded.ops[0]?.type).toBe('deleteEntity');
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'deleteEntity' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'deleteEntity' }>;
       expect(formatId(op.id)).toBe('3af3e22d21694a078681516710b7ecf1');
     });
 
@@ -609,7 +609,7 @@ describe('GRC-20 v2 Encoding', () => {
       expect(decoded.ops.length).toBe(1);
       expect(decoded.ops[0]?.type).toBe('restoreEntity');
 
-      const op = decoded.ops[0] as Extract<GrcOp, { type: 'restoreEntity' }>;
+      const op = decoded.ops[0] as Extract<Op, { type: 'restoreEntity' }>;
       expect(formatId(op.id)).toBe('3af3e22d21694a078681516710b7ecf1');
     });
   });

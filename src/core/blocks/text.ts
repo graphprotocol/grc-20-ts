@@ -5,7 +5,7 @@
  * @since 0.0.6
  */
 
-import type { Op as GrcOp } from '@geoprotocol/grc-20';
+import type { Op } from '@geoprotocol/grc-20';
 import { createRelation } from '../../graph/create-relation.js';
 import { updateEntity } from '../../graph/update-entity.js';
 import { Id } from '../../id.js';
@@ -28,12 +28,12 @@ type TextBlockParams = { fromId: string; text: string; position?: string };
  * ```
  *
  * @param param args {@link TextBlockParams}
- * @returns ops – The ops for the Text Block entity: {@link GrcOp}[]
+ * @returns ops – The ops for the Text Block entity: {@link Op}[]
  */
-export function make({ fromId, text, position }: TextBlockParams): GrcOp[] {
+export function make({ fromId, text, position }: TextBlockParams): Op[] {
   const newBlockId = generate();
 
-  const ops: GrcOp[] = [];
+  const ops: Op[] = [];
 
   const { ops: textBlockTypeOps } = createRelation({
     fromEntity: newBlockId,

@@ -1,10 +1,10 @@
-import type { Op as GrcOp, UpdateRelation } from '@geoprotocol/grc-20';
+import type { Op, UpdateRelation } from '@geoprotocol/grc-20';
 import { describe, expect, it } from 'vitest';
 import { Id } from '../id.js';
 import { toGrcId } from '../id-utils.js';
 import { updateRelation } from './update-relation.js';
 
-const isUpdateRelationOp = (op: GrcOp): op is UpdateRelation => {
+const isUpdateRelationOp = (op: Op): op is UpdateRelation => {
   return op.type === 'updateRelation';
 };
 

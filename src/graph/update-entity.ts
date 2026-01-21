@@ -1,8 +1,8 @@
 import {
-  type Op as GrcOp,
   type PropertyValue as GrcPropertyValue,
   createEntity as grcCreateEntity,
   languages,
+  type Op,
 } from '@geoprotocol/grc-20';
 import { DESCRIPTION_PROPERTY, NAME_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
@@ -146,7 +146,7 @@ export const updateEntity = ({ id, name, description, values }: UpdateEntityPara
     }
   }
 
-  const op: GrcOp = grcCreateEntity({
+  const op: Op = grcCreateEntity({
     id: toGrcId(id),
     values: newValues,
   });

@@ -1,4 +1,4 @@
-import type { Op as GrcOp } from '@geoprotocol/grc-20';
+import type { Op } from '@geoprotocol/grc-20';
 import { IdUtils } from '../../index.js';
 import { Id } from '../id.js';
 import { getApiOrigin, type Network } from './constants.js';
@@ -7,7 +7,7 @@ type CreateSpaceParams = {
   editorAddress: string;
   name: string;
   network?: Network;
-  ops?: GrcOp[];
+  ops?: Op[];
   spaceEntityId?: string;
 
   /**
@@ -19,7 +19,7 @@ type CreateSpaceParams = {
 
 type BaseDeployParams = {
   spaceName: string;
-  ops?: GrcOp[];
+  ops?: Op[];
   spaceEntityId?: string;
 };
 

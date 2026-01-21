@@ -1,4 +1,4 @@
-import { type Op as GrcOp, createRelation as grcCreateRelation } from '@geoprotocol/grc-20';
+import { createRelation as grcCreateRelation, type Op } from '@geoprotocol/grc-20';
 import {
   BOOLEAN,
   BYTES,
@@ -75,7 +75,7 @@ export const createProperty = (params: CreatePropertyParams): CreateResult => {
   }
   const entityId = id ?? generate();
 
-  const ops: Array<GrcOp> = [];
+  const ops: Array<Op> = [];
 
   // Create the property entity
   const { ops: entityOps } = createEntity({

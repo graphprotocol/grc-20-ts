@@ -1,4 +1,4 @@
-import type { CreateEntity, CreateRelation, Op as GrcOp } from '@geoprotocol/grc-20';
+import type { CreateEntity, CreateRelation, Op } from '@geoprotocol/grc-20';
 import { describe, expect, it } from 'vitest';
 import { CLAIM_TYPE, NEWS_STORY_TYPE } from '../core/ids/content.js';
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
@@ -6,11 +6,11 @@ import { Id } from '../id.js';
 import { toGrcId } from '../id-utils.js';
 import { createRelation } from './create-relation.js';
 
-const isCreateRelationOp = (op: GrcOp): op is CreateRelation => {
+const isCreateRelationOp = (op: Op): op is CreateRelation => {
   return op.type === 'createRelation';
 };
 
-const isCreateEntityOp = (op: GrcOp): op is CreateEntity => {
+const isCreateEntityOp = (op: Op): op is CreateEntity => {
   return op.type === 'createEntity';
 };
 

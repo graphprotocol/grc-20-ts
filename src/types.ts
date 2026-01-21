@@ -1,11 +1,13 @@
-import type { Op as GrcOp } from '@geoprotocol/grc-20';
+import type { Op } from '@geoprotocol/grc-20';
 import type { SafeSmartAccountImplementation } from 'permissionless/accounts';
 import type { SmartAccountClient } from 'permissionless/clients';
 import type { Address, Chain, HttpTransport } from 'viem';
 import type { SmartAccountImplementation } from 'viem/account-abstraction';
 import type { Id } from './id.js';
 
-export type { GrcOp };
+export type { Op };
+/** @deprecated Use `Op` instead */
+export type GrcOp = Op;
 
 export type ValueDataType =
   | 'BOOLEAN'
@@ -105,7 +107,7 @@ export type UpdateRelationParams = {
 
 export type CreateResult = {
   id: Id;
-  ops: GrcOp[];
+  ops: Op[];
 };
 
 export type CreateImageResult = CreateResult & {
