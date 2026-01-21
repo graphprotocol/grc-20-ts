@@ -11,7 +11,7 @@
  * Usage: import { ops } from './scripts/setup-rank-types.js'
  */
 
-import type { Op as GrcOp } from '@geoprotocol/grc-20';
+import type { Op } from '@geoprotocol/grc-20';
 import {
   RANK_TYPE,
   RANK_TYPE_PROPERTY,
@@ -22,8 +22,8 @@ import {
 import { createProperty } from '../src/graph/create-property.js';
 import { createType } from '../src/graph/create-type.js';
 
-const generateRankTypeOps = (): GrcOp[] => {
-  const ops: GrcOp[] = [];
+const generateRankTypeOps = (): Op[] => {
+  const ops: Op[] = [];
 
   // 1. Create RANK_TYPE_PROPERTY - A TEXT property storing ORDINAL/WEIGHTED
   const rankTypeProperty = createProperty({
