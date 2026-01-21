@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.33.0
+
+### Minor Changes
+
+- 945ab1b: Rename `GrcOp` to `Op` as the primary export. The `GrcOp` type is now deprecated but still available for backwards compatibility.
+
 ## 0.32.3
 
 ### Patch Changes
