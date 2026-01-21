@@ -1,9 +1,9 @@
 import {
-  type Op as GrcOp,
   type PropertyValue as GrcPropertyValue,
   createEntity as grcCreateEntity,
   createRelation as grcCreateRelation,
   languages,
+  type Op,
 } from '@geoprotocol/grc-20';
 import { generateNJitteredKeysBetween } from 'fractional-indexing-jittered';
 import {
@@ -85,7 +85,7 @@ export const createRank = ({
   }
 
   const id = providedId ?? generate();
-  const ops: GrcOp[] = [];
+  const ops: Op[] = [];
   const voteIds: Id[] = [];
 
   // Create rank entity values

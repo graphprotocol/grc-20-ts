@@ -5,7 +5,7 @@
  * @since 0.0.6
  */
 
-import type { Op as GrcOp } from '@geoprotocol/grc-20';
+import type { Op } from '@geoprotocol/grc-20';
 import { createEntity } from '../graph/create-entity.js';
 import { createRelation } from '../graph/create-relation.js';
 import { generate } from '../id-utils.js';
@@ -15,7 +15,7 @@ import { ACCOUNT_TYPE, ADDRESS_PROPERTY, NAME_PROPERTY, NETWORK_PROPERTY, TYPES_
 
 type MakeAccountReturnType = {
   accountId: string;
-  ops: GrcOp[];
+  ops: Op[];
 };
 
 /**
@@ -36,7 +36,7 @@ export function make(address: string): MakeAccountReturnType {
   const accountId = generate();
   const checkedAddress: string = getChecksumAddress(address);
 
-  const ops: GrcOp[] = [];
+  const ops: Op[] = [];
 
   const { ops: entityOps } = createEntity({
     id: accountId,

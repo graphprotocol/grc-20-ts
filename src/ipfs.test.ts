@@ -1,4 +1,4 @@
-import type { Op as GrcOp } from '@geoprotocol/grc-20';
+import type { Op } from '@geoprotocol/grc-20';
 import { describe, expect, it } from 'vitest';
 import { WEBSITE_PROPERTY } from './core/ids/content.js';
 import { TYPES_PROPERTY } from './core/ids/system.js';
@@ -144,7 +144,7 @@ describe('publishEdit', () => {
       type: TYPES_PROPERTY,
     });
 
-    const ops: GrcOp[] = [...entity1.ops, ...entity2.ops, ...relation.ops];
+    const ops: Op[] = [...entity1.ops, ...entity2.ops, ...relation.ops];
 
     const { cid, editId } = await publishEdit({
       name: 'multiple ops test',

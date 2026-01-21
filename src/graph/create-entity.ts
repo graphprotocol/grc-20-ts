@@ -1,9 +1,9 @@
 import {
-  type Op as GrcOp,
   type PropertyValue as GrcPropertyValue,
   createEntity as grcCreateEntity,
   createRelation as grcCreateRelation,
   languages,
+  type Op,
 } from '@geoprotocol/grc-20';
 import { COVER_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, TYPES_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
@@ -114,7 +114,7 @@ export const createEntity = ({
   }
 
   const id = providedId ?? generate();
-  let ops: Array<GrcOp> = [];
+  let ops: Array<Op> = [];
 
   const newValues: Array<GrcPropertyValue> = [];
   if (name) {

@@ -168,9 +168,9 @@ const { id: personId, ops: createPersonOps } = Graph.createEntity({
 #### Example Flow
 
 ```ts
-import { Graph, type GrcOp } from '@graphprotocol/grc-20';
+import { Graph, type Op } from '@graphprotocol/grc-20';
 
-const ops: Array<GrcOp> = [];
+const ops: Array<Op> = [];
 
 // create an age property
 const { id: agePropertyId, ops: createAgePropertyOps } = Graph.createProperty({

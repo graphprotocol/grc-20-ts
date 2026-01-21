@@ -1,4 +1,4 @@
-import { type Op as GrcOp, createRelation as grcCreateRelation } from '@geoprotocol/grc-20';
+import { createRelation as grcCreateRelation, type Op } from '@geoprotocol/grc-20';
 import { Id } from '../id.js';
 import { assertValid, generate, toGrcId } from '../id-utils.js';
 import type { CreateResult, RelationParams } from '../types.js';
@@ -91,7 +91,7 @@ export const createRelation = ({
   const id = providedId ?? generate();
   const entityId = providedEntityId ?? generate();
 
-  const ops: Array<GrcOp> = [];
+  const ops: Array<Op> = [];
 
   ops.push(
     grcCreateRelation({

@@ -10,7 +10,7 @@ import {
   encodeEdit,
   type Edit as GrcEdit,
   type Id as GrcId,
-  type Op as GrcOp,
+  type Op,
   randomId,
 } from '@geoprotocol/grc-20';
 import { Micro } from 'effect';
@@ -35,7 +35,7 @@ function hexToGrcId(hex: `0x${string}`): GrcId {
 
 type PublishEditProposalParams = {
   name: string;
-  ops: GrcOp[];
+  ops: Op[];
   author: `0x${string}`;
   network?: Network;
 };

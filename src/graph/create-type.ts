@@ -1,4 +1,4 @@
-import { type Op as GrcOp, createRelation as grcCreateRelation } from '@geoprotocol/grc-20';
+import { createRelation as grcCreateRelation, type Op } from '@geoprotocol/grc-20';
 import { PROPERTIES, SCHEMA_TYPE, TYPES_PROPERTY } from '../core/ids/system.js';
 import { Id } from '../id.js';
 import { assertValid, generate, toGrcId } from '../id-utils.js';
@@ -48,7 +48,7 @@ export const createType = ({
 
   // set property "Types" to "Type"
   assertValid(id);
-  (ops as GrcOp[]).push(
+  (ops as Op[]).push(
     grcCreateRelation({
       id: toGrcId(generate()),
       entity: toGrcId(generate()),
@@ -62,7 +62,7 @@ export const createType = ({
     for (const propertyId of properties) {
       assertValid(propertyId, '`propertyId` in `createType`');
       // Set Properties on the Type
-      (ops as GrcOp[]).push(
+      (ops as Op[]).push(
         grcCreateRelation({
           id: toGrcId(generate()),
           entity: toGrcId(generate()),
