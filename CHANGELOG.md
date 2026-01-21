@@ -1,5 +1,11 @@
 # @graphprotocol/grc-20
 
+## 0.32.3
+
+### Patch Changes
+
+- 8181faa: Add Graph.deleteEntity to delete entities
+
 ## 0.32.2
 
 ### Patch Changes
