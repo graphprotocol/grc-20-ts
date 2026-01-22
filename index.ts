@@ -44,15 +44,21 @@ export { Position } from './src/position.js';
  * Ranks allow ordering or scoring entities within a collection.
  */
 export * as Rank from './src/ranks/index.js';
-
 /**
  * This module provides utility functions for working with Graph URIs in TypeScript.
  *
  * @since 0.0.6
  */
 export { GraphUrl } from './src/scheme.js';
-
 export { getSmartAccountWalletClient, getWalletClient } from './src/smart-wallet.js';
+/**
+ * This module provides functions for creating and managing spaces
+ * directly on the blockchain.
+ *
+ * @since 0.34.0
+ */
+export * from './src/space/index.js';
+export { Space } from './src/space/index.js';
 
 /**
  * Provides ids for commonly used entities across the Knowledge Graph.
