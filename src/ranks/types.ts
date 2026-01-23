@@ -1,7 +1,7 @@
 import type { Id } from '../id.js';
 import type { CreateResult } from '../types.js';
 
-export type RankType = 'ORDINAL' | 'WEIGHTED';
+export type RankingType = 'ORDINAL' | 'WEIGHTED';
 
 /**
  * Vote with ordinal positioning.
@@ -17,19 +17,19 @@ export type VoteOrdinal = {
  */
 export type VoteWeighted = {
   entityId: Id | string;
-  value: number;
+  score: number;
 };
 
 export type Vote = VoteOrdinal | VoteWeighted;
 
-export type CreateRankParams = {
+export type CreateRankingParams = {
   id?: Id | string;
   name: string;
   description?: string;
-  rankType: RankType;
+  rankingType: RankingType;
   votes: Vote[];
 };
 
-export type CreateRankResult = CreateResult & {
+export type CreateRankingResult = CreateResult & {
   voteIds: Id[]; // IDs of created vote entities for reference
 };

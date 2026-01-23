@@ -18,24 +18,24 @@ import {
 } from '../core/ids/system.js';
 import { Id } from '../id.js';
 import { assertValid, generate, toGrcId } from '../id-utils.js';
-import type { CreateRankParams, CreateRankResult, VoteWeighted } from './types.js';
+import type { CreateRankingParams, CreateRankingResult, VoteWeighted } from './types.js';
 
 /**
- * Creates a rank entity with the given name, description, rankType, and votes.
+ * Creates a ranking entity with the given name, description, rankingType, and votes.
  * All IDs passed to this function are validated. If any invalid ID is provided,
  * the function will throw an error.
  *
- * For ORDINAL ranks, the position is derived from the array order and fractional
+ * For ORDINAL rankings, the position is derived from the array order and fractional
  * indexing strings are generated internally.
  *
  * @example
  * ```ts
- * // Create an ordinal rank (ordered list) - position derived from array order
- * const { id, ops, voteIds } = createRank({
- *   id: rankId, // optional, will be generated if not provided
+ * // Create an ordinal ranking (ordered list) - position derived from array order
+ * const { id, ops, voteIds } = createRanking({
+ *   id: rankingId, // optional, will be generated if not provided
  *   name: 'My Favorite Movies',
  *   description: 'A ranked list of my favorite movies', // optional
- *   rankType: 'ORDINAL',
+ *   rankingType: 'ORDINAL',
  *   votes: [
  *     { entityId: movie1Id },  // 1st place
  *     { entityId: movie2Id },  // 2nd place
@@ -43,35 +43,35 @@ import type { CreateRankParams, CreateRankResult, VoteWeighted } from './types.j
  *   ],
  * });
  *
- * // Create a weighted rank (scored list)
- * const { id, ops, voteIds } = createRank({
+ * // Create a weighted ranking (scored list)
+ * const { id, ops, voteIds } = createRanking({
  *   name: 'Restaurant Ratings',
- *   rankType: 'WEIGHTED',
+ *   rankingType: 'WEIGHTED',
  *   votes: [
- *     { entityId: restaurant1Id, value: 4.5 },  // numeric score
- *     { entityId: restaurant2Id, value: 3.8 },
+ *     { entityId: restaurant1Id, score: 4.5 },  // numeric score
+ *     { entityId: restaurant2Id, score: 3.8 },
  *   ],
  * });
  * ```
  *
- * @param params – {@link CreateRankParams}
- * @returns – {@link CreateRankResult}
+ * @param params – {@link CreateRankingParams}
+ * @returns – {@link CreateRankingResult}
  * @throws Will throw an error if any provided ID is invalid
  * @throws Will throw an error if any entityId is duplicated in votes
  */
-export const createRank = ({
+export const createRanking = ({
   id: providedId,
   name,
   description,
-  rankType,
+  rankingType,
   votes,
-}: CreateRankParams): CreateRankResult => {
+}: CreateRankingParams): CreateRankingResult => {
   // Validate all input IDs
   if (providedId) {
-    assertValid(providedId, '`id` in `createRank`');
+    assertValid(providedId, '`id` in `createRanking`');
   }
   for (const vote of votes) {
-    assertValid(vote.entityId, '`entityId` in `votes` in `createRank`');
+    assertValid(vote.entityId, '`entityId` in `votes` in `createRanking`');
   }
 
   // Validate no duplicate entity IDs in votes
@@ -79,7 +79,7 @@ export const createRank = ({
   for (const vote of votes) {
     const entityId = String(vote.entityId);
     if (seenEntityIds.has(entityId)) {
-      throw new Error(`Duplicate entityId in votes: "${entityId}". Each entity can only be voted once per rank.`);
+      throw new Error(`Duplicate entityId in votes: "${entityId}". Each entity can only be voted once per ranking.`);
     }
     seenEntityIds.add(entityId);
   }
@@ -88,8 +88,8 @@ export const createRank = ({
   const ops: Op[] = [];
   const voteIds: Id[] = [];
 
-  // Create rank entity values
-  const rankValues: GrcPropertyValue[] = [
+  // Create ranking entity values
+  const rankingValues: GrcPropertyValue[] = [
     {
       property: toGrcId(NAME_PROPERTY),
       value: {
@@ -102,14 +102,14 @@ export const createRank = ({
       property: toGrcId(RANK_TYPE_PROPERTY),
       value: {
         type: 'text',
-        value: rankType,
+        value: rankingType,
         language: languages.english(),
       },
     },
   ];
 
   if (description) {
-    rankValues.push({
+    rankingValues.push({
       property: toGrcId(DESCRIPTION_PROPERTY),
       value: {
         type: 'text',
@@ -119,15 +119,15 @@ export const createRank = ({
     });
   }
 
-  // Create createEntity op for the rank
+  // Create createEntity op for the ranking
   ops.push(
     grcCreateEntity({
       id: toGrcId(id),
-      values: rankValues,
+      values: rankingValues,
     }),
   );
 
-  // Create relation linking rank to RANK_TYPE (type relation)
+  // Create relation linking ranking to RANK_TYPE (type relation)
   ops.push(
     grcCreateRelation({
       id: toGrcId(generate()),
@@ -138,8 +138,8 @@ export const createRank = ({
     }),
   );
 
-  // Generate fractional indices for ordinal ranks
-  const fractionalIndices = rankType === 'ORDINAL' ? generateNJitteredKeysBetween(null, null, votes.length) : [];
+  // Generate fractional indices for ordinal rankings
+  const fractionalIndices = rankingType === 'ORDINAL' ? generateNJitteredKeysBetween(null, null, votes.length) : [];
 
   // Create votes
   votes.forEach((vote, i) => {
@@ -148,7 +148,7 @@ export const createRank = ({
 
     voteIds.push(voteEntityId);
 
-    // Create relation from rank to voted entity
+    // Create relation from ranking to voted entity
     ops.push(
       grcCreateRelation({
         id: toGrcId(relationId),
@@ -161,7 +161,7 @@ export const createRank = ({
 
     // Create vote entity with the appropriate value property
     const voteValue: GrcPropertyValue =
-      rankType === 'ORDINAL'
+      rankingType === 'ORDINAL'
         ? {
             property: toGrcId(VOTE_ORDINAL_VALUE_PROPERTY),
             value: {
@@ -174,7 +174,7 @@ export const createRank = ({
             property: toGrcId(VOTE_WEIGHTED_VALUE_PROPERTY),
             value: {
               type: 'float64',
-              value: (vote as VoteWeighted).value,
+              value: (vote as VoteWeighted).score,
             },
           };
 
