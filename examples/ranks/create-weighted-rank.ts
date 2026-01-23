@@ -25,7 +25,7 @@ const weightedRankingResult = Ranking.createRanking({
   rankingType: 'WEIGHTED',
   votes: [
     { entityId: restaurant1Id, score: 90 }, // Can use any number and scale as needed
-    { entityId: restaurant2Id, score: 75 }, 
+    { entityId: restaurant2Id, score: 75 },
     { entityId: restaurant3Id, score: 50.67 }, // You can also use decimal numbers
   ],
 });
