@@ -40,10 +40,10 @@ export * as IdUtils from './src/id-utils.js';
 export * as Ipfs from './src/ipfs.js';
 export { Position } from './src/position.js';
 /**
- * This module provides utility functions for working with ranks in the Knowledge Graph.
- * Ranks allow ordering or scoring entities within a collection.
+ * This module provides utility functions for working with rankings in the Knowledge Graph.
+ * Rankings allow ordering or scoring entities within a collection.
  */
-export * as Rank from './src/ranks/index.js';
+export * as Ranking from './src/ranks/index.js';
 
 /**
  * This module provides utility functions for working with Graph URIs in TypeScript.
