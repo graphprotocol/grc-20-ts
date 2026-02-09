@@ -271,7 +271,8 @@ Once you've uploaded the binary encoded Edit to IPFS and have correctly formed `
 
 ```ts
 import { createPublicClient, encodeAbiParameters, encodeFunctionData, type Hex, http, keccak256, toHex } from 'viem';
-import { SpaceRegistryAbi, getWalletClient } from '@graphprotocol/grc-20';
+import { SpaceRegistryAbi } from '@graphprotocol/grc-20/abis';
+import { getWalletClient } from '@graphprotocol/grc-20';
 
 // Contract addresses for testnet
 const SPACE_REGISTRY_ADDRESS = '0xB01683b2f0d38d43fcD4D9aAB980166988924132' as const;
@@ -353,7 +354,8 @@ You can create personal spaces using the SpaceRegistry contract. Personal spaces
 
 ```ts
 import { createPublicClient, encodeAbiParameters, encodeFunctionData, type Hex, http, keccak256, toHex } from 'viem';
-import { SpaceRegistryAbi, getWalletClient } from '@graphprotocol/grc-20';
+import { SpaceRegistryAbi } from '@graphprotocol/grc-20/abis';
+import { getWalletClient } from '@graphprotocol/grc-20';
 
 const SPACE_REGISTRY_ADDRESS = '0xB01683b2f0d38d43fcD4D9aAB980166988924132' as const;
 const EMPTY_SPACE_ID = '0x00000000000000000000000000000000' as Hex;
@@ -415,7 +417,8 @@ This example shows the complete flow for creating a personal space and publishin
 ```ts
 import { createPublicClient, encodeAbiParameters, encodeFunctionData, type Hex, http, keccak256, toHex } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
-import { Graph, Ipfs, SpaceRegistryAbi, getWalletClient } from '@graphprotocol/grc-20';
+import { Graph, Ipfs, getWalletClient } from '@graphprotocol/grc-20';
+import { SpaceRegistryAbi } from '@graphprotocol/grc-20/abis';
 
 // Contract addresses for testnet
 const SPACE_REGISTRY_ADDRESS = '0xB01683b2f0d38d43fcD4D9aAB980166988924132' as const;
